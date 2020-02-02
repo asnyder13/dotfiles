@@ -17,7 +17,7 @@ HYPHEN_INSENSITIVE="true"
 plugins=(git extract safe-paste vi-mode)
 
 # User configuration
-  export PATH="$PATH:/usr/lib64/ccache:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/snyder/.rvm/bin:/home/snyder/.local/bin:/home/snyder/bin:./:/home/snyder/Android/sdk/platform-tools:/home/snyder/Android/sdk/tools:/home/snyder/Android/android-studio/bin"
+ export PATH="$PATH:/usr/lib64/ccache:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/snyder/.rvm/bin:/home/snyder/.local/bin:/home/snyder/bin:./:/home/snyder/Android/sdk/platform-tools:/home/snyder/Android/sdk/tools:/home/snyder/Android/android-studio/bin"
 export DEFAULT_USER='snyder'
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 export EDITOR='vim'

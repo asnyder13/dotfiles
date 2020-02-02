@@ -13,7 +13,11 @@ export PS1="\[\e[00;35m\]\u\[\e[00;34m\]@\[\e[00;35m\]\h\[\e[0m\]\[\e[00;37m\] \
 # export SYSTEMD_PAGER=
 
 # User specific aliases and functions
-
-fortune
+if [ -f ~/.bash_aliases ]; then
+	. ~/.bash_aliases
+fi
+if [ -f ~/.bash_aliases_local ]; then
+	. ~/.bash_aliases_local
+fi
 
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
