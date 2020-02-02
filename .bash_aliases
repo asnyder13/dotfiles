@@ -9,7 +9,7 @@ alias yumi='sudo dnf install' ;
 alias yumu='sudo dnf update' ;
 alias yume='sudo dnf erase' ;
 
-alias editrcs='vim -p ~/.dotfiles/.bashrc ~/.dotfiles/.zshrc ~/.dotfiles/.bash_aliases ~/.dotfiles/.vimrc'
+alias editrcs='vim -p ~/.dotfiles/.bashrc ~/.dotfiles/.zshrc ~/.dotfiles/.bash_aliases ~/.dotfiles/.vimrc ~/.dotfiles/install.sh'
 alias lssz='du -sh *' ;
 alias tmat='tmux attach' ;
 alias df='df -h' ;
