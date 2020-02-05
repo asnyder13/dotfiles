@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Dotfiles
-SCRIPTPATH="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+SCRIPTPATH="$( cd "$(dirname "$0")" >/dev/null 2>&1 || exit 1 ; pwd -P )"
 DOTFILES=(
 	.bashrc
 	.bash_aliases
@@ -16,14 +16,14 @@ fi
 for DOTFILE in ${DOTFILES[*]}; do
 	LINKFILE="$LINKDIR/$DOTFILE"
 	if [[ -L $LINKFILE ]]; then
-		printf "%s is already linked\n" $LINKFILE
+		printf "%s is already linked\n" "$LINKFILE"
 		continue
 	elif [[ ! -L $LINKFILE && -f $LINKFILE ]]; then
-		printf "%s renamed to %s-bkup\n" $LINKFILE $LINKFILE
-		cp $LINKFILE $LINKFILE-bkup
+		printf "%s renamed to %s-bkup\n" "$LINKFILE" "$LINKFILE"
+		cp "$LINKFILE" "$LINKFILE-bkup"
 	fi
 
-	ln -sfv "$SCRIPTPATH/$DOTFILE" $LINKFILE
+	ln -sfv "$SCRIPTPATH/$DOTFILE" "$LINKFILE"
 done
 
 # Vim config
@@ -51,9 +51,9 @@ test -d ~/.vim/pack || mkdir ~/.vim/pack
 test -d ~/.vim/pack/packs || mkdir ~/.vim/pack/packs
 test -d ~/.vim/pack/packs/start || mkdir ~/.vim/pack/packs/start
 
-(cd ~/.vim/pack/packs/start
+(cd ~/.vim/pack/packs/start || exit 1
 	for PLUG in ${PLUGINS[*]}; do
-		PLUGDIR=$(echo $PLUG | cut -f2 -d/)
+		PLUGDIR=$(echo "$PLUG" | cut -f2 -d/)
 		if [[ ! -d $PLUGDIR ]]; then
 			git clone "https://github.com/$PLUG"
 			vim -u NONE -c "helptags $PLUGDIR/doc" -c q

@@ -25,9 +25,9 @@ colorscheme monokai
 " Remaps
 map <Leader> <Plug>(easymotion-prefix)
 nnoremap zs zCzozo
-nnoremap bn :bn<CR>
-nnoremap bN :bN<CR>
-nnoremap bd :bd<CR>
+nnoremap gbn :bn<CR>
+nnoremap gbN :bN<CR>
+nnoremap gbd :bd<CR>
 
 " netrw
 let g:netrw_banner = 0
