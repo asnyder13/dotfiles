@@ -23,11 +23,16 @@ syntax on
 colorscheme monokai
 
 " Remaps
+"  Quick Easymotion
 map <Leader> <Plug>(easymotion-prefix)
+"  Collapse all levels under current fold
 nnoremap zs zCzozo
+"  Quick buffer switch (for tabline)
 nnoremap gbn :bn<CR>
 nnoremap gbN :bN<CR>
 nnoremap gbd :bd<CR>
+"  Quick buffer list
+nnoremap <leader>b :ls<CR>:b<Space>
 
 " netrw
 let g:netrw_banner = 0

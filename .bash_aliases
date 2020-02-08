@@ -1,5 +1,6 @@
 alias list='ls -lhgGAF --time-style=long-iso' ;
 
+# Old shortcuts from yum
 alias dnfs='sudo dnf search' ;
 alias dnfi='sudo dnf install' ;
 alias dnfu='sudo dnf update' ;
@@ -9,9 +10,10 @@ alias yumi='sudo dnf install' ;
 alias yumu='sudo dnf update' ;
 alias yume='sudo dnf erase' ;
 
-alias editrcs='vim -p ~/.dotfiles/.bashrc ~/.dotfiles/.zshrc ~/.dotfiles/.bash_aliases ~/.dotfiles/.vimrc ~/.dotfiles/install.sh'
+alias editrcs='vim ~/.dotfiles/.bashrc ~/.dotfiles/.zshrc ~/.dotfiles/.bash_aliases ~/.dotfiles/.vimrc ~/.dotfiles/install.sh'
 alias lssz='du -sh *' ;
 alias tmat='tmux attach' ;
 alias df='df -h' ;
-alias wtr='curl wttr.in/Charlotte' ;
+alias wttr='curl --compressed wttr.in/Charlotte?F&q' ;
 alias rsync='rsync --recursive --progress --human-readable --stats' ;
+

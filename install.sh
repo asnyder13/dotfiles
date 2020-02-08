@@ -10,7 +10,7 @@ DOTFILES=(
 )
 
 LINKDIR="$HOME"
-if [[  $# -eq 1 ]]; then
+if [[ $# -eq 1 ]]; then
 	LINKDIR=$1
 fi
 for DOTFILE in ${DOTFILES[*]}; do
@@ -36,6 +36,7 @@ test -e ~/.vim/colors/monokai.vim || wget -O ~/.vim/colors/monokai.vim https://r
 # Vim plugins
 PLUGINS=(
 	vim-airline/vim-airline
+	ntpeters/vim-better-whitespace
 	ctrlpvim/ctrlp.vim
 	easymotion/vim-easymotion
 	airblade/vim-gitgutter
@@ -52,6 +53,7 @@ test -d ~/.vim/pack/packs || mkdir ~/.vim/pack/packs
 test -d ~/.vim/pack/packs/start || mkdir ~/.vim/pack/packs/start
 
 (cd ~/.vim/pack/packs/start || exit 1
+	# Per-repo plugins
 	for PLUG in ${PLUGINS[*]}; do
 		PLUGDIR=$(echo "$PLUG" | cut -f2 -d/)
 		if [[ ! -d $PLUGDIR ]]; then
