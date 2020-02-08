@@ -8,6 +8,11 @@ set cursorline
 set tabstop=2
 set shiftwidth=2
 set noexpandtab
+set ai
+set showmatch
+set vb
+set showmode
+set wildmode=list:longest,longest:full
 
 " Searching
 set hlsearch
