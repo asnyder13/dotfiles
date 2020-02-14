@@ -7,6 +7,7 @@ DOTFILES=(
 	.bash_aliases
 	.vimrc
 	.zshrc
+	.tmux.conf
 )
 
 LINKDIR="$HOME"

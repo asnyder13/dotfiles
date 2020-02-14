@@ -1,4 +1,3 @@
-
 # Path to your oh-my-zsh installation.
 export ZSH=/home/snyder/.oh-my-zsh
 set -o vi
@@ -49,4 +48,17 @@ fi
 if [ -f ~/.bash_aliases_local ]; then
 	. ~/.bash_aliases_local
 fi
+
+function gi() { curl -sL https://www.gitignore.io/api/$@ ;}
+
+_gitignoreio_get_command_list() {
+	curl -sL https://www.gitignore.io/api/list | tr "," "\n"
+}
+
+_gitignoreio () {
+	compset -P '*,'
+	compadd -S '' `_gitignoreio_get_command_list`
+}
+
+compdef _gitignoreio gi
 
