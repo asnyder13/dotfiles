@@ -38,6 +38,7 @@ test -e ~/.vim/colors/monokai.vim || wget -O ~/.vim/colors/monokai.vim https://r
 PLUGINS=(
 	vim-airline/vim-airline
 	ntpeters/vim-better-whitespace
+	tpope/vim-commentary
 	ctrlpvim/ctrlp.vim
 	easymotion/vim-easymotion
 	airblade/vim-gitgutter

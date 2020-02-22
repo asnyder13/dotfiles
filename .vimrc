@@ -52,4 +52,7 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 set wildignore+=*\\node_modules\\* " Windows
 set wildignore+=*/node_modules/*   " Unix
+let g:EasyMotion_smartcase = 1
+let gsneak#use_ic_scs = 1
+let gsneak#map_netrw = 1
 
