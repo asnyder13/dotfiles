@@ -2,7 +2,7 @@
 
 # Dotfiles
 SCRIPTPATH="$( cd "$(dirname "$0")" >/dev/null 2>&1 || exit 1 ; pwd -P )"
-source .dotfiles/.DOTFILES
+source ~/.dotfiles/.DOTFILES
 
 LINKDIR="$HOME"
 if [[ $# -eq 1 ]]; then

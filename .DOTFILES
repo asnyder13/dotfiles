@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 DEFAULT_DOTFILES='~/.dotfiles'
 DOTFILES=(
 	.bashrc

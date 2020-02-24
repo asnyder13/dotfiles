@@ -1,4 +1,4 @@
-alias list='ls -lg --human-readable -no-group --almost-all --classify --time-style=long-iso' ;
+alias list='ls -lg --human-readable --no-group --almost-all --classify --time-style=long-iso' ;
 
 # Old shortcuts from yum
 alias dnfs='sudo dnf search' ;
@@ -50,6 +50,6 @@ alias gmff='git merge --ff-only'
 alias gf='git fetch -v'
 alias gt='git tag'
 alias gwt='git worktree'
-alias gbl='git blame -c'
+alias gbl='git blame -cw'
 alias gcp='git cherry-pick'
 
