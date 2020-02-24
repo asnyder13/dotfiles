@@ -14,6 +14,13 @@ set vb
 set showmode
 set wildmode=list:longest,longest:full
 
+set lazyredraw
+set confirm
+set nobackup
+set viminfo='20,\"500
+set hidden
+set history=50
+
 " Searching
 set hlsearch
 set ignorecase
@@ -26,6 +33,9 @@ set foldlevelstart=3
 " Syntax hl/colors
 syntax on
 colorscheme monokai
+" Highlight tab indents
+set list lcs=tab:\|\ 
+highlight SpecialKey ctermbg=NONE guibg=NONE
 
 " Remaps
 "  Quick Easymotion
@@ -55,4 +65,5 @@ set wildignore+=*/node_modules/*   " Unix
 let g:EasyMotion_smartcase = 1
 let gsneak#use_ic_scs = 1
 let gsneak#map_netrw = 1
+let g:highlightedyank_highlight_duration = 500
 

@@ -1,0 +1,9 @@
+DEFAULT_DOTFILES='~/.dotfiles'
+DOTFILES=(
+	.bashrc
+	.bash_aliases
+	.vimrc
+	.zshrc
+	.tmux.conf
+	.ctags
+)

@@ -2,13 +2,7 @@
 
 # Dotfiles
 SCRIPTPATH="$( cd "$(dirname "$0")" >/dev/null 2>&1 || exit 1 ; pwd -P )"
-DOTFILES=(
-	.bashrc
-	.bash_aliases
-	.vimrc
-	.zshrc
-	.tmux.conf
-)
+source .dotfiles/.DOTFILES
 
 LINKDIR="$HOME"
 if [[ $# -eq 1 ]]; then
@@ -42,7 +36,7 @@ PLUGINS=(
 	ctrlpvim/ctrlp.vim
 	easymotion/vim-easymotion
 	airblade/vim-gitgutter
-	yggdroot/indentline
+	machakann/vim-highlightedyank
 	sheerun/vim-polyglot
 	vim-scripts/ReplaceWithRegister
 	justinmk/vim-sneak
