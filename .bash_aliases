@@ -12,15 +12,21 @@ alias yume='sudo dnf erase' ;
 
 # Alias editing these files.
 # Get current dotfile list.
-source .dotfiles/.DOTFILES
+source ~/.dotfiles/.DOTFILES
 i=0
+end=${#DOTFILES[*]}
 # zsh is 1-indexed
-if [ -n "$ZSH_VERSION" ]; then i=1; fi
-for (( i=1; i<=${#DOTFILES[*]}; i++ )); do
+if [ -n "$ZSH_VERSION" ]; then i=1; (( end++ )); fi
+for (( i; i<end; i++ )); do
 	DOTFILES[i]="$DEFAULT_DOTFILES/${DOTFILES[i]}"
 done
-DOTFILES+="$DEFAULT_DOTFILES/install.sh"
-DOTFILES+="$DEFAULT_DOTFILES/.DOTFILES"
+CONFIGFILES=(
+	install.sh
+	.DOTFILES
+)
+for CONFIG in ${CONFIGFILES[*]}; do
+	DOTFILES+=("$DEFAULT_DOTFILES/$CONFIG")
+done
 alias editrcs="vim ${DOTFILES[*]}"
 
 # General aliases.
@@ -42,7 +48,7 @@ alias gst='git status'
 alias gd='git diff --ignore-all-space --diff-filter=adr'
 alias gco='git checkout'
 alias gb='git branch'
-alias gc='git commit'
+alias gc='git commit -v'
 alias gl='git pull'
 alias gp='git push'
 alias gm='git merge --no-ff'

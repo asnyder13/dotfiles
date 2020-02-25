@@ -13,6 +13,7 @@ set showmatch
 set vb
 set showmode
 set wildmode=list:longest,longest:full
+set scrolloff=0
 
 set lazyredraw
 set confirm
