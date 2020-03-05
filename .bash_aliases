@@ -20,6 +20,7 @@ if [ -n "$ZSH_VERSION" ]; then i=1; (( end++ )); fi
 for (( i; i<end; i++ )); do
 	DOTFILES[i]="$DEFAULT_DOTFILES/${DOTFILES[i]}"
 done
+if [ -f ~/.bash_aliases_local ]; then DOTFILES+=("~/.bash_aliases_local"); fi
 CONFIGFILES=(
 	install.sh
 	.DOTFILES

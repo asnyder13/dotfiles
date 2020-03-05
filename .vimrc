@@ -48,7 +48,7 @@ nnoremap gbn :bn<CR>
 nnoremap gbN :bN<CR>
 nnoremap gbd :bd<CR>
 "  Quick buffer list
-nnoremap <leader>b :ls<CR>:b<Space>
+nnoremap <leader>b :ls<CR>:b
 
 " netrw
 let g:netrw_banner = 0
@@ -64,7 +64,7 @@ let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 set wildignore+=*\\node_modules\\* " Windows
 set wildignore+=*/node_modules/*   " Unix
 let g:EasyMotion_smartcase = 1
-let gsneak#use_ic_scs = 1
-let gsneak#map_netrw = 1
+let g:sneak#use_ic_scs = 1
+let g:sneak#map_netrw = 1
 let g:highlightedyank_highlight_duration = 500
 
