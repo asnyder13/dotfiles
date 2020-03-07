@@ -20,7 +20,7 @@ set confirm
 set nobackup
 set viminfo='20,\"500
 set hidden
-set history=50
+set history=1000
 
 " Searching
 set hlsearch
@@ -63,6 +63,7 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 set wildignore+=*\\node_modules\\* " Windows
 set wildignore+=*/node_modules/*   " Unix
+set wildignore+=*/.git/*,*/tmp/*,*.swp
 let g:EasyMotion_smartcase = 1
 let g:sneak#use_ic_scs = 1
 let g:sneak#map_netrw = 1
