@@ -1,4 +1,5 @@
-alias list='ls -lg --human-readable --no-group --almost-all --classify --time-style=long-iso' ;
+alias list='ls -g --human-readable --no-group --almost-all --classify --time-style=long-iso' ;
+alias ll='ls -l --human-readable --almost-all --classify --time-style=long-iso' ;
 
 # Old shortcuts from yum
 alias dnfs='sudo dnf search' ;
@@ -20,6 +21,7 @@ if [ -n "$ZSH_VERSION" ]; then i=1; (( end++ )); fi
 for (( i; i<end; i++ )); do
 	DOTFILES[i]="$DEFAULT_DOTFILES/${DOTFILES[i]}"
 done
+if [ -f ~/.bashrc_local ]; then DOTFILES+=("~/.bashrc_local"); fi
 if [ -f ~/.bash_aliases_local ]; then DOTFILES+=("~/.bash_aliases_local"); fi
 CONFIGFILES=(
 	install.sh

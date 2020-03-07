@@ -62,3 +62,7 @@ _gitignoreio () {
 
 compdef _gitignoreio gi
 
+if [ -x "$(command -v fortune)" ]; then
+	fortune
+fi
+
