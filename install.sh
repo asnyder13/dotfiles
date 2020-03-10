@@ -40,6 +40,7 @@ PLUGINS=(
 	sheerun/vim-polyglot
 	vim-scripts/ReplaceWithRegister
 	justinmk/vim-sneak
+	kshenoy/vim-signature
 	tpope/vim-surround
 	tpope/vim-vinegar
 )

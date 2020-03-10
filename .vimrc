@@ -58,14 +58,30 @@ let g:netrw_altv = 1
 let g:netrw_winsize = 25
 
 " Plugin settings
+" Airline
 let g:bufferline_echo = 0
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+
+" Ctrlp
+let g:ctrlp_show_hidden = 1
 set wildignore+=*\\node_modules\\* " Windows
 set wildignore+=*/node_modules/*   " Unix
 set wildignore+=*/.git/*,*/tmp/*,*.swp
+
+" Easymotion
 let g:EasyMotion_smartcase = 1
+
+" Sneak
 let g:sneak#use_ic_scs = 1
 let g:sneak#map_netrw = 1
+
+" Highlighted yank
 let g:highlightedyank_highlight_duration = 500
+
+" Polyglot
+let g:ruby_recommended_style = 0
+
+" Signature
+let g:SignatureMarkTextHLDynamic = 1
 
