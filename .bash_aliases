@@ -1,4 +1,5 @@
 alias list='ls -g --human-readable --no-group --almost-all --classify --time-style=long-iso' ;
+alias list2='ls -g --human-readable --no-group --classify --time-style=long-iso' ;
 alias ll='ls -l --human-readable --almost-all --classify --time-style=long-iso' ;
 
 # Old shortcuts from yum

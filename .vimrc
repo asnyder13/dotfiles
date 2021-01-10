@@ -57,7 +57,7 @@ let g:netrw_browse_split = 4
 let g:netrw_altv = 1
 let g:netrw_winsize = 25
 
-" Plugin settings
+""""""" Plugin settings
 " Airline
 let g:bufferline_echo = 0
 let g:airline#extensions#tabline#enabled = 1
@@ -85,3 +85,5 @@ let g:ruby_recommended_style = 0
 " Signature
 let g:SignatureMarkTextHLDynamic = 1
 
+" Rubocop
+nmap <Leader>ra :RuboCop -a<CR>

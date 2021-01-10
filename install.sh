@@ -43,6 +43,7 @@ PLUGINS=(
 	kshenoy/vim-signature
 	tpope/vim-surround
 	tpope/vim-vinegar
+	ngmy/vim-rubocop
 )
 
 test -d ~/.vim/pack || mkdir ~/.vim/pack
