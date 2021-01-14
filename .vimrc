@@ -22,6 +22,8 @@ set viminfo='20,\"500
 set hidden
 set history=1000
 
+autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+
 " Searching
 set hlsearch
 set ignorecase
