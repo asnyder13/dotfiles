@@ -8,4 +8,5 @@ DOTFILES=(
 	.zshrc
 	.tmux.conf
 	.ctags
+	.rubocop.yml
 )

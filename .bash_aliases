@@ -38,12 +38,18 @@ alias lssz='du -sh *' ;
 alias tmat='tmux attach' ;
 alias df='df -h' ;
 alias wttr='curl --compressed wttr.in/Charlotte?F&q' ;
-alias rsync='rsync --recursive --progress --human-readable --stats' ;
+alias rsync='rsync --archive --progress --human-readable --stats' ;
 alias ..='cd ..'
 alias ...='cd ...'
 alias ....='cd ....'
 alias .....='cd .....'
 alias ......='cd ......'
+
+function mkdircd () {
+	mkdir $1
+	cd $1
+	return 0
+}
 
 # Git aliases.
 alias g='git'
@@ -63,3 +69,6 @@ alias gwt='git worktree'
 alias gbl='git blame -cw'
 alias gcp='git cherry-pick'
 
+function vimhelp () {
+	vim -c "help $1 | only"
+}

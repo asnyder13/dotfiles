@@ -1,0 +1,19 @@
+AllCops:
+  TargetRubyVersion: 3.0
+  NewCops: enable
+Layout/EmptyLineBetweenDefs:
+  Enabled: false
+Layout/ExtraSpacing:
+  Enabled: false
+Layout/FirstHashElementIndentation:
+  Enabled: false
+Layout/HashAlignment:
+  Enabled: false
+Layout/IndentationStyle:
+  Enabled: false
+Layout/IndentationWidth:
+  Enabled: false
+Layout/SpaceInsideArrayLiteralBrackets:
+  Enabled: false
+Style/RedundantReturn:
+  Enabled: false

@@ -2,7 +2,7 @@
 
 # Dotfiles
 SCRIPTPATH="$( cd "$(dirname "$0")" >/dev/null 2>&1 || exit 1 ; pwd -P )"
-source ~/.dotfiles/.DOTFILES
+source $SCRIPTPATH/.DOTFILES
 
 LINKDIR="$HOME"
 if [[ $# -eq 1 ]]; then
@@ -26,7 +26,12 @@ test -d ~/.vim || mkdir ~/.vim
 
 # Vim theme
 test -d ~/.vim/colors || mkdir ~/.vim/colors
-test -e ~/.vim/colors/monokai.vim || wget -O ~/.vim/colors/monokai.vim https://raw.githubusercontent.com/crusoexia/vim-monokai/master/colors/monokai.vim
+
+if command -v wget; then
+	test -e ~/.vim/colors/monokai.vim || wget -O ~/.vim/colors/monokai.vim https://raw.githubusercontent.com/crusoexia/vim-monokai/master/colors/monokai.vim
+elif command -v curl; then
+	test -e ~/.vim/colors/monokai.vim || curl -o ~/.vim/colors/monokai.vim https://raw.githubusercontent.com/crusoexia/vim-monokai/master/colors/monokai.vim
+fi
 
 # Vim plugins
 PLUGINS=(
@@ -37,13 +42,14 @@ PLUGINS=(
 	easymotion/vim-easymotion
 	airblade/vim-gitgutter
 	machakann/vim-highlightedyank
+	adelarsq/vim-matchit
 	sheerun/vim-polyglot
 	vim-scripts/ReplaceWithRegister
+	ngmy/vim-rubocop
 	justinmk/vim-sneak
 	kshenoy/vim-signature
 	tpope/vim-surround
 	tpope/vim-vinegar
-	ngmy/vim-rubocop
 )
 
 test -d ~/.vim/pack || mkdir ~/.vim/pack

@@ -31,14 +31,14 @@ set smartcase
 
 " Folding
 set foldmethod=syntax
-set foldlevelstart=3
+set foldlevelstart=99
 
 " Syntax hl/colors
 syntax on
 colorscheme monokai
 " Highlight tab indents
 set list lcs=tab:\|\ 
-highlight SpecialKey ctermbg=NONE guibg=NONE
+highlight SpecialKey cterm=NONE ctermfg=darkgray ctermbg=NONE
 
 " Remaps
 "  Quick Easymotion
@@ -88,4 +88,4 @@ let g:ruby_recommended_style = 0
 let g:SignatureMarkTextHLDynamic = 1
 
 " Rubocop
-nmap <Leader>ra :RuboCop -a<CR>
+nmap <Leader>r :RuboCop <CR>
