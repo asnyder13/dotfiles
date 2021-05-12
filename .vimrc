@@ -38,7 +38,10 @@ syntax on
 colorscheme monokai
 " Highlight tab indents
 set list lcs=tab:\|\ 
-highlight SpecialKey cterm=NONE ctermfg=darkgray ctermbg=NONE
+" Vim does weird stuff to the highlighting of the indent markers.
+if !has('nvim')
+	highlight SpecialKey cterm=NONE ctermfg=darkgray ctermbg=NONE
+endif
 
 " Remaps
 "  Quick Easymotion
@@ -89,3 +92,8 @@ let g:SignatureMarkTextHLDynamic = 1
 
 " Rubocop
 nmap <Leader>r :RuboCop <CR>
+
+" Matchit
+if !has('nvim')
+	:let loaded_matchit = 1
+endif
