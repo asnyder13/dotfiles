@@ -1,6 +1,5 @@
-autocmd BufReadPost *.npmrc set syntax=dosini
-autocmd BufReadPost *bash-fc* set syntax=sh
-autocmd BufReadPost *.commonrc set syntax=sh
+autocmd BufNewFile,BufRead *.npmrc   set syntax=dosini
+autocmd BufNewFile,BufRead *bash-fc* set syntax=sh
 
 " General config
 set clipboard=unnamed
@@ -9,9 +8,9 @@ set cursorline
 set tabstop=2
 set shiftwidth=2
 set noexpandtab
-set ai
+set autoindent
 set showmatch
-set vb
+set visualbell
 set showmode
 set wildmode=list:longest,longest:full
 set scrolloff=0
@@ -39,7 +38,7 @@ syntax on
 colorscheme monokai
 " Highlight tab indents
 set list lcs=tab:\|\ 
-" Vim does weird stuff to the highlighting of the indent markers.
+" Regular Vim does weird stuff to the highlighting of the indent markers.
 if !has('nvim')
 	highlight SpecialKey cterm=NONE ctermfg=darkgray ctermbg=NONE
 endif

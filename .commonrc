@@ -1,17 +1,15 @@
+#!/usr/bin/env bash
+
 set -o vi
 export EDITOR='vim'
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 # Aliases/Local Aliases
-if [ -f ~/.bash_aliases ]; then
-	. ~/.bash_aliases
+if [[ -f ~/.bash_aliases ]]; then
+	source ~/.bash_aliases
 fi
-if [ -f ~/.bash_aliases_local ]; then
-	. ~/.bash_aliases_local
-fi
-# Local bashrc
-if [ -f ~/.bashrc_local ]; then
-	. ~/.bashrc_local
+if [[ -f ~/.bash_aliases_local ]]; then
+	source ~/.bash_aliases_local
 fi
 
 if [[ -x "$(command -v fortune)" ]]; then

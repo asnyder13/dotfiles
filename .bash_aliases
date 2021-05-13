@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 alias list='ls -g --human-readable --no-group --almost-all --classify --time-style=long-iso --color' ;
 alias list2='ls -g --human-readable --no-group --classify --time-style=long-iso --color' ;
 alias ll='ls -l --human-readable --almost-all --classify --time-style=long-iso --color' ;
@@ -18,12 +20,12 @@ source ~/.dotfiles/.DOTFILES
 i=0
 end=${#DOTFILES[*]}
 # zsh is 1-indexed
-if [ -n "$ZSH_VERSION" ]; then i=1; (( end++ )); fi
+if [[ -n "$ZSH_VERSION" ]]; then i=1; (( end++ )); fi
 for (( i; i<end; i++ )); do
 	DOTFILES[i]="$DEFAULT_DOTFILES/${DOTFILES[i]}"
 done
-if [ -f ~/.bashrc_local ]; then DOTFILES+=("~/.bashrc_local"); fi
-if [ -f ~/.bash_aliases_local ]; then DOTFILES+=("~/.bash_aliases_local"); fi
+if [ -f ~/.bashrc_local ]; then DOTFILES+=("$HOME/.bashrc_local"); fi
+if [ -f ~/.bash_aliases_local ]; then DOTFILES+=("$HOME/.bash_aliases_local"); fi
 CONFIGFILES=(
 	install.sh
 	.DOTFILES
@@ -47,8 +49,8 @@ alias .....='cd .....'
 alias ......='cd ......'
 
 function mkdircd () {
-	mkdir $1
-	cd $1
+	mkdir "$1"
+	cd "$1" || return 1
 	return 0
 }
 
