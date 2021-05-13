@@ -1,5 +1,6 @@
-au BufReadPost *.npmrc set syntax=dosini
-au BufReadPost *bash-fc* set syntax=sh
+autocmd BufReadPost *.npmrc set syntax=dosini
+autocmd BufReadPost *bash-fc* set syntax=sh
+autocmd BufReadPost *.commonrc set syntax=sh
 
 " General config
 set clipboard=unnamed

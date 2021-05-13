@@ -3,9 +3,10 @@
 DEFAULT_DOTFILES='~/.dotfiles'
 DOTFILES=(
 	.bashrc
+	.zshrc
+	.commonrc
 	.bash_aliases
 	.vimrc
-	.zshrc
 	.tmux.conf
 	.ctags
 	.rubocop.yml

@@ -31,13 +31,14 @@ CONFIGFILES=(
 for CONFIG in ${CONFIGFILES[*]}; do
 	DOTFILES+=("$DEFAULT_DOTFILES/$CONFIG")
 done
+# Only gonna work if you've installed in ~/.dotfiles
 alias editrcs="vim ${DOTFILES[*]}"
 
 # General aliases.
 alias lssz='du -sh *' ;
 alias tmat='tmux attach' ;
 alias df='df -h' ;
-alias wttr='curl --compressed wttr.in/Charlotte?F&q' ;
+alias wttr='curl --compressed "wttr.in/Charlotte?F&q"' ;
 alias rsync='rsync --archive --progress --human-readable --stats' ;
 alias ..='cd ..'
 alias ...='cd ...'
