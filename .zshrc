@@ -71,19 +71,42 @@ HYPHEN_INSENSITIVE="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-	git
 	extract
+	git
 	safe-paste
-	vi-mode
 	sudo
+	vi-mode
 )
 
-source $ZSH/oh-my-zsh.sh
+if [[ -e $ZSH/oh-my-zsh.sh ]]; then
+	source $ZSH/oh-my-zsh.sh
+fi
 
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
 export DEFAULT_USER='snyder'
+
+### Fancier cursor switching for vim-mode.
+_cursor_line() { echo -ne '\e[5 q' }
+_cursor_block() { echo -ne '\e[1 q' }
+# Starts in insert
+precmd_functions+=(_cursor_line)
+
+# Remove mode switching delay.
+KEYTIMEOUT=5
+
+# Change cursor shape for different vi modes.
+function zle-keymap-select {
+	if [[ ${KEYMAP} == vicmd ]]; then
+		_cursor_block
+	elif [[ ${KEYMAP} == main ]] ||
+				[[ ${KEYMAP} == viins ]] ||
+				[[ ${KEYMAP} = '' ]] ; then
+		_cursor_line
+	fi
+}
+zle -N zle-keymap-select
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8

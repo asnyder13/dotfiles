@@ -27,9 +27,9 @@ test -d ~/.vim || mkdir ~/.vim
 # Vim theme
 test -d ~/.vim/colors || mkdir ~/.vim/colors
 
-if command -v wget; then
+if command -v wget > /dev/null; then
 	test -e ~/.vim/colors/monokai.vim || wget -O ~/.vim/colors/monokai.vim https://raw.githubusercontent.com/crusoexia/vim-monokai/master/colors/monokai.vim
-elif command -v curl; then
+elif command -v curl > /dev/null; then
 	test -e ~/.vim/colors/monokai.vim || curl -o ~/.vim/colors/monokai.vim https://raw.githubusercontent.com/crusoexia/vim-monokai/master/colors/monokai.vim
 fi
 

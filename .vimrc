@@ -15,7 +15,6 @@ set showmode
 set wildmode=list:longest,longest:full
 set scrolloff=0
 
-set lazyredraw
 set confirm
 set nobackup
 set viminfo='20,\"500
