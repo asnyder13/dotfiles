@@ -27,4 +27,6 @@ if [[ ! $(grep 'set completion-ignore-case On' ~/.inputrc) ]]; then
 	echo 'set completion-ignore-case On' >> ~/.inputrc
 fi
 
+export HISTCONTROL=ignoredups
+
 source ~/.commonrc

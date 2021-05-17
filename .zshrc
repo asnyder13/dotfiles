@@ -83,6 +83,8 @@ if [[ -e $ZSH/oh-my-zsh.sh ]]; then
 fi
 
 # User configuration
+export HIST_IGNORE_DUPS
+export HIST_EXPIRE_DUPS_FIRST
 
 # export MANPATH="/usr/local/man:$MANPATH"
 export DEFAULT_USER='snyder'
@@ -94,7 +96,7 @@ _cursor_block() { echo -ne '\e[1 q' }
 precmd_functions+=(_cursor_line)
 
 # Remove mode switching delay.
-KEYTIMEOUT=5
+KEYTIMEOUT=15
 
 # Change cursor shape for different vi modes.
 function zle-keymap-select {
@@ -117,10 +119,7 @@ zle -N zle-keymap-select
 # else
 #   export EDITOR='mvim'
 # fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
+#
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
