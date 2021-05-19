@@ -8,8 +8,6 @@ DOTFILES=(
 	.bash_aliases
 	.bashrc
 	vimrc
-	.tmux.conf
-	.ctags
 	.rubocop.yml
 )
 DOTFILE_LINKS=(
@@ -19,7 +17,5 @@ DOTFILE_LINKS=(
 	$HOME              # .bash_aliases
 	$HOME              # .bashrc
 	$HOME/.vim         # vimrc
-	$HOME              # .tmux.conf
-	$HOME              # .ctags
 	$HOME              # .rubocop.yml
 )
