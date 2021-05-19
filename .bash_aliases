@@ -30,7 +30,7 @@ CONFIGFILES=(
 	install.sh
 	.DOTFILES
 )
-for CONFIG in ${CONFIGFILES[*]}; do
+for CONFIG in ${CONFIGFILES[@]}; do
 	DOTFILES+=("$HOME/.dotfiles/$CONFIG")
 done
 # Only gonna work if you've installed in ~/.dotfiles

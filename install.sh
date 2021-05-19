@@ -82,35 +82,45 @@ fi
 # param $1: base dir
 # param $2: plugin github
 clone_plugin () {
+	local plugdir=$(echo "$2" | cut -f2 -d/);
 	(cd "$1" || exit 1
-		local plugdir=$(echo "$2" | cut -f2 -d/);
 		if [[ ! -d $plugdir ]]; then
-			git clone --depth=1 "https://github.com/$2"
-			vim -u NONE -c "helptags $plugdir/doc" -c q
+			echo "Cloning  $2"
+			git clone -q --depth=1 "https://github.com/$2"
+		else
+			(cd "$plugdir" || exit 1
+				echo "Updating $2"
+				git pull -q
+			)
 		fi
+
+		vim -u NONE -c "helptags $plugdir/doc" -c q
 	)
 }
 
-vim_config="$HOME/.vim/pack/packs/start"
-if command -v vim >/dev/null 2>&1 || command -v nvim >/dev/null 2>&1; then
-	mkdir -p "$vim_config"
-	for plug in ${plugins[*]}; do
+# Iterate the list of plugins and clone.
+# $1 config location
+# $2 plugin list
+install_plugins () {
+	mkdir -p "$1"
+	shift
+	plugins=("$@")
+	for plug in "${plugins[@]}"; do
 		clone_plugin "$vim_config" "$plug"
 	done
+}
+
+vim_config="$HOME/.vim/pack/packs/start"
+neovim_config="$HOME/.local/share/nvim/site/start"
+if command -v vim >/dev/null 2>&1 || command -v nvim >/dev/null 2>&1; then
+	install_plugins "$vim_config" "${plugins[@]}"
 fi
 
 if command -v nvim >/dev/null 2>&1; then
 	# Neovim plugins
-	neovim_config="$HOME/.local/share/nvim/site/start"
-	mkdir -p "$neovim_config"
-	for plug in ${neovim_plugins[*]}; do
-		clone_plugin "$neovim_config" "$plug"
-	done
+	install_plugins "$neovim_config" "${neovim_plugins[@]}"
 elif command -v vim >/dev/null 2>&1; then
 	# Regular vim plugins
-	mkdir -p "$vim_config"
-	for plug in ${vim_plugins[*]}; do
-		clone_plugin "$vim_config" "$plug"
-	done
+	install_plugins "$vim_config" "${vim_plugins[@]}"
 fi
 

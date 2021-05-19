@@ -24,6 +24,7 @@ set termguicolors
 
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
+" https://github.com/jeffkreeftmeijer/vim-numbertoggle
 augroup NumberToggle
 	autocmd!
 	autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set rnu   | endif
