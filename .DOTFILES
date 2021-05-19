@@ -1,13 +1,25 @@
 #!/usr/bin/env bash
 
-DEFAULT_DOTFILES='~/.dotfiles'
+# DOTFILES and LINKS need to match indecies.
 DOTFILES=(
-	.bashrc
 	.zshrc
+	init.lua
 	.commonrc
 	.bash_aliases
+	.bashrc
 	.vimrc
 	.tmux.conf
 	.ctags
 	.rubocop.yml
+)
+DOTFILE_LINKS=(
+	$HOME              # .zshrc
+	$HOME/.config/nvim # init.lua
+	$HOME              # .commonrc
+	$HOME              # .bash_aliases
+	$HOME              # .bashrc
+	$HOME              # .vimrc
+	$HOME              # .tmux.conf
+	$HOME              # .ctags
+	$HOME              # .rubocop.yml
 )

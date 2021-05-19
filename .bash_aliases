@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+# No shebang since this can be read from either bash or zsh.
 
 alias list='ls -g --human-readable --no-group --almost-all --classify --time-style=long-iso --color' ;
 alias list2='ls -g --human-readable --no-group --classify --time-style=long-iso --color' ;
@@ -16,13 +16,13 @@ alias yume='sudo dnf erase' ;
 
 # Alias editing these files.
 # Get current dotfile list.
-source ~/.dotfiles/.DOTFILES
+source $HOME/.dotfiles/.DOTFILES
 i=0
-end=${#DOTFILES[*]}
+end=${#DOTFILES[@]}
 # zsh is 1-indexed
 if [[ -n "$ZSH_VERSION" ]]; then i=1; (( end++ )); fi
-for (( i; i<end; i++ )); do
-	DOTFILES[i]="$DEFAULT_DOTFILES/${DOTFILES[i]}"
+for (( i; i < end; i++ )); do
+	DOTFILES[i]="$HOME/.dotfiles/${DOTFILES[i]}"
 done
 if [ -f ~/.bashrc_local ]; then DOTFILES+=("$HOME/.bashrc_local"); fi
 if [ -f ~/.bash_aliases_local ]; then DOTFILES+=("$HOME/.bash_aliases_local"); fi
@@ -31,7 +31,7 @@ CONFIGFILES=(
 	.DOTFILES
 )
 for CONFIG in ${CONFIGFILES[*]}; do
-	DOTFILES+=("$DEFAULT_DOTFILES/$CONFIG")
+	DOTFILES+=("$HOME/.dotfiles/$CONFIG")
 done
 # Only gonna work if you've installed in ~/.dotfiles
 alias editrcs="vim ${DOTFILES[*]}"

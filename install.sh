@@ -1,48 +1,51 @@
 #!/usr/bin/env bash
 
 # Dotfiles
-SCRIPTPATH="$( cd "$(dirname "$0")" >/dev/null 2>&1 || exit 1 ; pwd -P )"
-source "$SCRIPTPATH/.DOTFILES"
+scriptpath="$( cd "$(dirname "$0")" >/dev/null 2>&1 || exit 1 ; pwd -P )"
+source "$scriptpath/.DOTFILES"
 
-LINKDIR="$HOME"
-if [[ $# -eq 1 ]]; then
-	LINKDIR=$1
-fi
-for DOTFILE in ${DOTFILES[*]}; do
-	LINKFILE="$LINKDIR/$DOTFILE"
-	if [[ -L $LINKFILE ]]; then
-		printf "%s is already linked\n" "$LINKFILE"
-		continue
-	elif [[ ! -L $LINKFILE && -f $LINKFILE ]]; then
-		printf "%s renamed to %s-bkup\n" "$LINKFILE" "$LINKFILE"
-		cp "$LINKFILE" "$LINKFILE-bkup"
+# Link a dot file
+# $1 dotfile name
+# $2 link location (default: $HOME)
+link_dotfile () {
+	local dotfile=$1
+	local linkpath=${2:-$HOME}
+	local linkfile="$linkpath/$dotfile"
+
+	if [[ -L $linkfile ]]; then
+		printf "%s is already linked\n" "$linkfile"
+		return 0
+	elif [[ ! -L $linkfile && -f $linkfile ]]; then
+		printf "%s renamed to %s-bkup\n" "$linkfile" "$linkfile"
+		cp "$linkfile" "$linkfile-bkup"
 	fi
 
-	ln -sfv "$SCRIPTPATH/$DOTFILE" "$LINKFILE"
+	ln -sfv "$scriptpath/$dotfile" "$linkfile"
+}
+
+if [[ ${#DOTFILES[@]} -ne ${#DOTFILE_LINKS[@]} ]]; then
+	echo 'The arrays in .DOTFILES are not the same length'
+	exit 1
+fi
+for ((i = 0; i < ${#DOTFILES[@]}; i++)); do
+	link_dotfile ${DOTFILES[i]} ${DOTFILE_LINKS[i]}
 done
 
-# Vim config
-test -d ~/.vim || mkdir ~/.vim
-
+### Vim config
 # Vim theme
-test -d ~/.vim/colors || mkdir ~/.vim/colors
-
-if command -v wget > /dev/null; then
-	test -e ~/.vim/colors/monokai.vim || wget -O ~/.vim/colors/monokai.vim https://raw.githubusercontent.com/crusoexia/vim-monokai/master/colors/monokai.vim
-elif command -v curl > /dev/null; then
-	test -e ~/.vim/colors/monokai.vim || curl -o ~/.vim/colors/monokai.vim https://raw.githubusercontent.com/crusoexia/vim-monokai/master/colors/monokai.vim
+if command -v wget >/dev/null 2>&1;   then fetcher='wget -O'
+elif command -v curl >/dev/null 2>&1; then fetcher='curl -o'
 fi
 
-# Vim plugins
-PLUGINS=(
-	vim-airline/vim-airline
+mkdir -p ~/.vim/colors
+test -e ~/.vim/colors/monokai.vim || $fetcher ~/.vim/colors/monokai.vim https://raw.githubusercontent.com/crusoexia/vim-monokai/master/colors/monokai.vim
+
+# General plugins
+plugins=(
 	ntpeters/vim-better-whitespace
 	tpope/vim-commentary
-	ctrlpvim/ctrlp.vim
-	easymotion/vim-easymotion
 	airblade/vim-gitgutter
 	machakann/vim-highlightedyank
-	adelarsq/vim-matchit
 	sheerun/vim-polyglot
 	vim-scripts/ReplaceWithRegister
 	ngmy/vim-rubocop
@@ -52,18 +55,62 @@ PLUGINS=(
 	tpope/vim-vinegar
 )
 
-test -d ~/.vim/pack || mkdir ~/.vim/pack
-test -d ~/.vim/pack/packs || mkdir ~/.vim/pack/packs
-test -d ~/.vim/pack/packs/start || mkdir ~/.vim/pack/packs/start
-
-(cd ~/.vim/pack/packs/start || exit 1
-	# Per-repo plugins
-	for PLUG in ${PLUGINS[*]}; do
-		PLUGDIR=$(echo "$PLUG" | cut -f2 -d/)
-		if [[ ! -d $PLUGDIR ]]; then
-			git clone "https://github.com/$PLUG"
-			vim -u NONE -c "helptags $PLUGDIR/doc" -c q
-		fi
-	done
+# Regular Vim specific
+vim_plugins=(
+	vim-airline/vim-airline
+	ctrlpvim/ctrlp.vim
+	easymotion/vim-easymotion
+	adelarsq/vim-matchit
 )
+
+# Neovim specific
+neovim_plugins=(
+	norcalli/nvim-colorizer.lua
+	ojroques/nvim-hardline
+	phaazon/hop.nvim
+	nvim-lua/plenary.nvim
+	nvim-lua/popup.nvim
+	nvim-telescope/telescope.nvim
+)
+
+if ! command -v git >/dev/null 2>&1; then
+	echo 'You need git to retrieve the plugins.'
+	exit 1
+fi
+
+# Clone a plugin
+# param $1: base dir
+# param $2: plugin github
+clone_plugin () {
+	(cd "$1" || exit 1
+		local plugdir=$(echo "$2" | cut -f2 -d/);
+		if [[ ! -d $plugdir ]]; then
+			git clone --depth=1 "https://github.com/$2"
+			vim -u NONE -c "helptags $plugdir/doc" -c q
+		fi
+	)
+}
+
+vim_config="$HOME/.vim/pack/packs/start"
+if command -v vim >/dev/null 2>&1 || command -v nvim >/dev/null 2>&1; then
+	mkdir -p "$vim_config"
+	for plug in ${plugins[*]}; do
+		clone_plugin "$vim_config" "$plug"
+	done
+fi
+
+if command -v nvim >/dev/null 2>&1; then
+	# Neovim plugins
+	neovim_config="$HOME/.local/share/nvim/site/start"
+	mkdir -p "$neovim_config"
+	for plug in ${neovim_plugins[*]}; do
+		clone_plugin "$neovim_config" "$plug"
+	done
+elif command -v vim >/dev/null 2>&1; then
+	# Regular vim plugins
+	mkdir -p "$vim_config"
+	for plug in ${vim_plugins[*]}; do
+		clone_plugin "$vim_config" "$plug"
+	done
+fi
 

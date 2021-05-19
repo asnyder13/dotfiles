@@ -20,8 +20,15 @@ set nobackup
 set viminfo='20,\"500
 set hidden
 set history=1000
+set termguicolors
 
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+
+augroup NumberToggle
+	autocmd!
+	autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set rnu   | endif
+	autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set nornu | endif
+augroup END
 
 " Searching
 set hlsearch
@@ -62,19 +69,23 @@ let g:netrw_altv = 1
 let g:netrw_winsize = 25
 
 """"""" Plugin settings
-" Airline
-let g:bufferline_echo = 0
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+if !has('nvim')
+	" Airline
+	let g:bufferline_echo = 0
+	let g:airline#extensions#tabline#enabled = 1
+	let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 
-" Ctrlp
-let g:ctrlp_show_hidden = 1
-set wildignore+=*\\node_modules\\* " Windows
-set wildignore+=*/node_modules/*   " Unix
-set wildignore+=*/.git/*,*/tmp/*,*.swp
+	" Ctrlp
+	let g:ctrlp_show_hidden = 1
+	set wildignore+=*\\node_modules\\* " Windows
+	set wildignore+=*/node_modules/*   " Unix
+	set wildignore+=*/.git/*,*/tmp/*,*.swp
 
-" Easymotion
-let g:EasyMotion_smartcase = 1
+	" Easymotion
+	let g:EasyMotion_smartcase = 1
+	" Matchit
+	let loaded_matchit = 1
+endif
 
 " Sneak
 let g:sneak#use_ic_scs = 1
@@ -92,7 +103,3 @@ let g:SignatureMarkTextHLDynamic = 1
 " Rubocop
 nmap <Leader>r :RuboCop <CR>
 
-" Matchit
-if !has('nvim')
-	:let loaded_matchit = 1
-endif
