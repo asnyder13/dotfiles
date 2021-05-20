@@ -11,6 +11,7 @@ paq {'savq/paq-nvim', opt=true}
 paq 'ntpeters/vim-better-whitespace'
 paq 'tpope/vim-commentary'
 paq 'airblade/vim-gitgutter'
+paq 'tpope/vim-fugitive'
 paq 'machakann/vim-highlightedyank'
 paq 'sheerun/vim-polyglot'
 paq 'vim-scripts/ReplaceWithRegister'
@@ -28,6 +29,7 @@ paq 'phaazon/hop.nvim'
 paq 'nvim-lua/plenary.nvim'
 paq 'nvim-lua/popup.nvim'
 paq 'nvim-telescope/telescope.nvim'
+paq { 'lukas-reineke/indent-blankline.nvim', branch='lua' }
 
 ---- General Settings ----
 -- thank you https://oroques.dev/notes/neovim-init/
@@ -90,12 +92,11 @@ opt('b', 'syntax', 'on')
 cmd 'colorscheme monokai'
 g.monokai_term_italic = true
 g.monokai_gui_italic = true
-cmd('set list lcs=tab:\\|\\ ')
 
 -- Persistent Undo/Redo
-if fn.has('persistent_undo') then
+if fn.has('persistent_undo') == 1 then
 	local target_path = fn.expand('~/.local/share/nvim/nvim-persisted-undo/')
-	if not fn.isdirectory(target_path) then
+	if not fn.isdirectory(target_path) == 1 then
 		cmd("call system('mkdir -p ' . " .. target_path .. ")")
 	end
 
@@ -118,6 +119,7 @@ map('n', 'gbn', ':bn<CR>', { noremap = true })
 map('n', 'gbN', ':bN<CR>', { noremap = true })
 map('n', 'gbd', ':bd<CR>', { noremap = true })
 map('n', '<leader>b', ':ls<CR>:b', { noremap = true })
+map('n', '<BS>', '<C-^>')
 
 ---- Plugin Settings ----
 -- Vim plugins
@@ -154,3 +156,7 @@ map('', '<C-p>', '<cmd>lua require("telescope.builtin").find_files({ hidden = tr
 require'hop'.setup { keys = 'abcdefgimnorstuvwxz' }
 map('n', '<leader>f', "<cmd>lua require('hop').hint_char1()<CR>")
 map('n', '<leader>w', "<cmd>lua require('hop').hint_words()<CR>")
+-- Indent Blankline
+g.indentLine_char = '│'
+g.indent_blankline_show_first_indent_level = true
+
