@@ -46,13 +46,9 @@ colorscheme monokai
 " Highlight tab indents
 set list lcs=tab:\|\ 
 " Regular Vim does weird stuff to the highlighting of the indent markers.
-if !has('nvim')
-	highlight SpecialKey cterm=NONE ctermfg=darkgray ctermbg=NONE
-endif
+highlight SpecialKey cterm=NONE ctermfg=darkgray ctermbg=NONE
 
 " Remaps
-"  Quick Easymotion
-map <Leader> <Plug>(easymotion-prefix)
 "  Collapse all levels under current fold
 nnoremap zs zCzozo
 "  Quick buffer switch (for tabline)
@@ -70,23 +66,23 @@ let g:netrw_altv = 1
 let g:netrw_winsize = 25
 
 """"""" Plugin settings
-if !has('nvim')
-	" Airline
-	let g:bufferline_echo = 0
-	let g:airline#extensions#tabline#enabled = 1
-	let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+"  Quick Easymotion
+map <Leader> <Plug>(easymotion-prefix)
+" Airline
+let g:bufferline_echo = 0
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 
-	" Ctrlp
-	let g:ctrlp_show_hidden = 1
-	set wildignore+=*\\node_modules\\* " Windows
-	set wildignore+=*/node_modules/*   " Unix
-	set wildignore+=*/.git/*,*/tmp/*,*.swp
+" Ctrlp
+let g:ctrlp_show_hidden = 1
+set wildignore+=*\\node_modules\\* " Windows
+set wildignore+=*/node_modules/*   " Unix
+set wildignore+=*/.git/*,*/tmp/*,*.swp
 
-	" Easymotion
-	let g:EasyMotion_smartcase = 1
-	" Matchit
-	let loaded_matchit = 1
-endif
+" Easymotion
+let g:EasyMotion_smartcase = 1
+" Matchit
+let loaded_matchit = 1
 
 " Sneak
 let g:sneak#use_ic_scs = 1
