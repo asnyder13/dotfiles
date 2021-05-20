@@ -32,10 +32,7 @@ for ((i = 0; i < ${#DOTFILES[@]}; i++)); do
 	link_dotfile ${DOTFILES[i]} ${DOTFILE_LINKS[i]}
 done
 
-has_vim=$(command -v vim)
-has_neovim=$(command -v nvim)
-
-if [[ has_neovim ]]; then
+if command -v nvim >/dev/null 2>&1; then
 	if ! command -v git >/dev/null 2>&1; then
 		echo 'You need git to retrieve Paq.'
 		exit 1
@@ -48,7 +45,7 @@ if [[ has_neovim ]]; then
 	else
 		echo 'Paq is already installed, run :PaqInstall or :PaqUpdate'
 	fi
-elif [[ has_vim ]]; then
+elif command -v vim >/dev/null 2>&1; then
 	# Vim theme
 	if command -v wget >/dev/null 2>&1;   then fetcher='wget -O'
 	elif command -v curl >/dev/null 2>&1; then fetcher='curl -o'

@@ -39,6 +39,7 @@ local function opt(scope, key, value)
 	if scope ~= 'o' then scopes['o'][key] = value end
 end
 
+-- Auto commands
 cmd([[
 	" Sytaxes
 	autocmd BufNewFile,BufRead *.npmrc   set syntax=dosini
