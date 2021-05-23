@@ -9,6 +9,8 @@ DOTFILES=(
 	.bashrc
 	vimrc
 	.rubocop.yml
+	util.lua
+	lsp.lua
 )
 DOTFILE_LINKS=(
 	$HOME              # .zshrc
@@ -18,4 +20,6 @@ DOTFILE_LINKS=(
 	$HOME              # .bashrc
 	$HOME/.vim         # vimrc
 	$HOME              # .rubocop.yml
+	$HOME/.config/nvim/lua # util.lua
+	$HOME/.config/nvim/lua # lsp.lua
 )

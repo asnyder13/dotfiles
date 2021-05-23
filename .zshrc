@@ -81,6 +81,9 @@ plugins=(
 if [[ -e $ZSH/oh-my-zsh.sh ]]; then
 	source $ZSH/oh-my-zsh.sh
 fi
+if [[ -e $HOME/.zshrc_local ]]; then
+	source $HOME/.zshrc_local
+fi
 
 # User configuration
 export HIST_IGNORE_DUPS

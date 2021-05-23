@@ -1,11 +1,15 @@
-local cmd = vim.cmd
-local fn = vim.fn
-local g = vim.g
-local api = vim.api
+require('util')
+local cmd = Util.cmd
+local fn = Util.fn
+local g = Util.g
+local api = Util.api
+
+local opt = Util.opt
+local map = Util.map
 
 cmd('packadd paq-nvim')
 local paq = require'paq-nvim'.paq
-paq {'savq/paq-nvim', opt=true}
+paq { 'savq/paq-nvim', opt=true }
 
 -- Regular vim
 paq 'ntpeters/vim-better-whitespace'
@@ -31,13 +35,15 @@ paq 'nvim-lua/popup.nvim'
 paq 'nvim-telescope/telescope.nvim'
 paq { 'lukas-reineke/indent-blankline.nvim', branch='lua' }
 
----- General Settings ----
--- thank you https://oroques.dev/notes/neovim-init/
-local scopes = { o = vim.o, b = vim.bo, w = vim.wo }
-local function opt(scope, key, value)
-	scopes[scope][key] = value
-	if scope ~= 'o' then scopes['o'][key] = value end
+-- VIM_USE_LSP needs to have a value, not just existing.
+if vim.env.VIM_USE_LSP then
+	paq { 'nvim-treesitter/nvim-treesitter', run=':TSUpdate' }
+	paq 'neovim/nvim-lspconfig'
+	paq 'kabouzeid/nvim-lspinstall'
+	paq 'hrsh7th/nvim-compe'
 end
+
+---- General Settings ----
 
 -- Auto commands
 cmd([[
@@ -60,8 +66,9 @@ cmd([[
 opt('o', 'clipboard', 'unnamed')
 opt('w', 'number', true)
 opt('w', 'cursorline', true)
-opt('b', 'tabstop', 2)
-opt('b', 'shiftwidth', 2)
+local indent_size = 2
+opt('b', 'tabstop', indent_size)
+opt('b', 'shiftwidth', indent_size)
 opt('b', 'expandtab', false)
 opt('b', 'autoindent', true)
 opt('o', 'showmatch', true)
@@ -86,7 +93,7 @@ opt('o', 'ignorecase', true)
 opt('o', 'smartcase', true)
 
 -- opt('o', 'Folding', )
-opt('w', 'foldmethod', 'syntax')
+opt('w', 'foldmethod', 'indent')
 opt('o', 'foldlevelstart', 99)
 
 -- Syntax hl/colors
@@ -99,21 +106,14 @@ g.monokai_gui_italic = true
 if fn.has('persistent_undo') == 1 then
 	local target_path = fn.expand('~/.local/share/nvim/nvim-persisted-undo/')
 	if not fn.isdirectory(target_path) == 1 then
-		cmd("call system('mkdir -p ' . " .. target_path .. ")")
+		cmd('call system("mkdir -p " . ' .. target_path .. ')')
 	end
 
 	opt('o', 'undodir', target_path)
 	opt('b', 'undofile', true)
 end
 
----- Mappings ----
--- thank you https://oroques.dev/notes/neovim-init/
-local function map(mode, lhs, rhs, opts)
-	local options = { noremap = true }
-	if opts then options = vim.tbl_extend('force', options, opts) end
-	api.nvim_set_keymap(mode, lhs, rhs, options)
-end
-
+---- General Mappings ----
 -- Collapse all levels under current fold
 map('n', 'zs', 'zCzozo', { noremap = true })
 -- Quick buffer switch (for tabline)
@@ -153,12 +153,21 @@ require'hardline'.setup({
 	theme = 'default'
 })
 -- Telescope
-map('', '<C-p>', '<cmd>lua require("telescope.builtin").find_files({ hidden = true })<cr>')
+map('', '<C-p>', '<cmd>lua require("telescope.builtin").find_files({ hidden = false })<cr>')
+map('', '<C-M-p>', '<cmd>lua require("telescope.builtin").find_files({ hidden = true })<cr>')
+map('', '<M-p>', '<cmd>lua require("telescope.builtin").file_browser()<cr>')
+map('', '<C-g>', '<cmd>lua require("telescope.builtin").git_files()<cr>')
 -- Hop
 require'hop'.setup { keys = 'abcdefgimnorstuvwxz' }
-map('n', '<leader>f', "<cmd>lua require('hop').hint_char1()<CR>")
-map('n', '<leader>w', "<cmd>lua require('hop').hint_words()<CR>")
+map('n', '<leader>f', '<cmd>lua require("hop").hint_char1()<CR>')
+map('n', '<leader>w', '<cmd>lua require("hop").hint_words()<CR>')
 -- Indent Blankline
 g.indentLine_char = '│'
 g.indent_blankline_show_first_indent_level = true
+
+---- LSP Plugins ----
+-- VIM_USE_LSP needs to have a value, not just existing.
+if vim.env.VIM_USE_LSP then
+	require('lsp')
+end
 

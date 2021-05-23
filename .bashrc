@@ -28,5 +28,6 @@ if [[ ! $(grep 'set completion-ignore-case On' ~/.inputrc) ]]; then
 fi
 
 export HISTCONTROL=ignoredups
+shopt -s histverify
 
 source ~/.commonrc
