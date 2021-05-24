@@ -49,9 +49,37 @@ local lua_settings = {
 	}
 }
 
+local lspconfig = require('lspconfig')
+local lspinstall = require'lspinstall'
+
+-- Use an on_attach function to only map the following keys
+-- after the language server attaches to the current buffer
+local on_attach = function(client, bufnr)
+	local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+
+	-- Mappings.
+	local opts = { noremap=true, silent=true }
+
+	-- See `:help vim.lsp.*` for documentation on any of the below functions
+	buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+	buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+	buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+	buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+	buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+	buf_set_keymap('n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+	buf_set_keymap('n', '<M-r>', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+	buf_set_keymap('n', '<C-Space>', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+	buf_set_keymap('n', '<C-F12', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+	buf_set_keymap('n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+	buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+	buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+	buf_set_keymap('n', '<leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+
+	cmd([[command! Format  execute 'lua vim.lsp.buf.formatting()']])
+end
+
 -- Install missing servers
 local function setup_servers()
-	local lspinstall = require'lspinstall'
 	lspinstall.setup()
 
 	local required_servers = {
@@ -71,21 +99,26 @@ local function setup_servers()
 		end
 	end
 
+	-- Setup installed servers.
 	local servers = lspinstall.installed_servers()
 	for _, server in pairs(servers) do
 		if server == 'lua' then
-			local config = {}
-			config.settings = lua_settings
-			require'lspconfig'[server].setup(config)
+			local config = {
+				settings = lua_settings,
+				on_attach = on_attach,
+			}
+			lspconfig[server].setup(config)
 		else
-			require'lspconfig'[server].setup({})
+			lspconfig[server].setup({
+				on_attach = on_attach,
+			})
 		end
 	end
 end
 
 setup_servers()
 -- Automatically reload after `:LspInstall <server>` so we don't have to restart neovim
-require'lspinstall'.post_install_hook = function ()
+lspinstall.post_install_hook = function ()
 	setup_servers() -- reload installed servers
 	cmd('bufdo e') -- this triggers the FileType autocmd that starts the server
 end
@@ -145,3 +178,4 @@ cmd([[
 	inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
 	inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
 ]])
+
