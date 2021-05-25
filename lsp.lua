@@ -7,6 +7,12 @@ local api = Util.api
 local opt = Util.opt
 local map = Util.map
 
+local paq = require'paq-nvim'.paq
+paq { 'nvim-treesitter/nvim-treesitter', run=':TSUpdate' }
+paq 'neovim/nvim-lspconfig'
+paq 'kabouzeid/nvim-lspinstall'
+paq 'hrsh7th/nvim-compe'
+
 -- Treesitter
 require'nvim-treesitter.configs'.setup {
 	ensure_installed = {

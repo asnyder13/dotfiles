@@ -35,14 +35,6 @@ paq 'nvim-lua/popup.nvim'
 paq 'nvim-telescope/telescope.nvim'
 paq { 'lukas-reineke/indent-blankline.nvim', branch='lua' }
 
--- VIM_USE_LSP needs to have a value, not just existing.
-if vim.env.VIM_USE_LSP then
-	paq { 'nvim-treesitter/nvim-treesitter', run=':TSUpdate' }
-	paq 'neovim/nvim-lspconfig'
-	paq 'kabouzeid/nvim-lspinstall'
-	paq 'hrsh7th/nvim-compe'
-end
-
 ---- General Settings ----
 
 -- Auto commands
@@ -50,8 +42,6 @@ cmd([[
 	" Sytaxes
 	autocmd BufNewFile,BufRead *.npmrc   set syntax=dosini
 	autocmd BufNewFile,BufRead *bash-fc* set syntax=sh
-	" Don't auto-comment on a new line
-	autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
 	" https://github.com/jeffkreeftmeijer/vim-numbertoggle
 	augroup NumberToggle
@@ -63,6 +53,8 @@ cmd([[
 ]])
 
 -- General
+-- Don't auto-comment on a new line
+cmd([[ set formatoptions-=cro ]])
 opt('o', 'clipboard', 'unnamed')
 opt('w', 'number', true)
 opt('w', 'cursorline', true)
