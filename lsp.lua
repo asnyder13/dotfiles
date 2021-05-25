@@ -21,6 +21,7 @@ require'nvim-treesitter.configs'.setup {
 		'html',
 		'json',
 		'lua',
+		'python',
 		'ruby',
 		'typescript',
 		'yaml',
@@ -87,23 +88,6 @@ end
 -- Install missing servers
 local function setup_servers()
 	lspinstall.setup()
-
-	local required_servers = {
-		'bash',
-		'css',
-		'html',
-		'json',
-		'lua',
-		'ruby',
-		'typescript',
-		'yaml',
-	}
-	local installed_servers = lspinstall.installed_servers()
-	for _, server in pairs(required_servers) do
-		if not vim.tbl_contains(installed_servers, server) then
-			lspinstall.install_server(server)
-		end
-	end
 
 	-- Setup installed servers.
 	local servers = lspinstall.installed_servers()

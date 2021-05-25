@@ -45,9 +45,9 @@ set foldlevelstart=99
 syntax on
 colorscheme monokai
 " Highlight tab indents
-set list lcs=tab:\|\ 
+set list lcs=tab:\│\ 
 " Regular Vim does weird stuff to the highlighting of the indent markers.
-highlight SpecialKey cterm=NONE ctermfg=darkgray ctermbg=NONE
+highlight SpecialKey cterm=NONE ctermfg=darkgray ctermbg=NONE guifg=darkgray
 
 " Remaps
 "  Collapse all levels under current fold
