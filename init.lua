@@ -35,6 +35,12 @@ paq 'nvim-lua/popup.nvim'
 paq 'nvim-telescope/telescope.nvim'
 paq { 'lukas-reineke/indent-blankline.nvim', branch='lua' }
 
+if vim.env.VIM_USE_LSP then
+	paq { 'nvim-treesitter/nvim-treesitter', run=':TSUpdate' }
+	paq 'neovim/nvim-lspconfig'
+	paq 'kabouzeid/nvim-lspinstall'
+	paq 'hrsh7th/nvim-compe'
+end
 ---- General Settings ----
 
 -- Auto commands
@@ -49,6 +55,7 @@ cmd([[
 		autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set rnu   | endif
 		autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set nornu | endif
 		autocmd OptionSet                                 * if !&nu                 | set nornu | endif
+		autocmd OptionSet                                 * if &nu                  | set rnu   | endif
 	augroup END
 ]])
 
@@ -150,7 +157,7 @@ map('', '<C-M-p>', '<cmd>lua require("telescope.builtin").find_files({ hidden = 
 map('', '<M-p>', '<cmd>lua require("telescope.builtin").file_browser()<cr>')
 map('', '<C-g>', '<cmd>lua require("telescope.builtin").git_files()<cr>')
 -- Hop
-require'hop'.setup { keys = 'abcdefgimnorstuvwxz' }
+require'hop'.setup { keys = ',;abcdefgimnorstuvwxz' }
 map('n', '<leader>f', '<cmd>lua require("hop").hint_char1()<CR>')
 map('n', '<leader>w', '<cmd>lua require("hop").hint_words()<CR>')
 -- Indent Blankline

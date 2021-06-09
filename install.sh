@@ -25,7 +25,7 @@ link_dotfile () {
 }
 
 if [[ ${#DOTFILES[@]} -ne ${#DOTFILE_LINKS[@]} ]]; then
-	echo 'The arrays in .DOTFILES are not the same length'
+	echo 'The arrays in .DOTFILES are not the same length.'
 	exit 1
 fi
 for ((i = 0; i < ${#DOTFILES[@]}; i++)); do
@@ -33,6 +33,7 @@ for ((i = 0; i < ${#DOTFILES[@]}; i++)); do
 done
 
 if command -v nvim >/dev/null 2>&1; then
+	echo 'Found neovim.'
 	if ! command -v git >/dev/null 2>&1; then
 		echo 'You need git to retrieve Paq.'
 		exit 1
@@ -40,12 +41,13 @@ if command -v nvim >/dev/null 2>&1; then
 
 	paq_loc="$HOME/.local/share/nvim/site/pack/paqs/opt/paq-nvim"
 	if [[ ! -d "$paq_loc" ]]; then
-		echo 'Cloning Paq'
+		echo 'Cloning Paq.'
 		git clone -q https://github.com/savq/paq-nvim.git "$paq_loc"
 	else
-		echo 'Paq is already installed, run :PaqInstall or :PaqUpdate'
+		echo 'Paq is already installed, run :PaqInstall or :PaqUpdate.'
 	fi
 elif command -v vim >/dev/null 2>&1; then
+	echo 'Found vim.'
 	# Vim theme
 	if command -v wget >/dev/null 2>&1;   then fetcher='wget -O'
 	elif command -v curl >/dev/null 2>&1; then fetcher='curl -o'
@@ -114,4 +116,6 @@ elif command -v vim >/dev/null 2>&1; then
 	vim_config="$HOME/.vim/pack/packs/start"
 	# Regular vim plugins
 	install_plugins "$vim_config" "${plugins[@]}"
+else
+	echo "Didn't find either neovim nor vim."
 fi
