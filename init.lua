@@ -16,7 +16,6 @@ paq 'ntpeters/vim-better-whitespace'
 paq 'tpope/vim-commentary'
 paq 'airblade/vim-gitgutter'
 paq 'tpope/vim-fugitive'
-paq 'machakann/vim-highlightedyank'
 paq 'sheerun/vim-polyglot'
 paq 'vim-scripts/ReplaceWithRegister'
 paq 'ngmy/vim-rubocop'
@@ -60,6 +59,7 @@ cmd([[
 ]])
 
 -- General
+cmd('au TextYankPost * silent! lua vim.highlight.on_yank { timeout=350 }')
 -- Don't auto-comment on a new line
 cmd([[ set formatoptions-=cro ]])
 opt('o', 'clipboard', 'unnamed')
