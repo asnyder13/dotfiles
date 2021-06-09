@@ -108,7 +108,7 @@ lspinstall.post_install_hook = function ()
 end
 
 -- compe
-opt('o', 'completeopt', 'menuone,noselect')
+opt.completeopt = { 'menuone', 'noselect' }
 require'compe'.setup {
 	source = {
 		path = true,

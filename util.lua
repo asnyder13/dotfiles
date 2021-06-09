@@ -4,13 +4,7 @@ Util.cmd = vim.cmd
 Util.fn = vim.fn
 Util.g = vim.g
 Util.api = vim.api
-
--- thank you https://oroques.dev/notes/neovim-init/
-Util.opt = function (scope, key, value)
-	local scopes = { o = vim.o, b = vim.bo, w = vim.wo }
-	scopes[scope][key] = value
-	if scope ~= 'o' then scopes['o'][key] = value end
-end
+Util.opt = vim.opt
 
 -- thank you https://oroques.dev/notes/neovim-init/
 Util.map = function (mode, lhs, rhs, opts)

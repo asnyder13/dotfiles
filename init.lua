@@ -3,7 +3,6 @@ local cmd = Util.cmd
 local fn = Util.fn
 local g = Util.g
 local api = Util.api
-
 local opt = Util.opt
 local map = Util.map
 
@@ -59,44 +58,41 @@ cmd([[
 ]])
 
 -- General
-cmd('au TextYankPost * silent! lua vim.highlight.on_yank { timeout=350 }')
+cmd 'au TextYankPost * silent! lua vim.highlight.on_yank { timeout=350 }'
 -- Don't auto-comment on a new line
-cmd([[ set formatoptions-=cro ]])
-opt('o', 'clipboard', 'unnamed')
-opt('w', 'number', true)
-opt('w', 'cursorline', true)
+opt.formatoptions:remove { 'c', 'r', 'o' }
+opt.clipboard = 'unnamed'
+opt.number = true
+opt.cursorline = true
 local indent_size = 2
-opt('b', 'tabstop', indent_size)
-opt('b', 'shiftwidth', indent_size)
-opt('b', 'expandtab', false)
-opt('b', 'autoindent', true)
-opt('o', 'showmatch', true)
-opt('o', 'visualbell', true)
-opt('o', 'showmode', true)
-opt('o', 'wildmode', 'list:longest,longest:full')
-opt('o', 'scrolloff', 0)
-cmd([[
-	set wildignore+=*/node_modules/*
-	set wildignore+=*/.git/*,*/tmp/*,*.swp
-]])
+opt.tabstop = indent_size
+opt.shiftwidth = indent_size
+opt.expandtab = false
+opt.autoindent = true
+opt.showmatch = true
+opt.visualbell = true
+opt.showmode = true
+opt.wildmode = { list = 'longest', longest = 'full' }
+opt.scrolloff = 0
+opt.wildignore:append { '*/node_modules/*', '*/.git/*', '*/tmp/*', '*.swp' }
 
-opt('o', 'confirm', true)
-opt('o', 'backup', false)
-opt('o', 'hidden', true)
-opt('o', 'history', 1000)
-opt('o', 'termguicolors', true)
+opt.confirm = true
+opt.backup = false
+opt.hidden = true
+opt.history = 1000
+opt.termguicolors = true
 
 -- Searching
-opt('o', 'hlsearch', true)
-opt('o', 'ignorecase', true)
-opt('o', 'smartcase', true)
+opt.hlsearch = true
+opt.ignorecase = true
+opt.smartcase = true
 
 -- opt('o', 'Folding', )
-opt('w', 'foldmethod', 'indent')
-opt('o', 'foldlevelstart', 99)
+opt.foldmethod = 'indent'
+opt.foldlevelstart = 99
 
 -- Syntax hl/colors
-opt('b', 'syntax', 'on')
+opt.syntax = 'on'
 cmd 'colorscheme monokai'
 g.monokai_term_italic = true
 g.monokai_gui_italic = true
@@ -108,8 +104,8 @@ if fn.has('persistent_undo') == 1 then
 		cmd('call system("mkdir -p " . ' .. target_path .. ')')
 	end
 
-	opt('o', 'undodir', target_path)
-	opt('b', 'undofile', true)
+	opt.undodir = target_path
+	opt.undofile = true
 end
 
 ---- General Mappings ----
