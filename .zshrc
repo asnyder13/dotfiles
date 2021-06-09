@@ -73,9 +73,21 @@ HYPHEN_INSENSITIVE="true"
 plugins=(
 	extract
 	git
+	npm
 	safe-paste
 	sudo
 	vi-mode
+	zbell
+)
+zbell_ignore=(
+	$EDITOR
+	$PAGER
+	nvim
+	vim
+	less
+	tail
+	editrcs
+	tmux
 )
 
 if [[ -e $ZSH/oh-my-zsh.sh ]]; then
