@@ -1,4 +1,4 @@
-require('util')
+require 'util'
 local cmd = Util.cmd
 local fn = Util.fn
 local g = Util.g
@@ -6,7 +6,7 @@ local api = Util.api
 local opt = Util.opt
 local map = Util.map
 
-cmd('packadd paq-nvim')
+cmd 'packadd paq-nvim'
 local paq = require'paq-nvim'.paq
 paq { 'savq/paq-nvim', opt=true }
 

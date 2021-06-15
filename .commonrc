@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 set -o vi
-export EDITOR='vim'
+export EDITOR=vim
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 # Hide npm nags
@@ -10,6 +10,7 @@ export ADBLOCK=true
 export DISABLE_OPENCOLLECTIVE=true
 # Turn off dotnet telemetry
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
+export ASPNETCORE_ENVIRONMENT=Development
 
 # Aliases/Local Aliases
 if [[ -f ~/.bash_aliases ]]; then
@@ -26,4 +27,8 @@ fi
 if [[ -d $HOME/.rvm/bin ]]; then
 	# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 	export PATH="$PATH:$HOME/.rvm/bin"
+
+	if [[ -s "$HOME/.rvm/scripts/rvm" ]]; then
+		source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+	fi
 fi
