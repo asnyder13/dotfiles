@@ -163,6 +163,6 @@ g.indent_blankline_show_first_indent_level = true
 ---- LSP Plugins ----
 -- VIM_USE_LSP needs to have a value, not just existing.
 if vim.env.VIM_USE_LSP then
-	require('lsp')
+	require 'lsp'
 end
 

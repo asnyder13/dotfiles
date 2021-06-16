@@ -50,8 +50,8 @@ local lua_settings = {
 	}
 }
 
-local lspconfig = require('lspconfig')
-local lspinstall = require'lspinstall'
+local lspconfig  = require 'lspconfig'
+local lspinstall = require 'lspinstall'
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
@@ -70,7 +70,7 @@ local on_attach = function(_, bufnr)
 	buf_set_keymap('n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
 	buf_set_keymap('n', '<M-r>', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
 	buf_set_keymap('n', '<C-Space>', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-	buf_set_keymap('n', '<C-F12', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+	buf_set_keymap('n', '<C-F12>', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
 	buf_set_keymap('n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
 	buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
 	buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
@@ -105,6 +105,12 @@ setup_servers()
 lspinstall.post_install_hook = function ()
 	setup_servers() -- reload installed servers
 	cmd('bufdo e') -- this triggers the FileType autocmd that starts the server
+end
+
+-- Other LSP configs
+-- Sorbet (ruby)
+if fn.executable('srb') then
+	lspconfig.sorbet.setup {}
 end
 
 -- compe
