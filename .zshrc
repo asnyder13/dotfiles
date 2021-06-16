@@ -99,8 +99,7 @@ if [[ -e $HOME/.zshrc_local ]]; then
 fi
 
 # User configuration
-export HIST_IGNORE_DUPS
-export HIST_EXPIRE_DUPS_FIRST
+export HIST_IGNORE_ALL_DUPS
 
 # export MANPATH="/usr/local/man:$MANPATH"
 export DEFAULT_USER='snyder'

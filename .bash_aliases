@@ -48,12 +48,6 @@ alias ....='cd ....'
 alias .....='cd .....'
 alias ......='cd ......'
 
-function mkdircd () {
-	mkdir "$1"
-	cd "$1" || return 1
-	return 0
-}
-
 # Git aliases.
 alias g='git'
 alias ga='git add'
@@ -72,6 +66,49 @@ alias gwt='git worktree'
 alias gbl='git blame -cw'
 alias gcp='git cherry-pick'
 
+# Random functions
+function mkdircd () {
+	mkdir "$1"
+	cd "$1" || return 1
+	return 0
+}
+
 function vimhelp () {
 	vim -c "help $1 | only"
+}
+
+function toyaml () {
+	if ! command -v ruby >/dev/null 2>&1; then
+		echo 'You need Ruby to run this function.'
+		return 1
+	fi
+
+	if [[ $# -gt 0 ]]; then
+		if [[ ! -f $1 ]]; then
+			echo 'That file does not exist to parse.'
+			return 1
+		else
+			ruby -ryaml -rjson -e "puts YAML.dump(JSON.parse(File.read(\"$1\")))"
+		fi
+	else
+		ruby -ryaml -rjson -e 'puts YAML.dump(JSON.parse($<.read))'
+	fi
+}
+
+function tojson () {
+	if ! command -v ruby >/dev/null 2>&1; then
+		echo 'You need Ruby to run this function.'
+		return 1
+	fi
+
+	if [[ $# -gt 0 ]]; then
+		if [[ ! -f $1 ]]; then
+			echo 'That file does not exist to parse.'
+			return 1
+		else
+			ruby -ryaml -rjson -e "puts JSON.pretty_generate(YAML.safe_load(File.read(\"$1\")))"
+		fi
+	else
+		ruby -ryaml -rjson -e 'puts JSON.pretty_generate(YAML.safe_load($<.read))'
+	fi
 }
