@@ -34,7 +34,7 @@ for CONFIG in ${CONFIGFILES[@]}; do
 	DOTFILES+=("$HOME/.dotfiles/$CONFIG")
 done
 # Only gonna work if you've installed in ~/.dotfiles
-alias editrcs="vim ${DOTFILES[*]}"
+alias editrcs="vim +'set autochdir' ${DOTFILES[*]}"
 
 # General aliases.
 alias lssz='du -sh *' ;

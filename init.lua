@@ -13,6 +13,7 @@ paq { 'savq/paq-nvim', opt=true }
 -- Regular vim
 paq 'ntpeters/vim-better-whitespace'
 paq 'tpope/vim-commentary'
+paq 'justinmk/vim-dirvish'
 paq 'airblade/vim-gitgutter'
 paq 'tpope/vim-fugitive'
 paq 'sheerun/vim-polyglot'
@@ -21,7 +22,6 @@ paq 'ngmy/vim-rubocop'
 paq 'justinmk/vim-sneak'
 paq 'kshenoy/vim-signature'
 paq 'tpope/vim-surround'
-paq 'tpope/vim-vinegar'
 paq 'crusoexia/vim-monokai'
 
 -- Neovim specific

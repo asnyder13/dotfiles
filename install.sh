@@ -62,6 +62,7 @@ elif command -v vim >/dev/null 2>&1; then
 		ntpeters/vim-better-whitespace
 		tpope/vim-commentary
 		ctrlpvim/ctrlp.vim
+		justinmk/vim-dirvish
 		easymotion/vim-easymotion
 		airblade/vim-gitgutter
 		machakann/vim-highlightedyank
@@ -72,7 +73,6 @@ elif command -v vim >/dev/null 2>&1; then
 		justinmk/vim-sneak
 		kshenoy/vim-signature
 		tpope/vim-surround
-		tpope/vim-vinegar
 	)
 
 	if ! command -v git >/dev/null 2>&1; then
