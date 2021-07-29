@@ -70,6 +70,7 @@ elif command -v vim >/dev/null 2>&1; then
 		sheerun/vim-polyglot
 		vim-scripts/ReplaceWithRegister
 		ngmy/vim-rubocop
+		vim-ruby/vim-ruby
 		justinmk/vim-sneak
 		kshenoy/vim-signature
 		tpope/vim-surround

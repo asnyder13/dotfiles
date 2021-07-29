@@ -19,6 +19,7 @@ paq 'tpope/vim-fugitive'
 paq 'sheerun/vim-polyglot'
 paq 'vim-scripts/ReplaceWithRegister'
 paq 'ngmy/vim-rubocop'
+paq 'vim-ruby/vim-ruby'
 paq 'justinmk/vim-sneak'
 paq 'kshenoy/vim-signature'
 paq 'tpope/vim-surround'
@@ -31,7 +32,7 @@ paq 'phaazon/hop.nvim'
 paq 'nvim-lua/plenary.nvim'
 paq 'nvim-lua/popup.nvim'
 paq 'nvim-telescope/telescope.nvim'
-paq { 'lukas-reineke/indent-blankline.nvim', branch='lua' }
+paq { 'lukas-reineke/indent-blankline.nvim' }
 
 if vim.env.VIM_USE_LSP then
 	paq { 'nvim-treesitter/nvim-treesitter', run=':TSUpdate' }
