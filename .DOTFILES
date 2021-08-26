@@ -11,6 +11,7 @@ DOTFILES=(
 	.rubocop.yml
 	util.lua
 	lsp.lua
+	config # .gitconfig
 )
 DOTFILE_LINKS=(
 	$HOME              # .zshrc
@@ -22,4 +23,5 @@ DOTFILE_LINKS=(
 	$HOME              # .rubocop.yml
 	$HOME/.config/nvim/lua # util.lua
 	$HOME/.config/nvim/lua # lsp.lua
+	$HOME/.config/git  # .gitconfig
 )

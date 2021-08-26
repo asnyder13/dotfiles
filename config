@@ -1,0 +1,17 @@
+[user]
+	name = Andrew Snyder
+	email = snyder13@vt.edu
+[alias]
+	lg1 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
+	lg2 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
+	lg3 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)'
+	lg = !"git lg1"
+	lgme = !"git lg3"
+[core]
+	autocrlf = false
+[includeIf "gitdir:/mnt/c/Users/Snyder/Documents/Work/"]
+	path = /mnt/c/Users/Snyder/Documents/Work/.gitconfig_include
+[includeIf "gitdir:/home/snyder/src/"]
+	path = /home/snyder/src/.gitconfig_include
+[init]
+	defaultBranch = master
