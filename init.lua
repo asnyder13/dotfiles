@@ -116,7 +116,6 @@ map('n', 'zs', 'zCzozo', { noremap = true })
 map('n', 'gbn', ':bn<CR>', { noremap = true })
 map('n', 'gbN', ':bN<CR>', { noremap = true })
 map('n', 'gbd', ':bd<CR>', { noremap = true })
-map('n', '<leader>b', ':ls<CR>:b', { noremap = true })
 map('n', '<BS>', '<C-^>')
 
 ---- Plugin Settings ----
@@ -153,6 +152,7 @@ map('', '<C-p>', '<cmd>lua require("telescope.builtin").find_files({ hidden = fa
 map('', '<C-M-p>', '<cmd>lua require("telescope.builtin").find_files({ hidden = true })<cr>')
 map('', '<M-p>', '<cmd>lua require("telescope.builtin").file_browser()<cr>')
 map('', '<C-g>', '<cmd>lua require("telescope.builtin").git_files()<cr>')
+map('', '<leader>b', '<cmd>lua require("telescope.builtin").buffers()<cr>')
 -- Hop
 require'hop'.setup { keys = ',;abcdefgimnorstuvwxz' }
 map('n', '<leader>f', '<cmd>lua require("hop").hint_char1()<CR>')
