@@ -32,7 +32,7 @@ paq 'phaazon/hop.nvim'
 paq 'nvim-lua/plenary.nvim'
 paq 'nvim-lua/popup.nvim'
 paq 'nvim-telescope/telescope.nvim'
-paq { 'lukas-reineke/indent-blankline.nvim' }
+paq 'lukas-reineke/indent-blankline.nvim'
 
 if vim.env.VIM_USE_LSP then
 	paq { 'nvim-treesitter/nvim-treesitter', run=':TSUpdate' }
@@ -88,7 +88,6 @@ opt.hlsearch = true
 opt.ignorecase = true
 opt.smartcase = true
 
--- opt('o', 'Folding', )
 opt.foldmethod = 'indent'
 opt.foldlevelstart = 99
 
@@ -100,11 +99,7 @@ g.monokai_gui_italic = true
 
 -- Persistent Undo/Redo
 if fn.has('persistent_undo') == 1 then
-	local target_path = fn.expand('~/.local/share/nvim/nvim-persisted-undo/')
-	if not fn.isdirectory(target_path) == 1 then
-		cmd('call system("mkdir -p " . ' .. target_path .. ')')
-	end
-
+	local target_path = Util.create_expand_path('~/.local/share/nvim/nvim-persisted-undo/')
 	opt.undodir = target_path
 	opt.undofile = true
 end

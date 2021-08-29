@@ -89,6 +89,7 @@ zbell_ignore=(
 	tail
 	editrcs
 	tmux
+	irb
 )
 
 if [[ -e $ZSH/oh-my-zsh.sh ]]; then

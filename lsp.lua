@@ -30,26 +30,6 @@ require'nvim-treesitter.configs'.setup {
 ---- Language Servers
 
 -- lspinstall/lspconfig
-local lua_settings = {
-	Lua = {
-		runtime = {
-			-- LuaJIT in the case of Neovim
-			version = 'LuaJIT',
-			path = vim.split(package.path, ';'),
-		},
-		diagnostics = {
-			-- Get the language server to recognize the `vim` global
-			globals = {'vim'},
-		},
-		workspace = {
-			-- Make the server aware of Neovim runtime files
-			library = {
-				[fn.expand('$VIMRUNTIME/lua')] = true,
-				[fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
-			},
-		},
-	}
-}
 
 local lspconfig  = require 'lspconfig'
 local lspinstall = require 'lspinstall'
@@ -80,6 +60,29 @@ local on_attach = function(_, bufnr)
 	cmd([[command! Format  execute 'lua vim.lsp.buf.formatting()']])
 end
 
+local custom_settings = {
+	lua = {
+		Lua = {
+			runtime = {
+				-- LuaJIT in the case of Neovim
+				version = 'LuaJIT',
+				path = vim.split(package.path, ';'),
+			},
+			diagnostics = {
+				-- Get the language server to recognize the `vim` global
+				globals = {'vim'},
+			},
+			workspace = {
+				-- Make the server aware of Neovim runtime files
+				library = {
+					[fn.expand('$VIMRUNTIME/lua')] = true,
+					[fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
+				},
+			},
+		}
+	}
+}
+
 -- Install missing servers
 local function setup_servers()
 	lspinstall.setup()
@@ -87,16 +90,15 @@ local function setup_servers()
 	-- Setup installed servers.
 	local servers = lspinstall.installed_servers()
 	for _, server in pairs(servers) do
-		if server == 'lua' then
-			local config = {
-				settings = lua_settings,
+		if custom_settings[server] ~= nil then
+			lspconfig[server].setup{
+				settings = custom_settings[server],
 				on_attach = on_attach,
 			}
-			lspconfig[server].setup(config)
 		else
-			lspconfig[server].setup({
+			lspconfig[server].setup{
 				on_attach = on_attach,
-			})
+			}
 		end
 	end
 end
@@ -111,7 +113,8 @@ end
 -- Other LSP configs
 -- Sorbet (ruby)
 if fn.executable('srb') then
-	lspconfig.sorbet.setup {}
+	local target_path = Util.create_expand_path('~/.cache/sorbet')
+	lspconfig.sorbet.setup{ cmd = { 'srb', 'tc', '--lsp', target_path} }
 end
 
 -- compe
