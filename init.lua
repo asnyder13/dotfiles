@@ -134,6 +134,8 @@ g.ruby_recommended_style = 0
 g.SignatureMarkTextHLDynamic = 1
 -- Rubocop
 map('n', '<LEADER>r', ':RuboCop <CR>')
+-- Dirvish
+g.loaded_netrwPlugin = 1
 
 -- Neovim plugins
 require'colorizer'.setup()
