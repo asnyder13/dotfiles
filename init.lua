@@ -1,10 +1,11 @@
 require 'util'
-local cmd = Util.cmd
-local fn = Util.fn
-local g = Util.g
-local api = Util.api
-local opt = Util.opt
 local map = Util.map
+
+local cmd = vim.cmd
+local fn = vim.fn
+local g = vim.g
+local api = vim.api
+local opt = vim.opt
 
 cmd 'packadd paq-nvim'
 local paq = require'paq-nvim'.paq
@@ -76,6 +77,8 @@ opt.showmode = true
 opt.wildmode = { 'full' }
 opt.scrolloff = 0
 opt.wildignore:append { '*/node_modules/*', '*/.git/*', '*/tmp/*', '*.swp' }
+opt.splitright = true
+opt.splitbelow = true
 
 opt.confirm = true
 opt.backup = false
