@@ -73,7 +73,7 @@ opt.autoindent = true
 opt.showmatch = true
 opt.visualbell = true
 opt.showmode = true
-opt.wildmode = { list = 'longest', longest = 'full' }
+opt.wildmode = { 'full' }
 opt.scrolloff = 0
 opt.wildignore:append { '*/node_modules/*', '*/.git/*', '*/tmp/*', '*.swp' }
 
@@ -143,6 +143,7 @@ require'hardline'.setup({
 	theme = 'default'
 })
 -- Telescope
+require'telescope'.setup{ defaults = { file_ignore_patterns = {'node_modules'} } }
 map('', '<C-p>', '<cmd>lua require("telescope.builtin").find_files({ hidden = false })<cr>')
 map('', '<C-M-p>', '<cmd>lua require("telescope.builtin").find_files({ hidden = true })<cr>')
 map('', '<M-p>', '<cmd>lua require("telescope.builtin").file_browser()<cr>')
@@ -153,8 +154,12 @@ require'hop'.setup { keys = ',;abcdefgimnorstuvwxz' }
 map('n', '<leader>f', '<cmd>lua require("hop").hint_char1()<CR>')
 map('n', '<leader>w', '<cmd>lua require("hop").hint_words()<CR>')
 -- Indent Blankline
-g.indentLine_char = '│'
-g.indent_blankline_show_first_indent_level = true
+require'indent_blankline'.setup {
+	char='│',
+	buftype_exclude = { 'terminal', },
+	filetype_exclude = { 'man', 'help', 'tutor' },
+	show_first_indent_level = true,
+}
 
 ---- LSP Plugins ----
 -- VIM_USE_LSP needs to have a value, not just existing.
