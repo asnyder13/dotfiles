@@ -73,7 +73,7 @@ opt.autoindent = true
 opt.showmatch = true
 opt.visualbell = true
 opt.showmode = true
-opt.wildmode = { 'full' }
+opt.wildmode = { 'list:longest' }
 opt.scrolloff = 0
 opt.wildignore:append { '*/node_modules/*', '*/.git/*', '*/tmp/*', '*.swp' }
 opt.splitright = true
@@ -152,7 +152,7 @@ require'hardline'.setup({
 	theme = 'default'
 })
 -- Telescope
-require'telescope'.setup{ defaults = { file_ignore_patterns = {'node_modules'} } }
+require'telescope'.setup{ defaults = { file_ignore_patterns = { 'node_modules', '.git', } } }
 map('', '<C-p>', '<cmd>lua require("telescope.builtin").find_files({ hidden = false })<cr>')
 map('', '<C-M-p>', '<cmd>lua require("telescope.builtin").find_files({ hidden = true })<cr>')
 map('', '<M-p>', '<cmd>lua require("telescope.builtin").file_browser()<cr>')

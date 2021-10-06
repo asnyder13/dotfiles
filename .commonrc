@@ -2,7 +2,9 @@
 
 set -o vi
 export EDITOR=vim
+export VISUAL=$EDITOR
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+export LESS='--quit-if-one-screen -R'
 
 # Hide npm nags
 export OPEN_SOURCE_CONTRIBUTOR=true
@@ -32,3 +34,15 @@ if [[ -d $HOME/.rvm/bin ]]; then
 		source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 	fi
 fi
+
+# Colorized man pages https://boredzo.org/blog/archives/2016-08-15/colorized-man-pages-understood-and-customized
+man() {
+	env \
+	LESS_TERMCAP_md=$(printf "\e[1;36m") \
+	LESS_TERMCAP_me=$(printf "\e[0m") \
+	LESS_TERMCAP_se=$(printf "\e[0m") \
+	LESS_TERMCAP_so=$(printf "\e[1;40;92m") \
+	LESS_TERMCAP_ue=$(printf "\e[0m") \
+	LESS_TERMCAP_us=$(printf "\e[1;32m") \
+		man "$@"
+}

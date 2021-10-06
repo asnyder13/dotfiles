@@ -11,6 +11,7 @@ local opt = vim.opt
 require'nvim-treesitter.configs'.setup {
 	ensure_installed = {
 		'bash',
+		'c_sharp',
 		'css',
 		'html',
 		'javascript',

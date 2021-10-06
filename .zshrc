@@ -116,15 +116,38 @@ KEYTIMEOUT=15
 
 # Change cursor shape for different vi modes.
 function zle-keymap-select {
-	if [[ ${KEYMAP} == vicmd ]]; then
-		_cursor_block
-	elif [[ ${KEYMAP} == main ]] ||
-				[[ ${KEYMAP} == viins ]] ||
-				[[ ${KEYMAP} = '' ]] ; then
-		_cursor_line
-	fi
+	case ${KEYMAP} in
+		vicmd)
+			_cursor_block
+			;;
+		main | viins | '')
+			_cursor_line
+			;;
+	esac
 }
 zle -N zle-keymap-select
+
+# Allow editing commands in vim
+autoload -U edit-command-line
+zle -N edit-command-line
+# Emacs style
+bindkey '^xe' edit-command-line
+bindkey '^x^e' edit-command-line
+# Vi style:
+bindkey -M vicmd v edit-command-line
+
+# https://sheerun.net/2014/03/21/how-to-boost-your-vim-productivity/
+fancy-ctrl-z () {
+	if [[ $#BUFFER -eq 0 ]]; then
+		BUFFER="fg"
+		zle accept-line
+	else
+		zle push-input
+		# zle clear-screen
+	fi
+}
+zle -N fancy-ctrl-z
+bindkey '^Z' fancy-ctrl-z
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
