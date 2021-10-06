@@ -17,7 +17,6 @@ paq 'tpope/vim-commentary'
 paq 'justinmk/vim-dirvish'
 paq 'airblade/vim-gitgutter'
 paq 'tpope/vim-fugitive'
-paq 'sheerun/vim-polyglot'
 paq 'vim-scripts/ReplaceWithRegister'
 paq 'ngmy/vim-rubocop'
 paq 'vim-ruby/vim-ruby'
@@ -115,6 +114,11 @@ map('n', 'gbn', ':bn<CR>', { noremap = true })
 map('n', 'gbN', ':bN<CR>', { noremap = true })
 map('n', 'gbd', ':bd<CR>', { noremap = true })
 map('n', '<BS>', '<C-^>')
+
+cmd([[
+	nnoremap <expr> j v:count ? (v:count > 5 ? "m'" . v:count : '') . 'j' : 'gj'
+	nnoremap <expr> k v:count ? (v:count > 5 ? "m'" . v:count : '') . 'k' : 'gk'
+]])
 
 ---- Plugin Settings ----
 -- Vim plugins

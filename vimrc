@@ -14,6 +14,8 @@ set visualbell
 set showmode
 set wildmode=list:longest,longest:full
 set scrolloff=0
+set splitbelow
+set splitright
 
 set confirm
 set nobackup
@@ -22,7 +24,7 @@ set hidden
 set history=1000
 set termguicolors
 
-autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+autocmd FileType * setlocal formatoptions-=c,r,o
 
 " https://github.com/jeffkreeftmeijer/vim-numbertoggle
 augroup NumberToggle

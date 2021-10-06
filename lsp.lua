@@ -113,8 +113,9 @@ end
 -- Other LSP configs
 -- Sorbet (ruby)
 if fn.executable('srb') then
-	local target_path = Util.create_expand_path('~/.cache/sorbet')
-	lspconfig.sorbet.setup{ cmd = { 'srb', 'tc', '--lsp', target_path} }
+	-- local target_path = Util.create_expand_path('~/.cache/sorbet')
+	-- lspconfig.sorbet.setup{ cmd = { 'srb', 'tc', '--lsp', target_path} }
+	lspconfig.sorbet.setup{ cmd = { 'srb', 'tc', '--lsp', } }
 end
 
 -- compe
