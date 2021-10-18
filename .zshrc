@@ -75,6 +75,7 @@ plugins=(
 	extract
 	git
 	npm
+	rvm
 	safe-paste
 	sudo
 	vi-mode
