@@ -68,7 +68,7 @@ alias gbl='git blame -cw'
 alias gcp='git cherry-pick'
 
 # Random functions
-function mkdircd () {
+function mkcd () {
 	mkdir "$1"
 	cd "$1" || return 1
 	return 0

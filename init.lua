@@ -60,16 +60,19 @@ cmd([[
 ]])
 
 -- General
-cmd 'au TextYankPost * silent! lua vim.highlight.on_yank { timeout=350 }'
+cmd'au TextYankPost * silent! lua vim.highlight.on_yank { timeout=350 }'
 -- Don't auto-comment on a new line
 opt.formatoptions:remove { 'c', 'r', 'o' }
 opt.clipboard = 'unnamed'
 opt.number = true
 opt.cursorline = true
+
 local indent_size = 2
 opt.tabstop = indent_size
 opt.shiftwidth = indent_size
 opt.expandtab = false
+cmd'au FileType cs setlocal shiftwidth=4 softtabstop=4 expandtab'
+
 opt.autoindent = true
 opt.showmatch = true
 opt.visualbell = true
@@ -170,6 +173,7 @@ require'indent_blankline'.setup {
 	filetype_exclude = { 'man', 'help', 'tutor' },
 	show_first_indent_level = true,
 }
+map('n', '<leader>i', '<cmd>IndentBlanklineToggle<CR>')
 
 ---- LSP Plugins ----
 -- VIM_USE_LSP needs to have a value, not just existing.

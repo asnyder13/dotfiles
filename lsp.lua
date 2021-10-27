@@ -57,6 +57,8 @@ local on_attach = function(_, bufnr)
 	buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
 	buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
 	buf_set_keymap('n', '<leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+	buf_set_keymap('n', '==', [[command! Format  execute 'lua vim.lsp.buf.formatting()']], opts)
+	buf_set_keymap('n', '<C-]>', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
 
 	cmd([[command! Format  execute 'lua vim.lsp.buf.formatting()']])
 end
