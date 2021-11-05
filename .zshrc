@@ -80,6 +80,8 @@ plugins=(
 	sudo
 	vi-mode
 	zbell
+	# git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+	zsh-syntax-highlighting
 )
 zbell_ignore=(
 	$EDITOR
@@ -91,6 +93,7 @@ zbell_ignore=(
 	editrcs
 	tmux
 	irb
+	fg
 )
 
 if [[ -e $ZSH/oh-my-zsh.sh ]]; then
