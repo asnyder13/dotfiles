@@ -11,6 +11,9 @@ cmd 'packadd paq-nvim'
 local paq = require'paq-nvim'.paq
 paq { 'savq/paq-nvim', opt=true }
 
+-- Colorscheme
+paq 'crusoexia/vim-monokai'
+
 -- Regular vim
 paq 'ntpeters/vim-better-whitespace'
 paq 'tpope/vim-commentary'
@@ -19,21 +22,21 @@ paq 'airblade/vim-gitgutter'
 paq 'tpope/vim-fugitive'
 paq 'vim-scripts/ReplaceWithRegister'
 paq 'ngmy/vim-rubocop'
-paq 'AndrewRadev/splitjoin.vim'
 paq 'vim-ruby/vim-ruby'
-paq 'justinmk/vim-sneak'
 paq 'kshenoy/vim-signature'
+paq 'tpope/vim-sleuth'
+paq 'justinmk/vim-sneak'
+paq 'AndrewRadev/splitjoin.vim'
 paq 'tpope/vim-surround'
-paq 'crusoexia/vim-monokai'
 
 -- Neovim specific
 paq 'norcalli/nvim-colorizer.lua'
 paq 'ojroques/nvim-hardline'
 paq 'phaazon/hop.nvim'
+paq 'lukas-reineke/indent-blankline.nvim'
 paq 'nvim-lua/plenary.nvim'
 paq 'nvim-lua/popup.nvim'
 paq 'nvim-telescope/telescope.nvim'
-paq 'lukas-reineke/indent-blankline.nvim'
 
 if vim.env.VIM_USE_LSP then
 	paq { 'nvim-treesitter/nvim-treesitter', run=':TSUpdate' }
@@ -118,10 +121,10 @@ map('n', 'gbn', ':bn<CR>', { noremap = true })
 map('n', 'gbN', ':bN<CR>', { noremap = true })
 map('n', 'gbd', ':bd<CR>', { noremap = true })
 map('n', '<BS>', '<C-^>')
-
 cmd([[
 	nnoremap <expr> j v:count ? (v:count > 5 ? "m'" . v:count : '') . 'j' : 'gj'
 	nnoremap <expr> k v:count ? (v:count > 5 ? "m'" . v:count : '') . 'k' : 'gk'
+	command TrimLineEnds %s/\v\s+$//
 ]])
 
 ---- Plugin Settings ----
@@ -173,7 +176,7 @@ require'indent_blankline'.setup {
 	filetype_exclude = { 'man', 'help', 'tutor' },
 	show_first_indent_level = true,
 }
-map('n', '<leader>i', '<cmd>IndentBlanklineToggle<CR>')
+map('n', '<leader>i', '<cmd>IndentBlanklineToggle<CR><cmd>set number!<CR>')
 
 ---- LSP Plugins ----
 -- VIM_USE_LSP needs to have a value, not just existing.
