@@ -41,7 +41,7 @@ paq 'nvim-telescope/telescope.nvim'
 if vim.env.VIM_USE_LSP then
 	paq { 'nvim-treesitter/nvim-treesitter', run=':TSUpdate' }
 	paq 'neovim/nvim-lspconfig'
-	paq 'kabouzeid/nvim-lspinstall'
+	paq 'williamboman/nvim-lsp-installer'
 	paq 'hrsh7th/nvim-compe'
 end
 ---- General Settings ----

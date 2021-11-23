@@ -30,10 +30,9 @@ require'nvim-treesitter.configs'.setup {
 
 ---- Language Servers
 
--- lspinstall/lspconfig
+-- lsp_installer/lspconfig
 
-local lspconfig  = require 'lspconfig'
-local lspinstall = require 'lspinstall'
+local lsp_installer = require 'nvim-lsp-installer'
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
@@ -86,40 +85,19 @@ local custom_settings = {
 	}
 }
 
--- Install missing servers
-local function setup_servers()
-	lspinstall.setup()
+-- Setup installed servers.
+lsp_installer.on_server_ready(function(server)
+	local opts = { on_attach = on_attach }
 
-	-- Setup installed servers.
-	local servers = lspinstall.installed_servers()
-	for _, server in pairs(servers) do
-		if custom_settings[server] ~= nil then
-			lspconfig[server].setup{
-				settings = custom_settings[server],
-				on_attach = on_attach,
-			}
-		else
-			lspconfig[server].setup{
-				on_attach = on_attach,
-			}
-		end
+	if server.name == 'sumneko_lua' then
+		opts.settings = custom_settings.lua
+	elseif server.name == 'sorbet' then
+		local target_path = Util.create_expand_path('~/.cache/sorbet')
+		opts.cmd = { 'srb', 'tc', '--lsp', target_path }
 	end
-end
 
-setup_servers()
--- Automatically reload after `:LspInstall <server>` so we don't have to restart neovim
-lspinstall.post_install_hook = function ()
-	setup_servers() -- reload installed servers
-	cmd('bufdo e') -- this triggers the FileType autocmd that starts the server
-end
-
--- Other LSP configs
--- Sorbet (ruby)
-if fn.executable('srb') then
-	local target_path = Util.create_expand_path('~/.cache/sorbet')
-	lspconfig.sorbet.setup{ cmd = { 'srb', 'tc', '--lsp', target_path} }
-	-- lspconfig.sorbet.setup{ cmd = { 'srb', 'tc', '--lsp', } }
-end
+	server:setup(opts)
+end)
 
 -- compe
 opt.completeopt = { 'menuone', 'noselect' }
