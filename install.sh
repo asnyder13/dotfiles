@@ -56,6 +56,9 @@ elif command -v vim >/dev/null 2>&1; then
 	# Vim theme
 	if command -v wget >/dev/null 2>&1;   then fetcher='wget -O'
 	elif command -v curl >/dev/null 2>&1; then fetcher='curl -o'
+	else
+		echo 'wget nor curl are installed!'
+		exit 1
 	fi
 
 	mkdir -p ~/.vim/colors
@@ -132,7 +135,24 @@ fi
 if command -v zsh >/dev/null 2>&1; then
 	echo 'zsh is installed'
 
-	if [[ ! -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting ]]; then
+	if command -v wget >/dev/null 2>&1;   then fetcher='wget -O-'
+	elif command -v curl >/dev/null 2>&1; then fetcher='curl -fsSL'
+	else
+		echo 'wget nor curl are installed!'
+		exit 1
+	fi
+
+	### oh-my-zsh
+	if [[ ! -f "~/.oh-my-zsh" ]]; then
+		omz_get="$fetcher https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh"
+		export CHSH=yes
+		export RUNZSH=no
+		export KEEP_ZSHRC=yes
+		sh -c "$($omz_get)"
+	fi
+
+	### Extra plugins
+	if [[ ! -d "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting" ]]; then
 		echo 'Fetching zsh-syntax-highlighting'
 		git clone \
 			https://github.com/zsh-users/zsh-syntax-highlighting.git \
