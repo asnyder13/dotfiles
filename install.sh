@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-# Dotfiles
+################
+### Dotfiles ###
+################
 scriptpath="$( cd "$(dirname "$0")" >/dev/null 2>&1 || exit 1 ; pwd -P )"
 source "$scriptpath/.DOTFILES"
 
@@ -32,6 +34,9 @@ for ((i = 0; i < ${#DOTFILES[@]}; i++)); do
 	link_dotfile ${DOTFILES[i]} ${DOTFILE_LINKS[i]}
 done
 
+####################
+### n/vim setup. ###
+####################
 if command -v nvim >/dev/null 2>&1; then
 	echo 'Found neovim.'
 	if ! command -v git >/dev/null 2>&1; then
@@ -119,4 +124,22 @@ elif command -v vim >/dev/null 2>&1; then
 	install_plugins "$vim_config" "${plugins[@]}"
 else
 	echo "Didn't find either neovim nor vim."
+fi
+
+#####################
+### zsh specifics ###
+#####################
+if command -v zsh >/dev/null 2>&1; then
+	echo 'zsh is installed'
+
+	if [[ ! -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting ]]; then
+		echo 'Fetching zsh-syntax-highlighting'
+		git clone \
+			https://github.com/zsh-users/zsh-syntax-highlighting.git \
+			${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+	else
+		echo 'zsh-syntax-highlighting already present'
+	fi
+else
+	echo 'zsh not installed'
 fi
