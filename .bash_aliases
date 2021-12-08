@@ -69,9 +69,12 @@ alias gcp='git cherry-pick'
 
 # Random functions
 function mkcd () {
-	mkdir "$1"
+	mkdir -p "$1"
 	cd "$1" || return 1
 	return 0
+}
+function cdmk () {
+	mkcd "$1"
 }
 
 function vimhelp () {

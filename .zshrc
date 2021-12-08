@@ -94,6 +94,8 @@ zbell_ignore=(
 	tmux
 	irb
 	fg
+	nload
+	htop
 )
 
 if [[ -e $ZSH/oh-my-zsh.sh ]]; then
