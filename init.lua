@@ -60,6 +60,17 @@ cmd([[
 		autocmd OptionSet                                 * if !&nu                 | set nornu | endif
 		autocmd OptionSet                                 * if &nu                  | set rnu   | endif
 	augroup END
+
+	" https://stackoverflow.com/questions/63906439/how-to-disable-line-numbers-in-neovim-terminal
+	augroup neovim_terminal
+		autocmd!
+		" Enter Terminal-mode (insert) automatically
+		autocmd TermOpen * startinsert
+		" Disables number lines on terminal buffers
+		autocmd TermOpen * :set nonumber norelativenumber
+		" allows you to use Ctrl-c on terminal window
+		autocmd TermOpen * nnoremap <buffer> <C-c> i<C-c>
+	augroup END
 ]])
 
 -- General
