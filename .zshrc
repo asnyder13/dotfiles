@@ -160,6 +160,8 @@ fancy-ctrl-z () {
 zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
 
+bindkey '^Xa' _expand_alias
+
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 

@@ -184,7 +184,7 @@ map('n', '<leader>w', '<cmd>lua require("hop").hint_words()<CR>')
 require'indent_blankline'.setup {
 	char='│',
 	buftype_exclude = { 'terminal', },
-	filetype_exclude = { 'man', 'help', 'tutor' },
+	filetype_exclude = { 'man', 'help', 'tutor', 'gitcommit' },
 	show_first_indent_level = true,
 }
 map('n', '<leader>i', '<cmd>IndentBlanklineToggle<CR><cmd>set number!<CR>')
