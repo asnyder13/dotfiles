@@ -8,7 +8,7 @@ local api = vim.api
 local opt = vim.opt
 
 cmd 'packadd paq-nvim'
-local paq = require'paq-nvim'.paq
+local paq = require'paq'.paq
 paq { 'savq/paq-nvim', opt=true }
 
 -- Colorscheme
