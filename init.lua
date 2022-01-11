@@ -71,6 +71,12 @@ cmd([[
 		" allows you to use Ctrl-c on terminal window
 		autocmd TermOpen * nnoremap <buffer> <C-c> i<C-c>
 	augroup END
+
+	augroup ASCEND
+		autocmd!
+		au BufRead,BufNewFile *.a4c set syntax=ascend
+		au BufRead,BufNewFile *.a4l set syntax=ascend
+	augroup END
 ]])
 
 -- General
