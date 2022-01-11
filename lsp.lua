@@ -83,6 +83,7 @@ local custom_settings = {
 					[fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
 				},
 			},
+			telemetry = { enable = false },
 		}
 	}
 }

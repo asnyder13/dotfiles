@@ -64,7 +64,7 @@ alias gmff='git merge --ff-only'
 alias gf='git fetch -v'
 alias gt='git tag'
 alias gwt='git worktree'
-alias gbl='git blame -cw'
+alias gbl='git blame -w'
 alias gcp='git cherry-pick'
 
 # Random functions
