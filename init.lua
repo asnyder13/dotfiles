@@ -39,12 +39,16 @@ paq 'nvim-lua/popup.nvim'
 paq 'nvim-telescope/telescope.nvim'
 
 if vim.env.VIM_USE_LSP then
-	paq { 'nvim-treesitter/nvim-treesitter', run=':TSUpdate' }
+	-- paq { 'nvim-treesitter/nvim-treesitter', run=function() cmd':TSUpdate' end }
+	paq 'nvim-treesitter/nvim-treesitter'
 	paq 'neovim/nvim-lspconfig'
 	paq 'williamboman/nvim-lsp-installer'
 	paq 'hrsh7th/nvim-compe'
 end
 ---- General Settings ----
+
+g.do_filetype_lua = 1
+g.did_load_filetypes = 0
 
 -- Auto commands
 cmd([[

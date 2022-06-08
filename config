@@ -21,4 +21,6 @@
 	postBuffer = 524288000
 [ssh]
 	postBuffer = 524288000
+[merge]
+	conflictstyle = zdiff3
 

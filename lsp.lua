@@ -23,6 +23,7 @@ require'nvim-treesitter.configs'.setup {
 		'typescript',
 		'yaml',
 	}, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+	-- If TS highlights are not enabled at all, or disabled via `disable` prop, highlighting will fallback to default Vim syntax highlighting
 	highlight = { enable = true },
 	incremental_selection = { enable = true },
 	textobjects = { enable = true },
@@ -47,6 +48,7 @@ local on_attach = function(_, bufnr)
 	buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
 	buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
 	buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+	buf_set_keymap('n', 'gh', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
 	buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
 	buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
 	buf_set_keymap('n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
@@ -59,7 +61,7 @@ local on_attach = function(_, bufnr)
 	buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
 	buf_set_keymap('n', '<leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
 	buf_set_keymap('n', '==', [[command! Format  execute 'lua vim.lsp.buf.formatting()']], opts)
-	buf_set_keymap('n', '<C-]>', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+	buf_set_keymap('n', '<C-]>', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
 
 	cmd([[command! Format  execute 'lua vim.lsp.buf.formatting()']])
 end

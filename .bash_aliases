@@ -41,7 +41,7 @@ alias lssz='du -sh *' ;
 alias tmat='tmux attach' ;
 alias df='df -h' ;
 alias wttr='curl --compressed "wttr.in/Charlotte?F&q"' ;
-alias rsync='rsync --archive --progress --human-readable --stats' ;
+alias rsync='rsync --archive --progress --human-readable --stats --partial' ;
 alias ..='cd ..'
 alias ...='cd ...'
 alias ....='cd ....'
@@ -66,6 +66,7 @@ alias gt='git tag'
 alias gwt='git worktree'
 alias gbl='git blame -w'
 alias gcp='git cherry-pick'
+alias glastmerge='git log --merges -n1 --format=%h'
 
 # Random functions
 function mkcd () {

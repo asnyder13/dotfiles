@@ -74,6 +74,7 @@ plugins=(
 	dotnet
 	extract
 	git
+	ng
 	npm
 	rvm
 	safe-paste

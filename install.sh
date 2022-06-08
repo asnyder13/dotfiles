@@ -31,7 +31,7 @@ if [[ ${#DOTFILES[@]} -ne ${#DOTFILE_LINKS[@]} ]]; then
 	exit 1
 fi
 for ((i = 0; i < ${#DOTFILES[@]}; i++)); do
-	link_dotfile ${DOTFILES[i]} ${DOTFILE_LINKS[i]}
+	link_dotfile "${DOTFILES[i]}" "${DOTFILE_LINKS[i]}"
 done
 
 ####################
@@ -146,7 +146,7 @@ if command -v zsh >/dev/null 2>&1; then
 	fi
 
 	### oh-my-zsh
-	if [[ ! -f "~/.oh-my-zsh" ]]; then
+	if [[ ! -f "$HOME/.oh-my-zsh" ]]; then
 		omz_get="$fetcher https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh"
 		export CHSH=yes
 		export RUNZSH=no
@@ -159,7 +159,7 @@ if command -v zsh >/dev/null 2>&1; then
 		echo 'Fetching zsh-syntax-highlighting'
 		git clone \
 			https://github.com/zsh-users/zsh-syntax-highlighting.git \
-			${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+			"${ZSH_CUSTOM:-~/.oh-my-zsh/custom}"/plugins/zsh-syntax-highlighting
 	else
 		echo 'zsh-syntax-highlighting already present'
 	fi
