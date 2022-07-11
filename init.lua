@@ -37,13 +37,18 @@ paq 'lukas-reineke/indent-blankline.nvim'
 paq 'nvim-lua/plenary.nvim'
 paq 'nvim-lua/popup.nvim'
 paq 'nvim-telescope/telescope.nvim'
+paq 'romgrk/barbar.nvim'
+paq 'RRethy/nvim-align'
 
 if vim.env.VIM_USE_LSP then
 	-- paq { 'nvim-treesitter/nvim-treesitter', run=function() cmd':TSUpdate' end }
 	paq 'nvim-treesitter/nvim-treesitter'
 	paq 'neovim/nvim-lspconfig'
 	paq 'williamboman/nvim-lsp-installer'
-	paq 'hrsh7th/nvim-compe'
+	paq 'hrsh7th/nvim-cmp'
+	paq 'hrsh7th/cmp-nvim-lsp'
+	paq 'hrsh7th/cmp-buffer'
+	paq 'hrsh7th/cmp-path'
 end
 ---- General Settings ----
 
@@ -175,10 +180,16 @@ g.loaded_netrwPlugin = 1
 -- Neovim plugins
 require'colorizer'.setup()
 require'hardline'.setup({
-	bufferline = true,
-	bufferline_settings = { show_index = true },
+	bufferline = false,
+	-- bufferline_settings = { show_index = true },
 	theme = 'default'
 })
+require'bufferline'.setup {
+	clickable = false,
+	icons = 'numbers',
+	icon_close_tab = '',
+}
+
 -- Telescope
 require'telescope'.setup{ defaults = { file_ignore_patterns = { 'node_modules', '.git', } } }
 map('', '<C-p>', '<cmd>lua require("telescope.builtin").find_files({ hidden = false })<cr>')

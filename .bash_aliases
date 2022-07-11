@@ -117,3 +117,8 @@ function tojson () {
 		ruby -ryaml -rjson -e 'puts JSON.pretty_generate(YAML.safe_load($<.read))'
 	fi
 }
+
+function timer () {
+	sleep "$1"
+	print -n '\a'
+}

@@ -14,12 +14,12 @@ require'nvim-treesitter.configs'.setup {
 		'c_sharp',
 		'css',
 		'html',
-		'java',
 		'javascript',
 		'json',
 		'lua',
 		'python',
 		'ruby',
+		'scss',
 		'typescript',
 		'yaml',
 	}, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
@@ -61,7 +61,7 @@ local on_attach = function(_, bufnr)
 	buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
 	buf_set_keymap('n', '<leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
 	buf_set_keymap('n', '==', [[command! Format  execute 'lua vim.lsp.buf.formatting()']], opts)
-	buf_set_keymap('n', '<C-]>', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+	-- buf_set_keymap('n', '<C-]>', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
 
 	cmd([[command! Format  execute 'lua vim.lsp.buf.formatting()']])
 end
@@ -104,59 +104,29 @@ lsp_installer.on_server_ready(function(server)
 	server:setup(opts)
 end)
 
--- compe
+-- cmpe
 opt.completeopt = { 'menuone', 'noselect' }
-require'compe'.setup {
-	source = {
-		path = true,
-		nvim_lsp = true,
-		treesitter = true,
-	};
-}
+local cmp = require'cmp'
+cmp.setup({
+	mapping = {
+		["<S-Tab>"] = cmp.mapping.select_prev_item(),
+		["<Tab>"] = cmp.mapping.select_next_item(),
+		["<C-p>"] = cmp.mapping.select_prev_item(),
+		["<C-n>"] = cmp.mapping.select_next_item(),
+		["<C-Space>"] = cmp.mapping.complete(),
+		["<C-e>"] = cmp.mapping.close(),
+		["<CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace }),
+	},
+	sources = cmp.config.sources({
+		{ name = 'path' },
+		{ name = 'nvim_lsp' },
+		{ name = 'treesitter' },
+		{ name = 'buffer' },
+	})
+})
 
-local t = function(str)
-	return api.nvim_replace_termcodes(str, true, true, true)
-end
-
-local check_back_space = function()
-	local col = fn.col('.') - 1
-	if col == 0 or fn.getline('.'):sub(col, col):match('%s') then
-		return true
-	else
-		return false
-	end
-end
-
--- Use (s-)tab to:
---- move to prev/next item in completion menuone
---- jump to prev/next snippet's placeholder
-_G.tab_complete = function()
-	if fn.pumvisible() == 1 then
-		return t '<C-n>'
-	elseif check_back_space() then
-		return t '<Tab>'
-	else
-		return fn['compe#complete']()
-	end
-end
-_G.s_tab_complete = function()
-	if fn.pumvisible() == 1 then
-		return t '<C-p>'
-	else
-		return t '<S-Tab>'
-	end
-end
-
-map('i', '<Tab>', 'v:lua.tab_complete()', {expr = true})
-map('s', '<Tab>', 'v:lua.tab_complete()', {expr = true})
-map('i', '<S-Tab>', 'v:lua.s_tab_complete()', {expr = true})
-map('s', '<S-Tab>', 'v:lua.s_tab_complete()', {expr = true})
-
-cmd([[
-	inoremap <silent><expr> <C-Space> compe#complete()
-	inoremap <silent><expr> <CR>      compe#confirm('<CR>')
-	inoremap <silent><expr> <C-e>     compe#close('<C-e>')
-	inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
-	inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
-]])
+-- map('i', '<Tab>', 'v:lua.tab_complete()', {expr = true})
+-- map('s', '<Tab>', 'v:lua.tab_complete()', {expr = true})
+-- map('i', '<S-Tab>', 'v:lua.s_tab_complete()', {expr = true})
+-- map('s', '<S-Tab>', 'v:lua.s_tab_complete()', {expr = true})
 
