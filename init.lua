@@ -21,13 +21,13 @@ paq 'justinmk/vim-dirvish'
 paq 'airblade/vim-gitgutter'
 paq 'tpope/vim-fugitive'
 paq 'vim-scripts/ReplaceWithRegister'
-paq 'ngmy/vim-rubocop'
 paq 'vim-ruby/vim-ruby'
 paq 'kshenoy/vim-signature'
 paq 'tpope/vim-sleuth'
 paq 'justinmk/vim-sneak'
 paq 'AndrewRadev/splitjoin.vim'
 paq 'tpope/vim-surround'
+paq 'danchoi/ri.vim'
 
 -- Neovim specific
 paq 'norcalli/nvim-colorizer.lua'
@@ -39,10 +39,10 @@ paq 'nvim-lua/popup.nvim'
 paq 'nvim-telescope/telescope.nvim'
 paq 'romgrk/barbar.nvim'
 paq 'RRethy/nvim-align'
+paq 'Everduin94/nvim-quick-switcher'
 
 if vim.env.VIM_USE_LSP then
-	-- paq { 'nvim-treesitter/nvim-treesitter', run=function() cmd':TSUpdate' end }
-	paq 'nvim-treesitter/nvim-treesitter'
+	paq { 'nvim-treesitter/nvim-treesitter', run=function() cmd':TSUpdate' end }
 	paq 'neovim/nvim-lspconfig'
 	paq 'williamboman/nvim-lsp-installer'
 	paq 'hrsh7th/nvim-cmp'
@@ -103,11 +103,11 @@ opt.expandtab = false
 cmd'au FileType cs setlocal shiftwidth=4 softtabstop=4 expandtab'
 
 opt.autoindent = true
-opt.showmatch = true
+opt.showmatch  = true
 opt.visualbell = true
-opt.showmode = true
-opt.wildmode = { 'list:longest' }
-opt.scrolloff = 0
+opt.showmode   = true
+opt.wildmode   = { 'list:longest' }
+opt.scrolloff  = 0
 opt.wildignore:append { '*/node_modules/*', '*/.git/*', '*/tmp/*', '*.swp' }
 opt.splitright = true
 opt.splitbelow = true
@@ -172,8 +172,6 @@ g.highlightedyank_highlight_duration = 500
 g.ruby_recommended_style = 0
 -- Signature
 g.SignatureMarkTextHLDynamic = 1
--- Rubocop
-map('n', '<LEADER>r', ':RuboCop <CR>')
 -- Dirvish
 g.loaded_netrwPlugin = 1
 
@@ -209,6 +207,17 @@ require'indent_blankline'.setup {
 	show_first_indent_level = true,
 }
 map('n', '<leader>i', '<cmd>IndentBlanklineToggle<CR><cmd>set number!<CR>')
+
+-- ng quick switcher
+local qs_opts = { noremap = true, silent = true }
+map("n", "<leader>u", "<cmd>:lua require('nvim-quick-switcher').switch('component.ts')<CR>", qs_opts)
+map("n", "<leader>o", "<cmd>:lua require('nvim-quick-switcher').switch('component.html')<CR>", qs_opts)
+map("n", "<leader>i", "<cmd>:lua require('nvim-quick-switcher').switch('component.scss')<CR>", qs_opts)
+map("n", "<leader>p", "<cmd>:lua require('nvim-quick-switcher').switch('module.ts')<CR>", qs_opts)
+map("n", "<leader>t", "<cmd>:lua require('nvim-quick-switcher').switch('component.spec.ts')<CR>", qs_opts)
+map("n", "<leader>xu", "<cmd>:lua require('nvim-quick-switcher').switch('component.ts', { split = 'horizontal' })<CR>", qs_opts)
+map("n", "<leader>xi", "<cmd>:lua require('nvim-quick-switcher').switch('component.scss', { split = 'horizontal' })<CR>", qs_opts)
+map("n", "<leader>xo", "<cmd>:lua require('nvim-quick-switcher').switch('component.html', { split = 'horizontal' })<CR>", qs_opts)
 
 ---- LSP Plugins ----
 -- VIM_USE_LSP needs to have a value, not just existing.

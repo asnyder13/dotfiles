@@ -67,6 +67,7 @@ alias gwt='git worktree'
 alias gbl='git blame -w'
 alias gcp='git cherry-pick'
 alias glastmerge='git log --merges -n1 --format=%h'
+alias vimg='vim -c ":G|only"'
 
 # Random functions
 function mkcd () {
