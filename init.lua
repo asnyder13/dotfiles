@@ -207,17 +207,26 @@ require'indent_blankline'.setup {
 	show_first_indent_level = true,
 }
 map('n', '<leader>i', '<cmd>IndentBlanklineToggle<CR><cmd>set number!<CR>')
+map('n', '<leader>I', '<cmd>IndentBlanklineToggle<CR><cmd>set number!<CR>')
 
 -- ng quick switcher
-local qs_opts = { noremap = true, silent = true }
-map("n", "<leader>u", "<cmd>:lua require('nvim-quick-switcher').switch('component.ts')<CR>", qs_opts)
-map("n", "<leader>o", "<cmd>:lua require('nvim-quick-switcher').switch('component.html')<CR>", qs_opts)
-map("n", "<leader>i", "<cmd>:lua require('nvim-quick-switcher').switch('component.scss')<CR>", qs_opts)
-map("n", "<leader>p", "<cmd>:lua require('nvim-quick-switcher').switch('module.ts')<CR>", qs_opts)
-map("n", "<leader>t", "<cmd>:lua require('nvim-quick-switcher').switch('component.spec.ts')<CR>", qs_opts)
-map("n", "<leader>xu", "<cmd>:lua require('nvim-quick-switcher').switch('component.ts', { split = 'horizontal' })<CR>", qs_opts)
-map("n", "<leader>xi", "<cmd>:lua require('nvim-quick-switcher').switch('component.scss', { split = 'horizontal' })<CR>", qs_opts)
-map("n", "<leader>xo", "<cmd>:lua require('nvim-quick-switcher').switch('component.html', { split = 'horizontal' })<CR>", qs_opts)
+local qs_opts = { noremap = true, silent = true, buffer = true }
+local function angularSwitcherMappings()
+	map("n", "<leader>u", "<cmd>:lua require('nvim-quick-switcher').switch('component.ts')<CR>", qs_opts)
+	map("n", "<leader>o", "<cmd>:lua require('nvim-quick-switcher').switch('component.html')<CR>", qs_opts)
+	map("n", "<leader>i", "<cmd>:lua require('nvim-quick-switcher').switch('component.scss')<CR>", qs_opts)
+	map("n", "<leader>p", "<cmd>:lua require('nvim-quick-switcher').switch('module.ts')<CR>", qs_opts)
+	map("n", "<leader>t", "<cmd>:lua require('nvim-quick-switcher').switch('component.spec.ts')<CR>", qs_opts)
+	map("n", "<leader>xu", "<cmd>:lua require('nvim-quick-switcher').switch('component.ts', { split = 'horizontal' })<CR>", qs_opts)
+	map("n", "<leader>xi", "<cmd>:lua require('nvim-quick-switcher').switch('component.scss', { split = 'horizontal' })<CR>", qs_opts)
+	map("n", "<leader>xo", "<cmd>:lua require('nvim-quick-switcher').switch('component.html', { split = 'horizontal' })<CR>", qs_opts)
+end
+local angularAuGroup = api.nvim_create_augroup('AngularQuickSwitcher', { clear = true } )
+api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter', }, {
+	group = angularAuGroup,
+	pattern = { '*.ts', '*.html', '*.scss', '*.sass', },
+	callback = angularSwitcherMappings,
+})
 
 ---- LSP Plugins ----
 -- VIM_USE_LSP needs to have a value, not just existing.
