@@ -52,14 +52,11 @@ if vim.env.VIM_USE_LSP then
 end
 ---- General Settings ----
 
-g.do_filetype_lua = 1
-g.did_load_filetypes = 0
-
 -- Auto commands
 cmd([[
 	" Sytaxes
-	autocmd BufNewFile,BufRead *.npmrc   set syntax=dosini
-	autocmd BufNewFile,BufRead *bash-fc* set syntax=sh
+	autocmd BufNewFile,BufRead *.npmrc   set ft=dosini
+	autocmd BufNewFile,BufRead *bash-fc* set ft=sh
 
 	" https://github.com/jeffkreeftmeijer/vim-numbertoggle
 	augroup NumberToggle
@@ -83,13 +80,15 @@ cmd([[
 
 	augroup ASCEND
 		autocmd!
-		au BufRead,BufNewFile *.a4c set syntax=ascend
-		au BufRead,BufNewFile *.a4l set syntax=ascend
+		au BufRead,BufNewFile *.a4c,*.a4l set syntax=ascend
 	augroup END
 ]])
 
 -- General
-cmd'au TextYankPost * silent! lua vim.highlight.on_yank { timeout=350 }'
+api.nvim_create_autocmd('TextYankPost', {
+	pattern = '*',
+	callback = function() vim.highlight.on_yank { timeout = 350 } end
+})
 -- Don't auto-comment on a new line
 opt.formatoptions:remove { 'c', 'r', 'o' }
 opt.clipboard = 'unnamed'
@@ -141,11 +140,11 @@ end
 
 ---- General Mappings ----
 -- Collapse all levels under current fold
-map('n', 'zs', 'zCzozo', { noremap = true })
+map('n', 'zs', 'zCzozo')
 -- Quick buffer switch (for tabline)
-map('n', 'gbn', ':bn<CR>', { noremap = true })
-map('n', 'gbN', ':bN<CR>', { noremap = true })
-map('n', 'gbd', ':bd<CR>', { noremap = true })
+map('n', 'gbn', ':bn<CR>')
+map('n', 'gbN', ':bN<CR>')
+map('n', 'gbd', ':bd<CR>')
 map('n', '<BS>', '<C-^>')
 cmd([[
 	nnoremap <expr> j v:count ? (v:count > 5 ? "m'" . v:count : '') . 'j' : 'gj'
@@ -177,11 +176,11 @@ g.loaded_netrwPlugin = 1
 
 -- Neovim plugins
 require'colorizer'.setup()
-require'hardline'.setup({
+require'hardline'.setup {
 	bufferline = false,
 	-- bufferline_settings = { show_index = true },
-	theme = 'default'
-})
+	theme = 'default',
+}
 require'bufferline'.setup {
 	clickable = false,
 	icons = 'numbers',
@@ -189,7 +188,7 @@ require'bufferline'.setup {
 }
 
 -- Telescope
-require'telescope'.setup{ defaults = { file_ignore_patterns = { 'node_modules', '.git', } } }
+require'telescope'.setup { defaults = { file_ignore_patterns = { 'node_modules', '.git', } } }
 map('', '<C-p>', '<cmd>lua require("telescope.builtin").find_files({ hidden = false })<cr>')
 map('', '<C-M-p>', '<cmd>lua require("telescope.builtin").find_files({ hidden = true })<cr>')
 map('', '<M-p>', '<cmd>lua require("telescope.builtin").file_browser()<cr>')
@@ -210,16 +209,22 @@ map('n', '<leader>i', '<cmd>IndentBlanklineToggle<CR><cmd>set number!<CR>')
 map('n', '<leader>I', '<cmd>IndentBlanklineToggle<CR><cmd>set number!<CR>')
 
 -- ng quick switcher
-local qs_opts = { noremap = true, silent = true, buffer = true }
+local qs_opts = {
+	silent = true,
+	buffer = true,
+}
+local function qs(file, opts)
+	return function() require('nvim-quick-switcher').switch(file, opts) end
+end
 local function angularSwitcherMappings()
-	map("n", "<leader>u", "<cmd>:lua require('nvim-quick-switcher').switch('component.ts')<CR>", qs_opts)
-	map("n", "<leader>o", "<cmd>:lua require('nvim-quick-switcher').switch('component.html')<CR>", qs_opts)
-	map("n", "<leader>i", "<cmd>:lua require('nvim-quick-switcher').switch('component.scss')<CR>", qs_opts)
-	map("n", "<leader>p", "<cmd>:lua require('nvim-quick-switcher').switch('module.ts')<CR>", qs_opts)
-	map("n", "<leader>t", "<cmd>:lua require('nvim-quick-switcher').switch('component.spec.ts')<CR>", qs_opts)
-	map("n", "<leader>xu", "<cmd>:lua require('nvim-quick-switcher').switch('component.ts', { split = 'horizontal' })<CR>", qs_opts)
-	map("n", "<leader>xi", "<cmd>:lua require('nvim-quick-switcher').switch('component.scss', { split = 'horizontal' })<CR>", qs_opts)
-	map("n", "<leader>xo", "<cmd>:lua require('nvim-quick-switcher').switch('component.html', { split = 'horizontal' })<CR>", qs_opts)
+	vim.keymap.set('n', '<leader>u', qs('component.ts', nil), qs_opts)
+	vim.keymap.set('n', '<leader>o', qs('component.html', nil), qs_opts)
+	vim.keymap.set('n', '<leader>i', qs('component.scss', nil), qs_opts)
+	vim.keymap.set('n', '<leader>p', qs('module.ts', nil), qs_opts)
+	vim.keymap.set('n', '<leader>t', qs('component.spec.ts', nil), qs_opts)
+	vim.keymap.set('n', '<leader>xu', qs('component.ts', { split = 'horizontal' }), qs_opts)
+	vim.keymap.set('n', '<leader>xi', qs('component.scss', { split = 'horizontal' }), qs_opts)
+	vim.keymap.set('n', '<leader>xo', qs('component.html', { split = 'horizontal' }), qs_opts)
 end
 local angularAuGroup = api.nvim_create_augroup('AngularQuickSwitcher', { clear = true } )
 api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter', }, {
