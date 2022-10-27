@@ -2,8 +2,8 @@ require 'util'
 local map = Util.map
 
 local cmd = vim.cmd
-local fn = vim.fn
-local g = vim.g
+local fn  = vim.fn
+local g   = vim.g
 local api = vim.api
 local opt = vim.opt
 
@@ -11,8 +11,8 @@ cmd 'packadd paq-nvim'
 local paq = require'paq'.paq
 paq { 'savq/paq-nvim', opt=true }
 
--- Colorscheme
-paq 'crusoexia/vim-monokai'
+-- Colorscheme, Neovim specific
+paq 'ofirgall/ofirkai.nvim'
 
 -- Regular vim
 paq 'ntpeters/vim-better-whitespace'
@@ -40,6 +40,7 @@ paq 'nvim-telescope/telescope.nvim'
 paq 'romgrk/barbar.nvim'
 paq 'RRethy/nvim-align'
 paq 'Everduin94/nvim-quick-switcher'
+paq 'nvim-treesitter/playground'
 
 if vim.env.VIM_USE_LSP then
 	paq { 'nvim-treesitter/nvim-treesitter', run=function() cmd':TSUpdate' end }
@@ -96,11 +97,12 @@ opt.number = true
 opt.cursorline = true
 
 local indent_size = 2
-opt.tabstop = indent_size
+opt.tabstop    = indent_size
 opt.shiftwidth = indent_size
 opt.expandtab = false
 cmd'au FileType cs setlocal shiftwidth=4 softtabstop=4 expandtab'
 
+opt.mouse = nil
 opt.autoindent = true
 opt.showmatch  = true
 opt.visualbell = true
@@ -127,9 +129,20 @@ opt.foldlevelstart = 99
 
 -- Syntax hl/colors
 opt.syntax = 'on'
-cmd 'colorscheme monokai'
-g.monokai_term_italic = true
-g.monokai_gui_italic = true
+-- cmd 'colorscheme monokai'
+require'ofirkai'.setup {
+	remove_italics = true,
+	custom_hlgroups = {
+		LineNr = {
+			fg =  '#8F908A',
+		},
+		['@function'] = {
+			fg = '#a6e22e',
+		}
+	}
+}
+-- g.monokai_term_italic = true
+-- g.monokai_gui_italic = true
 
 -- Persistent Undo/Redo
 if fn.has('persistent_undo') == 1 then
@@ -182,9 +195,14 @@ require'hardline'.setup {
 	theme = 'default',
 }
 require'bufferline'.setup {
+	highlights = require('ofirkai.tablines.bufferline').highlights,
 	clickable = false,
 	icons = 'numbers',
 	icon_close_tab = '',
+	options = {
+		themable = true,
+		numbers = 'ordinal',
+	}
 }
 
 -- Telescope
