@@ -45,7 +45,14 @@ paq 'nvim-treesitter/playground'
 if vim.env.VIM_USE_LSP then
 	paq { 'nvim-treesitter/nvim-treesitter', run=function() cmd':TSUpdate' end }
 	paq 'neovim/nvim-lspconfig'
-	paq 'williamboman/nvim-lsp-installer'
+	paq 'mfussenegger/nvim-dap'
+	paq 'williamboman/mason.nvim'
+	paq 'williamboman/mason-lspconfig.nvim'
+	paq 'jayp0521/mason-nvim-dap.nvim'
+	paq 'theHamsta/nvim-dap-virtual-text'
+
+	paq 'suketa/nvim-dap-ruby'
+
 	paq 'hrsh7th/nvim-cmp'
 	paq 'hrsh7th/cmp-nvim-lsp'
 	paq 'hrsh7th/cmp-buffer'
