@@ -95,10 +95,14 @@ cmd([[
 -- General
 api.nvim_create_autocmd('TextYankPost', {
 	pattern = '*',
-	callback = function() vim.highlight.on_yank { timeout = 350 } end
+	callback = function() vim.highlight.on_yank { timeout = 350 } end,
 })
 -- Don't auto-comment on a new line
-opt.formatoptions:remove { 'c', 'r', 'o' }
+api.nvim_create_autocmd('FileType', {
+	pattern = '*',
+	callback = function() opt.formatoptions:remove { 'r', 'o' } end,
+})
+
 opt.clipboard = 'unnamed'
 opt.number = true
 opt.cursorline = true

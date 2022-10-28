@@ -144,15 +144,17 @@ local dap_opts = {
 	silent = true,
 	buffer = true,
 }
-vim.keymap.set('n', '<F5>', function() return dap.continue() end, dap_opts)
-vim.keymap.set('n', '<F10>', function() return dap.step_over() end, dap_opts)
-vim.keymap.set('n', '<F11>', function() return dap.step_into() end, dap_opts)
-vim.keymap.set('n', '<F12>', function() return dap.step_out() end, dap_opts)
-vim.keymap.set('n', '<Leader>db', function() return dap.toggle_breakpoint() end, dap_opts)
-vim.keymap.set('n', '<Leader>dB', function() return dap.set_breakpoint(vim.fn.input('Breakpoint condition: ')) end, dap_opts)
-vim.keymap.set('n', '<Leader>lp', function() return dap.set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) end, dap_opts)
-vim.keymap.set('n', '<Leader>dr', function() return dap.repl.open() end, dap_opts)
-vim.keymap.set('n', '<Leader>dl', function() return dap.run_last() end, dap_opts)
+vim.keymap.set('n', '<F5>',         function() return dap.continue() end, dap_opts)
+vim.keymap.set('n', '<Leader><F5>', function() return dap.terminate() end, dap_opts)
+vim.keymap.set('n', '<F10>',        function() return dap.step_over() end, dap_opts)
+vim.keymap.set('n', '<F11>',        function() return dap.step_into() end, dap_opts)
+vim.keymap.set('n', '<F12>',        function() return dap.step_out() end, dap_opts)
+vim.keymap.set('n', '<Leader>db',   function() return dap.toggle_breakpoint() end, dap_opts)
+vim.keymap.set('n', '<F9>',         function() return dap.toggle_breakpoint() end, dap_opts)
+vim.keymap.set('n', '<Leader>dB',   function() return dap.set_breakpoint(vim.fn.input('Breakpoint condition: ')) end, dap_opts)
+vim.keymap.set('n', '<Leader>lp',   function() return dap.set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) end, dap_opts)
+vim.keymap.set('n', '<Leader>dr',   function() return dap.repl.open() end, dap_opts)
+vim.keymap.set('n', '<Leader>dl',   function() return dap.run_last() end, dap_opts)
 
 require'dap-ruby'.setup()
 -- re-set configs, only want one.
