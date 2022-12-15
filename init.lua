@@ -140,7 +140,6 @@ opt.foldlevelstart = 99
 
 -- Syntax hl/colors
 opt.syntax = 'on'
--- cmd 'colorscheme monokai'
 require'ofirkai'.setup {
 	remove_italics = true,
 	custom_hlgroups = {
@@ -152,8 +151,8 @@ require'ofirkai'.setup {
 		}
 	}
 }
--- g.monokai_term_italic = true
--- g.monokai_gui_italic = true
+
+Util.create_text_object('|')
 
 -- Persistent Undo/Redo
 if fn.has('persistent_undo') == 1 then

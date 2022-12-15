@@ -97,6 +97,7 @@ zbell_ignore=(
 	fg
 	nload
 	htop
+	timer
 )
 
 if [[ -e $ZSH/oh-my-zsh.sh ]]; then

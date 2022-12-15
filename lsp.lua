@@ -14,6 +14,7 @@ require'nvim-treesitter.configs'.setup {
 		'c_sharp',
 		'css',
 		'html',
+		'java',
 		'javascript',
 		'json',
 		'lua',
