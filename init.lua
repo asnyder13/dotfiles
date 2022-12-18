@@ -40,7 +40,6 @@ paq 'nvim-telescope/telescope.nvim'
 paq 'romgrk/barbar.nvim'
 paq 'RRethy/nvim-align'
 paq 'Everduin94/nvim-quick-switcher'
-paq 'nvim-treesitter/playground'
 
 if vim.env.VIM_USE_LSP then
 	paq { 'nvim-treesitter/nvim-treesitter', run=function() cmd':TSUpdate' end }
@@ -50,6 +49,7 @@ if vim.env.VIM_USE_LSP then
 	paq 'williamboman/mason-lspconfig.nvim'
 	paq 'jayp0521/mason-nvim-dap.nvim'
 	paq 'theHamsta/nvim-dap-virtual-text'
+	paq 'nvim-treesitter/playground'
 
 	paq 'suketa/nvim-dap-ruby'
 
