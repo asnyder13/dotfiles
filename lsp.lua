@@ -1,4 +1,4 @@
-require('util')
+require 'util'
 local map = Util.map
 
 local cmd = vim.cmd
@@ -44,7 +44,7 @@ local on_attach = function(_, bufnr)
 	local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
 
 	-- Mappings.
-	local opts = { noremap=true, silent=true }
+	local opts = { noremap = true, silent = true }
 
 	-- See `:help vim.lsp.*` for documentation on any of the below functions
 	buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
@@ -62,10 +62,11 @@ local on_attach = function(_, bufnr)
 	buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
 	buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
 	buf_set_keymap('n', '<leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-	buf_set_keymap('n', '==', [[command! Format  execute 'lua vim.lsp.buf.formatting()']], opts)
+	-- buf_set_keymap('n', '==', [[command! Format execute 'lua vim.lsp.buf.format { async = true }']], opts)
+	buf_set_keymap('n', '==', '<cmd>lua vim.lsp.buf.format { async = true }<CR>', opts)
 	-- buf_set_keymap('n', '<C-]>', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
 
-	cmd([[command! Format  execute 'lua vim.lsp.buf.formatting()']])
+	cmd [[command! Format  execute 'lua vim.lsp.buf.formatting()']]
 end
 
 -- Setup installed servers.
@@ -84,61 +85,61 @@ local custom_settings = {
 			workspace = {
 				-- Make the server aware of Neovim runtime files
 				library = {
-					[fn.expand('$VIMRUNTIME/lua')] = true,
-					[fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
+					[fn.expand '$VIMRUNTIME/lua'] = true,
+					[fn.expand '$VIMRUNTIME/lua/vim/lsp'] = true,
 				},
 			},
 			telemetry = { enable = false },
-		}
-	}
+		},
+	},
 }
 
-local lspconfig = require'lspconfig'
+local lspconfig = require 'lspconfig';
 require'mason-lspconfig'.setup_handlers {
 	function(server_name)
 		lspconfig[server_name].setup {
 			on_attach = on_attach,
 		}
 	end,
-	["sumneko_lua"] = function()
+	['sumneko_lua'] = function()
 		lspconfig.sumneko_lua.setup {
 			on_attach = on_attach,
 			settings = custom_settings.lua,
 		}
 	end,
 	['sorbet'] = function()
-		local target_path = Util.create_expand_path('~/.cache/sorbet')
+		local target_path = Util.create_expand_path '~/.cache/sorbet'
 		lspconfig.sorbet.setup {
 			on_attach = on_attach,
 			cmd = { 'srb', 'tc', '--lsp', target_path },
 		}
-	end
+	end,
 }
 
 -- cmpe
 opt.completeopt = { 'menuone', 'noselect' }
-local cmp = require'cmp'
-cmp.setup({
+local cmp = require 'cmp'
+cmp.setup {
 	mapping = {
-		["<S-Tab>"] = cmp.mapping.select_prev_item(),
-		["<Tab>"] = cmp.mapping.select_next_item(),
-		["<C-p>"] = cmp.mapping.select_prev_item(),
-		["<C-n>"] = cmp.mapping.select_next_item(),
-		["<C-Space>"] = cmp.mapping.complete(),
-		["<C-e>"] = cmp.mapping.close(),
-		["<CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace }),
+		['<S-Tab>'] = cmp.mapping.select_prev_item(),
+		['<Tab>'] = cmp.mapping.select_next_item(),
+		['<C-p>'] = cmp.mapping.select_prev_item(),
+		['<C-n>'] = cmp.mapping.select_next_item(),
+		['<C-Space>'] = cmp.mapping.complete(),
+		['<C-e>'] = cmp.mapping.close(),
+		['<CR>'] = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Replace },
 	},
-	sources = cmp.config.sources({
+	sources = cmp.config.sources {
 		{ name = 'path' },
 		{ name = 'nvim_lsp' },
 		{ name = 'treesitter' },
 		{ name = 'buffer' },
-	})
-})
+	},
+}
 
 -- DAP
-local dap = require'dap'
 require'nvim-dap-virtual-text'.setup()
+local dap = require 'dap'
 
 -- dap mappings
 local dap_opts = {
@@ -161,19 +162,61 @@ require'dap-ruby'.setup()
 -- re-set configs, only want one.
 dap.configurations.ruby = {
 	{
-		type = 'ruby';
-		name = 'debug current file';
-		bundle = '';
-		request = 'attach';
-		command = "ruby";
-		script = "${file}";
-		port = 38698;
-		server = '127.0.0.1';
+		type = 'ruby',
+		name = 'debug current file',
+		bundle = '',
+		request = 'attach',
+		command = 'ruby',
+		script = '${file}',
+		port = 38698,
+		server = '127.0.0.1',
 		options = {
-			source_filetype = 'ruby';
-		};
-		localfs = true;
-		waiting = 1000;
+			source_filetype = 'ruby',
+		},
+		localfs = true,
+		waiting = 1000,
+	},
+}
+
+local formatter_util = require 'formatter.util'
+-- Provides the Format, FormatWrite, FormatLock, and FormatWriteLock commands
+require('formatter').setup {
+	-- Enable or disable logging
+	logging = true,
+	-- Set the log level
+	log_level = vim.log.levels.WARN,
+	-- All formatter configurations are opt-in
+	filetype = {
+		-- Formatter configurations for filetype 'lua' go here
+		-- and will be executed in order
+		lua = {
+			-- 'formatter.filetypes.lua' defines default configurations for the
+			-- 'lua' filetype
+			-- require 'formatter.filetypes.lua'.stylua,
+
+			-- You can also define your own configuration
+			function()
+				-- Full specification of configurations is down below and in Vim help files
+				return {
+					exe = 'stylua',
+					args = {
+						'--config-path=$HOME/.config/stylua.toml',
+						'--search-parent-directories',
+						'--stdin-filepath',
+						formatter_util.escape_path(formatter_util.get_current_buffer_file_path()),
+						'--',
+						'-',
+					},
+					stdin = true,
+				}
+			end,
+		},
+		cs = { require('formatter.filetypes.cs').dotnetformat },
+		-- Use the special '*' filetype for defining formatter configurations on any filetype
+		['*'] = {
+			-- 'formatter.filetypes.any' defines default configurations for any filetype
+			require('formatter.filetypes.any').remove_trailing_whitespace,
+		},
 	},
 }
 

@@ -123,3 +123,10 @@ function timer () {
 	sleep "$1"
 	print -n '\a'
 }
+function alert () {
+	timer 0s
+}
+
+function vman () {
+	nvim -c "Man $1|only"
+}

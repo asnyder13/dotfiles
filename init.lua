@@ -8,8 +8,8 @@ local api = vim.api
 local opt = vim.opt
 
 cmd 'packadd paq-nvim'
-local paq = require'paq'.paq
-paq { 'savq/paq-nvim', opt=true }
+local paq = require 'paq'.paq
+paq { 'savq/paq-nvim', opt = true }
 
 -- Colorscheme, Neovim specific
 paq 'ofirgall/ofirkai.nvim'
@@ -42,7 +42,7 @@ paq 'RRethy/nvim-align'
 paq 'Everduin94/nvim-quick-switcher'
 
 if vim.env.VIM_USE_LSP then
-	paq { 'nvim-treesitter/nvim-treesitter', run=function() cmd':TSUpdate' end }
+	paq { 'nvim-treesitter/nvim-treesitter', run = function() cmd ':TSUpdate' end }
 	paq 'neovim/nvim-lspconfig'
 	paq 'mfussenegger/nvim-dap'
 	paq 'williamboman/mason.nvim'
@@ -50,6 +50,7 @@ if vim.env.VIM_USE_LSP then
 	paq 'jayp0521/mason-nvim-dap.nvim'
 	paq 'theHamsta/nvim-dap-virtual-text'
 	paq 'nvim-treesitter/playground'
+	paq 'mhartington/formatter.nvim'
 
 	paq 'suketa/nvim-dap-ruby'
 
@@ -103,17 +104,17 @@ api.nvim_create_autocmd('FileType', {
 	callback = function() opt.formatoptions:remove { 'r', 'o' } end,
 })
 
-opt.clipboard = 'unnamed'
+opt.clipboard = 'unnamedplus'
 opt.number = true
 opt.cursorline = true
 
 local indent_size = 2
-opt.tabstop    = indent_size
-opt.shiftwidth = indent_size
-opt.expandtab = false
-cmd'au FileType cs setlocal shiftwidth=4 softtabstop=4 expandtab'
+opt.tabstop       = indent_size
+opt.shiftwidth    = indent_size
+opt.expandtab     = false
+cmd 'au FileType cs setlocal shiftwidth=4 softtabstop=4 expandtab'
 
-opt.mouse = nil
+opt.mouse      = nil
 opt.autoindent = true
 opt.showmatch  = true
 opt.visualbell = true
@@ -140,11 +141,11 @@ opt.foldlevelstart = 99
 
 -- Syntax hl/colors
 opt.syntax = 'on'
-require'ofirkai'.setup {
+require 'ofirkai'.setup {
 	remove_italics = true,
 	custom_hlgroups = {
 		LineNr = {
-			fg =  '#8F908A',
+			fg = '#8F908A',
 		},
 		['@function'] = {
 			fg = '#a6e22e',
@@ -198,13 +199,13 @@ g.SignatureMarkTextHLDynamic = 1
 g.loaded_netrwPlugin = 1
 
 -- Neovim plugins
-require'colorizer'.setup()
-require'hardline'.setup {
+require 'colorizer'.setup()
+require 'hardline'.setup {
 	bufferline = false,
 	-- bufferline_settings = { show_index = true },
 	theme = 'default',
 }
-require'bufferline'.setup {
+require 'bufferline'.setup {
 	highlights = require('ofirkai.tablines.bufferline').highlights,
 	clickable = false,
 	icons = 'numbers',
@@ -216,22 +217,24 @@ require'bufferline'.setup {
 }
 
 -- Telescope
-require'telescope'.setup { defaults = { file_ignore_patterns = { 'node_modules', '.git', } } }
+require 'telescope'.setup { defaults = { file_ignore_patterns = { 'node_modules', '.git', } } }
 map('', '<C-p>', '<cmd>lua require("telescope.builtin").find_files({ hidden = false })<cr>')
 map('', '<C-M-p>', '<cmd>lua require("telescope.builtin").find_files({ hidden = true })<cr>')
 map('', '<M-p>', '<cmd>lua require("telescope.builtin").file_browser()<cr>')
 map('', '<C-g>', '<cmd>lua require("telescope.builtin").git_files()<cr>')
 map('', '<leader>b', '<cmd>lua require("telescope.builtin").buffers()<cr>')
 -- Hop
-require'hop'.setup { keys = ',;abcdefgimnorstuvwxz' }
+require 'hop'.setup { keys = ',;abcdefgimnorstuvwxz' }
 map('n', '<leader>f', '<cmd>lua require("hop").hint_char1()<CR>')
 map('n', '<leader>w', '<cmd>lua require("hop").hint_words()<CR>')
 -- Indent Blankline
-require'indent_blankline'.setup {
-	char='│',
-	buftype_exclude = { 'terminal', },
-	filetype_exclude = { 'man', 'help', 'tutor', 'gitcommit' },
-	show_first_indent_level = true,
+require 'indent_blankline'.setup {
+	char                       = '│',
+	buftype_exclude            = { 'terminal', },
+	filetype_exclude           = { 'man', 'help', 'tutor', 'gitcommit' },
+	show_first_indent_level    = true,
+	show_current_context       = true,
+	show_current_context_start = true,
 }
 map('n', '<leader>i', '<cmd>IndentBlanklineToggle<CR><cmd>set number!<CR>')
 map('n', '<leader>I', '<cmd>IndentBlanklineToggle<CR><cmd>set number!<CR>')
@@ -244,6 +247,7 @@ local qs_opts = {
 local function qs(file, opts)
 	return function() require('nvim-quick-switcher').switch(file, opts) end
 end
+
 local function angularSwitcherMappings()
 	vim.keymap.set('n', '<leader>u', qs('component.ts', nil), qs_opts)
 	vim.keymap.set('n', '<leader>o', qs('component.html', nil), qs_opts)
@@ -254,7 +258,8 @@ local function angularSwitcherMappings()
 	vim.keymap.set('n', '<leader>xi', qs('component.scss', { split = 'horizontal' }), qs_opts)
 	vim.keymap.set('n', '<leader>xo', qs('component.html', { split = 'horizontal' }), qs_opts)
 end
-local angularAuGroup = api.nvim_create_augroup('AngularQuickSwitcher', { clear = true } )
+
+local angularAuGroup = api.nvim_create_augroup('AngularQuickSwitcher', { clear = true })
 api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter', }, {
 	group = angularAuGroup,
 	pattern = { '*.ts', '*.html', '*.scss', '*.sass', },
@@ -266,4 +271,3 @@ api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter', }, {
 if vim.env.VIM_USE_LSP then
 	require 'lsp'
 end
-
