@@ -181,3 +181,8 @@ bindkey '^Xa' _expand_alias
 # For a full list of active aliases, run `alias`.
 
 source ~/.commonrc
+
+# Load Angular CLI autocompletion.
+if command -v ng >/dev/null 2>&1; then
+	source <(ng completion script)
+fi
