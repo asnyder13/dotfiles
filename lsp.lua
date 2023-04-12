@@ -84,10 +84,7 @@ local custom_settings = {
 			},
 			workspace = {
 				-- Make the server aware of Neovim runtime files
-				library = {
-					[fn.expand '$VIMRUNTIME/lua'] = true,
-					[fn.expand '$VIMRUNTIME/lua/vim/lsp'] = true,
-				},
+				library = vim.api.nvim_get_runtime_file('', true),
 			},
 			telemetry = { enable = false },
 		},
@@ -101,8 +98,8 @@ require'mason-lspconfig'.setup_handlers {
 			on_attach = on_attach,
 		}
 	end,
-	['sumneko_lua'] = function()
-		lspconfig.sumneko_lua.setup {
+	['lua_ls'] = function()
+		lspconfig.lua_ls.setup {
 			on_attach = on_attach,
 			settings = custom_settings.lua,
 		}

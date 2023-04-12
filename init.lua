@@ -28,6 +28,7 @@ paq 'justinmk/vim-sneak'
 paq 'AndrewRadev/splitjoin.vim'
 paq 'tpope/vim-surround'
 paq 'danchoi/ri.vim'
+paq 'jlcrochet/vim-razor'
 
 -- Neovim specific
 paq 'norcalli/nvim-colorizer.lua'
@@ -104,9 +105,9 @@ api.nvim_create_autocmd('FileType', {
 	callback = function() opt.formatoptions:remove { 'r', 'o' } end,
 })
 
-opt.clipboard = 'unnamedplus'
-opt.number = true
-opt.cursorline = true
+opt.clipboard     = 'unnamedplus'
+opt.number        = true
+opt.cursorline    = true
 
 local indent_size = 2
 opt.tabstop       = indent_size
@@ -208,8 +209,7 @@ require 'hardline'.setup {
 require 'bufferline'.setup {
 	highlights = require('ofirkai.tablines.bufferline').highlights,
 	clickable = false,
-	icons = 'numbers',
-	icon_close_tab = '',
+	icons = { buffer_index = true, filetype = { enabled = false } },
 	options = {
 		themable = true,
 		numbers = 'ordinal',
