@@ -186,3 +186,13 @@ source ~/.commonrc
 if command -v ng >/dev/null 2>&1; then
 	source <(ng completion script)
 fi
+
+if [[ -d "$HOME/.nvm" ]]; then
+	export NVM_DIR="$HOME/.nvm"
+	if [[ -f "$NVM_DIR/nvm.sh" ]]; then
+		source "$NVM_DIR/nvm.sh"  # This loads nvm
+	fi
+fi
+if [[ -f "$NVM_DIR/bash_completion"  ]]; then
+	source "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+fi

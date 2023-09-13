@@ -16,7 +16,7 @@ alias yume='sudo dnf erase' ;
 
 # Alias editing these files.
 # Get current dotfile list.
-source $HOME/.dotfiles/.DOTFILES
+source "$HOME/.dotfiles/.DOTFILES"
 i=0
 end=${#DOTFILES[@]}
 # zsh is 1-indexed
@@ -26,11 +26,12 @@ for (( i; i < end; i++ )); do
 done
 if [ -f ~/.bashrc_local ]; then DOTFILES+=("$HOME/.bashrc_local"); fi
 if [ -f ~/.bash_aliases_local ]; then DOTFILES+=("$HOME/.bash_aliases_local"); fi
+if [ -f ~/.zshrc_local ]; then DOTFILES+=("$HOME/.zshrc_local"); fi
 CONFIGFILES=(
 	install.sh
 	.DOTFILES
 )
-for CONFIG in ${CONFIGFILES[@]}; do
+for CONFIG in "${CONFIGFILES[@]}"; do
 	DOTFILES+=("$HOME/.dotfiles/$CONFIG")
 done
 # Only gonna work if you've installed in ~/.dotfiles
@@ -68,6 +69,10 @@ alias gbl='git blame -w'
 alias gcp='git cherry-pick'
 alias glastmerge='git log --merges -n1 --format=%h'
 alias vimg='vim -c ":G|only"'
+
+if command -v highlight >/dev/null 2>&1; then
+	alias cats='highlight -O ansi --force'
+fi
 
 # Random functions
 function mkcd () {
