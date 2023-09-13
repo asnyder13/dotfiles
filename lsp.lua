@@ -53,6 +53,7 @@ local on_attach = function(_, bufnr)
 	buf_set_keymap('n', 'gh', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
 	buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
 	buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+	buf_set_keymap('i', '<C-s>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
 	buf_set_keymap('n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
 	buf_set_keymap('n', '<M-r>', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
 	buf_set_keymap('n', '<M-e>', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
@@ -92,16 +93,19 @@ local custom_settings = {
 }
 
 local lspconfig = require 'lspconfig';
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 require'mason-lspconfig'.setup_handlers {
 	function(server_name)
 		lspconfig[server_name].setup {
 			on_attach = on_attach,
+			capabilities = capabilities,
 		}
 	end,
 	['lua_ls'] = function()
 		lspconfig.lua_ls.setup {
 			on_attach = on_attach,
 			settings = custom_settings.lua,
+			capabilities = capabilities,
 		}
 	end,
 	['sorbet'] = function()
@@ -109,12 +113,14 @@ require'mason-lspconfig'.setup_handlers {
 		lspconfig.sorbet.setup {
 			on_attach = on_attach,
 			cmd = { 'srb', 'tc', '--lsp', target_path },
+			capabilities = capabilities,
 		}
 	end,
 }
 
 -- cmpe
-opt.completeopt = { 'menuone', 'noselect' }
+-- opt.completeopt = { 'menuone', 'noselect' }
+opt.completeopt = { 'menu', 'noselect', 'noinsert' }
 local cmp = require 'cmp'
 cmp.setup {
 	mapping = {
@@ -128,12 +134,20 @@ cmp.setup {
 		['<C-d>'] = cmp.mapping.scroll_docs(4),
 		['<C-u>'] = cmp.mapping.scroll_docs(-4),
 	},
-	sources = cmp.config.sources {
+
+	sources = cmp.config.sources({
 		{ name = 'nvim_lsp', group_index = 1 },
 		{ name = 'treesitter', group_index = 2 },
 		{ name = 'buffer', group_index = 3 },
 		{ name = 'path', group_index = 3 },
-	},
+	},{
+		{ name = 'nvim_lsp_signature_help' },
+	}),
+
+	window = {
+		completion = cmp.config.window.bordered(),
+		documentation = cmp.config.window.bordered(),
+	}
 }
 
 -- DAP

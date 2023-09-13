@@ -48,7 +48,7 @@ if vim.env.VIM_USE_LSP then
 	paq 'mfussenegger/nvim-dap'
 	paq 'williamboman/mason.nvim'
 	paq 'williamboman/mason-lspconfig.nvim'
-	paq 'jayp0521/mason-nvim-dap.nvim'
+	paq 'jay-babu/mason-nvim-dap.nvim'
 	paq 'theHamsta/nvim-dap-virtual-text'
 	paq 'nvim-treesitter/playground'
 	paq 'mhartington/formatter.nvim'
@@ -59,6 +59,7 @@ if vim.env.VIM_USE_LSP then
 	paq 'hrsh7th/cmp-nvim-lsp'
 	paq 'hrsh7th/cmp-buffer'
 	paq 'hrsh7th/cmp-path'
+	paq 'hrsh7th/cmp-nvim-lsp-signature-help'
 end
 ---- General Settings ----
 
@@ -180,6 +181,8 @@ if fn.has('persistent_undo') == 1 then
 end
 
 ---- General Mappings ----
+-- Reload this config
+map('n', '<leader>sv', ':source $MYVIMRC<CR>')
 -- Collapse all levels under current fold
 map('n', 'zs', 'zCzozo')
 -- Quick buffer switch (for tabline)
@@ -190,7 +193,7 @@ map('n', '<BS>', '<C-^>')
 cmd([[
 	nnoremap <expr> j v:count ? (v:count > 5 ? "m'" . v:count : '') . 'j' : 'gj'
 	nnoremap <expr> k v:count ? (v:count > 5 ? "m'" . v:count : '') . 'k' : 'gk'
-	command TrimLineEnds %s/\v\s+$//
+	command! TrimLineEnds %s/\v\s+$//
 ]])
 
 ---- Plugin Settings ----
@@ -241,8 +244,8 @@ map('', '<C-g>', '<cmd>lua require("telescope.builtin").git_files()<cr>')
 map('', '<leader>b', '<cmd>lua require("telescope.builtin").buffers()<cr>')
 -- Hop
 require 'hop'.setup { keys = ',;abcdefgimnorstuvwxz' }
-map('n', '<leader>f', '<cmd>lua require("hop").hint_char1()<CR>')
-map('n', '<leader>w', '<cmd>lua require("hop").hint_words()<CR>')
+map('n', '<leader>f', '<Esc> <cmd>lua require("hop").hint_char1()<CR>')
+map('n', '<leader>w', '<Esc> <cmd>lua require("hop").hint_words()<CR>')
 -- Indent Blankline
 require 'indent_blankline'.setup {
 	char                       = '│',
