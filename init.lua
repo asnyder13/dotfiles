@@ -12,7 +12,7 @@ local paq = require 'paq'.paq
 paq { 'savq/paq-nvim', opt = true }
 
 -- Colorscheme, Neovim specific
-paq 'ofirgall/ofirkai.nvim'
+paq 'judaew/ronny.nvim'
 
 -- Regular vim
 paq 'ntpeters/vim-better-whitespace'
@@ -26,9 +26,9 @@ paq 'kshenoy/vim-signature'
 paq 'tpope/vim-sleuth'
 paq 'justinmk/vim-sneak'
 paq 'AndrewRadev/splitjoin.vim'
-paq 'tpope/vim-surround'
 paq 'danchoi/ri.vim'
 paq 'jlcrochet/vim-razor'
+paq 'tpope/vim-abolish'
 
 -- Neovim specific
 paq 'norcalli/nvim-colorizer.lua'
@@ -41,6 +41,7 @@ paq 'nvim-telescope/telescope.nvim'
 paq 'romgrk/barbar.nvim'
 paq 'RRethy/nvim-align'
 paq 'Everduin94/nvim-quick-switcher'
+paq 'kylechui/nvim-surround'
 
 if vim.env.VIM_USE_LSP then
 	paq { 'nvim-treesitter/nvim-treesitter', run = function() cmd ':TSUpdate' end }
@@ -143,33 +144,29 @@ opt.wildignore:append { '*/node_modules/*', '*/.git/*', '*/tmp/*', '*.swp' }
 opt.splitright = true
 opt.splitbelow = true
 
-opt.confirm = true
-opt.backup = false
-opt.hidden = true
-opt.history = 1000
+opt.confirm       = true
+opt.backup        = false
+opt.hidden        = true
+opt.history       = 1000
 opt.termguicolors = true
 
 -- Searching
-opt.hlsearch = true
+opt.hlsearch   = true
 opt.ignorecase = true
-opt.smartcase = true
+opt.smartcase  = true
 
 opt.foldmethod = 'indent'
 opt.foldlevelstart = 99
 
 -- Syntax hl/colors
 opt.syntax = 'on'
-require 'ofirkai'.setup {
-	remove_italics = true,
-	custom_hlgroups = {
-		LineNr = {
-			fg = '#8F908A',
-		},
-		['@function'] = {
-			fg = '#a6e22e',
-		}
-	}
+local colors = require "ronny.colors"
+for _, v in pairs(colors.syntax) do v.italic = false end
+require 'ronny'.setup {
+	colors = colors,
+	display = { monokai_original = true },
 }
+cmd 'colorscheme ronny'
 
 Util.create_text_object('|')
 
@@ -190,11 +187,11 @@ map('n', 'gbn', ':bn<CR>')
 map('n', 'gbN', ':bN<CR>')
 map('n', 'gbd', ':bd<CR>')
 map('n', '<BS>', '<C-^>')
-cmd([[
+cmd [[
 	nnoremap <expr> j v:count ? (v:count > 5 ? "m'" . v:count : '') . 'j' : 'gj'
 	nnoremap <expr> k v:count ? (v:count > 5 ? "m'" . v:count : '') . 'k' : 'gk'
 	command! TrimLineEnds %s/\v\s+$//
-]])
+]]
 
 ---- Plugin Settings ----
 -- Vim plugins
@@ -205,10 +202,10 @@ g.netrw_browse_split = 4
 g.netrw_altv = 1
 g.netrw_winsize = 25
 -- Sneak
-cmd([[
+cmd [[
 	let g:sneak#use_ic_scs = 1
 	let g:sneak#map_netrw = 1
-]])
+]]
 -- Highlighted yank
 g.highlightedyank_highlight_duration = 500
 -- Polyglot
@@ -226,7 +223,6 @@ require 'hardline'.setup {
 	theme = 'default',
 }
 require 'bufferline'.setup {
-	highlights = require('ofirkai.tablines.bufferline').highlights,
 	clickable = false,
 	icons = { buffer_index = true, filetype = { enabled = false } },
 	options = {
@@ -284,6 +280,8 @@ api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter', }, {
 	pattern = { '*.ts', '*.html', '*.scss', '*.sass', },
 	callback = angularSwitcherMappings,
 })
+
+require 'nvim-surround'.setup {}
 
 ---- LSP Plugins ----
 -- VIM_USE_LSP needs to have a value, not just existing.

@@ -67,7 +67,7 @@ local on_attach = function(_, bufnr)
 	buf_set_keymap('n', '==', '<cmd>lua vim.lsp.buf.format { async = true }<CR>', opts)
 	-- buf_set_keymap('n', '<C-]>', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
 
-	cmd [[command! Format  execute 'lua vim.lsp.buf.formatting()']]
+	cmd [[command! Format execute 'lua vim.lsp.buf.formatting()']]
 end
 
 -- Setup installed servers.
@@ -134,7 +134,6 @@ cmp.setup {
 		['<C-d>'] = cmp.mapping.scroll_docs(4),
 		['<C-u>'] = cmp.mapping.scroll_docs(-4),
 	},
-
 	sources = cmp.config.sources({
 		{ name = 'nvim_lsp', group_index = 1 },
 		{ name = 'treesitter', group_index = 2 },
@@ -143,11 +142,10 @@ cmp.setup {
 	},{
 		{ name = 'nvim_lsp_signature_help' },
 	}),
-
 	window = {
 		completion = cmp.config.window.bordered(),
 		documentation = cmp.config.window.bordered(),
-	}
+	},
 }
 
 -- DAP
