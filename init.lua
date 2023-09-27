@@ -18,7 +18,6 @@ paq 'judaew/ronny.nvim'
 paq 'ntpeters/vim-better-whitespace'
 paq 'tpope/vim-commentary'
 paq 'justinmk/vim-dirvish'
-paq 'airblade/vim-gitgutter'
 paq 'tpope/vim-fugitive'
 paq 'vim-scripts/ReplaceWithRegister'
 paq 'vim-ruby/vim-ruby'
@@ -32,16 +31,19 @@ paq 'tpope/vim-abolish'
 
 -- Neovim specific
 paq 'norcalli/nvim-colorizer.lua'
-paq 'ojroques/nvim-hardline'
 paq 'phaazon/hop.nvim'
 paq 'lukas-reineke/indent-blankline.nvim'
 paq 'nvim-lua/plenary.nvim'
 paq 'nvim-lua/popup.nvim'
 paq 'nvim-telescope/telescope.nvim'
+paq 'lewis6991/gitsigns.nvim'
+paq 'nvim-tree/nvim-web-devicons'
 paq 'romgrk/barbar.nvim'
 paq 'RRethy/nvim-align'
 paq 'Everduin94/nvim-quick-switcher'
 paq 'kylechui/nvim-surround'
+paq 'nvim-lualine/lualine.nvim'
+paq 'RRethy/vim-illuminate'
 
 if vim.env.VIM_USE_LSP then
 	paq { 'nvim-treesitter/nvim-treesitter', run = function() cmd ':TSUpdate' end }
@@ -160,6 +162,18 @@ opt.foldlevelstart = 99
 
 -- Syntax hl/colors
 opt.syntax = 'on'
+-- autocmd to overwrite other highlight groups.  Setup before :colorscheme
+api.nvim_create_autocmd('ColorScheme', {
+	pattern = '*',
+	callback = function()
+		cmd [[
+			highlight Normal guibg=#282923
+			highlight LineNr guibg=#282923
+			highlight CursorLineNr guibg=#434343
+		]]
+	end,
+})
+
 local colors = require "ronny.colors"
 for _, v in pairs(colors.syntax) do v.italic = false end
 require 'ronny'.setup {
@@ -192,6 +206,7 @@ cmd [[
 	nnoremap <expr> k v:count ? (v:count > 5 ? "m'" . v:count : '') . 'k' : 'gk'
 	command! TrimLineEnds %s/\v\s+$//
 ]]
+map('n', '<A-b>', ':BufferPick<CR>')
 
 ---- Plugin Settings ----
 -- Vim plugins
@@ -217,27 +232,15 @@ g.loaded_netrwPlugin = 1
 
 -- Neovim plugins
 require 'colorizer'.setup()
-require 'hardline'.setup {
-	bufferline = false,
-	-- bufferline_settings = { show_index = true },
-	theme = 'default',
-}
-require 'bufferline'.setup {
-	clickable = false,
-	icons = { buffer_index = true, filetype = { enabled = false } },
-	options = {
-		themable = true,
-		numbers = 'ordinal',
-	}
-}
+require 'lualine'.setup{}
 
 -- Telescope
 require 'telescope'.setup { defaults = { file_ignore_patterns = { 'node_modules', '.git', } } }
 map('', '<C-p>', '<cmd>lua require("telescope.builtin").find_files({ hidden = false })<cr>')
 map('', '<C-M-p>', '<cmd>lua require("telescope.builtin").find_files({ hidden = true })<cr>')
-map('', '<M-p>', '<cmd>lua require("telescope.builtin").file_browser()<cr>')
 map('', '<C-g>', '<cmd>lua require("telescope.builtin").git_files()<cr>')
 map('', '<leader>b', '<cmd>lua require("telescope.builtin").buffers()<cr>')
+map('', '<C-;>', '<cmd>lua require("telescope.builtin").treesitter()<cr>')
 -- Hop
 require 'hop'.setup { keys = ',;abcdefgimnorstuvwxz' }
 map('n', '<leader>f', '<Esc> <cmd>lua require("hop").hint_char1()<CR>')
@@ -281,7 +284,12 @@ api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter', }, {
 	callback = angularSwitcherMappings,
 })
 
-require 'nvim-surround'.setup {}
+require 'nvim-surround'.setup{}
+require 'gitsigns'.setup{}
+
+local illuminateColor = { bg = '#434343' }
+local highlights = { 'IlluminatedWord', 'IlluminatedCurWord', 'IlluminatedWordText', 'IlluminatedWordRead', 'IlluminatedWordWrite' }
+for _, group in ipairs(highlights) do vim.api.nvim_set_hl(0, group, illuminateColor) end
 
 ---- LSP Plugins ----
 -- VIM_USE_LSP needs to have a value, not just existing.
