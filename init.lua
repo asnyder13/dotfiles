@@ -16,8 +16,6 @@ paq 'judaew/ronny.nvim'
 
 -- Regular vim
 paq 'ntpeters/vim-better-whitespace'
-paq 'tpope/vim-commentary'
-paq 'justinmk/vim-dirvish'
 paq 'tpope/vim-fugitive'
 paq 'vim-scripts/ReplaceWithRegister'
 paq 'vim-ruby/vim-ruby'
@@ -31,7 +29,7 @@ paq 'tpope/vim-abolish'
 
 -- Neovim specific
 paq 'norcalli/nvim-colorizer.lua'
-paq 'phaazon/hop.nvim'
+paq 'smoka7/hop.nvim'
 paq 'lukas-reineke/indent-blankline.nvim'
 paq 'nvim-lua/plenary.nvim'
 paq 'nvim-lua/popup.nvim'
@@ -44,6 +42,9 @@ paq 'Everduin94/nvim-quick-switcher'
 paq 'kylechui/nvim-surround'
 paq 'nvim-lualine/lualine.nvim'
 paq 'RRethy/vim-illuminate'
+paq 'terrortylor/nvim-comment'
+paq 'm-demare/hlargs.nvim'
+paq 'nvim-tree/nvim-tree.lua'
 
 if vim.env.VIM_USE_LSP then
 	paq { 'nvim-treesitter/nvim-treesitter', run = function() cmd ':TSUpdate' end }
@@ -114,7 +115,7 @@ cmd([[
 		\gVzv:call setreg('"', old_reg, old_regtype)<CR>
 ]])
 
--- General
+---- General
 api.nvim_create_autocmd('TextYankPost', {
 	pattern = '*',
 	callback = function() vim.highlight.on_yank { timeout = 350 } end,
@@ -231,7 +232,7 @@ g.SignatureMarkTextHLDynamic = 1
 g.loaded_netrwPlugin = 1
 
 -- Neovim plugins
-require 'colorizer'.setup()
+require 'colorizer'.setup{}
 require 'lualine'.setup{}
 
 -- Telescope
@@ -242,7 +243,7 @@ map('', '<C-g>', '<cmd>lua require("telescope.builtin").git_files()<cr>')
 map('', '<leader>b', '<cmd>lua require("telescope.builtin").buffers()<cr>')
 map('', '<C-;>', '<cmd>lua require("telescope.builtin").treesitter()<cr>')
 -- Hop
-require 'hop'.setup { keys = ',;abcdefgimnorstuvwxz' }
+require 'hop'.setup { keys = 'hklyuiopnm,qwertzxcvbasdgjf;' }
 map('n', '<leader>f', '<Esc> <cmd>lua require("hop").hint_char1()<CR>')
 map('n', '<leader>w', '<Esc> <cmd>lua require("hop").hint_words()<CR>')
 -- Indent Blankline
@@ -253,6 +254,7 @@ require 'indent_blankline'.setup {
 	show_first_indent_level    = true,
 	show_current_context       = true,
 	show_current_context_start = true,
+	max_indent_increase        = 1,
 }
 map('n', '<leader>i', '<cmd>IndentBlanklineToggle<CR><cmd>set number!<CR>')
 map('n', '<leader>I', '<cmd>IndentBlanklineToggle<CR><cmd>set number!<CR>')
@@ -284,12 +286,42 @@ api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter', }, {
 	callback = angularSwitcherMappings,
 })
 
+require 'nvim_comment'.setup{}
 require 'nvim-surround'.setup{}
 require 'gitsigns'.setup{}
 
 local illuminateColor = { bg = '#434343' }
 local highlights = { 'IlluminatedWord', 'IlluminatedCurWord', 'IlluminatedWordText', 'IlluminatedWordRead', 'IlluminatedWordWrite' }
 for _, group in ipairs(highlights) do vim.api.nvim_set_hl(0, group, illuminateColor) end
+
+require 'hlargs'.setup { color = '#57ebc8' }
+
+-- Nvim Tree
+require "nvim-tree".setup {
+	update_focused_file = { enable = true, },
+}
+map('n', '<C-a>', ':NvimTreeToggle<CR>')
+map('n', '-', ':NvimTreeFocus<CR>')
+
+vim.api.nvim_create_autocmd("BufEnter", {
+	nested = true,
+	callback = function()
+		local api = require("nvim-tree.api")
+
+		-- Only 1 window with nvim-tree left: we probably closed a file buffer
+		-- if #vim.api.nvim_list_wins() == 1 and api.tree.is_tree_buf() then
+			-- Required to let the close event complete. An error is thrown without this.
+			-- vim.defer_fn(function()
+			-- 	-- close nvim-tree: will go to the last hidden buffer used before closing
+			-- 	api.tree.toggle({find_file = true, focus = true})
+			-- 	-- re-open nivm-tree
+			-- 	api.tree.toggle({find_file = true, focus = true})
+			-- 	-- nvim-tree is still the active window. Go to the previous window.
+			-- 	vim.cmd("wincmd p")
+			-- 	end, 0)
+		-- end
+	end
+})
 
 ---- LSP Plugins ----
 -- VIM_USE_LSP needs to have a value, not just existing.
