@@ -236,19 +236,25 @@ require 'colorizer'.setup{}
 require 'lualine'.setup{}
 
 -- Telescope
-require 'telescope'.setup { defaults = { file_ignore_patterns = { 'node_modules', '.git', } } }
-map('', '<C-p>', '<cmd>lua require("telescope.builtin").find_files({ hidden = false })<cr>')
-map('', '<C-M-p>', '<cmd>lua require("telescope.builtin").find_files({ hidden = true })<cr>')
-map('', '<C-g>', '<cmd>lua require("telescope.builtin").git_files()<cr>')
-map('', '<leader>b', '<cmd>lua require("telescope.builtin").buffers()<cr>')
-map('', '<C-;>', '<cmd>lua require("telescope.builtin").treesitter()<cr>')
+require 'telescope'.setup {
+	defaults = {
+		file_ignore_patterns = { 'node_modules', '.git', },
+		layout_strategy = 'vertical',
+	},
+}
+map('n', '<C-p>', '<cmd>lua require("telescope.builtin").find_files({ hidden = false })<CR>')
+map('n', '<C-M-p>', '<cmd>lua require("telescope.builtin").find_files({ hidden = true })<CR>')
+map('n', '<C-g>', '<cmd>lua require("telescope.builtin").git_files()<CR>')
+map('n', '<leader>b', '<cmd>lua require("telescope.builtin").buffers()<CR>')
+map('n', '<C-;>', '<cmd>lua require("telescope.builtin").treesitter()<CR>')
+map('n', '<M-g>', '<cmd>lua require("telescope.builtin").live_grep()<CR>')
 -- Hop
 require 'hop'.setup { keys = 'hklyuiopnm,qwertzxcvbasdgjf;' }
 map('n', '<leader>f', '<Esc> <cmd>lua require("hop").hint_char1()<CR>')
 map('n', '<leader>w', '<Esc> <cmd>lua require("hop").hint_words()<CR>')
 -- Indent Blankline
-require 'indent_blankline'.setup {
-	char                       = '│',
+require 'ibl'.setup {
+	-- char                       = '│',
 	buftype_exclude            = { 'terminal', },
 	filetype_exclude           = { 'man', 'help', 'tutor', 'gitcommit' },
 	show_first_indent_level    = true,
@@ -267,18 +273,16 @@ local qs_opts = {
 local function qs(file, opts)
 	return function() require('nvim-quick-switcher').switch(file, opts) end
 end
-
 local function angularSwitcherMappings()
-	vim.keymap.set('n', '<leader>u', qs('component.ts', nil), qs_opts)
-	vim.keymap.set('n', '<leader>o', qs('component.html', nil), qs_opts)
-	vim.keymap.set('n', '<leader>i', qs('component.scss', nil), qs_opts)
-	vim.keymap.set('n', '<leader>p', qs('module.ts', nil), qs_opts)
-	vim.keymap.set('n', '<leader>t', qs('component.spec.ts', nil), qs_opts)
-	vim.keymap.set('n', '<leader>xu', qs('component.ts', { split = 'horizontal' }), qs_opts)
-	vim.keymap.set('n', '<leader>xi', qs('component.scss', { split = 'horizontal' }), qs_opts)
-	vim.keymap.set('n', '<leader>xo', qs('component.html', { split = 'horizontal' }), qs_opts)
+	map('n', '<leader>u', qs('component.ts', nil), qs_opts)
+	map('n', '<leader>o', qs('component.html', nil), qs_opts)
+	map('n', '<leader>i', qs('component.scss', nil), qs_opts)
+	map('n', '<leader>p', qs('module.ts', nil), qs_opts)
+	map('n', '<leader>t', qs('component.spec.ts', nil), qs_opts)
+	map('n', '<leader>xu', qs('component.ts', { split = 'horizontal' }), qs_opts)
+	map('n', '<leader>xi', qs('component.scss', { split = 'horizontal' }), qs_opts)
+	map('n', '<leader>xo', qs('component.html', { split = 'horizontal' }), qs_opts)
 end
-
 local angularAuGroup = api.nvim_create_augroup('AngularQuickSwitcher', { clear = true })
 api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter', }, {
 	group = angularAuGroup,
@@ -290,15 +294,13 @@ require 'nvim_comment'.setup{}
 require 'nvim-surround'.setup{}
 require 'gitsigns'.setup{}
 
-local illuminateColor = { bg = '#434343' }
-local highlights = { 'IlluminatedWord', 'IlluminatedCurWord', 'IlluminatedWordText', 'IlluminatedWordRead', 'IlluminatedWordWrite' }
-for _, group in ipairs(highlights) do vim.api.nvim_set_hl(0, group, illuminateColor) end
-
-require 'hlargs'.setup { color = '#57ebc8' }
-
 -- Nvim Tree
 require "nvim-tree".setup {
 	update_focused_file = { enable = true, },
+	view = {
+		number = true,
+		relativenumber = true,
+	},
 }
 map('n', '<C-a>', ':NvimTreeToggle<CR>')
 map('n', '-', ':NvimTreeFocus<CR>')
@@ -309,22 +311,37 @@ vim.api.nvim_create_autocmd("BufEnter", {
 		local api = require("nvim-tree.api")
 
 		-- Only 1 window with nvim-tree left: we probably closed a file buffer
-		-- if #vim.api.nvim_list_wins() == 1 and api.tree.is_tree_buf() then
+		if #vim.api.nvim_list_wins() == 1 and api.tree.is_tree_buf() then
 			-- Required to let the close event complete. An error is thrown without this.
-			-- vim.defer_fn(function()
-			-- 	-- close nvim-tree: will go to the last hidden buffer used before closing
-			-- 	api.tree.toggle({find_file = true, focus = true})
-			-- 	-- re-open nivm-tree
-			-- 	api.tree.toggle({find_file = true, focus = true})
-			-- 	-- nvim-tree is still the active window. Go to the previous window.
-			-- 	vim.cmd("wincmd p")
-			-- 	end, 0)
-		-- end
+			vim.defer_fn(function()
+				-- close nvim-tree: will go to the last hidden buffer used before closing
+				api.tree.toggle({find_file = true, focus = true})
+				-- re-open nivm-tree
+				api.tree.toggle({find_file = true, focus = true})
+				-- nvim-tree is still the active window. Go to the previous window.
+				vim.cmd("wincmd p")
+				end, 0)
+		end
 	end
 })
+
+---- Highlight changes
+-- vim.highlight.priorities.semantic_tokens = 95
+api.nvim_set_hl(0, '@property.typescript', { link = 'Text' })
+api.nvim_set_hl(0, '@lsp.type.property.typescript', { link = 'Text' })
+api.nvim_set_hl(0, '@variable.typescript', { link = 'Text' })
+api.nvim_set_hl(0, '@lsp.type.variable.typescript', { link = 'Text' })
+api.nvim_set_hl(0, '@lsp.mod.declaration.typescript', { link = 'Identifier' })
+
+local illuminateColor = { bg = '#434343' }
+local highlights = { 'IlluminatedWord', 'IlluminatedCurWord', 'IlluminatedWordText', 'IlluminatedWordRead', 'IlluminatedWordWrite' }
+for _, group in ipairs(highlights) do vim.api.nvim_set_hl(0, group, illuminateColor) end
+
+require 'hlargs'.setup { color = '#57ebc8' }
 
 ---- LSP Plugins ----
 -- VIM_USE_LSP needs to have a value, not just existing.
 if vim.env.VIM_USE_LSP then
 	require 'lsp'
 end
+
