@@ -46,7 +46,11 @@ set foldlevelstart=99
 
 " Syntax hl/colors
 syntax on
-colorscheme monokai
+try
+	colorscheme monokai
+catch /^Vim\%((\a\+)\)\=:E185/
+  colorscheme evening
+endtry
 " Highlight tab indents
 set list lcs=tab:\│\ 
 " Regular Vim does weird stuff to the highlighting of the indent markers.
