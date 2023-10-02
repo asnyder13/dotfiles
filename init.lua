@@ -144,25 +144,25 @@ opt.showmode   = true
 opt.wildmode   = { 'list:longest' }
 opt.scrolloff  = 0
 opt.wildignore:append { '*/node_modules/*', '*/.git/*', '*/tmp/*', '*.swp' }
-opt.splitright = true
-opt.splitbelow = true
+opt.splitright     = true
+opt.splitbelow     = true
 
-opt.confirm       = true
-opt.backup        = false
-opt.hidden        = true
-opt.history       = 1000
-opt.termguicolors = true
+opt.confirm        = true
+opt.backup         = false
+opt.hidden         = true
+opt.history        = 1000
+opt.termguicolors  = true
 
 -- Searching
-opt.hlsearch   = true
-opt.ignorecase = true
-opt.smartcase  = true
+opt.hlsearch       = true
+opt.ignorecase     = true
+opt.smartcase      = true
 
-opt.foldmethod = 'indent'
+opt.foldmethod     = 'indent'
 opt.foldlevelstart = 99
 
 -- Syntax hl/colors
-opt.syntax = 'on'
+opt.syntax         = 'on'
 -- autocmd to overwrite other highlight groups.  Setup before :colorscheme
 api.nvim_create_autocmd('ColorScheme', {
 	pattern = '*',
@@ -232,8 +232,8 @@ g.SignatureMarkTextHLDynamic = 1
 g.loaded_netrwPlugin = 1
 
 -- Neovim plugins
-require 'colorizer'.setup{}
-require 'lualine'.setup{}
+require 'colorizer'.setup {}
+require 'lualine'.setup {}
 
 -- Telescope
 require 'telescope'.setup {
@@ -248,20 +248,14 @@ map('n', '<C-g>', '<cmd>lua require("telescope.builtin").git_files()<CR>')
 map('n', '<leader>b', '<cmd>lua require("telescope.builtin").buffers()<CR>')
 map('n', '<C-;>', '<cmd>lua require("telescope.builtin").treesitter()<CR>')
 map('n', '<M-g>', '<cmd>lua require("telescope.builtin").live_grep()<CR>')
+
 -- Hop
 require 'hop'.setup { keys = 'hklyuiopnm,qwertzxcvbasdgjf;' }
 map('n', '<leader>f', '<Esc> <cmd>lua require("hop").hint_char1()<CR>')
 map('n', '<leader>w', '<Esc> <cmd>lua require("hop").hint_words()<CR>')
+
 -- Indent Blankline
-require 'ibl'.setup {
-	-- char                       = '│',
-	buftype_exclude            = { 'terminal', },
-	filetype_exclude           = { 'man', 'help', 'tutor', 'gitcommit' },
-	show_first_indent_level    = true,
-	show_current_context       = true,
-	show_current_context_start = true,
-	max_indent_increase        = 1,
-}
+require 'ibl'.setup {}
 map('n', '<leader>i', '<cmd>IndentBlanklineToggle<CR><cmd>set number!<CR>')
 map('n', '<leader>I', '<cmd>IndentBlanklineToggle<CR><cmd>set number!<CR>')
 
@@ -290,9 +284,9 @@ api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter', }, {
 	callback = angularSwitcherMappings,
 })
 
-require 'nvim_comment'.setup{}
-require 'nvim-surround'.setup{}
-require 'gitsigns'.setup{}
+require 'nvim_comment'.setup {}
+require 'nvim-surround'.setup {}
+require 'gitsigns'.setup {}
 
 -- Nvim Tree
 require "nvim-tree".setup {
@@ -300,6 +294,7 @@ require "nvim-tree".setup {
 	view = {
 		number = true,
 		relativenumber = true,
+		width = 40
 	},
 }
 map('n', '<C-a>', ':NvimTreeToggle<CR>')
@@ -308,19 +303,19 @@ map('n', '-', ':NvimTreeFocus<CR>')
 vim.api.nvim_create_autocmd("BufEnter", {
 	nested = true,
 	callback = function()
-		local api = require("nvim-tree.api")
+		local tree_api = require("nvim-tree.api")
 
 		-- Only 1 window with nvim-tree left: we probably closed a file buffer
-		if #vim.api.nvim_list_wins() == 1 and api.tree.is_tree_buf() then
+		if #vim.api.nvim_list_wins() == 1 and tree_api.tree.is_tree_buf() then
 			-- Required to let the close event complete. An error is thrown without this.
 			vim.defer_fn(function()
 				-- close nvim-tree: will go to the last hidden buffer used before closing
-				api.tree.toggle({find_file = true, focus = true})
+				tree_api.tree.toggle({ find_file = true, focus = true })
 				-- re-open nivm-tree
-				api.tree.toggle({find_file = true, focus = true})
+				tree_api.tree.toggle({ find_file = true, focus = true })
 				-- nvim-tree is still the active window. Go to the previous window.
-				vim.cmd("wincmd p")
-				end, 0)
+				vim.cmd('wincmd p')
+			end, 0)
 		end
 	end
 })
@@ -334,14 +329,22 @@ api.nvim_set_hl(0, '@lsp.type.variable.typescript', { link = 'Text' })
 api.nvim_set_hl(0, '@lsp.mod.declaration.typescript', { link = 'Identifier' })
 
 local illuminateColor = { bg = '#434343' }
-local highlights = { 'IlluminatedWord', 'IlluminatedCurWord', 'IlluminatedWordText', 'IlluminatedWordRead', 'IlluminatedWordWrite' }
+local highlights = { 'IlluminatedWord', 'IlluminatedCurWord', 'IlluminatedWordText', 'IlluminatedWordRead',
+	'IlluminatedWordWrite' }
 for _, group in ipairs(highlights) do vim.api.nvim_set_hl(0, group, illuminateColor) end
+require 'illuminate'.configure {
+	filetypes_denylist = {
+		'dirbuf',
+		'dirvish',
+		'fugitive',
+		'NvimTree',
+	},
+}
 
-require 'hlargs'.setup { color = '#57ebc8' }
+require 'hlargs'.setup { color = '#57ebc8', }
 
 ---- LSP Plugins ----
 -- VIM_USE_LSP needs to have a value, not just existing.
 if vim.env.VIM_USE_LSP then
 	require 'lsp'
 end
-
