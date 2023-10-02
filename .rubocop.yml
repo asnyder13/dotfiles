@@ -17,3 +17,5 @@ Layout/SpaceInsideArrayLiteralBrackets:
   Enabled: false
 Style/RedundantReturn:
   Enabled: false
+Metrics/MethodLength:
+  Enabled: false

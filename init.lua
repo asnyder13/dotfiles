@@ -8,62 +8,66 @@ local api = vim.api
 local opt = vim.opt
 
 cmd 'packadd paq-nvim'
-local paq = require 'paq'.paq
-paq { 'savq/paq-nvim', opt = true }
+local paq = require 'paq'
+paq {
+	{ 'savq/paq-nvim', opt = true },
 
--- Colorscheme, Neovim specific
-paq 'judaew/ronny.nvim'
+	-- Colorscheme, Neovim specific
+	'judaew/ronny.nvim',
 
--- Regular vim
-paq 'ntpeters/vim-better-whitespace'
-paq 'tpope/vim-fugitive'
-paq 'vim-scripts/ReplaceWithRegister'
-paq 'vim-ruby/vim-ruby'
-paq 'kshenoy/vim-signature'
-paq 'tpope/vim-sleuth'
-paq 'justinmk/vim-sneak'
-paq 'AndrewRadev/splitjoin.vim'
-paq 'danchoi/ri.vim'
-paq 'jlcrochet/vim-razor'
-paq 'tpope/vim-abolish'
+	-- Regular vim
+	'ntpeters/vim-better-whitespace',
+	'tpope/vim-fugitive',
+	'vim-scripts/ReplaceWithRegister',
+	'vim-ruby/vim-ruby',
+	'kshenoy/vim-signature',
+	'tpope/vim-sleuth',
+	'justinmk/vim-sneak',
+	'AndrewRadev/splitjoin.vim',
+	'danchoi/ri.vim',
+	'jlcrochet/vim-razor',
+	'tpope/vim-abolish',
 
--- Neovim specific
-paq 'norcalli/nvim-colorizer.lua'
-paq 'smoka7/hop.nvim'
-paq 'lukas-reineke/indent-blankline.nvim'
-paq 'nvim-lua/plenary.nvim'
-paq 'nvim-lua/popup.nvim'
-paq 'nvim-telescope/telescope.nvim'
-paq 'lewis6991/gitsigns.nvim'
-paq 'nvim-tree/nvim-web-devicons'
-paq 'romgrk/barbar.nvim'
-paq 'RRethy/nvim-align'
-paq 'Everduin94/nvim-quick-switcher'
-paq 'kylechui/nvim-surround'
-paq 'nvim-lualine/lualine.nvim'
-paq 'RRethy/vim-illuminate'
-paq 'terrortylor/nvim-comment'
-paq 'm-demare/hlargs.nvim'
-paq 'nvim-tree/nvim-tree.lua'
+	-- Neovim specific
+	'norcalli/nvim-colorizer.lua',
+	'smoka7/hop.nvim',
+	'lukas-reineke/indent-blankline.nvim',
+	'nvim-lua/plenary.nvim',
+	'nvim-lua/popup.nvim',
+	'nvim-telescope/telescope.nvim',
+	'lewis6991/gitsigns.nvim',
+	'nvim-tree/nvim-web-devicons',
+	'romgrk/barbar.nvim',
+	'RRethy/nvim-align',
+	'Everduin94/nvim-quick-switcher',
+	'kylechui/nvim-surround',
+	'nvim-lualine/lualine.nvim',
+	'RRethy/vim-illuminate',
+	'terrortylor/nvim-comment',
+	'm-demare/hlargs.nvim',
+	'nvim-tree/nvim-tree.lua',
+}
 
 if vim.env.VIM_USE_LSP then
-	paq { 'nvim-treesitter/nvim-treesitter', run = function() cmd ':TSUpdate' end }
-	paq 'neovim/nvim-lspconfig'
-	paq 'mfussenegger/nvim-dap'
-	paq 'williamboman/mason.nvim'
-	paq 'williamboman/mason-lspconfig.nvim'
-	paq 'jay-babu/mason-nvim-dap.nvim'
-	paq 'theHamsta/nvim-dap-virtual-text'
-	paq 'nvim-treesitter/playground'
-	paq 'mhartington/formatter.nvim'
+	paq {
+		{ 'nvim-treesitter/nvim-treesitter', run = function() cmd ':TSUpdate' end },
+		'neovim/nvim-lspconfig',
+		'mfussenegger/nvim-dap',
+		'williamboman/mason.nvim',
+		'williamboman/mason-lspconfig.nvim',
+		'jay-babu/mason-nvim-dap.nvim',
+		'theHamsta/nvim-dap-virtual-text',
+		'nvim-treesitter/playground',
+		'mhartington/formatter.nvim',
 
-	paq 'suketa/nvim-dap-ruby'
+		'suketa/nvim-dap-ruby',
 
-	paq 'hrsh7th/nvim-cmp'
-	paq 'hrsh7th/cmp-nvim-lsp'
-	paq 'hrsh7th/cmp-buffer'
-	paq 'hrsh7th/cmp-path'
-	paq 'hrsh7th/cmp-nvim-lsp-signature-help'
+		'hrsh7th/nvim-cmp',
+		'hrsh7th/cmp-nvim-lsp',
+		'hrsh7th/cmp-buffer',
+		'hrsh7th/cmp-path',
+		'hrsh7th/cmp-nvim-lsp-signature-help',
+	}
 end
 ---- General Settings ----
 
@@ -303,7 +307,7 @@ map('n', '-', ':NvimTreeFocus<CR>')
 vim.api.nvim_create_autocmd("BufEnter", {
 	nested = true,
 	callback = function()
-		local tree_api = require("nvim-tree.api")
+		local tree_api = require('nvim-tree.api')
 
 		-- Only 1 window with nvim-tree left: we probably closed a file buffer
 		if #vim.api.nvim_list_wins() == 1 and tree_api.tree.is_tree_buf() then
