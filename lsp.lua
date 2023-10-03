@@ -6,26 +6,6 @@ local g   = vim.g
 local api = vim.api
 local opt = vim.opt
 
-local paq = require 'paq'
-paq {
-	{ 'nvim-treesitter/nvim-treesitter', run = function() vim.cmd ':TSUpdate' end },
-	'neovim/nvim-lspconfig',
-	'mfussenegger/nvim-dap',
-	'williamboman/mason.nvim',
-	'williamboman/mason-lspconfig.nvim',
-	'jay-babu/mason-nvim-dap.nvim',
-	'theHamsta/nvim-dap-virtual-text',
-	'nvim-treesitter/playground',
-	'mhartington/formatter.nvim',
-
-	'suketa/nvim-dap-ruby',
-
-	'hrsh7th/nvim-cmp',
-	'hrsh7th/cmp-nvim-lsp',
-	'hrsh7th/cmp-buffer',
-	'hrsh7th/cmp-path',
-	'hrsh7th/cmp-nvim-lsp-signature-help',
-}
 
 -- Treesitter
 require 'nvim-treesitter.configs'.setup {

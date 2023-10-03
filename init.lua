@@ -8,8 +8,8 @@ local opt = vim.opt
 
 vim.cmd 'packadd paq-nvim'
 vim.cmd 'packadd matchit'
-local paq = require 'paq'
-paq {
+
+local nonLspPackages = {
 	{ 'savq/paq-nvim', opt = true },
 
 	-- Colorscheme, Neovim specific
@@ -30,7 +30,7 @@ paq {
 
 	-- Neovim specific
 	'nvim-tree/nvim-web-devicons',
-	'norcalli/nvim-colorizer.lua',
+	'NvChad/nvim-colorizer.lua',
 	'smoka7/hop.nvim',
 	'lukas-reineke/indent-blankline.nvim',
 	'nvim-lua/plenary.nvim',
@@ -50,6 +50,33 @@ paq {
 	'MunifTanjim/nui.nvim',
 	's1n7ax/nvim-window-picker',
 }
+
+local lspPackages = {
+	{ 'nvim-treesitter/nvim-treesitter', run = function() vim.cmd ':TSUpdate' end },
+	'neovim/nvim-lspconfig',
+	'mfussenegger/nvim-dap',
+	'williamboman/mason.nvim',
+	'williamboman/mason-lspconfig.nvim',
+	'jay-babu/mason-nvim-dap.nvim',
+	'theHamsta/nvim-dap-virtual-text',
+	'nvim-treesitter/playground',
+	'mhartington/formatter.nvim',
+
+	'suketa/nvim-dap-ruby',
+
+	'hrsh7th/nvim-cmp',
+	'hrsh7th/cmp-nvim-lsp',
+	'hrsh7th/cmp-buffer',
+	'hrsh7th/cmp-path',
+	'hrsh7th/cmp-nvim-lsp-signature-help',
+}
+
+local paq = require 'paq'
+local packages = nonLspPackages
+if vim.env.VIM_USE_LSP then
+	packages = Util.concatTables(packages, lspPackages)
+end
+paq(packages)
 
 ---- General Settings ----
 
