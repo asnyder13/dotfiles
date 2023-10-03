@@ -334,11 +334,17 @@ require 'window-picker'.setup {
 }
 map('n', '<M-w>', function()
 	local picked_window_id = require 'window-picker'.pick_window()
-	api.nvim_call_function('win_gotoid', { picked_window_id })
+	if picked_window_id ~= nil then
+		vim.fn.win_gotoid(picked_window_id)
+	end
 end)
 require 'neo-tree'.setup {
 	filesystem = {
 		hijack_netrw_behavior = "open_default",
+		follow_current_file = {
+			enabled = true,
+			leave_dirs_open = true,
+		}
 	},
 	add_blank_line_at_top = true,
 	window = {
@@ -349,7 +355,7 @@ require 'neo-tree'.setup {
 	},
 	event_handlers = { {
 		event = "neo_tree_buffer_enter",
-		handler = function(arg)
+		handler = function()
 			vim.cmd [[
 				setlocal number
 				setlocal relativenumber
