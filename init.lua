@@ -8,6 +8,7 @@ local api = vim.api
 local opt = vim.opt
 
 cmd 'packadd paq-nvim'
+cmd 'packadd matchit'
 local paq = require 'paq'
 paq {
 	{ 'savq/paq-nvim', opt = true },
@@ -29,6 +30,7 @@ paq {
 	'tpope/vim-abolish',
 
 	-- Neovim specific
+	'nvim-tree/nvim-web-devicons',
 	'norcalli/nvim-colorizer.lua',
 	'smoka7/hop.nvim',
 	'lukas-reineke/indent-blankline.nvim',
@@ -36,7 +38,6 @@ paq {
 	'nvim-lua/popup.nvim',
 	'nvim-telescope/telescope.nvim',
 	'lewis6991/gitsigns.nvim',
-	'nvim-tree/nvim-web-devicons',
 	'romgrk/barbar.nvim',
 	'RRethy/nvim-align',
 	'Everduin94/nvim-quick-switcher',
@@ -46,29 +47,11 @@ paq {
 	'terrortylor/nvim-comment',
 	'm-demare/hlargs.nvim',
 	'nvim-tree/nvim-tree.lua',
+	'nvim-neo-tree/neo-tree.nvim',
+	'MunifTanjim/nui.nvim',
+	's1n7ax/nvim-window-picker',
 }
 
-if vim.env.VIM_USE_LSP then
-	paq {
-		{ 'nvim-treesitter/nvim-treesitter', run = function() cmd ':TSUpdate' end },
-		'neovim/nvim-lspconfig',
-		'mfussenegger/nvim-dap',
-		'williamboman/mason.nvim',
-		'williamboman/mason-lspconfig.nvim',
-		'jay-babu/mason-nvim-dap.nvim',
-		'theHamsta/nvim-dap-virtual-text',
-		'nvim-treesitter/playground',
-		'mhartington/formatter.nvim',
-
-		'suketa/nvim-dap-ruby',
-
-		'hrsh7th/nvim-cmp',
-		'hrsh7th/cmp-nvim-lsp',
-		'hrsh7th/cmp-buffer',
-		'hrsh7th/cmp-path',
-		'hrsh7th/cmp-nvim-lsp-signature-help',
-	}
-end
 ---- General Settings ----
 
 -- Auto commands
@@ -140,13 +123,13 @@ opt.shiftwidth    = indent_size
 opt.expandtab     = false
 cmd 'au FileType cs setlocal shiftwidth=4 softtabstop=4 expandtab'
 
-opt.mouse      = nil
+opt.mouse      = 'c'
 opt.autoindent = true
 opt.showmatch  = true
 opt.visualbell = true
 opt.showmode   = true
 opt.wildmode   = { 'list:longest' }
-opt.scrolloff  = 0
+opt.scrolloff  = 1
 opt.wildignore:append { '*/node_modules/*', '*/.git/*', '*/tmp/*', '*.swp' }
 opt.splitright     = true
 opt.splitbelow     = true
@@ -165,8 +148,14 @@ opt.smartcase      = true
 opt.foldmethod     = 'indent'
 opt.foldlevelstart = 99
 
+
+g.loaded_python3_provider = false
+g.loaded_ruby_provider    = false
+g.loaded_node_provider    = false
+g.loaded_perl_provider    = false
+
 -- Syntax hl/colors
-opt.syntax         = 'on'
+opt.syntax                = 'on'
 -- autocmd to overwrite other highlight groups.  Setup before :colorscheme
 api.nvim_create_autocmd('ColorScheme', {
 	pattern = '*',
@@ -175,6 +164,8 @@ api.nvim_create_autocmd('ColorScheme', {
 			highlight Normal guibg=#282923
 			highlight LineNr guibg=#282923
 			highlight CursorLineNr guibg=#434343
+			highlight IblScope guifg=#b2b2b2
+			highlight TabLineFill guibg=#282923
 		]]
 	end,
 })
@@ -237,7 +228,7 @@ g.loaded_netrwPlugin = 1
 
 -- Neovim plugins
 require 'colorizer'.setup {}
-require 'lualine'.setup {}
+-- require 'lualine'.setup {}
 
 -- Telescope
 require 'telescope'.setup {
@@ -250,7 +241,7 @@ map('n', '<C-p>', '<cmd>lua require("telescope.builtin").find_files({ hidden = f
 map('n', '<C-M-p>', '<cmd>lua require("telescope.builtin").find_files({ hidden = true })<CR>')
 map('n', '<C-g>', '<cmd>lua require("telescope.builtin").git_files()<CR>')
 map('n', '<leader>b', '<cmd>lua require("telescope.builtin").buffers()<CR>')
-map('n', '<C-;>', '<cmd>lua require("telescope.builtin").treesitter()<CR>')
+map('n', '<M-;>', '<cmd>lua require("telescope.builtin").treesitter()<CR>')
 map('n', '<M-g>', '<cmd>lua require("telescope.builtin").live_grep()<CR>')
 
 -- Hop
@@ -259,9 +250,18 @@ map('n', '<leader>f', '<Esc> <cmd>lua require("hop").hint_char1()<CR>')
 map('n', '<leader>w', '<Esc> <cmd>lua require("hop").hint_words()<CR>')
 
 -- Indent Blankline
-require 'ibl'.setup {}
-map('n', '<leader>i', '<cmd>IndentBlanklineToggle<CR><cmd>set number!<CR>')
-map('n', '<leader>I', '<cmd>IndentBlanklineToggle<CR><cmd>set number!<CR>')
+require 'ibl'.setup {
+	scope = {
+		include = {
+			node_type = { ["*"] = { "*" } },
+		},
+	},
+	whitespace = {
+		remove_blankline_trail = false,
+	},
+}
+map('n', '<leader>i', '<cmd>IBLToggle<CR><cmd>set number!<CR>')
+map('n', '<leader>I', '<cmd>IBLToggle<CR><cmd>set number!<CR>')
 
 -- ng quick switcher
 local qs_opts = {
@@ -289,40 +289,49 @@ api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter', }, {
 })
 
 require 'nvim_comment'.setup {}
-require 'nvim-surround'.setup {}
+require 'nvim-surround'.setup { move_cursor = false }
 require 'gitsigns'.setup {}
 
--- Nvim Tree
-require "nvim-tree".setup {
-	update_focused_file = { enable = true, },
-	view = {
-		number = true,
-		relativenumber = true,
-		width = 40
-	},
+-- Neo tree
+require 'window-picker'.setup {
+	filter_rules = {
+		include_current_win = true,
+		autoselect_one = true,
+		-- filter using buffer options
+		bo = {
+			-- if the file type is one of following, the window will be ignored
+			filetype = { 'neo-tree', 'neo-tree-popup', 'notify' },
+			-- if the buffer type is one of following, the window will be ignored
+			buftype = { 'terminal', 'quickfix' },
+		},
+	}
 }
-map('n', '<C-a>', ':NvimTreeToggle<CR>')
-map('n', '-', ':NvimTreeFocus<CR>')
-
-vim.api.nvim_create_autocmd("BufEnter", {
-	nested = true,
-	callback = function()
-		local tree_api = require('nvim-tree.api')
-
-		-- Only 1 window with nvim-tree left: we probably closed a file buffer
-		if #vim.api.nvim_list_wins() == 1 and tree_api.tree.is_tree_buf() then
-			-- Required to let the close event complete. An error is thrown without this.
-			vim.defer_fn(function()
-				-- close nvim-tree: will go to the last hidden buffer used before closing
-				tree_api.tree.toggle({ find_file = true, focus = true })
-				-- re-open nivm-tree
-				tree_api.tree.toggle({ find_file = true, focus = true })
-				-- nvim-tree is still the active window. Go to the previous window.
-				vim.cmd('wincmd p')
-			end, 0)
-		end
-	end
-})
+map('n', '<M-w>', function()
+	local picked_window_id = require 'window-picker'.pick_window()
+	api.nvim_call_function('win_gotoid', { picked_window_id })
+end)
+require 'neo-tree'.setup {
+	filesystem = {
+		hijack_netrw_behavior = "open_default",
+	},
+	add_blank_line_at_top = true,
+	window = {
+		mappings = {
+			["s"] = "split_with_window_picker",
+			["S"] = "vsplit_with_window_picker",
+		}
+	},
+	event_handlers = { {
+		event = "neo_tree_buffer_enter",
+		handler = function(arg)
+			vim.cmd [[
+				setlocal number
+				setlocal relativenumber
+			]]
+		end,
+	} },
+}
+map('n', '-', ':Neotree<CR>')
 
 ---- Highlight changes
 -- vim.highlight.priorities.semantic_tokens = 95

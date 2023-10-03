@@ -7,8 +7,29 @@ local g   = vim.g
 local api = vim.api
 local opt = vim.opt
 
+local paq = require 'paq'
+paq {
+	{ 'nvim-treesitter/nvim-treesitter', run = function() cmd ':TSUpdate' end },
+	'neovim/nvim-lspconfig',
+	'mfussenegger/nvim-dap',
+	'williamboman/mason.nvim',
+	'williamboman/mason-lspconfig.nvim',
+	'jay-babu/mason-nvim-dap.nvim',
+	'theHamsta/nvim-dap-virtual-text',
+	'nvim-treesitter/playground',
+	'mhartington/formatter.nvim',
+
+	'suketa/nvim-dap-ruby',
+
+	'hrsh7th/nvim-cmp',
+	'hrsh7th/cmp-nvim-lsp',
+	'hrsh7th/cmp-buffer',
+	'hrsh7th/cmp-path',
+	'hrsh7th/cmp-nvim-lsp-signature-help',
+}
+
 -- Treesitter
-require'nvim-treesitter.configs'.setup {
+require 'nvim-treesitter.configs'.setup {
 	ensure_installed = {
 		'bash',
 		'c_sharp',
@@ -32,9 +53,9 @@ require'nvim-treesitter.configs'.setup {
 }
 
 ---- Language Servers
-require'mason'.setup{}
-require'mason-lspconfig'.setup{}
-require'mason-nvim-dap'.setup{}
+require 'mason'.setup {}
+require 'mason-lspconfig'.setup {}
+require 'mason-nvim-dap'.setup {}
 
 -- lsp_installer/lspconfig
 
@@ -63,11 +84,10 @@ local on_attach = function(_, bufnr)
 	map('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
 	map('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
 	map('n', '<leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-	-- map('n', '==', [[command! Format execute 'lua vim.lsp.buf.format { async = true }']], opts)
 	map('n', '==', '<cmd>lua vim.lsp.buf.format { async = true }<CR>', opts)
 	map('n', '<C-]>', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
 
-	cmd [[command! Format execute 'lua vim.lsp.buf.formatting()']]
+	-- cmd [[command! Format execute 'lua vim.lsp.buf.formatting()']]
 end
 
 -- Setup installed servers.
@@ -94,7 +114,7 @@ local custom_settings = {
 
 local lspconfig = require 'lspconfig';
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
-require'mason-lspconfig'.setup_handlers {
+require 'mason-lspconfig'.setup_handlers {
 	function(server_name)
 		lspconfig[server_name].setup {
 			on_attach = on_attach,
@@ -135,11 +155,11 @@ cmp.setup {
 		['<C-u>'] = cmp.mapping.scroll_docs(-4),
 	},
 	sources = cmp.config.sources({
-		{ name = 'nvim_lsp', group_index = 1 },
+		{ name = 'nvim_lsp',   group_index = 1 },
 		{ name = 'treesitter', group_index = 2 },
-		{ name = 'buffer', group_index = 3 },
-		{ name = 'path', group_index = 3 },
-	},{
+		{ name = 'buffer',     group_index = 3 },
+		{ name = 'path',       group_index = 3 },
+	}, {
 		{ name = 'nvim_lsp_signature_help' },
 	}),
 	window = {
@@ -150,7 +170,7 @@ cmp.setup {
 }
 
 -- DAP
-require'nvim-dap-virtual-text'.setup{}
+require 'nvim-dap-virtual-text'.setup {}
 local dap = require 'dap'
 
 -- dap mappings
@@ -158,7 +178,7 @@ local dap_opts = {
 	silent = true,
 	buffer = true,
 }
-map('n', '<F5>',         function() return dap.continue() end, dap_opts)
+map('n', '<F5>', function() return dap.continue() end, dap_opts)
 map('n', '<Leader><F5>', function() return dap.terminate() end, dap_opts)
 map('n', '<F10>',        function() return dap.step_over() end, dap_opts)
 map('n', '<Leader><F11>',function() return dap.step_into() end, dap_opts)
@@ -182,7 +202,7 @@ map('n', '<Leader>ds', function()
 end)
 
 
-require'dap-ruby'.setup()
+require 'dap-ruby'.setup()
 -- re-set configs, only want one.
 dap.configurations.ruby = {
 	{
@@ -243,4 +263,3 @@ require('formatter').setup {
 		},
 	},
 }
-
