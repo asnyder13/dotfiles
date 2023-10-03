@@ -1,7 +1,6 @@
 require 'util'
 local map = Util.map
 
-local cmd = vim.cmd
 local fn  = vim.fn
 local g   = vim.g
 local api = vim.api
@@ -9,7 +8,7 @@ local opt = vim.opt
 
 local paq = require 'paq'
 paq {
-	{ 'nvim-treesitter/nvim-treesitter', run = function() cmd ':TSUpdate' end },
+	{ 'nvim-treesitter/nvim-treesitter', run = function() vim.cmd ':TSUpdate' end },
 	'neovim/nvim-lspconfig',
 	'mfussenegger/nvim-dap',
 	'williamboman/mason.nvim',
@@ -66,26 +65,26 @@ local on_attach = function(_, bufnr)
 	local opts = { noremap = true, silent = true, buffer = bufnr }
 
 	-- See `:help vim.lsp.*` for documentation on any of the below functions
-	map('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-	map('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-	map('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-	map('n', 'gh', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-	map('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-	map('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-	map('i', '<C-s>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-	map('n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-	map('n', '<M-r>', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-	map('n', '<M-e>', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-	map({ 'n', 'v' }, '<C-Space>', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-	-- map('v', '<C-Space>', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-	-- map('v', '<leader>a', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-	map('n', '<C-F12>', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-	map('n', '<leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
-	map('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-	map('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-	map('n', '<leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-	map('n', '==', '<cmd>lua vim.lsp.buf.format { async = true }<CR>', opts)
-	map('n', '<C-]>', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+	map('n', 'gD', ':lua vim.lsp.buf.declaration()<CR>', opts)
+	map('n', 'gd', ':lua vim.lsp.buf.definition()<CR>', opts)
+	map('n', 'K', ':lua vim.lsp.buf.hover()<CR>', opts)
+	map('n', 'gh', ':lua vim.lsp.buf.hover()<CR>', opts)
+	map('n', 'gi', ':lua vim.lsp.buf.implementation()<CR>', opts)
+	map('n', '<C-k>', ':lua vim.lsp.buf.signature_help()<CR>', opts)
+	map('i', '<C-s>', ':lua vim.lsp.buf.signature_help()<CR>', opts)
+	map('n', '<leader>D', ':lua vim.lsp.buf.type_definition()<CR>', opts)
+	map('n', '<M-r>', ':lua vim.lsp.buf.rename()<CR>', opts)
+	map('n', '<M-e>', ':lua vim.lsp.buf.rename()<CR>', opts)
+	map({ 'n', 'v' }, '<C-Space>', ':lua vim.lsp.buf.code_action()<CR>', opts)
+	-- map('v', '<C-Space>', ':lua vim.lsp.buf.code_action()<CR>', opts)
+	-- map('v', '<leader>a', ':lua vim.lsp.buf.code_action()<CR>', opts)
+	map('n', '<C-F12>', ':lua vim.lsp.buf.references()<CR>', opts)
+	map('n', '<leader>e', ':lua vim.diagnostic.open_float()<CR>', opts)
+	map('n', '[d', ':lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+	map('n', ']d', ':lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+	map('n', '<leader>q', ':lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+	map('n', '==', ':lua vim.lsp.buf.format { async = true }<CR>', opts)
+	map('n', '<C-]>', ':lua vim.lsp.buf.definition()<CR>', opts)
 
 	-- cmd [[command! Format execute 'lua vim.lsp.buf.formatting()']]
 end

@@ -1,14 +1,13 @@
 require 'util'
 local map = Util.map
 
-local cmd = vim.cmd
 local fn  = vim.fn
 local g   = vim.g
 local api = vim.api
 local opt = vim.opt
 
-cmd 'packadd paq-nvim'
-cmd 'packadd matchit'
+vim.cmd 'packadd paq-nvim'
+vim.cmd 'packadd matchit'
 local paq = require 'paq'
 paq {
 	{ 'savq/paq-nvim', opt = true },
@@ -55,7 +54,7 @@ paq {
 ---- General Settings ----
 
 -- Auto commands
-cmd([[
+vim.cmd([[
 	" Sytaxes
 	autocmd BufNewFile,BufRead *.npmrc   set ft=dosini
 	autocmd BufNewFile,BufRead *bash-fc* set ft=sh
@@ -88,7 +87,7 @@ cmd([[
 
 -- Search for visual selection
 -- https://vim.fandom.com/wiki/Search_for_visually_selected_text
-cmd([[
+vim.cmd([[
 	" Search for selected text, forwards or backwards.
 	vnoremap <silent> * :<C-U>
 		\let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
@@ -121,7 +120,7 @@ local indent_size = 2
 opt.tabstop       = indent_size
 opt.shiftwidth    = indent_size
 opt.expandtab     = false
-cmd 'au FileType cs setlocal shiftwidth=4 softtabstop=4 expandtab'
+vim.cmd 'au FileType cs setlocal shiftwidth=4 softtabstop=4 expandtab'
 
 opt.mouse      = 'c'
 opt.autoindent = true
@@ -160,7 +159,7 @@ opt.syntax                = 'on'
 api.nvim_create_autocmd('ColorScheme', {
 	pattern = '*',
 	callback = function()
-		cmd [[
+		vim.cmd [[
 			highlight Normal guibg=#282923
 			highlight LineNr guibg=#282923
 			highlight CursorLineNr guibg=#434343
@@ -176,7 +175,7 @@ require 'ronny'.setup {
 	colors = colors,
 	display = { monokai_original = true },
 }
-cmd 'colorscheme ronny'
+vim.cmd 'colorscheme ronny'
 
 Util.create_text_object('|')
 
@@ -197,7 +196,7 @@ map('n', 'gbn', ':bn<CR>')
 map('n', 'gbN', ':bN<CR>')
 map('n', 'gbd', ':bd<CR>')
 map('n', '<BS>', '<C-^>')
-cmd [[
+vim.cmd [[
 	nnoremap <expr> j v:count ? (v:count > 5 ? "m'" . v:count : '') . 'j' : 'gj'
 	nnoremap <expr> k v:count ? (v:count > 5 ? "m'" . v:count : '') . 'k' : 'gk'
 	command! TrimLineEnds %s/\v\s+$//
@@ -213,7 +212,7 @@ g.netrw_browse_split = 4
 g.netrw_altv = 1
 g.netrw_winsize = 25
 -- Sneak
-cmd [[
+vim.cmd [[
 	let g:sneak#use_ic_scs = 1
 	let g:sneak#map_netrw = 1
 ]]
@@ -246,8 +245,8 @@ map('n', '<M-g>', '<cmd>lua require("telescope.builtin").live_grep()<CR>')
 
 -- Hop
 require 'hop'.setup { keys = 'hklyuiopnm,qwertzxcvbasdgjf;' }
-map('n', '<leader>f', '<Esc> <cmd>lua require("hop").hint_char1()<CR>')
-map('n', '<leader>w', '<Esc> <cmd>lua require("hop").hint_words()<CR>')
+map('n', '<leader>f', '<Esc> :lua require("hop").hint_char1()<CR>')
+map('n', '<leader>w', '<Esc> :lua require("hop").hint_words()<CR>')
 
 -- Indent Blankline
 require 'ibl'.setup {
@@ -260,8 +259,8 @@ require 'ibl'.setup {
 		remove_blankline_trail = false,
 	},
 }
-map('n', '<leader>i', '<cmd>IBLToggle<CR><cmd>set number!<CR>')
-map('n', '<leader>I', '<cmd>IBLToggle<CR><cmd>set number!<CR>')
+map('n', '<leader>i', ':IBLToggle<CR>:set number!<CR>')
+map('n', '<leader>I', ':IBLToggle<CR>:set number!<CR>')
 
 -- ng quick switcher
 local qs_opts = {
