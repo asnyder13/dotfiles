@@ -41,7 +41,6 @@ local nonLspPackages = {
 	'RRethy/nvim-align',
 	'Everduin94/nvim-quick-switcher',
 	'kylechui/nvim-surround',
-	'nvim-lualine/lualine.nvim',
 	'RRethy/vim-illuminate',
 	'terrortylor/nvim-comment',
 	'm-demare/hlargs.nvim',
@@ -49,6 +48,7 @@ local nonLspPackages = {
 	'nvim-neo-tree/neo-tree.nvim',
 	'MunifTanjim/nui.nvim',
 	's1n7ax/nvim-window-picker',
+	'bluz71/nvim-linefly',
 }
 
 local lspPackages = {
@@ -228,20 +228,11 @@ vim.cmd [[
 	nnoremap <expr> k v:count ? (v:count > 5 ? "m'" . v:count : '') . 'k' : 'gk'
 	command! TrimLineEnds %s/\v\s+$//
 ]]
-map('n', '<A-b>', ':BufferPick<CR>')
 
 ---- Plugin Settings ----
 -- Vim plugins
--- netrw
-g.netrw_banner = 0
-g.netrw_liststyle = 3
-g.netrw_browse_split = 4
-g.netrw_altv = 1
-g.netrw_winsize = 25
--- Sneak
 vim.cmd [[
 	let g:sneak#use_ic_scs = 1
-	let g:sneak#map_netrw = 1
 ]]
 -- Highlighted yank
 g.highlightedyank_highlight_duration = 500
@@ -255,6 +246,15 @@ g.loaded_netrwPlugin = 1
 -- Neovim plugins
 require 'colorizer'.setup {}
 -- require 'lualine'.setup {}
+
+require 'barbar'.setup {
+	exclude_ft = { 'neo-tree' },
+	focus_on_close = 'previous',
+	icons = {
+		buffer_number = true,
+	}
+}
+map('n', '<M-b>', ':BufferPick<CR>')
 
 -- Telescope
 require 'telescope'.setup {
