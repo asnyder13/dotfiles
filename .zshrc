@@ -186,20 +186,3 @@ if [[ -f ~/.zshrc_local ]]; then
 	source ~/.zshrc_local
 fi
 
-# Load Angular CLI autocompletion.
-if command -v ng >/dev/null 2>&1; then
-	source <(ng completion script)
-fi
-
-if [[ -d "$HOME/.nvm" ]]; then
-	export NVM_DIR="$HOME/.nvm"
-	if [[ -f "$NVM_DIR/nvm.sh" ]]; then
-		source "$NVM_DIR/nvm.sh"  # This loads nvm
-	fi
-	if [[ -f "$NVM_DIR/bash_completion"  ]]; then
-		source "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-	fi
-fi
-
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
