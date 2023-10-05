@@ -371,15 +371,37 @@ require 'neo-tree'.setup {
 map('n', '-', ':Neotree<CR>')
 
 ---- Highlight changes
--- vim.highlight.priorities.semantic_tokens = 95
+-- The ronny colorscheme gets colors right and has robust coverage, but with TS and LSP tokens
+--   it ends up coloring literally everything and floods the brain.
 local highlightReLinks = {
-	['@property.typescript'] = 'Text',
-	['@lsp.type.property.typescript'] = 'Text',
-	['@variable.typescript'] = 'Text',
-	['@lsp.type.variable.typescript'] = 'Text',
+	-- C#
+	'@punctuation.bracket.c_sharp',
+	'@variable.c_sharp',
+	'@type.c_sharp',
+	'@lsp.type.property.cs',
+	'@lsp.type.namespace.cs',
+	'@lsp.type.variable.cs',
+	-- Lua
+	'@field.lua',
+	'@variable.lua',
+	'@lsp.type.property.lua',
+	'@lsp.type.variable.lua',
+	-- Ruby
+	'@variable.ruby',
+	'@lsp.type.variable.ruby',
+	-- TS
+	'@property.typescript',
+	'@variable.typescript',
+	'@lsp.type.property.typescript',
+	'@lsp.type.variable.typescript',
 }
 for k, v in pairs(highlightReLinks) do
-	api.nvim_set_hl(0, k, { link = v })
+	-- Lua table literals auto-key w/ incrementing index when given plain values
+	if type(k) == 'number' then
+		api.nvim_set_hl(0, v, { link = 'Text' })
+	else
+		api.nvim_set_hl(0, k, { link = v })
+	end
 end
 
 local illuminateColor = { bg = '#434343' }
