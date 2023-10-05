@@ -61,6 +61,7 @@ local lspPackages = {
 	'theHamsta/nvim-dap-virtual-text',
 	'nvim-treesitter/playground',
 	'mhartington/formatter.nvim',
+	'HiPhish/rainbow-delimiters.nvim',
 
 	'suketa/nvim-dap-ruby',
 
@@ -367,11 +368,15 @@ map('n', '-', ':Neotree<CR>')
 
 ---- Highlight changes
 -- vim.highlight.priorities.semantic_tokens = 95
-api.nvim_set_hl(0, '@property.typescript', { link = 'Text' })
-api.nvim_set_hl(0, '@lsp.type.property.typescript', { link = 'Text' })
-api.nvim_set_hl(0, '@variable.typescript', { link = 'Text' })
-api.nvim_set_hl(0, '@lsp.type.variable.typescript', { link = 'Text' })
-api.nvim_set_hl(0, '@lsp.mod.declaration.typescript', { link = 'Identifier' })
+local highlightReLinks = {
+	['@property.typescript'] = 'Text',
+	['@lsp.type.property.typescript'] = 'Text',
+	['@variable.typescript'] = 'Text',
+	['@lsp.type.variable.typescript'] = 'Text',
+}
+for k, v in pairs(highlightReLinks) do
+	api.nvim_set_hl(0, k, { link = v })
+end
 
 local illuminateColor = { bg = '#434343' }
 local highlights = { 'IlluminatedWord', 'IlluminatedCurWord', 'IlluminatedWordText', 'IlluminatedWordRead',

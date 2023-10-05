@@ -242,3 +242,24 @@ require('formatter').setup {
 		},
 	},
 }
+
+require 'rainbow-delimiters.setup' {
+	highlight = {
+		'RainbowDelimiterYellow',
+		'RainbowDelimiterViolet',
+		'RainbowDelimiterGreen',
+	},
+	blacklist = {
+		'c_sharp'
+	}
+}
+-- Colors from VSCode's rainbow highlight which work well w/ monokai.
+local delimColors = {
+	RainbowDelimiterYellow = '#FFFF40',
+	RainbowDelimiterViolet = '#FF7FFF',
+	RainbowDelimiterGreen  = '#7FFF7F',
+	RainbowDelimiterCyan   = '#4FECEC',
+}
+for k, v in pairs(delimColors) do
+	api.nvim_set_hl(0, k, { fg = v })
+end
