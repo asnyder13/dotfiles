@@ -52,24 +52,29 @@ local nonLspPackages = {
 }
 
 local lspPackages = {
+	-- Treesitter
 	{ 'nvim-treesitter/nvim-treesitter', run = function() vim.cmd ':TSUpdate' end },
+	'nvim-treesitter/playground',
+
+	-- LSP
 	'neovim/nvim-lspconfig',
-	'mfussenegger/nvim-dap',
 	'williamboman/mason.nvim',
 	'williamboman/mason-lspconfig.nvim',
-	'jay-babu/mason-nvim-dap.nvim',
-	'theHamsta/nvim-dap-virtual-text',
-	'nvim-treesitter/playground',
 	'mhartington/formatter.nvim',
-	'HiPhish/rainbow-delimiters.nvim',
 
-	'suketa/nvim-dap-ruby',
-
+	-- cpm for LSP
 	'hrsh7th/nvim-cmp',
 	'hrsh7th/cmp-nvim-lsp',
 	'hrsh7th/cmp-buffer',
 	'hrsh7th/cmp-path',
 	'hrsh7th/cmp-nvim-lsp-signature-help',
+
+	'mfussenegger/nvim-dap',
+	'jay-babu/mason-nvim-dap.nvim',
+	'theHamsta/nvim-dap-virtual-text',
+	'suketa/nvim-dap-ruby',
+
+	'HiPhish/rainbow-delimiters.nvim',
 }
 
 local paq = require 'paq'
@@ -186,15 +191,13 @@ opt.syntax                = 'on'
 -- autocmd to overwrite other highlight groups.  Setup before :colorscheme
 api.nvim_create_autocmd('ColorScheme', {
 	pattern = '*',
-	callback = function()
-		vim.cmd [[
+	command = [[
 			highlight Normal guibg=#282923
 			highlight LineNr guibg=#282923
 			highlight CursorLineNr guibg=#434343
 			highlight IblScope guifg=#b2b2b2
 			highlight TabLineFill guibg=#282923
 		]]
-	end,
 })
 
 local colors = require "ronny.colors"
@@ -229,6 +232,7 @@ vim.cmd [[
 	nnoremap <expr> k v:count ? (v:count > 5 ? "m'" . v:count : '') . 'k' : 'gk'
 	command! TrimLineEnds %s/\v\s+$//
 ]]
+map('n', '<leader><C-i>', ':Inspect<CR>')
 
 ---- Plugin Settings ----
 -- Vim plugins
@@ -280,7 +284,7 @@ map('n', '<leader>w', '<Esc> :lua require("hop").hint_words()<CR>')
 require 'ibl'.setup {
 	scope = {
 		include = {
-			node_type = { ["*"] = { "*" } },
+			-- node_type = { ["*"] = { "*" } },
 		},
 	},
 	whitespace = {
@@ -391,7 +395,7 @@ require 'illuminate'.configure {
 	},
 }
 
-require 'hlargs'.setup { color = '#57ebc8', }
+-- require 'hlargs'.setup { color = '#57ebc8', }
 
 ---- LSP Plugins ----
 -- VIM_USE_LSP needs to have a value, not just existing.
