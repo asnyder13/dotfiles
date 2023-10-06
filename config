@@ -8,7 +8,7 @@
 	lg = !"git lg1"
 	lgme = !"git lg3"
 [core]
-	autocrlf = false
+	autocrlf = true
 [includeIf "gitdir:/mnt/c/Users/Snyder/Documents/Work/"]
 	path = /mnt/c/Users/Snyder/Documents/Work/.gitconfig_include
 [includeIf "gitdir:/home/snyder/src/"]

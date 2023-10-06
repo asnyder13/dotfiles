@@ -29,7 +29,12 @@ require 'nvim-treesitter.configs'.setup {
 	incremental_selection = { enable = true },
 	textobjects = { enable = true },
 	indent = { enable = true },
+	context_commentstring = {
+		enable = true,
+		enable_autocmd = false,
+	}
 }
+require 'ts_context_commentstring'.setup {}
 
 ---- Language Servers
 require 'mason'.setup {}

@@ -41,7 +41,8 @@ local nonLspPackages = {
 	'Everduin94/nvim-quick-switcher',
 	'kylechui/nvim-surround',
 	'RRethy/vim-illuminate',
-	'terrortylor/nvim-comment',
+	'numToStr/Comment.nvim',
+	'JoosepAlviste/nvim-ts-context-commentstring',
 	'm-demare/hlargs.nvim',
 	'nvim-tree/nvim-tree.lua',
 	'nvim-neo-tree/neo-tree.nvim',
@@ -200,7 +201,7 @@ api.nvim_create_autocmd('ColorScheme', {
 })
 
 local colors = require "ronny.colors"
-for _, v in pairs(colors.syntax) do v.italic = false end
+-- for _, v in pairs(colors.syntax) do v.italic = false end
 require 'ronny'.setup {
 	colors = colors,
 	display = { monokai_original = true },
@@ -318,7 +319,10 @@ api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter', }, {
 	callback = angularSwitcherMappings,
 })
 
-require 'nvim_comment'.setup {}
+require 'Comment'.setup {
+	pre_hook = require 'ts_context_commentstring.integrations.comment_nvim'.create_pre_hook(),
+}
+
 require 'nvim-surround'.setup { move_cursor = false }
 require 'gitsigns'.setup {}
 
@@ -336,12 +340,14 @@ require 'window-picker'.setup {
 		},
 	}
 }
-map('n', '<M-w>', function()
+local openWindowPicker = function()
 	local picked_window_id = require 'window-picker'.pick_window()
 	if picked_window_id ~= nil then
 		vim.fn.win_gotoid(picked_window_id)
 	end
-end)
+end
+map('n', '<M-w>', openWindowPicker)
+map('n', '<C-q>', openWindowPicker)
 
 require 'neo-tree'.setup {
 	filesystem = {
@@ -378,8 +384,9 @@ local highlightReLinks = {
 	'@punctuation.bracket.c_sharp',
 	'@variable.c_sharp',
 	'@type.c_sharp',
-	'@lsp.type.property.cs',
+	['@lsp.type.interface.cs'] = 'DevIconLiquid',
 	'@lsp.type.namespace.cs',
+	'@lsp.type.property.cs',
 	'@lsp.type.variable.cs',
 	-- Lua
 	'@field.lua',
