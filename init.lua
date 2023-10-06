@@ -24,7 +24,6 @@ local nonLspPackages = {
 	'tpope/vim-sleuth',
 	'justinmk/vim-sneak',
 	'AndrewRadev/splitjoin.vim',
-	'danchoi/ri.vim',
 	'jlcrochet/vim-razor',
 	'tpope/vim-abolish',
 
@@ -343,6 +342,7 @@ map('n', '<M-w>', function()
 		vim.fn.win_gotoid(picked_window_id)
 	end
 end)
+
 require 'neo-tree'.setup {
 	filesystem = {
 		hijack_netrw_behavior = "open_default",

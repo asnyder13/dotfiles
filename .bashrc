@@ -27,6 +27,16 @@ if [[ ! $(grep 'set completion-ignore-case On' ~/.inputrc) ]]; then
 	echo 'set completion-ignore-case On' >> ~/.inputrc
 fi
 
+if [[ -d "$HOME/.nvm" ]]; then
+	export NVM_DIR="$HOME/.nvm"
+	if [[ -f "$NVM_DIR/nvm.sh" ]]; then
+		source "$NVM_DIR/nvm.sh"  # This loads nvm
+	fi
+	if [[ -f "$NVM_DIR/bash_completion"  ]]; then
+		source "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+	fi
+fi
+
 export HISTCONTROL=ignoredups
 shopt -s histverify
 

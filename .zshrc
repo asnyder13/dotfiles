@@ -1,3 +1,5 @@
+# zmodload zsh/zprof
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -65,6 +67,7 @@ HYPHEN_INSENSITIVE="true"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
+zstyle ':omz:plugins:nvm' lazy yes
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
@@ -73,9 +76,11 @@ HYPHEN_INSENSITIVE="true"
 plugins=(
 	dotnet
 	extract
+	fd
 	git
 	ng
 	npm
+	nvm
 	rvm
 	safe-paste
 	sudo
@@ -182,7 +187,4 @@ bindkey '^Xa' _expand_alias
 
 source ~/.commonrc
 
-if [[ -f ~/.zshrc_local ]]; then
-	source ~/.zshrc_local
-fi
-
+# zprof
