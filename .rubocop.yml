@@ -1,6 +1,8 @@
 AllCops:
-  TargetRubyVersion: 3.1
+  TargetRubyVersion: 3.2
   NewCops: enable
+Layout/CommentIndentation:
+  Enabled: false
 Layout/EmptyLineBetweenDefs:
   Enabled: false
 Layout/ExtraSpacing:
@@ -15,7 +17,7 @@ Layout/IndentationWidth:
   Enabled: false
 Layout/SpaceInsideArrayLiteralBrackets:
   Enabled: false
-Style/RedundantReturn:
-  Enabled: false
 Metrics/MethodLength:
+  Enabled: false
+Style/RedundantReturn:
   Enabled: false

@@ -237,6 +237,7 @@ vim.cmd [[
 	command! TrimLineEnds %s/\v\s+$//
 ]]
 map('n', '<leader><C-i>', ':Inspect<CR>')
+map('n', '<C-w><C-w>', '<C-w><C-p>')
 
 ---- Plugin Settings ----
 -- Vim plugins
@@ -364,8 +365,12 @@ require 'neo-tree'.setup {
 	add_blank_line_at_top = true,
 	window = {
 		mappings = {
-			["s"] = "split_with_window_picker",
-			["S"] = "vsplit_with_window_picker",
+			["s"] = "open_split",
+			["S"] = "open_vsplit",
+			["x"] = "split_with_window_picker",
+			["v"] = "vsplit_with_window_picker",
+			["<C-x>"] = "cut_to_clipboard",
+			["<C-c>"] = "clear_filter",
 		}
 	},
 	event_handlers = { {
@@ -425,6 +430,7 @@ require 'illuminate'.configure {
 		'dirvish',
 		'fugitive',
 		'NvimTree',
+		'man',
 	},
 }
 

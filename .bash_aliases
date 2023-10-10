@@ -87,6 +87,11 @@ function cdmk () {
 function vimhelp () {
 	vim -c "help $1 | only"
 }
+function vimman () {
+	vim -c "Man $1 | only"
+}
+alias vimh='vimhelp'
+alias vimm='vimman'
 
 function toyaml () {
 	if ! command -v ruby >/dev/null 2>&1; then
