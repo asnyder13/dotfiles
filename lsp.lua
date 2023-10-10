@@ -141,8 +141,9 @@ cmp.setup {
 	sources = cmp.config.sources({
 		{ name = 'nvim_lsp',   group_index = 1 },
 		{ name = 'treesitter', group_index = 2 },
-		{ name = 'buffer',     group_index = 3 },
-		{ name = 'path',       group_index = 3 },
+		{ name = 'luasnip',    group_index = 3 },
+		{ name = 'buffer',     group_index = 4 },
+		{ name = 'path',       group_index = 4 },
 	}, {
 		{ name = 'nvim_lsp_signature_help' },
 	}),
@@ -150,8 +151,17 @@ cmp.setup {
 		completion = cmp.config.window.bordered(),
 		documentation = cmp.config.window.bordered(),
 	},
-	completion = { completeopt = 'menuone,noinsert,noselect' }
+	completion = { completeopt = 'menuone,noinsert,noselect' },
+	snippet = {
+		expand = function(args)
+			require 'luasnip'.lsp_expand(args.body)
+		end,
+	},
 }
+
+-- luasnip
+require 'luasnip.loaders.from_vscode'.lazy_load()
+require 'luasnip.loaders.from_snipmate'.lazy_load()
 
 -- DAP
 require 'nvim-dap-virtual-text'.setup {}
@@ -163,19 +173,19 @@ local dap_opts = {
 	buffer = true,
 }
 map('n', '<F5>', function() return dap.continue() end, dap_opts)
-map('n', '<Leader><F5>', function() return dap.terminate() end, dap_opts)
-map('n', '<F10>',        function() return dap.step_over() end, dap_opts)
-map('n', '<Leader><F11>',function() return dap.step_into() end, dap_opts)
-map('n', '<F11>',        function() return dap.step_into() end, dap_opts)
-map('n', '<F12>',        function() return dap.step_out() end, dap_opts)
-map('n', '<Leader>db',   function() return dap.toggle_breakpoint() end, dap_opts)
-map('n', '<F9>',         function() return dap.toggle_breakpoint() end, dap_opts)
-map('n', '<Leader>dB',   function() return dap.set_breakpoint(vim.fn.input('Breakpoint condition: ')) end, dap_opts)
-map('n', '<Leader>lp',   function() return dap.set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) end, dap_opts)
-map('n', '<Leader>dr',   function() return dap.repl.open() end, dap_opts)
-map('n', '<Leader>dl',   function() return dap.run_last() end, dap_opts)
-map({'n', 'v'}, '<Leader>dh', function() require('dap.ui.widgets').hover() end)
-map({'n', 'v'}, '<Leader>dp', function() require('dap.ui.widgets').preview() end)
+map('n', '<Leader><F5>',  function() return dap.terminate() end, dap_opts)
+map('n', '<F10>',         function() return dap.step_over() end, dap_opts)
+map('n', '<Leader><F11>', function() return dap.step_into() end, dap_opts)
+map('n', '<F11>',         function() return dap.step_into() end, dap_opts)
+map('n', '<F12>',         function() return dap.step_out() end, dap_opts)
+map('n', '<Leader>db',    function() return dap.toggle_breakpoint() end, dap_opts)
+map('n', '<F9>',          function() return dap.toggle_breakpoint() end, dap_opts)
+map('n', '<Leader>dB',    function() return dap.set_breakpoint(vim.fn.input('Breakpoint condition: ')) end, dap_opts)
+map('n', '<Leader>lp',    function() return dap.set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) end, dap_opts)
+map('n', '<Leader>dr',    function() return dap.repl.open() end, dap_opts)
+map('n', '<Leader>dl',    function() return dap.run_last() end, dap_opts)
+map({ 'n', 'v' }, '<Leader>dh', function() require('dap.ui.widgets').hover() end)
+map({ 'n', 'v' }, '<Leader>dp', function() require('dap.ui.widgets').preview() end)
 map('n', '<Leader>df', function()
 	local widgets = require('dap.ui.widgets')
 	widgets.centered_float(widgets.frames)

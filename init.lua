@@ -53,7 +53,7 @@ local nonLspPackages = {
 
 local lspPackages = {
 	-- Treesitter
-	{ 'nvim-treesitter/nvim-treesitter', run = function() vim.cmd ':TSUpdate' end },
+	{ 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' },
 	'nvim-treesitter/playground',
 
 	-- LSP
@@ -68,6 +68,10 @@ local lspPackages = {
 	'hrsh7th/cmp-buffer',
 	'hrsh7th/cmp-path',
 	'hrsh7th/cmp-nvim-lsp-signature-help',
+
+	{ 'L3MON4D3/LuaSnip', run = 'make install_jsregexp' },
+	'rafamadriz/friendly-snippets',
+	'honza/vim-snippets',
 
 	'mfussenegger/nvim-dap',
 	'jay-babu/mason-nvim-dap.nvim',
