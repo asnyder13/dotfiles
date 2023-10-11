@@ -16,6 +16,26 @@ alias yume='sudo dnf erase' ;
 
 # Alias editing these files.
 # Get current dotfile list.
+source "$HOME/.dotfiles/stow-sources"
+DOTFILES=()
+for x in ${STOW_SOURCES[@]}; do
+	find "$HOME/.dotfiles/$x" -type f | while read f; do
+		DOTFILES+=("$f")
+	done
+done
+if [ -f ~/.bashrc_local ]; then DOTFILES+=("$HOME/.bashrc_local"); fi
+if [ -f ~/.bash_aliases_local ]; then DOTFILES+=("$HOME/.bash_aliases_local"); fi
+if [ -f ~/.zshrc_local ]; then DOTFILES+=("$HOME/.zshrc_local"); fi
+CONFIGFILES=(
+	install.sh
+	stow-sources
+)
+for CONFIG in "${CONFIGFILES[@]}"; do
+	DOTFILES+=("$HOME/.dotfiles/$CONFIG")
+done
+# Only gonna work if you've installed in ~/.dotfiles
+alias editrcs="vim +'set autochdir' ${DOTFILES[*]}"
+
 # source "$HOME/.dotfiles/.DOTFILES"
 # i=0
 # end=${#DOTFILES[@]}

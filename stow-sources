@@ -1,6 +1,6 @@
-# ft=bash
+#!/usr/bin/env bash
 
-STOW_TARGETS=(
+STOW_SOURCES=(
 	bash
 	common
 	git
