@@ -18,11 +18,11 @@ export DOTNET_CLI_TELEMETRY_OPTOUT=1
 export ASPNETCORE_ENVIRONMENT=Development
 
 # Aliases/Local Aliases
-if [[ -f ~/.bash_aliases ]]; then
-	source ~/.bash_aliases
+if [[ -f ~/.aliases ]]; then
+	source ~/.aliases
 fi
-if [[ -f ~/.bash_aliases_local ]]; then
-	source ~/.bash_aliases_local
+if [[ -f ~/.aliases_local ]]; then
+	source ~/.aliases_local
 fi
 
 # Load Angular CLI autocompletion.
