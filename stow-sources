@@ -1,0 +1,11 @@
+# ft=bash
+
+STOW_TARGETS=(
+	bash
+	common
+	git
+	nvim
+	ruby
+	vim
+	zsh
+)

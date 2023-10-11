@@ -68,6 +68,7 @@ HYPHEN_INSENSITIVE="true"
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
 zstyle ':omz:plugins:nvm' lazy yes
+zstyle ':omz:plugins:rvm' lazy yes
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/

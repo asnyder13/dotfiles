@@ -24,7 +24,4 @@ tags
 # Persistent undo
 [._]*.un~
 
-# Coc configuration directory
-.vim
-
 # End of https://www.gitignore.io/api/vim

@@ -4,35 +4,14 @@
 ### Dotfiles ###
 ################
 scriptpath="$( cd "$(dirname "$0")" >/dev/null 2>&1 || exit 1 ; pwd -P )"
-source "$scriptpath/.DOTFILES"
+source "$scriptpath/stow-sources"
 
-# Link a dot file
-# $1 dotfile name
-# $2 link location (default: $HOME)
-link_dotfile () {
-	local dotfile=$1
-	local linkpath=${2:-$HOME}
-	local linkfile="$linkpath/$dotfile"
-
-	if [[ -L $linkfile ]]; then
-		printf "%s is already linked\n" "$linkfile"
-		return 0
-	elif [[ ! -L $linkfile && -f $linkfile ]]; then
-		printf "%s renamed to %s-bkup\n" "$linkfile" "$linkfile"
-		cp "$linkfile" "$linkfile-bkup"
-	fi
-
-	mkdir -p "$linkpath"
-	ln -sfv "$scriptpath/$dotfile" "$linkfile"
-}
-
-if [[ ${#DOTFILES[@]} -ne ${#DOTFILE_LINKS[@]} ]]; then
-	echo 'The arrays in .DOTFILES are not the same length.'
+if ! command -v stow >/dev/null 2>&1; then
+	stow -vR -t ~ "${STOW_TARGETS[@]}"
+else
+	echo 'FAILURE: stow is not installed'
 	exit 1
 fi
-for ((i = 0; i < ${#DOTFILES[@]}; i++)); do
-	link_dotfile "${DOTFILES[i]}" "${DOTFILE_LINKS[i]}"
-done
 
 ####################
 ### n/vim setup. ###
@@ -40,7 +19,7 @@ done
 if command -v nvim >/dev/null 2>&1; then
 	echo 'Found neovim.'
 	if ! command -v git >/dev/null 2>&1; then
-		echo 'You need git to retrieve Paq.'
+		echo 'FAILURE: You need git to retrieve Paq.'
 		exit 1
 	fi
 
@@ -57,7 +36,7 @@ elif command -v vim >/dev/null 2>&1; then
 	if command -v wget >/dev/null 2>&1;   then fetcher='wget -O'
 	elif command -v curl >/dev/null 2>&1; then fetcher='curl -o'
 	else
-		echo 'wget nor curl are installed!'
+		echo 'FAILURE: wget nor curl are installed!'
 		exit 1
 	fi
 
@@ -88,7 +67,7 @@ elif command -v vim >/dev/null 2>&1; then
 	)
 
 	if ! command -v git >/dev/null 2>&1; then
-		echo 'You need git to retrieve the plugins.'
+		echo 'FAILURE: You need git to retrieve the plugins.'
 		exit 1
 	fi
 
@@ -141,7 +120,7 @@ if command -v zsh >/dev/null 2>&1; then
 	if command -v wget >/dev/null 2>&1;   then fetcher='wget -O-'
 	elif command -v curl >/dev/null 2>&1; then fetcher='curl -fsSL'
 	else
-		echo 'wget nor curl are installed!'
+		echo 'FAILURE: wget nor curl are installed!'
 		exit 1
 	fi
 
