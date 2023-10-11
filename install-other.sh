@@ -1,18 +1,5 @@
 #!/usr/bin/env bash
 
-################
-### Dotfiles ###
-################
-scriptpath="$( cd "$(dirname "$0")" >/dev/null 2>&1 || exit 1 ; pwd -P )"
-source "$scriptpath/stow-sources"
-
-if ! command -v stow >/dev/null 2>&1; then
-	stow -vR -t ~ "${STOW_SOURCES[@]}"
-else
-	echo 'FAILURE: stow is not installed'
-	exit 1
-fi
-
 ####################
 ### n/vim setup. ###
 ####################
@@ -134,11 +121,12 @@ if command -v zsh >/dev/null 2>&1; then
 	fi
 
 	### Extra plugins
-	if [[ ! -d "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting" ]]; then
+	zsh_highlight_loc="${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting"
+	if [[ ! -d $zsh_highlight_loc ]]; then
 		echo 'Fetching zsh-syntax-highlighting'
 		git clone \
 			https://github.com/zsh-users/zsh-syntax-highlighting.git \
-			"${ZSH_CUSTOM:-~/.oh-my-zsh/custom}"/plugins/zsh-syntax-highlighting
+			"$zsh_highlight_loc"
 	else
 		echo 'zsh-syntax-highlighting already present'
 	fi
