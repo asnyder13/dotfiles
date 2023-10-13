@@ -6,6 +6,7 @@ STOW_SOURCES=(
 	git
 	nvim
 	ruby
+	tmux
 	vim
 	zsh
 )
