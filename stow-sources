@@ -4,6 +4,7 @@ STOW_SOURCES=(
 	bash
 	common
 	git
+	i3
 	nvim
 	ruby
 	tmux
