@@ -1,11 +1,8 @@
 require 'util'
-local map = Util.map
+local map = vim.keymap.set
 
-local fn  = vim.fn
-local g   = vim.g
 local api = vim.api
 local opt = vim.opt
-
 
 -- Treesitter
 require 'nvim-treesitter.configs'.setup {

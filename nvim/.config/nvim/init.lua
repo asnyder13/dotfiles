@@ -1,7 +1,6 @@
 require 'util'
-local map = Util.map
+local map = vim.keymap.set
 
-local fn  = vim.fn
 local g   = vim.g
 local api = vim.api
 local opt = vim.opt
@@ -215,7 +214,7 @@ vim.cmd 'colorscheme ronny'
 Util.create_text_object('|')
 
 -- Persistent Undo/Redo
-if fn.has('persistent_undo') == 1 then
+if vim.fn.has('persistent_undo') == 1 then
 	local target_path = Util.create_expand_path('~/.local/share/nvim/nvim-persisted-undo/')
 	opt.undodir = target_path
 	opt.undofile = true
@@ -273,12 +272,12 @@ require 'telescope'.setup {
 		layout_strategy = 'vertical',
 	},
 }
-map('n', '<C-p>', '<cmd>lua require("telescope.builtin").find_files({ hidden = false })<CR>')
-map('n', '<C-M-p>', '<cmd>lua require("telescope.builtin").find_files({ hidden = true })<CR>')
-map('n', '<C-g>', '<cmd>lua require("telescope.builtin").git_files()<CR>')
-map('n', '<leader>b', '<cmd>lua require("telescope.builtin").buffers()<CR>')
-map('n', '<M-;>', '<cmd>lua require("telescope.builtin").treesitter()<CR>')
-map('n', '<M-g>', '<cmd>lua require("telescope.builtin").live_grep()<CR>')
+map('n', '<C-p>', ':lua require("telescope.builtin").find_files({ hidden = false })<CR>')
+map('n', '<C-M-p>', ':lua require("telescope.builtin").find_files({ hidden = true })<CR>')
+map('n', '<C-g>', ':lua require("telescope.builtin").git_files()<CR>')
+map('n', '<leader>b', ':lua require("telescope.builtin").buffers()<CR>')
+map('n', '<M-;>', ':lua require("telescope.builtin").treesitter()<CR>')
+map('n', '<M-g>', ':lua require("telescope.builtin").live_grep()<CR>')
 
 -- Hop
 require 'hop'.setup { keys = 'hklyuiopnm,qwertzxcvbasdgjf;' }
