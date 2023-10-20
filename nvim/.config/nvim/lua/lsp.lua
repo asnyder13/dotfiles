@@ -255,7 +255,7 @@ require('formatter').setup {
 	},
 }
 
-require 'rainbow-delimiters.setup' {
+vim.g.rainbow_delimiters = {
 	highlight = {
 		'RainbowDelimiterYellow',
 		'RainbowDelimiterViolet',

@@ -10,6 +10,7 @@ set $execa exec_always --no-startup-id
 # is used in the bar {} block below.
 # font pango:monospace 8
 # font pango:Source Code Pro 9
+font pango:SauceCodeProNerdFont 9
 
 # Start XDG autostart .desktop files using dex. See also
 # https://wiki.archlinux.org/index.php/XDG_Autostart

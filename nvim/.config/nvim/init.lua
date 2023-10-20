@@ -355,7 +355,7 @@ map('n', '<C-q>', openWindowPicker)
 
 require 'neo-tree'.setup {
 	filesystem = {
-		hijack_netrw_behavior = "open_default",
+		hijack_netrw_behavior = 'open_default',
 		follow_current_file = {
 			enabled = true,
 			leave_dirs_open = true,
@@ -364,16 +364,17 @@ require 'neo-tree'.setup {
 	add_blank_line_at_top = true,
 	window = {
 		mappings = {
-			["s"] = "open_split",
-			["S"] = "open_vsplit",
-			["x"] = "split_with_window_picker",
-			["v"] = "vsplit_with_window_picker",
-			["<C-x>"] = "cut_to_clipboard",
-			["<C-c>"] = "clear_filter",
+			['s'] = 'open_split',
+			['S'] = 'open_vsplit',
+			['x'] = 'split_with_window_picker',
+			['v'] = 'vsplit_with_window_picker',
+			['<C-x>'] = 'cut_to_clipboard',
+			['<C-c>'] = 'clear_filter',
+			['-'] = 'navigate_up',
 		}
 	},
 	event_handlers = { {
-		event = "neo_tree_buffer_enter",
+		event = 'neo_tree_buffer_enter',
 		handler = function()
 			vim.cmd [[
 				setlocal number
