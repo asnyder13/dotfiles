@@ -221,6 +221,7 @@ if vim.fn.has('persistent_undo') == 1 then
 end
 
 ---- General Mappings ----
+map('n', 'ZZ', '')
 -- Reload this config
 map('n', '<leader>sv', ':source $MYVIMRC<CR>')
 -- Collapse all levels under current fold

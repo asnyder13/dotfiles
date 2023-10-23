@@ -22,8 +22,8 @@ if zstyle -t ':omz:plugins:rvm' lazy && ! zstyle -t ':omz:plugins:rvm' autoload;
   # Call rvm when first using rvm ruby bundle rack irb or other commands in lazy-cmd
   zstyle -a ':omz:plugins:rvm' lazy-cmd rvm_lazy_cmd
   eval "
-    function rvm ruby bundle rack irb $rvm_lazy_cmd {
-      unfunction rvm ruby bundle rack irb $rvm_lazy_cmd
+    function nvim vim rvm ruby bundle rack irb $rvm_lazy_cmd {
+      unfunction nvim vim rvm ruby bundle rack irb $rvm_lazy_cmd
       # Load rvm if it exists in \$RVM_DIR
       [[ -f \"\$RVM_DIR/rvm.sh\" ]] && source \"\$RVM_DIR/rvm.sh\"
       \"\$0\" \"\$@\"

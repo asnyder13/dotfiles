@@ -57,6 +57,7 @@ set list lcs=tab:\│\
 highlight SpecialKey cterm=NONE ctermfg=darkgray ctermbg=NONE guifg=darkgray
 
 " Remaps
+nnoremap ZZ <NOP>
 "  Collapse all levels under current fold
 nnoremap zs zCzozo
 "  Quick buffer switch (for tabline)
