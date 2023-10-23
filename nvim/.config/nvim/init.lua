@@ -361,7 +361,7 @@ require 'neo-tree'.setup {
 			leave_dirs_open = true,
 		}
 	},
-	add_blank_line_at_top = true,
+	add_blank_line_at_top = false,
 	window = {
 		mappings = {
 			['s'] = 'open_split',

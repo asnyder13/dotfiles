@@ -16,6 +16,8 @@
 	path = /home/snyder/src/.gitconfig_include
 [includeIf "gitdir:/mnt/c/Users/A.Snyder/Documents/src-win/"]
 	path = /mnt/c/Users/A.Snyder/Documents/src-win/.gitconfig_include
+[includeIf "gitdir:/home/snyder/src-win/"]
+	path = /home/snyder/src-win/.gitconfig_include
 [init]
 	defaultBranch = master
 [http]
