@@ -1,4 +1,4 @@
-# No shebang since this can be read from either bash or zsh.
+# vim: ft=bash
 
 alias list='ls -g --human-readable --no-group --almost-all --classify --time-style=long-iso --color' ;
 alias list2='ls -g --human-readable --no-group --classify --time-style=long-iso --color' ;
@@ -14,48 +14,29 @@ alias yumi='sudo dnf install' ;
 alias yumu='sudo dnf update' ;
 alias yume='sudo dnf erase' ;
 
-# Alias editing these files.
-# Get current dotfile list.
-source "$HOME/.dotfiles/stow-sources"
-DOTFILES=()
-for x in "${STOW_SOURCES[@]}"; do
-	find "$HOME/.dotfiles/$x" -type f | while read -r f; do
-		DOTFILES+=("$f")
+if [[ -d "$HOME/.dotfiles" ]]; then
+	DOTFILES_DIR="$HOME/.dotfiles" 
+	# Alias editing these files.
+	# Get current dotfile list.
+	source "$DOTFILES_DIR/stow-sources"
+	DOTFILES=()
+	for x in "${STOW_SOURCES[@]}"; do
+		find "$DOTFILES_DIR/$x" -type f | while read -r f; do
+			DOTFILES+=("$f")
+		done
 	done
-done
-if [ -f ~/.aliases_local ]; then DOTFILES+=("$HOME/.aliases_local"); fi
-if [ -f ~/.bashrc_local ]; then DOTFILES+=("$HOME/.bashrc_local"); fi
-if [ -f ~/.zshrc_local ]; then DOTFILES+=("$HOME/.zshrc_local"); fi
-CONFIGFILES=(
-	install.sh
-	stow-sources
-)
-for CONFIG in "${CONFIGFILES[@]}"; do
-	DOTFILES+=("$HOME/.dotfiles/$CONFIG")
-done
-# Only gonna work if you've installed in ~/.dotfiles
-alias editrcs="vim +'set autochdir' ${DOTFILES[*]}"
-
-# source "$HOME/.dotfiles/.DOTFILES"
-# i=0
-# end=${#DOTFILES[@]}
-# # zsh is 1-indexed
-# if [[ -n "$ZSH_VERSION" ]]; then i=1; (( end++ )); fi
-# for (( i; i < end; i++ )); do
-# 	DOTFILES[i]="$HOME/.dotfiles/${DOTFILES[i]}"
-# done
-# if [ -f ~/.bashrc_local ]; then DOTFILES+=("$HOME/.bashrc_local"); fi
-# if [ -f ~/.bash_aliases_local ]; then DOTFILES+=("$HOME/.bash_aliases_local"); fi
-# if [ -f ~/.zshrc_local ]; then DOTFILES+=("$HOME/.zshrc_local"); fi
-# CONFIGFILES=(
-# 	install.sh
-# 	.DOTFILES
-# )
-# for CONFIG in "${CONFIGFILES[@]}"; do
-# 	DOTFILES+=("$HOME/.dotfiles/$CONFIG")
-# done
-# # Only gonna work if you've installed in ~/.dotfiles
-# alias editrcs="vim +'set autochdir' ${DOTFILES[*]}"
+	if [[ -f ~/.aliases_local ]]; then DOTFILES+=("$HOME/.aliases_local"); fi
+	if [[ -f ~/.bashrc_local ]]; then DOTFILES+=("$HOME/.bashrc_local"); fi
+	if [[ -f ~/.zshrc_local ]]; then DOTFILES+=("$HOME/.zshrc_local"); fi
+	CONFIGFILES=(
+		stow-sources
+	)
+	for CONFIG in "${CONFIGFILES[@]}"; do
+		DOTFILES+=("$DOTFILES_DIR/$CONFIG")
+	done
+	# Only gonna work if you've installed in ~/.dotfiles
+	alias editrcs="vim +'set autochdir' ${DOTFILES[*]}"
+fi
 
 # General aliases.
 alias lssz='du -sh *' ;
