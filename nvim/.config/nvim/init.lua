@@ -9,7 +9,10 @@ vim.cmd 'packadd paq-nvim'
 vim.cmd 'packadd matchit'
 
 local nonLspPackages = {
-	{ 'savq/paq-nvim', opt = true },
+	{
+		'savq/paq-nvim',
+		opt = true
+	},
 
 	-- Colorscheme, Neovim specific
 	'judaew/ronny.nvim',
@@ -34,6 +37,7 @@ local nonLspPackages = {
 	'nvim-lua/plenary.nvim',
 	'nvim-lua/popup.nvim',
 	'nvim-telescope/telescope.nvim',
+	{ 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
 	'lewis6991/gitsigns.nvim',
 	'romgrk/barbar.nvim',
 	'RRethy/nvim-align',
@@ -68,7 +72,7 @@ local lspPackages = {
 	'hrsh7th/cmp-path',
 	'hrsh7th/cmp-nvim-lsp-signature-help',
 
-	{ 'L3MON4D3/LuaSnip', build = 'make install_jsregexp' },
+	{ 'L3MON4D3/LuaSnip',                build = 'make install_jsregexp' },
 	'rafamadriz/friendly-snippets',
 	'honza/vim-snippets',
 
@@ -272,7 +276,19 @@ require 'telescope'.setup {
 		file_ignore_patterns = { 'node_modules', '.git', },
 		layout_strategy = 'vertical',
 	},
+	extensions = {
+		fzf = {
+			fuzzy = true,                -- false will only do exact matching
+			override_generic_sorter = true, -- override the generic sorter
+			override_file_sorter = true, -- override the file sorter
+			case_mode = 'smart_case',    -- or "ignore_case" or "respect_case" the default case_mode is "smart_case"
+		}
+	}
 }
+-- To get fzf loaded and working with telescope, you need to call
+-- load_extension, somewhere after setup function:
+require 'telescope'.load_extension('fzf')
+
 map('n', '<C-p>', ':lua require("telescope.builtin").find_files({ hidden = false })<CR>')
 map('n', '<C-M-p>', ':lua require("telescope.builtin").find_files({ hidden = true })<CR>')
 map('n', '<C-g>', ':lua require("telescope.builtin").git_files()<CR>')
@@ -434,8 +450,6 @@ require 'illuminate'.configure {
 		'man',
 	},
 }
-
--- require 'hlargs'.setup { color = '#57ebc8', }
 
 ---- LSP Plugins ----
 -- VIM_USE_LSP needs to have a value, not just existing.

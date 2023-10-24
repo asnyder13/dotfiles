@@ -82,6 +82,7 @@ plugins=(
 	ng
 	npm
 	nvm
+	ripgrep
 	rvm
 	safe-paste
 	sudo
