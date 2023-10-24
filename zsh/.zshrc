@@ -109,9 +109,6 @@ zbell_ignore=(
 if [[ -e $ZSH/oh-my-zsh.sh ]]; then
 	source $ZSH/oh-my-zsh.sh
 fi
-if [[ -e $HOME/.zshrc_local ]]; then
-	source $HOME/.zshrc_local
-fi
 
 # User configuration
 setopt HIST_IGNORE_DUPS
@@ -186,6 +183,15 @@ bindkey '^Xa' _expand_alias
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
 
-source ~/.commonrc
+if [[ -e $HOME/.commonrc ]]; then
+	source $HOME/.commonrc
+fi
+if [[ -e $HOME/.zshrc_local ]]; then
+	source $HOME/.zshrc_local
+fi
+
+if command -v nvim >/dev/null 2>&1; then
+	alias -g vim='nvim';
+fi
 
 # zprof
