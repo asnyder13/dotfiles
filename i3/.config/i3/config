@@ -53,9 +53,10 @@ bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle && $
 
 # Media player controls
 # bindsym XF86AudioPlay exec playerctl play-pause
-bindsym XF86AudioPause exec playerctl play-pause
-bindsym XF86AudioNext exec playerctl next
-bindsym XF86AudioPrev exec playerctl previous
+bindsym XF86AudioPause exec playerctl -p "$($HOME/.config/i3/is-spotify.sh)" play-pause
+
+bindsym XF86AudioNext exec playerctl -p "$($HOME/.config/i3/is-spotify.sh)" next
+bindsym XF86AudioPrev exec playerctl -p "$($HOME/.config/i3/is-spotify.sh)" previous
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -75,7 +76,7 @@ bindsym $mod+d exec dmenu_run
 # There also is i3-dmenu-desktop which only displays applications shipping a
 # .desktop file. It is a wrapper around dmenu, so you need that installed.
 # bindcode $mod+c exec i3-dmenu-desktop
-bindsym $mod+c exec i3-dmenu-desktop
+bindsym $mod+Shift+d exec i3-dmenu-desktop
 
 # change focus
 bindsym $mod+h focus left

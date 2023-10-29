@@ -21,7 +21,6 @@ local nonLspPackages = {
 	'ntpeters/vim-better-whitespace',
 	'tpope/vim-fugitive',
 	'vim-scripts/ReplaceWithRegister',
-	'vim-ruby/vim-ruby',
 	'kshenoy/vim-signature',
 	'tpope/vim-sleuth',
 	'justinmk/vim-sneak',
@@ -429,7 +428,7 @@ local highlightReLinks = {
 	'@lsp.type.variable.typescript',
 }
 for k, v in pairs(highlightReLinks) do
-	-- Lua table literals auto-key w/ incrementing index when given plain values
+	-- Lua table literals auto-key w/ incrementing index when given literal values.
 	if type(k) == 'number' then
 		api.nvim_set_hl(0, v, { link = 'Text' })
 	else
