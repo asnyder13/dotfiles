@@ -128,6 +128,12 @@ function tojson () {
 function timer () {
 	sleep "$1"
 	print -n '\a'
+	if command -v notify-send >/dev/null 2>&1; then
+		notify-send -i terminal "Command completed in ${1}s:" 'timer()'
+	fi
+	if command -v paplay >/dev/null 2>&1; then
+		paplay /usr/share/sounds/freedesktop/stereo/bell.oga
+	fi
 }
 function alert () {
 	timer 0s
