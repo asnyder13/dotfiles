@@ -400,6 +400,7 @@ require 'neo-tree'.setup {
 	} },
 }
 map('n', '-', ':Neotree<CR>')
+map('n', '<M-->', ':Neotree<CR>')
 
 ---- Highlight changes
 -- The ronny colorscheme gets colors right and has robust coverage, but with TS and LSP tokens

@@ -14,6 +14,7 @@ alias yumi='sudo dnf install' ;
 alias yumu='sudo dnf update' ;
 alias yume='sudo dnf remove' ;
 
+# Only gonna work if you've installed in ~/.dotfiles
 if [[ -d "$HOME/.dotfiles" ]]; then
 	DOTFILES_DIR="$HOME/.dotfiles"
 	# Alias editing these files.
@@ -34,7 +35,7 @@ if [[ -d "$HOME/.dotfiles" ]]; then
 	for CONFIG in "${CONFIGFILES[@]}"; do
 		DOTFILES+=("$DOTFILES_DIR/$CONFIG")
 	done
-	# Only gonna work if you've installed in ~/.dotfiles
+
 	alias editrcs="vim +'set autochdir' ${DOTFILES[*]}"
 fi
 

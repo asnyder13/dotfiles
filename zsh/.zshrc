@@ -78,6 +78,7 @@ plugins=(
 	dotnet
 	extract
 	fd
+	fzf
 	git
 	ng
 	npm
