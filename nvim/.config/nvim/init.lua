@@ -168,7 +168,7 @@ opt.visualbell = true
 opt.showmode   = true
 opt.wildmode   = { 'list:longest' }
 opt.scrolloff  = 1
-opt.wildignore:append { '*/node_modules/*', '*/.git/*', '*/tmp/*', '*.swp' }
+opt.wildignore:append { '*/node_modules/*', '*/.git/*', '*/tmp/*', '*.swp', '*/.angular/*' }
 opt.splitright     = true
 opt.splitbelow     = true
 
@@ -291,7 +291,7 @@ require 'telescope'.load_extension('fzf')
 map('n', '<C-p>', ':lua require("telescope.builtin").find_files({ hidden = false })<CR>')
 map('n', '<C-M-p>', ':lua require("telescope.builtin").find_files({ hidden = true })<CR>')
 map('n', '<C-g>', ':lua require("telescope.builtin").git_files()<CR>')
-map('n', '<leader>b', ':lua require("telescope.builtin").buffers()<CR>')
+map('n', '<leader>b', ':lua require("telescope.builtin").buffers({ sort_mru = true, })<CR>')
 map('n', '<M-;>', ':lua require("telescope.builtin").treesitter()<CR>')
 map('n', '<M-g>', ':lua require("telescope.builtin").live_grep()<CR>')
 
@@ -314,30 +314,61 @@ require 'ibl'.setup {
 map('n', '<leader>i', ':IBLToggle<CR>:set number!<CR>')
 map('n', '<leader>I', ':IBLToggle<CR>:set number!<CR>')
 
--- ng quick switcher
+---- quick switcher
 local qs_opts = {
 	silent = true,
 	buffer = true,
 }
-local function qs(file, opts)
+local function q_switch(file, opts)
 	return function() require('nvim-quick-switcher').switch(file, opts) end
 end
-local function angularSwitcherMappings()
-	map('n', '<leader>u', qs('component.ts', nil), qs_opts)
-	map('n', '<leader>o', qs('component.html', nil), qs_opts)
-	map('n', '<leader>i', qs('component.scss', nil), qs_opts)
-	map('n', '<leader>p', qs('module.ts', nil), qs_opts)
-	map('n', '<leader>t', qs('component.spec.ts', nil), qs_opts)
-	map('n', '<leader>xu', qs('component.ts', { split = 'horizontal' }), qs_opts)
-	map('n', '<leader>xi', qs('component.scss', { split = 'horizontal' }), qs_opts)
-	map('n', '<leader>xo', qs('component.html', { split = 'horizontal' }), qs_opts)
+
+-- Angular
+local function angular_switcher_mappings()
+	map('n', '<leader>u', q_switch('component.ts', nil), qs_opts)
+	map('n', '<leader>o', q_switch('component.html', nil), qs_opts)
+	map('n', '<leader>i', q_switch('component.scss', nil), qs_opts)
+	map('n', '<leader>p', q_switch('module.ts', nil), qs_opts)
+	map('n', '<leader>t', q_switch('component.spec.ts', nil), qs_opts)
+	map('n', '<leader>xu', q_switch('component.ts', { split = 'horizontal' }), qs_opts)
+	map('n', '<leader>xi', q_switch('component.scss', { split = 'horizontal' }), qs_opts)
+	map('n', '<leader>xo', q_switch('component.html', { split = 'horizontal' }), qs_opts)
 end
-local angularAuGroup = api.nvim_create_augroup('AngularQuickSwitcher', { clear = true })
+local angular_au_group = api.nvim_create_augroup('AngularQuickSwitcher', { clear = true })
 api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter', }, {
-	group = angularAuGroup,
+	group = angular_au_group,
 	pattern = { '*.ts', '*.html', '*.scss', '*.sass', },
-	callback = angularSwitcherMappings,
+	callback = angular_switcher_mappings,
 })
+
+-- C# Saga dir patterns
+local function command_to_handler(path, filename)
+	return path:gsub('Commands', 'Handlers') .. '/' .. filename .. 'Handler' .. '*';
+end
+local function handler_to_command(path, filename)
+	return path:gsub('Handlers', 'Commands') .. '/' .. filename:gsub('Handler', '') .. '*';
+end
+local function q_find_by_fn(path_func)
+	return function()
+		require('nvim-quick-switcher').find_by_fn(function(p)
+			local path = p.path;
+			local file_name = p.prefix;
+			local result = path_func(path, file_name);
+			return result;
+		end)
+	end
+end
+local function cs_saga_mappings()
+	map('n', '<leader>h', q_find_by_fn(command_to_handler), qs_opts)
+	map('n', '<leader>c', q_find_by_fn(handler_to_command), qs_opts)
+end
+local cs_au_group = api.nvim_create_augroup('CsQuickSwitcher', { clear = true })
+api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter', }, {
+	group = cs_au_group,
+	pattern = { '*.cs' },
+	callback = cs_saga_mappings,
+})
+----/ quick switcher
 
 require 'Comment'.setup {
 	pre_hook = require 'ts_context_commentstring.integrations.comment_nvim'.create_pre_hook(),
