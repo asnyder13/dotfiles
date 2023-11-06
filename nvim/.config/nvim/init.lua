@@ -398,9 +398,29 @@ require 'neo-tree'.setup {
 			]]
 		end,
 	} },
+	nesting_rules = {
+		['package.json'] = {
+			pattern = '^package%.json$',
+			files = { 'package-lock.json', 'yarn*' },
+		},
+		['tsconfig'] = {
+			pattern = '^tsconfig%.json$',
+			files = { 'tsconfig.*.json' },
+		},
+		['js-extended'] = {
+			pattern = '(.+)%.js$',
+			files = { '%1.js.map', '%1.min.js', '%1.d.ts' },
+		},
+		['jsx'] = { 'js' },
+		['tsx'] = { 'ts' },
+		['ts-tests'] = {
+			pattern = '(.+)%.ts',
+			files = { '%1.spec.ts' },
+		},
+	}
 }
 map('n', '-', ':Neotree<CR>')
-map('n', '<M-->', ':Neotree<CR>')
+map('n', '<M-->', ':Neotree toggle<CR>')
 
 ---- Highlight changes
 -- The ronny colorscheme gets colors right and has robust coverage, but with TS and LSP tokens
