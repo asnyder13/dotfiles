@@ -156,6 +156,13 @@ cmp.setup {
 	},
 }
 
+-- If you want insert `(` after select function or method item
+local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+cmp.event:on(
+	'confirm_done',
+	cmp_autopairs.on_confirm_done()
+)
+
 -- luasnip
 require 'luasnip.loaders.from_vscode'.lazy_load()
 require 'luasnip.loaders.from_snipmate'.lazy_load()
@@ -262,7 +269,7 @@ vim.g.rainbow_delimiters = {
 		'RainbowDelimiterGreen',
 	},
 	blacklist = {
-		'c_sharp'
+		'c_sharp',
 	}
 }
 -- Colors from VSCode's rainbow highlight which work well w/ monokai.
@@ -275,3 +282,4 @@ local delimColors = {
 for k, v in pairs(delimColors) do
 	api.nvim_set_hl(0, k, { fg = v })
 end
+

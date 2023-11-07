@@ -68,7 +68,7 @@ alias glastmerge='git log --merges -n1 --format=%h'
 alias vimg='vim -c ":G|only"'
 
 if command -v highlight >/dev/null 2>&1; then
-	alias cats='highlight -O ansi --force'
+	alias cats='highlight -O ansi --force --line-numbers'
 fi
 
 # Random functions

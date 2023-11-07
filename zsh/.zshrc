@@ -196,8 +196,8 @@ if [[ -e $HOME/.zshrc_local ]]; then
 	source $HOME/.zshrc_local
 fi
 
-if command -v nvim >/dev/null 2>&1; then
-	alias -g vim='nvim';
+if [[ -e /usr/share/fzf/shell/key-bindings.zsh ]]; then
+	source /usr/share/fzf/shell/key-bindings.zsh
 fi
 
 # zprof
