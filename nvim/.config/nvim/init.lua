@@ -327,14 +327,20 @@ end
 
 -- Angular
 local function angular_switcher_mappings()
-	map('n', '<leader>u', q_switch('component.ts', { split = 'vertical' }), qs_opts)
-	map('n', '<leader>o', q_switch('component.html', { split = 'vertical' }), qs_opts)
-	map('n', '<leader>i', q_switch('component.scss', { split = 'vertical' }), qs_opts)
-	map('n', '<leader>p', q_switch('module.ts', { split = 'vertical' }), qs_opts)
-	map('n', '<leader>t', q_switch('component.spec.ts', { split = 'vertical' }), qs_opts)
+	-- Components
+	map('n', '<leader>u', q_switch('component.ts', nil), qs_opts)
+	map('n', '<leader>o', q_switch('component.html', nil), qs_opts)
+	map('n', '<leader>i', q_switch('component.scss', nil), qs_opts)
+	map('n', '<leader>p', q_switch('module.ts', nil), qs_opts)
+	map('n', '<leader>t', q_switch('component.spec.ts', nil), qs_opts)
+	map('n', '<leader>vu', q_switch('component.ts', { split = 'vertical' }), qs_opts)
+	map('n', '<leader>vo', q_switch('component.html', { split = 'vertical' }), qs_opts)
+	map('n', '<leader>vi', q_switch('component.scss', { split = 'vertical' }), qs_opts)
 	map('n', '<leader>xu', q_switch('component.ts', { split = 'horizontal' }), qs_opts)
 	map('n', '<leader>xi', q_switch('component.scss', { split = 'horizontal' }), qs_opts)
 	map('n', '<leader>xo', q_switch('component.html', { split = 'horizontal' }), qs_opts)
+
+	-- NgRx
 	map('n', '<leader>na', q_switch('actions.ts', nil), qs_opts)
 	map('n', '<leader>ne', q_switch('effects.ts', nil), qs_opts)
 	map('n', '<leader>nte', q_switch('effects.spec.ts', nil), qs_opts)
