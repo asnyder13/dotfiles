@@ -66,6 +66,7 @@ alias gbl='git blame -w'
 alias gcp='git cherry-pick'
 alias glastmerge='git log --merges -n1 --format=%h'
 alias vimg='vim -c ":G|only"'
+alias grbst='git rebase --autostash'
 
 if command -v highlight >/dev/null 2>&1; then
 	alias cats='highlight -O ansi --force --line-numbers'
