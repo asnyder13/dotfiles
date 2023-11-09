@@ -194,10 +194,10 @@ if [[ -e $HOME/.zshrc_local ]]; then
 	source $HOME/.zshrc_local
 fi
 
-if [[ -e $HOME/.fzf.zsh ]]; then
+if [[ -x $HOME/.fzf/bin/fzf && -e $HOME/.fzf.zsh ]]; then
 	export FZF_DEFAULT_COMMAND="command fd -L . -tf --hidden | cut -b3-"
-	export FZF_CTRL_T_COMMAND="command fd -L . --min-depth 1 -tf -td -tl 2> /dev/null | cut -b3-"
-	export FZF_ALT_C_COMMAND="command fd -L . --min-depth 1 -td 2> /dev/null | cut -b3-"
+	export FZF_CTRL_T_COMMAND="command fd -L . --min-depth 1 -tf -td -tl | cut -b3-"
+	export FZF_ALT_C_COMMAND="command fd -L . --min-depth 1 -td | cut -b3-"
 	source $HOME/.fzf.zsh
 fi
 

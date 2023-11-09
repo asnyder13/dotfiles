@@ -27,6 +27,7 @@ local nonLspPackages = {
 	'AndrewRadev/splitjoin.vim',
 	'jlcrochet/vim-razor',
 	'tpope/vim-abolish',
+	'mattn/emmet-vim',
 
 	-- Neovim specific
 	'nvim-tree/nvim-web-devicons',

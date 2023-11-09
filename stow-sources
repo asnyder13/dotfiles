@@ -3,6 +3,7 @@
 STOW_SOURCES=(
 	bash
 	common
+	fzf
 	git
 	i3
 	nvim
