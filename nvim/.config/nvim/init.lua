@@ -163,7 +163,7 @@ opt.shiftwidth    = indent_size
 opt.expandtab     = false
 vim.cmd 'au FileType cs setlocal shiftwidth=4 softtabstop=4 expandtab'
 
-opt.mouse      = 'c'
+opt.mouse      = 'cnv'
 opt.autoindent = true
 opt.showmatch  = true
 opt.visualbell = true
@@ -497,6 +497,8 @@ local highlightReLinks = {
 	'@variable.typescript',
 	'@lsp.type.property.typescript',
 	'@lsp.type.variable.typescript',
+	['@variable.builtin.typescript'] = 'SpecialComment',
+	'typescriptVariableDeclaration',
 }
 for k, v in pairs(highlightReLinks) do
 	-- Lua table literals auto-key w/ incrementing index when given literal values.
