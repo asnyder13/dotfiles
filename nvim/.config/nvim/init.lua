@@ -390,7 +390,6 @@ require 'Comment'.setup {
 }
 
 require 'nvim-surround'.setup { move_cursor = false }
-require 'gitsigns'.setup {}
 
 -- Neo tree
 require 'window-picker'.setup {
@@ -530,3 +529,6 @@ require 'nvim-autopairs'.setup {}
 if vim.env.VIM_USE_LSP then
 	require 'lsp'
 end
+
+-- Gets overwritten if something in lsp.lua is run after it.
+require 'gitsigns'.setup {}
