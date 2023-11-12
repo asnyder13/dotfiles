@@ -1,6 +1,6 @@
 #!/bin/sh
 lock() {
-	i3lock
+	swaylock -f -c 3d3d3
 }
 
 case "$1" in
