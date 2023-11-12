@@ -3,11 +3,13 @@
 STOW_SOURCES=(
 	bash
 	common
+	foot
 	fzf
 	git
 	i3
 	nvim
 	ruby
+	sway
 	tmux
 	vim
 	zsh

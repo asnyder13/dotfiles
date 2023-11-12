@@ -432,7 +432,8 @@ require 'neo-tree'.setup {
 			['<C-x>'] = 'cut_to_clipboard',
 			['<C-c>'] = 'clear_filter',
 			['-'] = 'navigate_up',
-		}
+		},
+		width = 30
 	},
 	event_handlers = { {
 		event = 'neo_tree_buffer_enter',
