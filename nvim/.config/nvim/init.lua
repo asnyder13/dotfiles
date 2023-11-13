@@ -475,12 +475,15 @@ map('n', '<M-->', ':Neotree toggle<CR>')
 ---- Highlight changes
 -- The ronny colorscheme gets colors right and has robust coverage, but with TS and LSP tokens
 --   it ends up coloring literally everything and floods the brain.
+
+-- Interface color from Visual Studio
+vim.api.nvim_set_hl(0, 'Interface', { fg = '#B8D7A3' })
 local highlightReLinks = {
 	-- C#
 	'@punctuation.bracket.c_sharp',
 	'@variable.c_sharp',
 	'@type.c_sharp',
-	['@lsp.type.interface.cs'] = 'DevIconLiquid',
+	['@lsp.type.interface.cs'] = 'Interface',
 	'@lsp.type.namespace.cs',
 	'@lsp.type.property.cs',
 	'@lsp.type.variable.cs',
