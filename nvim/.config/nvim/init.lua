@@ -504,7 +504,9 @@ local highlightReLinks = {
 	['@variable.builtin.typescript'] = 'SpecialComment',
 	'typescriptVariableDeclaration',
 
-	['NormalFloat'] = 'Normal'
+	['NormalFloat'] = 'Normal',
+	['diffAdded'] = 'Function',
+	['diffRemoved'] = 'Operator',
 }
 for k, v in pairs(highlightReLinks) do
 	-- Lua table literals auto-key w/ incrementing index when given literal values.
