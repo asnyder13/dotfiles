@@ -363,19 +363,20 @@ end
 local function handler_to_command(path, filename)
 	return path:gsub('Handlers', 'Commands') .. '/' .. filename:gsub('Handler', '') .. '*';
 end
-local function q_find_by_fn(path_func)
+local function q_find_handler_or_command()
 	return function()
 		require('nvim-quick-switcher').find_by_fn(function(p)
 			local path = p.path;
 			local file_name = p.prefix;
+			local is_handler = file_name:lower():find('handler');
+			local path_func = is_handler and handler_to_command or command_to_handler;
 			local result = path_func(path, file_name);
 			return result;
 		end)
 	end
 end
 local function cs_saga_mappings()
-	map('n', '<leader>h', q_find_by_fn(command_to_handler), qs_opts)
-	map('n', '<leader>c', q_find_by_fn(handler_to_command), qs_opts)
+	map('n', '<leader>ch', q_find_handler_or_command(), qs_opts)
 end
 local cs_au_group = api.nvim_create_augroup('CsQuickSwitcher', { clear = true })
 api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter', }, {
@@ -502,6 +503,8 @@ local highlightReLinks = {
 	'@lsp.type.variable.typescript',
 	['@variable.builtin.typescript'] = 'SpecialComment',
 	'typescriptVariableDeclaration',
+
+	['NormalFloat'] = 'Normal'
 }
 for k, v in pairs(highlightReLinks) do
 	-- Lua table literals auto-key w/ incrementing index when given literal values.
