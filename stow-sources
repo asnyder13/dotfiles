@@ -1,16 +1,18 @@
 #!/usr/bin/env bash
 
-STOW_SOURCES=(
+SHELL_SOURCES=(
 	bash
 	common
-	foot
-	fzf
-	git
-	i3
-	nvim
-	ruby
-	sway
-	tmux
-	vim
 	zsh
 )
+GENERAL_SOURCES=(
+	nvim
+	fzf
+	git
+	ruby
+	tmux
+	vim
+)
+I3_SOURCES=( i3 )
+SWAY_SOURCES=( sway foot )
+ALL_SOURCES=( "${SHELL_SOURCES[@]}" "${GENERAL_SOURCES[@]}" "${SWAY_SOURCES[@]}" "${I3_SOURCES[@]}" )

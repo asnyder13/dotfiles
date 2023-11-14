@@ -47,7 +47,6 @@ local nonLspPackages = {
 	'numToStr/Comment.nvim',
 	'JoosepAlviste/nvim-ts-context-commentstring',
 	'm-demare/hlargs.nvim',
-	'nvim-tree/nvim-tree.lua',
 	'nvim-neo-tree/neo-tree.nvim',
 	'MunifTanjim/nui.nvim',
 	's1n7ax/nvim-window-picker',
@@ -434,7 +433,7 @@ require 'neo-tree'.setup {
 			['<C-c>'] = 'clear_filter',
 			['-'] = 'navigate_up',
 		},
-		width = 30
+		width = 50
 	},
 	event_handlers = { {
 		event = 'neo_tree_buffer_enter',

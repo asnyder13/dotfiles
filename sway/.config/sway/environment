@@ -2,7 +2,7 @@
 # shellcheck disable=SC2034
 
 SWAY_EXTRA_ARGS="$SWAY_EXTRA_ARGS --unsupported-gpu"
-SWAY_EXTRA_ARGS="$SWAY_EXTRA_ARGS --debug"
+# SWAY_EXTRA_ARGS="$SWAY_EXTRA_ARGS --debug"
 
 WLR_NO_HARDWARE_CURSORS=1
 
