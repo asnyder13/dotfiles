@@ -65,7 +65,8 @@ local on_attach = function(_, bufnr)
 	map('n', '[d', ':lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
 	map('n', ']d', ':lua vim.lsp.diagnostic.goto_next()<CR>', opts)
 	map('n', '<leader>q', ':lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-	map('n', '==', ':lua vim.lsp.buf.format { async = true }<CR>', opts)
+	map('n', '=l', ':lua vim.lsp.buf.format { async = true }<CR>', opts)
+	map('n', '==', ':Format<CR>', opts)
 	map('n', '<C-]>', ':lua vim.lsp.buf.definition()<CR>', opts)
 
 	-- cmd [[command! Format execute 'lua vim.lsp.buf.formatting()']]
@@ -120,8 +121,8 @@ require 'mason-lspconfig'.setup_handlers {
 }
 
 -- cmpe
-opt.completeopt = { 'menuone', 'noinsert', 'noselect' }
--- opt.completeopt = { 'menu', 'noselect', 'noinsert' }
+-- opt.completeopt = { 'menuone', 'noinsert', 'noselect' }
+opt.completeopt = { 'menu', 'noselect', 'noinsert' }
 local cmp = require 'cmp'
 cmp.setup {
 	mapping = {
@@ -148,7 +149,7 @@ cmp.setup {
 		completion = cmp.config.window.bordered(),
 		documentation = cmp.config.window.bordered(),
 	},
-	completion = { completeopt = 'menuone,noinsert,noselect' },
+	completion = { completeopt = 'menu,noinsert,noselect' },
 	snippet = {
 		expand = function(args)
 			require 'luasnip'.lsp_expand(args.body)
@@ -220,9 +221,10 @@ dap.configurations.ruby = {
 	},
 }
 
-local formatter_util = require 'formatter.util'
 -- Provides the Format, FormatWrite, FormatLock, and FormatWriteLock commands
-require('formatter').setup {
+local formatter_util = require 'formatter.util'
+local prettierd = require 'formatter.defaults.prettierd'
+require 'formatter'.setup {
 	-- Enable or disable logging
 	logging = true,
 	-- Set the log level
@@ -244,6 +246,12 @@ require('formatter').setup {
 					args = {
 						'--config-path=$HOME/.config/stylua.toml',
 						'--search-parent-directories',
+						'--indent-type',
+						'Tabs',
+						'--quote-style',
+						'AutoPreferSingle',
+						'--call-parentheses',
+						'None',
 						'--stdin-filepath',
 						formatter_util.escape_path(formatter_util.get_current_buffer_file_path()),
 						'--',
@@ -254,6 +262,22 @@ require('formatter').setup {
 			end,
 		},
 		cs = { require('formatter.filetypes.cs').dotnetformat },
+		css = { prettierd },
+		graphql = { prettierd },
+		html = { prettierd },
+		javascript = { prettierd },
+		javascriptreact = { prettierd },
+		['javascript.jsx'] = { prettierd },
+		json = { prettierd },
+		jsonc = { prettierd },
+		less = { prettierd },
+		markdown = { prettierd },
+		scss = { prettierd },
+		typescript = { prettierd },
+		typescriptreact = { prettierd },
+		['typescript.tsx'] = { prettierd },
+		vue = { prettierd },
+		yaml = { prettierd },
 		-- Use the special '*' filetype for defining formatter configurations on any filetype
 		['*'] = {
 			-- 'formatter.filetypes.any' defines default configurations for any filetype
@@ -282,4 +306,3 @@ local delimColors = {
 for k, v in pairs(delimColors) do
 	api.nvim_set_hl(0, k, { fg = v })
 end
-

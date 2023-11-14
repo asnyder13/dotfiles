@@ -90,6 +90,7 @@ if vim.env.VIM_USE_LSP then
 	packages = Util.concatTables(packages, lspPackages)
 end
 paq(packages)
+require 'gitsigns'.setup {}
 
 ---- General Settings ----
 
