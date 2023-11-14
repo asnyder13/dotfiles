@@ -12,6 +12,9 @@ set $execa exec_always --no-startup-id
 # font pango:Source Code Pro 9
 font pango:SauceCodeProNerdFont 9
 
+exec picom
+exec redshift -O 4500
+
 # Start XDG autostart .desktop files using dex. See also
 # https://wiki.archlinux.org/index.php/XDG_Autostart
 exec dex-autostart --autostart --environment i3
@@ -24,7 +27,7 @@ $exec picom
 
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
-exec xss-lock --transfer-sleep-lock -- i3lock --nofork
+exec xss-lock --transfer-sleep-lock -- i3lock -c 3d3d3d --nofork
 
 set $mode_system System (l) lock, (e) logout, (r) reboot, (Shift+s) shutdown
 mode "$mode_system" {

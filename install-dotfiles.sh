@@ -13,6 +13,7 @@ fi
 
 if [[ $# == 0 ]]; then
 	stow -vR -t "$HOME" "${ALL_SOURCES[@]}"
+	exit $?
 fi
 
 case "$1" in

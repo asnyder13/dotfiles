@@ -462,8 +462,10 @@
         "tooltip": false
     },
     "clock#2": {
-        "format": "{:%I:%M:%S}",
-        "tooltip": false
+        "format": "{:%I:%M}",
+        "format-alt": "{:%I:%M:%S}",
+        "tooltip": false,
+        "interval": 1,
     },
     "clock#3": {
         "format": "{:%m-%d-%Y}",

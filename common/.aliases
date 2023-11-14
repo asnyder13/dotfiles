@@ -21,7 +21,7 @@ if [[ -d "$HOME/.dotfiles" ]]; then
 	# Get current dotfile list.
 	source "$DOTFILES_DIR/stow-sources"
 	DOTFILES=()
-	for x in "${STOW_SOURCES[@]}"; do
+	for x in "${ALL_SOURCES[@]}"; do
 		find "$DOTFILES_DIR/$x" -type f | while read -r f; do
 			DOTFILES+=("$f")
 		done

@@ -75,6 +75,7 @@ zstyle ':omz:plugins:rvm' lazy yes
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
+	dnf
 	dotnet
 	extract
 	fd
@@ -194,8 +195,8 @@ if [[ -e $HOME/.zshrc_local ]]; then
 	source $HOME/.zshrc_local
 fi
 
-if [[ -x $HOME/.fzf/bin/fzf && -e $HOME/.fzf.zsh ]]; then
-	export FZF_DEFAULT_COMMAND="command fd --follow --hidden -tf --hidden . "
+if (( $+commands[fzf] )) && [[ -e $HOME/.fzf.zsh ]]; then
+	export FZF_DEFAULT_COMMAND="command fd --follow --hidden -tf . "
 	export FZF_CTRL_T_COMMAND="command fd --follow --hidden --min-depth 1 -tf -td -tl . "
 	export FZF_ALT_C_COMMAND="command fd --follow --hidden --min-depth 1 -td . "
 	source $HOME/.fzf.zsh

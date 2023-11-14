@@ -157,7 +157,8 @@ window#waybar {
 }
 
 #workspaces button {
-	padding: 0 2px;
+	padding: 0px 2px;
+	margin: 0px 8px;
 	color: #fdf6e3;
 }
 #workspaces button.focused {
