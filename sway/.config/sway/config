@@ -17,6 +17,30 @@ set $term foot
 # set $term xfce4-terminal
 # set $term gnome-terminal
 
+# Include configs from 3 locations:
+#  - /usr/share/sway/config.d
+#  - /etc/sway/config.d
+#  - $XDG_CONFIG_HOME/sway/config.d ($HOME/.config/sway/config.d)
+#
+# If multiple directories contain the files with the same name, the later
+# directory takes precedence; `$XDG_CONFIG_HOME/sway/config.d/20-swayidle.conf`
+# will always be loaded instead of `/usr/share/sway/config.d/20-swayidle.conf`
+# or `/etc/sway/config.d/20-swayidle.conf`
+#
+# This mechanism permits overriding our default configuration per-system
+# (/etc) or per-user ($XDG_CONFIG_HOME) basis. Just create the file you
+# want to modify/override in the higher-level directory.
+#
+# For example, to disable the default bar from Fedora configs, you'll need to
+#     $ echo -n > "$HOME/.config/sway/config.d/90-bar.conf"
+#
+# Note the quoting, the $() and the arguments quoting. All the parts are equally
+# important to make the magic work. And if you want to learn the secret behind
+# the trick, it's all in the `wordexp(3)`.
+#
+include '$(/usr/libexec/sway/layered-include "/usr/share/sway/config.d/*.conf" "/etc/sway/config.d/*.conf" "${XDG_CONFIG_HOME:-$HOME/.config}/sway/config.d/*.conf")'
+
+
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
@@ -66,10 +90,16 @@ focus_follows_mouse no
 
 xwayland enable
 font pango:SauceCodeProNerdFont 10
-exec_always killall -q wlsunset
-exec_always wlsunset \
+exec wlsunset \
     -l 35.3 -L -80.9 \
     -T 4500
+
+bindsym --locked --no-warn {
+    XF86AudioPause exec playerctl -p "$($HOME/.config/sway/is-spotify.sh)" play-pause
+    XF86AudioPlay exec playerctl -p "$($HOME/.config/sway/is-spotify.sh)" play-pause
+    XF86AudioNext exec playerctl -p "$($HOME/.config/sway/is-spotify.sh)" next
+    XF86AudioPrev exec playerctl -p "$($HOME/.config/sway/is-spotify.sh)" previous
+}
 
 ### Key bindings
 #
@@ -226,8 +256,9 @@ bindsym $mod+r mode "resize"
 
 client.focused #4c7899 #285577 #ffffff #2e9ef4 #994c78
 
-default_border normal 4
+default_border normal 3
 default_floating_border none
+smart_borders on
 
 gaps inner 2
 gaps outer 2
@@ -237,136 +268,5 @@ hide_edge_borders smart
 for_window [title="."] title_format "(%app_id) <b>%title</b>"
 for_window [shell="xwayland"] title_format "[XWayland] (%app_id) <b>%title</b>"
 
-for_window [app_id="nemo"] {
-    floating enable
-    move position center
-}
-for_window [app_id="thunar"] {
-    floating enable
-    move position center
-    border csd
-}
-for_window [title="Private Browsing"] {
-    floating enable
-    move position center
-    border csd
-}
-for_window [app_id="org.gnome.Calculator"] {
-    floating enable
-    move position center
-}
-for_window [app_id="org.keepassxc.KeePassXC"] {
-    floating enable
-    move position center
-    border csd
-}
-for_window [title="System Settings"] {
-    floating enable
-    move position center
-}
-for_window [class="cinnamon-settings"] {
-    floating enable
-    move position center
-}
-for_window [class="file-roller"] {
-    floating enable
-    move position center
-}
-for_window [class="telegram-desktop"] {
-    floating enable
-    move position center
-}
-for_window [class="TelegramDesktop"] {
-    floating enable
-    move position center
-}
-for_window [class="Zeal"] {
-    floating enable
-    move position center
-}
-for_window [class="Shotwell"] {
-    floating enable
-    move position center
-}
-for_window [class="gnome-calendar"] {
-    floating enable
-    move position center
-}
-for_window [class="Spotify"] {
-    floating enable
-    move position center
-}
-for_window [app_id="qalculate-qt"] {
-    floating enable
-    move position center
-}
-
-# https://wiki.archlinux.org/title/I3#Correct_handling_of_floating_dialogs
-for_window [window_role="About"] {
-    floating enable
-    move position center
-}
-for_window [window_role="Organizer"] {
-    floating enable
-    move position center
-}
-for_window [window_role="Preferences"] {
-    floating enable
-    move position center
-}
-for_window [window_role="bubble"] {
-    floating enable
-    move position center
-}
-for_window [window_role="page-info"] {
-    floating enable
-    move position center
-}
-for_window [window_role="pop-up"] {
-    floating enable
-    move position center
-}
-for_window [window_role="task_dialog"] {
-    floating enable
-    move position center
-}
-for_window [window_role="toolbox"] {
-    floating enable
-    move position center
-}
-for_window [window_role="webconsole"] {
-    floating enable
-    move position center
-}
-for_window [window_type="dialog"] {
-    floating enable
-    move position center
-}
-for_window [window_type="menu"] {
-    floating enable
-    move position center
-}
-
-# Include configs from 3 locations:
-#  - /usr/share/sway/config.d
-#  - /etc/sway/config.d
-#  - $XDG_CONFIG_HOME/sway/config.d ($HOME/.config/sway/config.d)
-#
-# If multiple directories contain the files with the same name, the later
-# directory takes precedence; `$XDG_CONFIG_HOME/sway/config.d/20-swayidle.conf`
-# will always be loaded instead of `/usr/share/sway/config.d/20-swayidle.conf`
-# or `/etc/sway/config.d/20-swayidle.conf`
-#
-# This mechanism permits overriding our default configuration per-system
-# (/etc) or per-user ($XDG_CONFIG_HOME) basis. Just create the file you
-# want to modify/override in the higher-level directory.
-#
-# For example, to disable the default bar from Fedora configs, you'll need to
-#     $ echo -n > "$HOME/.config/sway/config.d/90-bar.conf"
-#
-# Note the quoting, the $() and the arguments quoting. All the parts are equally
-# important to make the magic work. And if you want to learn the secret behind
-# the trick, it's all in the `wordexp(3)`.
-#
-include '$(/usr/libexec/sway/layered-include "/usr/share/sway/config.d/*.conf" "/etc/sway/config.d/*.conf" "${XDG_CONFIG_HOME:-$HOME/.config}/sway/config.d/*.conf")'
+include floaties.conf
 
