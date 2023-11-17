@@ -142,9 +142,10 @@ cmp.setup {
 		{ name = 'luasnip',    group_index = 3 },
 		{ name = 'buffer',     group_index = 4 },
 		{ name = 'path',       group_index = 4 },
-	}, {
-		{ name = 'nvim_lsp_signature_help' },
 	}),
+	-- }, {
+	-- 	{ name = 'nvim_lsp_signature_help' },
+	-- }),
 	window = {
 		completion = cmp.config.window.bordered(),
 		documentation = cmp.config.window.bordered(),

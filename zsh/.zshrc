@@ -108,9 +108,9 @@ zbell_ignore=(
 	timer
 )
 # By default don't pop up notify
-zbell_use_notify_send=false
+zbell_use_notify_send=true
 # Fedora/Gnome terminal doesn't do `print -n '\a'`?  In that case just paplay some sound.
-zbell_use_paplay=false
+zbell_use_paplay=true
 
 if [[ -e $ZSH/oh-my-zsh.sh ]]; then
 	source $ZSH/oh-my-zsh.sh

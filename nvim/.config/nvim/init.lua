@@ -82,6 +82,7 @@ local lspPackages = {
 	'suketa/nvim-dap-ruby',
 
 	'HiPhish/rainbow-delimiters.nvim',
+	'folke/trouble.nvim',
 }
 
 local paq = require 'paq'
@@ -332,7 +333,7 @@ local function angular_switcher_mappings()
 	map('n', '<leader>o', q_switch('component.html', nil), qs_opts)
 	map('n', '<leader>i', q_switch('component.scss', nil), qs_opts)
 	map('n', '<leader>p', q_switch('module.ts', nil), qs_opts)
-	map('n', '<leader>t', q_switch('component.spec.ts', nil), qs_opts)
+	-- map('n', '<leader>t', q_switch('component.spec.ts', nil), qs_opts)
 	map('n', '<leader>vu', q_switch('component.ts', { split = 'vertical' }), qs_opts)
 	map('n', '<leader>vo', q_switch('component.html', { split = 'vertical' }), qs_opts)
 	map('n', '<leader>vi', q_switch('component.scss', { split = 'vertical' }), qs_opts)
@@ -532,6 +533,8 @@ require 'illuminate'.configure {
 }
 
 require 'nvim-autopairs'.setup {}
+
+map('n', '<leader>t', ':TroubleToggle<CR>')
 
 ---- LSP Plugins ----
 -- VIM_USE_LSP needs to have a value, not just existing.
