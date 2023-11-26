@@ -38,5 +38,7 @@ case "$1" in
 		;;
 	*)
 		echo 'Unknown arg, no command run'
+		exit 1
 		;;
 esac
+exit $?

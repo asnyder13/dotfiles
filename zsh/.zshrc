@@ -195,10 +195,23 @@ if [[ -e $HOME/.zshrc_local ]]; then
 	source $HOME/.zshrc_local
 fi
 
-if (( $+commands[fzf] )) && [[ -e $HOME/.fzf.zsh ]]; then
-	export FZF_DEFAULT_COMMAND="command fd --follow --hidden -tf . "
-	export FZF_CTRL_T_COMMAND="command fd --follow --hidden --min-depth 1 -tf -td -tl . "
-	export FZF_ALT_C_COMMAND="command fd --follow --hidden --min-depth 1 -td . "
+HAS_FZF=
+if [[ -e $HOME/.fzf.zsh ]]; then
+	if (( $+commands[fzf] )); then
+		HAS_FZF=1
+	elif [[ -d $HOME/.fzf/bin ]]; then
+		# WSL
+		HAS_FZF=1
+		export PATH=$PATH:/usr/lib/cargo/bin
+		# The version of `fd` on wsl (8.3.1) has leading './'
+		FZF_COMMAND_SUFFIX=" | cut -b3-"
+	fi
+fi
+
+if [[ ! -z "$HAS_FZF" ]]; then
+	export FZF_DEFAULT_COMMAND="command fd --follow --hidden -tf . $FZF_COMMAND_SUFFIX"
+	export FZF_CTRL_T_COMMAND="command fd --follow --hidden --min-depth 1 -tf -td -tl . $FZF_COMMAND_SUFFIX"
+	export FZF_ALT_C_COMMAND="command fd --follow --hidden --min-depth 1 -td . $FZF_COMMAND_SUFFIX"
 	source $HOME/.fzf.zsh
 fi
 
