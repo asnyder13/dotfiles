@@ -233,17 +233,17 @@ map('n', '<leader>sv', ':source $MYVIMRC<CR>')
 -- Collapse all levels under current fold
 map('n', 'zs', 'zCzozo')
 -- Quick buffer switch (for tabline)
-map('n', 'gbn', ':bn<CR>')
-map('n', 'gbN', ':bN<CR>')
-map('n', 'gbd', ':bd<CR>')
+map('n', 'gbn', ':bn<CR>', { silent = true })
+map('n', 'gbN', ':bN<CR>', { silent = true })
+map('n', 'gbd', ':bd<CR>', { silent = true })
 map('n', '<BS>', '<C-^>')
 vim.cmd [[
 	nnoremap <expr> j v:count ? (v:count > 5 ? "m'" . v:count : '') . 'j' : 'gj'
 	nnoremap <expr> k v:count ? (v:count > 5 ? "m'" . v:count : '') . 'k' : 'gk'
 	command! TrimLineEnds %s/\v\s+$//
 ]]
-map('n', '<leader><C-i>', ':Inspect<CR>')
-map('n', '<C-w><C-w>', '<C-w><C-p>')
+map('n', '<leader><C-i>', ':Inspect<CR>', { silent = true })
+map('n', '<C-w><C-w>', '<C-w><C-p>', { silent = true })
 
 ---- Plugin Settings ----
 -- Vim plugins
@@ -270,7 +270,7 @@ require 'barbar'.setup {
 		buffer_number = true,
 	}
 }
-map('n', '<M-b>', ':BufferPick<CR>')
+map('n', '<M-b>', ':BufferPick<CR>', { silent = true })
 
 -- Telescope
 require 'telescope'.setup {
@@ -291,17 +291,17 @@ require 'telescope'.setup {
 -- load_extension, somewhere after setup function:
 require 'telescope'.load_extension('fzf')
 
-map('n', '<C-p>', ':lua require("telescope.builtin").find_files({ hidden = false })<CR>')
-map('n', '<C-M-p>', ':lua require("telescope.builtin").find_files({ hidden = true })<CR>')
-map('n', '<C-g>', ':lua require("telescope.builtin").git_files()<CR>')
-map('n', '<leader>b', ':lua require("telescope.builtin").buffers({ sort_mru = true, })<CR>')
-map('n', '<M-;>', ':lua require("telescope.builtin").treesitter()<CR>')
-map('n', '<M-g>', ':lua require("telescope.builtin").live_grep()<CR>')
+map('n', '<C-p>', ':lua require("telescope.builtin").find_files({ hidden = false })<CR>', { silent = true })
+map('n', '<C-M-p>', ':lua require("telescope.builtin").find_files({ hidden = true })<CR>', { silent = true })
+map('n', '<C-g>', ':lua require("telescope.builtin").git_files()<CR>', { silent = true })
+map('n', '<leader>b', ':lua require("telescope.builtin").buffers({ sort_mru = true, })<CR>', { silent = true })
+map('n', '<M-;>', ':lua require("telescope.builtin").treesitter()<CR>', { silent = true })
+map('n', '<M-g>', ':lua require("telescope.builtin").live_grep()<CR>', { silent = true })
 
 -- Hop
 require 'hop'.setup { keys = 'hklyuiopnm,qwertzxcvbasdgjf;' }
-map('n', '<leader>f', '<Esc> :lua require("hop").hint_char1()<CR>')
-map('n', '<leader>w', '<Esc> :lua require("hop").hint_words()<CR>')
+map('n', '<leader>f', '<Esc> :lua require("hop").hint_char1()<CR>', { silent = true })
+map('n', '<leader>w', '<Esc> :lua require("hop").hint_words()<CR>', { silent = true })
 
 -- Indent Blankline
 require 'ibl'.setup {
@@ -314,8 +314,8 @@ require 'ibl'.setup {
 		remove_blankline_trail = false,
 	},
 }
-map('n', '<leader>i', ':IBLToggle<CR>:set number!<CR>')
-map('n', '<leader>I', ':IBLToggle<CR>:set number!<CR>')
+map('n', '<leader>i', ':IBLToggle<CR>:set number!<CR>', { silent = true })
+map('n', '<leader>I', ':IBLToggle<CR>:set number!<CR>', { silent = true })
 
 ---- quick switcher
 local qs_opts = {
@@ -463,7 +463,7 @@ require 'neo-tree'.setup {
 		['tsx'] = { 'ts' },
 		['ts-tests'] = {
 			pattern = '(.+)%.ts',
-			files = { '%1.spec.ts' },
+			files = { '%1.spec.ts', '%1.mock.ts' },
 		},
 		['appsettings'] = {
 			pattern = '^appsettings%.json$',
@@ -471,8 +471,8 @@ require 'neo-tree'.setup {
 		},
 	}
 }
-map('n', '-', ':Neotree<CR>')
-map('n', '<M-->', ':Neotree toggle<CR>')
+map('n', '-', ':Neotree<CR>', { silent = true })
+map('n', '<M-->', ':Neotree toggle<CR>', { silent = true })
 
 ---- Highlight changes
 -- The ronny colorscheme gets colors right and has robust coverage, but with TS and LSP tokens
@@ -534,7 +534,7 @@ require 'illuminate'.configure {
 
 require 'nvim-autopairs'.setup {}
 
-map('n', '<leader>t', ':TroubleToggle<CR>')
+map('n', '<leader>t', ':TroubleToggle<CR>', { silent = true })
 
 ---- LSP Plugins ----
 -- VIM_USE_LSP needs to have a value, not just existing.
