@@ -106,6 +106,7 @@ zbell_ignore=(
 	nload
 	htop
 	timer
+	vimg
 )
 # By default don't pop up notify
 zbell_use_notify_send=true
