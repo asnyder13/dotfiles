@@ -45,7 +45,6 @@ local nonLspPackages = {
 	'kylechui/nvim-surround',
 	'RRethy/vim-illuminate',
 	'numToStr/Comment.nvim',
-	'JoosepAlviste/nvim-ts-context-commentstring',
 	'm-demare/hlargs.nvim',
 	'nvim-neo-tree/neo-tree.nvim',
 	'MunifTanjim/nui.nvim',
@@ -83,6 +82,7 @@ local lspPackages = {
 
 	'HiPhish/rainbow-delimiters.nvim',
 	'folke/trouble.nvim',
+	'JoosepAlviste/nvim-ts-context-commentstring',
 }
 
 local paq = require 'paq'
@@ -240,7 +240,7 @@ map('n', '<BS>', '<C-^>')
 vim.cmd [[
 	nnoremap <expr> j v:count ? (v:count > 5 ? "m'" . v:count : '') . 'j' : 'gj'
 	nnoremap <expr> k v:count ? (v:count > 5 ? "m'" . v:count : '') . 'k' : 'gk'
-	command! TrimLineEnds %s/\v\s+$//
+	command! TrimLineEnds %s/\v\s+$// | normal `'
 ]]
 map('n', '<leader><C-i>', ':Inspect<CR>', { silent = true })
 map('n', '<C-w><C-w>', '<C-w><C-p>', { silent = true })
@@ -327,23 +327,21 @@ local function q_switch(file, opts)
 end
 
 -- Angular
+local function angular_file_switcher_mappings(file_type)
+	map('n', '<leader>u', q_switch(file_type .. '.ts', nil), qs_opts)
+	map('n', '<leader>o', q_switch(file_type .. '.html', nil), qs_opts)
+	map('n', '<leader>i', q_switch(file_type .. '.scss', nil), qs_opts)
+	map('n', '<leader>j', q_switch(file_type .. '.spec.ts', nil), qs_opts)
+	map('n', '<leader>vu', q_switch(file_type .. '.ts', { split = 'vertical' }), qs_opts)
+	map('n', '<leader>vo', q_switch(file_type .. '.html', { split = 'vertical' }), qs_opts)
+	map('n', '<leader>vi', q_switch(file_type .. '.scss', { split = 'vertical' }), qs_opts)
+	map('n', '<leader>xu', q_switch(file_type .. '.ts', { split = 'horizontal' }), qs_opts)
+	map('n', '<leader>xi', q_switch(file_type .. '.scss', { split = 'horizontal' }), qs_opts)
+	map('n', '<leader>xo', q_switch(file_type .. '.html', { split = 'horizontal' }), qs_opts)
+end
 local function angular_switcher_mappings()
 	-- Components
-	map('n', '<leader>u', q_switch('component.ts', nil), qs_opts)
-	map('n', '<leader>o', q_switch('component.html', nil), qs_opts)
-	map('n', '<leader>i', q_switch('component.scss', nil), qs_opts)
 	map('n', '<leader>p', q_switch('module.ts', nil), qs_opts)
-	map('n', '<leader>j', q_switch('component.spec.ts', nil), qs_opts)
-	map('n', '<leader>u', q_switch('view.ts', nil), qs_opts)
-	map('n', '<leader>o', q_switch('view.html', nil), qs_opts)
-	map('n', '<leader>i', q_switch('view.scss', nil), qs_opts)
-	map('n', '<leader>j', q_switch('view.spec.ts', nil), qs_opts)
-	map('n', '<leader>vu', q_switch('component.ts', { split = 'vertical' }), qs_opts)
-	map('n', '<leader>vo', q_switch('component.html', { split = 'vertical' }), qs_opts)
-	map('n', '<leader>vi', q_switch('component.scss', { split = 'vertical' }), qs_opts)
-	map('n', '<leader>xu', q_switch('component.ts', { split = 'horizontal' }), qs_opts)
-	map('n', '<leader>xi', q_switch('component.scss', { split = 'horizontal' }), qs_opts)
-	map('n', '<leader>xo', q_switch('component.html', { split = 'horizontal' }), qs_opts)
 
 	-- NgRx
 	map('n', '<leader>na', q_switch('actions.ts', nil), qs_opts)
@@ -355,11 +353,21 @@ local function angular_switcher_mappings()
 	map('n', '<leader>nt', q_switch('state.ts', nil), qs_opts)
 end
 local angular_au_group = api.nvim_create_augroup('AngularQuickSwitcher', { clear = true })
-api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter', }, {
-	group = angular_au_group,
-	pattern = { '*.ts', '*.html', '*.scss', '*.sass', },
-	callback = angular_switcher_mappings,
-})
+local function angular_switcher_autocmd(prefix, callback)
+	local patterns = { '.ts', '.html', '.scss', '.sass', }
+	local computed_patterns = {}
+	for _, v in ipairs(patterns) do
+		table.insert(computed_patterns, prefix .. v)
+	end
+	api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter', }, {
+		group = angular_au_group,
+		pattern = computed_patterns,
+		callback = callback,
+	})
+end
+angular_switcher_autocmd('*', angular_switcher_mappings)
+angular_switcher_autocmd('*.component', function() angular_file_switcher_mappings('component') end)
+angular_switcher_autocmd('*.view', function() angular_file_switcher_mappings('view') end)
 
 -- C# Saga dir patterns
 local function command_to_handler(path, filename)
