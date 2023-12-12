@@ -144,9 +144,6 @@ cmp.setup {
 		{ name = 'buffer',     group_index = 4 },
 		{ name = 'path',       group_index = 4 },
 	}),
-	-- }, {
-	-- 	{ name = 'nvim_lsp_signature_help' },
-	-- }),
 	window = {
 		completion = cmp.config.window.bordered(),
 		documentation = cmp.config.window.bordered(),
@@ -157,6 +154,10 @@ cmp.setup {
 			require 'luasnip'.lsp_expand(args.body)
 		end,
 	},
+}
+require 'lsp_signature'.setup {
+	hint_enable = false,
+	hi_parameter = 'Error',
 }
 
 -- If you want insert `(` after select function or method item

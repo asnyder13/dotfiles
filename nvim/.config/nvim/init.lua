@@ -69,7 +69,7 @@ local lspPackages = {
 	'hrsh7th/cmp-nvim-lsp',
 	'hrsh7th/cmp-buffer',
 	'hrsh7th/cmp-path',
-	'hrsh7th/cmp-nvim-lsp-signature-help',
+	'ray-x/lsp_signature.nvim',
 
 	{ 'L3MON4D3/LuaSnip',                build = 'make install_jsregexp' },
 	'rafamadriz/friendly-snippets',
