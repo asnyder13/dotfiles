@@ -16,12 +16,13 @@ case $current_sink in
 		message="Output set to ${sinks[0]}"
 		;;
 	*)
-		message="Unknown current sink"
+		message="Unknown current sink: $current_sink"
 		;;
 esac
 
 notify-send \
 	--app-name sway \
-	--expire-time 1500 \
+	--expire-time 2000 \
 	--transient \
+	--icon /usr/share/icons/Adwaita/symbolic/devices/audio-headphones-symbolic.svg \
 	"${message}"
