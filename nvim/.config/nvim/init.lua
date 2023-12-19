@@ -345,8 +345,7 @@ local openWindowPicker = function()
 		vim.fn.win_gotoid(picked_window_id)
 	end
 end
-map('n', '<M-w>', openWindowPicker)
-map('n', '<C-q>', openWindowPicker)
+for _, key in ipairs({ '<M-w>', '<C-q>', '<C-w><C-e>',  '<C-w>e'}) do map('n', key, openWindowPicker) end
 
 require 'neo-tree'.setup {
 	filesystem = {
