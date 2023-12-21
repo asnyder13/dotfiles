@@ -1,5 +1,4 @@
-require 'util'
-local map = vim.keymap.set
+local map = require 'util'.map_keys_table
 
 local api = vim.api
 

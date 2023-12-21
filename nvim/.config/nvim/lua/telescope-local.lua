@@ -1,4 +1,4 @@
-local map = vim.keymap.set
+local map = require 'util'.map_keys_table
 
 -- Telescope
 require 'telescope'.setup {
@@ -19,9 +19,9 @@ require 'telescope'.setup {
 -- load_extension, somewhere after setup function:
 require 'telescope'.load_extension('fzf')
 
-map('n', '<C-p>', ':lua require("telescope.builtin").find_files({ hidden = false })<CR>', { silent = true })
-map('n', '<C-M-p>', ':lua require("telescope.builtin").find_files({ hidden = true })<CR>', { silent = true })
-map('n', '<C-g>', ':lua require("telescope.builtin").git_files()<CR>', { silent = true })
-map('n', '<leader>b', ':lua require("telescope.builtin").buffers({ sort_mru = true, })<CR>', { silent = true })
-map('n', '<M-;>', ':lua require("telescope.builtin").treesitter()<CR>', { silent = true })
-map('n', '<M-g>', ':lua require("telescope.builtin").live_grep()<CR>', { silent = true })
+map('n', '<C-p>', ':lua require("telescope.builtin").find_files({ hidden = false })<CR>')
+map('n', '<C-M-p>', ':lua require("telescope.builtin").find_files({ hidden = true })<CR>')
+map('n', '<C-g>', ':lua require("telescope.builtin").git_files()<CR>')
+map('n', '<leader>b', ':lua require("telescope.builtin").buffers({ sort_mru = true, })<CR>')
+map('n', '<M-;>', ':lua require("telescope.builtin").treesitter()<CR>')
+map('n', '<M-g>', ':lua require("telescope.builtin").live_grep()<CR>')

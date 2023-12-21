@@ -1,4 +1,4 @@
-local map = vim.keymap.set
+local map = require 'util'.map_keys_table
 
 ---- Neo tree
 -- Window picker, used for neo-tree and some own hotkeys.
@@ -21,7 +21,7 @@ local openWindowPicker = function()
 		vim.fn.win_gotoid(picked_window_id)
 	end
 end
-for _, key in ipairs({ '<C-w><C-e>', '<C-w>e' }) do map('n', key, openWindowPicker) end
+map('n', { '<C-w><C-e>', '<C-w>e' }, openWindowPicker)
 
 require 'neo-tree'.setup {
 	filesystem = {

@@ -1,5 +1,6 @@
 local Util = {}
 
+---@param path string
 function Util.create_expand_path(path)
 	local target_path = vim.fn.expand(path)
 	if not vim.fn.isdirectory(target_path) == 1 then
@@ -9,8 +10,9 @@ function Util.create_expand_path(path)
 end
 
 -- https://thevaluable.dev/vim-create-text-objects/
+---@param char string
 function Util.create_text_object(char)
-	for _, mode in ipairs({ 'x', 'o' }) do
+	for _, mode in ipairs { 'x', 'o' } do
 		vim.api.nvim_set_keymap(
 			mode,
 			'i' .. char,
@@ -26,6 +28,8 @@ function Util.create_text_object(char)
 	end
 end
 
+---@param t1 table
+---@param t2 table
 function Util.concatTables(t1, t2)
 	local t3 = { unpack(t1) }
 	for i = 1, #t2 do
@@ -33,6 +37,37 @@ function Util.concatTables(t1, t2)
 	end
 
 	return t3
+end
+
+-- ---@param mode string|table	Mode short-name, see |nvim_set_keymap()|.
+-- ---@param keys string|table	Table of keys to map.
+-- ---@param target string|function	String commmand or function map target.
+-- ---@param opts table|nil	Table of |:map-arguments|.
+
+---@param mode string|table    Mode short-name, see |nvim_set_keymap()|.
+---                            Can also be list of modes to create mapping on multiple modes.
+---@param lhs string|table     Left-hand side |{lhs}| of the mapping.
+---@param rhs string|function  Right-hand side |{rhs}| of the mapping, can be a Lua function.
+---
+---@param opts table|nil Table of |:map-arguments|.
+---                      - Same as |nvim_set_keymap()| {opts}, except:
+---                        - "replace_keycodes" defaults to `true` if "expr" is `true`.
+---                        - "noremap": inverse of "remap" (see below).
+---                      - Also accepts:
+---                        - "buffer" number|boolean Creates buffer-local mapping, `0` or `true`
+---                        for current buffer.
+---                        - remap: (boolean) Make the mapping recursive. Inverses "noremap".
+---                        Defaults to `false`.
+---                      - Defaults to `{ silent = true }`
+function Util.map_keys_table(mode, lhs, rhs, opts)
+	opts = opts or { silent = true }
+	if type(lhs) == 'string' then
+			vim.keymap.set(mode, lhs, rhs, opts)
+	else
+		for _, key in ipairs(lhs) do
+			vim.keymap.set(mode, key, rhs, opts)
+		end
+	end
 end
 
 return Util

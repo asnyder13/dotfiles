@@ -1,9 +1,9 @@
 local Util = require 'util'
-local map = vim.keymap.set
+local map  = Util.map_keys_table
 
-local g   = vim.g
-local api = vim.api
-local opt = vim.opt
+local g    = vim.g
+local api  = vim.api
+local opt  = vim.opt
 
 vim.cmd 'packadd paq-nvim'
 vim.cmd 'packadd matchit'
@@ -189,6 +189,7 @@ opt.smartcase      = true
 opt.foldmethod     = 'indent'
 opt.foldlevelstart = 99
 
+
 g.loaded_python3_provider = false
 g.loaded_ruby_provider    = false
 g.loaded_node_provider    = false
@@ -227,21 +228,21 @@ end
 ---- General Mappings ----
 map('n', 'ZZ', '')
 -- Reload this config
-map('n', '<leader>sv', ':source $MYVIMRC<CR>')
+map('n', '<leader>sv', ':source $MYVIMRC<CR>', { silent = true })
 -- Collapse all levels under current fold
 map('n', 'zs', 'zCzozo')
 -- Quick buffer switch (for tabline)
-map('n', 'gbn', ':bn<CR>', { silent = true })
-map('n', 'gbN', ':bN<CR>', { silent = true })
-map('n', 'gbd', ':bd<CR>', { silent = true })
+map('n', 'gbn', ':bn<CR>')
+map('n', 'gbN', ':bN<CR>')
+map('n', 'gbd', ':bd<CR>')
 map('n', '<BS>', '<C-^>')
 vim.cmd [[
 	nnoremap <expr> j v:count ? (v:count > 5 ? "m'" . v:count : '') . 'j' : 'gj'
 	nnoremap <expr> k v:count ? (v:count > 5 ? "m'" . v:count : '') . 'k' : 'gk'
 	command! TrimLineEnds %s/\v\s+$// | normal `'
 ]]
-map('n', '<leader><C-i>', ':Inspect<CR>', { silent = true })
-map('n', '<C-w><C-w>', '<C-w><C-p>', { silent = true })
+map('n', '<leader><C-i>', ':Inspect<CR>')
+map('n', '<C-w><C-w>', '<C-w><C-p>')
 
 ---- Plugin Settings ----
 -- Vim plugins
@@ -268,12 +269,12 @@ require 'barbar'.setup {
 		buffer_number = true,
 	}
 }
-map('n', '<M-b>', ':BufferPick<CR>', { silent = true })
+map('n', '<M-b>', ':BufferPick<CR>')
 
 -- Hop
 require 'hop'.setup { keys = 'hklyuiopnm,qwertzxcvbasdgjf;' }
-map('n', '<leader>f', '<Esc> :lua require("hop").hint_char1()<CR>', { silent = true })
-map('n', '<leader>w', '<Esc> :lua require("hop").hint_words()<CR>', { silent = true })
+map('n', '<leader>f', '<Esc> :lua require("hop").hint_char1()<CR>')
+map('n', '<leader>w', '<Esc> :lua require("hop").hint_words()<CR>')
 
 -- Indent Blankline
 require 'ibl'.setup {
@@ -286,8 +287,7 @@ require 'ibl'.setup {
 		remove_blankline_trail = false,
 	},
 }
-map('n', '<leader>i', ':IBLToggle<CR>:set number!<CR>', { silent = true })
-map('n', '<leader>I', ':IBLToggle<CR>:set number!<CR>', { silent = true })
+Util.map_keys_table('n', { '<leader>i', '<leader>I' }, ':IBLToggle<CR>:set number!<CR>')
 
 require 'Comment'.setup {
 	pre_hook = require 'ts_context_commentstring.integrations.comment_nvim'.create_pre_hook(),
@@ -297,7 +297,7 @@ require 'nvim-surround'.setup { move_cursor = false }
 
 require 'nvim-autopairs'.setup {}
 
-map('n', '<leader>t', ':TroubleToggle<CR>', { silent = true })
+map('n', '<leader>t', ':TroubleToggle<CR>')
 
 ---- LSP Plugins ----
 -- VIM_USE_LSP needs to have a value, not just existing.

@@ -1,5 +1,4 @@
-require 'util'
-local map = vim.keymap.set
+local map = require 'util'.map_keys_table
 
 local api = vim.api
 local opt = vim.opt
@@ -59,8 +58,7 @@ local on_attach = function(_, bufnr)
 	map('n', '<M-r>', ':lua vim.lsp.buf.rename()<CR>', opts)
 	map('n', '<M-e>', ':lua vim.lsp.buf.rename()<CR>', opts)
 	map({ 'n', 'v' }, '<C-Space>', ':lua vim.lsp.buf.code_action()<CR>', opts)
-	map('n', '<C-F12>', ':lua vim.lsp.buf.references()<CR>', opts)
-	map('n', '<M-F12>', ':lua vim.lsp.buf.references()<CR>', opts)
+	map('n', { '<C-F12>', '<M-F12>' }, ':lua vim.lsp.buf.references()<CR>', opts)
 	map('n', '<leader>r', ':lua vim.lsp.buf.references()<CR>', opts)
 	map('n', '<leader>e', ':lua vim.diagnostic.open_float()<CR>', opts)
 	map('n', '[d', ':lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
@@ -191,14 +189,13 @@ local dap_opts = {
 	silent = true,
 	buffer = true,
 }
-map('n', '<F5>', function() return dap.continue() end, dap_opts)
+map('n', '<F5>',          function() return dap.continue() end, dap_opts)
 map('n', '<Leader><F5>',  function() return dap.terminate() end, dap_opts)
 map('n', '<F10>',         function() return dap.step_over() end, dap_opts)
 map('n', '<Leader><F11>', function() return dap.step_into() end, dap_opts)
 map('n', '<F11>',         function() return dap.step_into() end, dap_opts)
 map('n', '<F12>',         function() return dap.step_out() end, dap_opts)
-map('n', '<Leader>db',    function() return dap.toggle_breakpoint() end, dap_opts)
-map('n', '<F9>',          function() return dap.toggle_breakpoint() end, dap_opts)
+map('n', { '<Leader>db', '<F9>' }, function() return dap.toggle_breakpoint() end, dap_opts)
 map('n', '<Leader>dB',    function() return dap.set_breakpoint(vim.fn.input('Breakpoint condition: ')) end, dap_opts)
 map('n', '<Leader>lp',    function() return dap.set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) end, dap_opts)
 map('n', '<Leader>dr',    function() return dap.repl.open() end, dap_opts)
