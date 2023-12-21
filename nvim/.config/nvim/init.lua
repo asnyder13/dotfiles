@@ -209,13 +209,10 @@ api.nvim_create_autocmd('ColorScheme', {
 		]]
 })
 
-local colors = require "ronny.colors"
--- for _, v in pairs(colors.syntax) do v.italic = false end
-require 'ronny'.setup {
-	colors = colors,
-	display = { monokai_original = true },
-}
-vim.cmd 'colorscheme ronny'
+require 'highlighting-local'
+require 'telescope-local'
+require 'switcher'
+require 'neo-tree-local'
 
 Util.create_text_object('|')
 
@@ -272,31 +269,6 @@ require 'barbar'.setup {
 }
 map('n', '<M-b>', ':BufferPick<CR>', { silent = true })
 
--- Telescope
-require 'telescope'.setup {
-	defaults = {
-		file_ignore_patterns = { 'node_modules', '.git', },
-		layout_strategy = 'vertical',
-	},
-	extensions = {
-		fzf = {
-			fuzzy = true,                -- false will only do exact matching
-			override_generic_sorter = true, -- override the generic sorter
-			override_file_sorter = true, -- override the file sorter
-			case_mode = 'smart_case',    -- or "ignore_case" or "respect_case" the default case_mode is "smart_case"
-		}
-	}
-}
--- To get fzf loaded and working with telescope, you need to call
--- load_extension, somewhere after setup function:
-require 'telescope'.load_extension('fzf')
-
-map('n', '<C-p>', ':lua require("telescope.builtin").find_files({ hidden = false })<CR>', { silent = true })
-map('n', '<C-M-p>', ':lua require("telescope.builtin").find_files({ hidden = true })<CR>', { silent = true })
-map('n', '<C-g>', ':lua require("telescope.builtin").git_files()<CR>', { silent = true })
-map('n', '<leader>b', ':lua require("telescope.builtin").buffers({ sort_mru = true, })<CR>', { silent = true })
-map('n', '<M-;>', ':lua require("telescope.builtin").treesitter()<CR>', { silent = true })
-map('n', '<M-g>', ':lua require("telescope.builtin").live_grep()<CR>', { silent = true })
 
 -- Hop
 require 'hop'.setup { keys = 'hklyuiopnm,qwertzxcvbasdgjf;' }
@@ -317,151 +289,12 @@ require 'ibl'.setup {
 map('n', '<leader>i', ':IBLToggle<CR>:set number!<CR>', { silent = true })
 map('n', '<leader>I', ':IBLToggle<CR>:set number!<CR>', { silent = true })
 
-require 'switcher'
 
 require 'Comment'.setup {
 	pre_hook = require 'ts_context_commentstring.integrations.comment_nvim'.create_pre_hook(),
 }
 
 require 'nvim-surround'.setup { move_cursor = false }
-
--- Neo tree
-require 'window-picker'.setup {
-	filter_rules = {
-		include_current_win = true,
-		autoselect_one = true,
-		-- filter using buffer options
-		bo = {
-			-- if the file type is one of following, the window will be ignored
-			filetype = { 'neo-tree', 'neo-tree-popup', 'notify' },
-			-- if the buffer type is one of following, the window will be ignored
-			buftype = { 'terminal', 'quickfix' },
-		},
-	}
-}
-local openWindowPicker = function()
-	local picked_window_id = require 'window-picker'.pick_window()
-	if picked_window_id ~= nil then
-		vim.fn.win_gotoid(picked_window_id)
-	end
-end
-for _, key in ipairs({ '<M-w>', '<C-q>', '<C-w><C-e>',  '<C-w>e'}) do map('n', key, openWindowPicker) end
-
-require 'neo-tree'.setup {
-	filesystem = {
-		hijack_netrw_behavior = 'open_default',
-		follow_current_file = {
-			enabled = true,
-			leave_dirs_open = true,
-		}
-	},
-	add_blank_line_at_top = false,
-	window = {
-		mappings = {
-			['s'] = 'open_split',
-			['S'] = 'open_vsplit',
-			['x'] = 'split_with_window_picker',
-			['v'] = 'vsplit_with_window_picker',
-			['<C-x>'] = 'cut_to_clipboard',
-			['<C-c>'] = 'clear_filter',
-			['-'] = 'navigate_up',
-		},
-		width = 50
-	},
-	event_handlers = { {
-		event = 'neo_tree_buffer_enter',
-		handler = function()
-			vim.cmd [[
-				setlocal number
-				setlocal relativenumber
-			]]
-		end,
-	} },
-	nesting_rules = {
-		['package.json'] = {
-			pattern = '^package%.json$',
-			files = { 'package-lock.json', 'yarn*' },
-		},
-		['tsconfig'] = {
-			pattern = '^tsconfig%.json$',
-			files = { 'tsconfig.*.json' },
-		},
-		['js-extended'] = {
-			pattern = '(.+)%.js$',
-			files = { '%1.js.map', '%1.min.js', '%1.d.ts' },
-		},
-		['jsx'] = { 'js' },
-		['tsx'] = { 'ts' },
-		['ts-tests'] = {
-			pattern = '(.+)%.ts',
-			files = { '%1.spec.ts', '%1.mock.ts' },
-		},
-		['appsettings'] = {
-			pattern = '^appsettings%.json$',
-			files = { 'appsettings.*.json' },
-		},
-	}
-}
-map('n', '-', ':Neotree<CR>', { silent = true })
-map('n', '<M-->', ':Neotree toggle<CR>', { silent = true })
-
----- Highlight changes
--- The ronny colorscheme gets colors right and has robust coverage, but with TS and LSP tokens
---   it ends up coloring literally everything and floods the brain.
-
--- Interface color from Visual Studio
-vim.api.nvim_set_hl(0, 'Interface', { fg = '#B8D7A3' })
-local highlightReLinks = {
-	-- C#
-	'@punctuation.bracket.c_sharp',
-	'@variable.c_sharp',
-	'@type.c_sharp',
-	['@lsp.type.interface.cs'] = 'Interface',
-	'@lsp.type.namespace.cs',
-	'@lsp.type.property.cs',
-	'@lsp.type.variable.cs',
-	-- Lua
-	'@field.lua',
-	'@variable.lua',
-	'@lsp.type.property.lua',
-	'@lsp.type.variable.lua',
-	-- Ruby
-	'@variable.ruby',
-	'@lsp.type.variable.ruby',
-	-- TS
-	'@property.typescript',
-	'@variable.typescript',
-	'@lsp.type.property.typescript',
-	'@lsp.type.variable.typescript',
-	['@variable.builtin.typescript'] = 'SpecialComment',
-	'typescriptVariableDeclaration',
-
-	['NormalFloat'] = 'Normal',
-	['diffAdded'] = 'Function',
-	['diffRemoved'] = 'Operator',
-}
-for k, v in pairs(highlightReLinks) do
-	-- Lua table literals auto-key w/ incrementing index when given literal values.
-	if type(k) == 'number' then
-		api.nvim_set_hl(0, v, { link = 'Text' })
-	else
-		api.nvim_set_hl(0, k, { link = v })
-	end
-end
-
-local illuminateColor = { bg = '#434343' }
-local highlights = { 'IlluminatedWord', 'IlluminatedCurWord', 'IlluminatedWordText', 'IlluminatedWordRead',
-	'IlluminatedWordWrite' }
-for _, group in ipairs(highlights) do vim.api.nvim_set_hl(0, group, illuminateColor) end
-require 'illuminate'.configure {
-	filetypes_denylist = {
-		'dirbuf',
-		'dirvish',
-		'fugitive',
-		'NvimTree',
-		'man',
-	},
-}
 
 require 'nvim-autopairs'.setup {}
 
