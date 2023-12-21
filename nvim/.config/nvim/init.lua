@@ -1,4 +1,4 @@
-require 'util'
+local Util = require 'util'
 local map = vim.keymap.set
 
 local g   = vim.g
@@ -189,7 +189,6 @@ opt.smartcase      = true
 opt.foldmethod     = 'indent'
 opt.foldlevelstart = 99
 
-
 g.loaded_python3_provider = false
 g.loaded_ruby_provider    = false
 g.loaded_node_provider    = false
@@ -209,6 +208,8 @@ api.nvim_create_autocmd('ColorScheme', {
 		]]
 })
 
+---- Configs from dedicated files.
+-- Colorscheme and highlight overwrites.
 require 'highlighting-local'
 require 'telescope-local'
 require 'switcher'
@@ -269,7 +270,6 @@ require 'barbar'.setup {
 }
 map('n', '<M-b>', ':BufferPick<CR>', { silent = true })
 
-
 -- Hop
 require 'hop'.setup { keys = 'hklyuiopnm,qwertzxcvbasdgjf;' }
 map('n', '<leader>f', '<Esc> :lua require("hop").hint_char1()<CR>', { silent = true })
@@ -288,7 +288,6 @@ require 'ibl'.setup {
 }
 map('n', '<leader>i', ':IBLToggle<CR>:set number!<CR>', { silent = true })
 map('n', '<leader>I', ':IBLToggle<CR>:set number!<CR>', { silent = true })
-
 
 require 'Comment'.setup {
 	pre_hook = require 'ts_context_commentstring.integrations.comment_nvim'.create_pre_hook(),

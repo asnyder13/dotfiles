@@ -1,6 +1,6 @@
-Util = {}
+local Util = {}
 
-Util.create_expand_path = function(path)
+function Util.create_expand_path(path)
 	local target_path = vim.fn.expand(path)
 	if not vim.fn.isdirectory(target_path) == 1 then
 		vim.cmd('call system("mkdir -p " . ' .. target_path .. ')')
@@ -9,7 +9,7 @@ Util.create_expand_path = function(path)
 end
 
 -- https://thevaluable.dev/vim-create-text-objects/
-Util.create_text_object = function(char)
+function Util.create_text_object(char)
 	for _, mode in ipairs({ 'x', 'o' }) do
 		vim.api.nvim_set_keymap(
 			mode,
@@ -26,7 +26,7 @@ Util.create_text_object = function(char)
 	end
 end
 
-Util.concatTables = function(t1, t2)
+function Util.concatTables(t1, t2)
 	local t3 = { unpack(t1) }
 	for i = 1, #t2 do
 		t3[#t1 + i] = t2[i]
