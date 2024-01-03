@@ -110,7 +110,7 @@ require 'mason-lspconfig'.setup_handlers {
 		}
 	end,
 	['sorbet'] = function()
-		local target_path = Util.create_expand_path '~/.cache/sorbet'
+		local target_path = require 'util'.create_expand_path '~/.cache/sorbet'
 		lspconfig.sorbet.setup {
 			on_attach = on_attach,
 			cmd = { 'srb', 'tc', '--lsp', target_path },
