@@ -41,7 +41,7 @@ local nonLspPackages = {
 	'lewis6991/gitsigns.nvim',
 	'romgrk/barbar.nvim',
 	'RRethy/nvim-align',
-	'Everduin94/nvim-quick-switcher',
+	'asnyder13/nvim-quick-switcher',
 	'kylechui/nvim-surround',
 	'RRethy/vim-illuminate',
 	'numToStr/Comment.nvim',
