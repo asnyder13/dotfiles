@@ -242,36 +242,6 @@ require 'formatter'.setup {
 	log_level = vim.log.levels.WARN,
 	-- All formatter configurations are opt-in
 	filetype = {
-		-- Formatter configurations for filetype 'lua' go here
-		-- and will be executed in order
-		lua = {
-			-- 'formatter.filetypes.lua' defines default configurations for the
-			-- 'lua' filetype
-			-- require 'formatter.filetypes.lua'.stylua,
-
-			-- You can also define your own configuration
-			function()
-				-- Full specification of configurations is down below and in Vim help files
-				return {
-					exe = 'stylua',
-					args = {
-						'--config-path=$HOME/.config/stylua.toml',
-						'--search-parent-directories',
-						'--indent-type',
-						'Tabs',
-						'--quote-style',
-						'AutoPreferSingle',
-						'--call-parentheses',
-						'None',
-						'--stdin-filepath',
-						formatter_util.escape_path(formatter_util.get_current_buffer_file_path()),
-						'--',
-						'-',
-					},
-					stdin = true,
-				}
-			end,
-		},
 		cs = { require('formatter.filetypes.cs').dotnetformat },
 		css = { prettierd },
 		graphql = { prettierd },

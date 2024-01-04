@@ -11,7 +11,7 @@ local function q_switch(file, opts)
 end
 
 -- Angular
-local function angular_file_switcher_mappings(file_type)
+local function angular_component_switcher_mappings(file_type)
 	map('n', '<leader>u', q_switch(file_type .. '.ts', nil), qs_opts)
 	map('n', '<leader>o', q_switch(file_type .. '.html', nil), qs_opts)
 	map('n', '<leader>i', q_switch(file_type .. '.scss', nil), qs_opts)
@@ -23,7 +23,7 @@ local function angular_file_switcher_mappings(file_type)
 	map('n', '<leader>xi', q_switch(file_type .. '.scss', { split = 'horizontal' }), qs_opts)
 	map('n', '<leader>xo', q_switch(file_type .. '.html', { split = 'horizontal' }), qs_opts)
 end
-local function angular_switcher_mappings()
+local function angular_ngrx_switcher_mappings()
 	-- Components
 	map('n', '<leader>p', q_switch('module.ts', nil), qs_opts)
 
@@ -52,9 +52,9 @@ local function angular_switcher_autocmd(prefix, callback)
 		callback = callback,
 	})
 end
-angular_switcher_autocmd('*', angular_switcher_mappings)
-angular_switcher_autocmd('*.component', function() angular_file_switcher_mappings('component') end)
-angular_switcher_autocmd('*.view', function() angular_file_switcher_mappings('view') end)
+angular_switcher_autocmd('*', angular_ngrx_switcher_mappings)
+angular_switcher_autocmd('*.component', function() angular_component_switcher_mappings('component') end)
+angular_switcher_autocmd('*.view', function() angular_component_switcher_mappings('view') end)
 
 -- C# Saga dir patterns
 local function command_to_handler(path, filename)
