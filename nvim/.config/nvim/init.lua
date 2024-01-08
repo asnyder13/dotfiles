@@ -57,6 +57,7 @@ local lspPackages = {
 	-- Treesitter
 	{ 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
 	'nvim-treesitter/playground',
+	'nvim-treesitter/nvim-treesitter-angular',
 
 	-- LSP
 	'neovim/nvim-lspconfig',
