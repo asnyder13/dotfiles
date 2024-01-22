@@ -210,9 +210,9 @@ if [[ -e $HOME/.fzf.zsh ]]; then
 fi
 
 if [[ ! -z "$HAS_FZF" ]]; then
-	export FZF_DEFAULT_COMMAND="command fd --follow --hidden -tf . $FZF_COMMAND_SUFFIX"
-	export FZF_CTRL_T_COMMAND="command fd --follow --hidden --min-depth 1 -tf -td -tl . $FZF_COMMAND_SUFFIX"
-	export FZF_ALT_C_COMMAND="command fd --follow --hidden --min-depth 1 -td . $FZF_COMMAND_SUFFIX"
+	export FZF_DEFAULT_COMMAND="command fd --follow --hidden -E '.steam' -tf . $FZF_COMMAND_SUFFIX"
+	export FZF_CTRL_T_COMMAND="command fd --follow --hidden -E '.steam' --min-depth 1 -tf -td -tl . $FZF_COMMAND_SUFFIX"
+	export FZF_ALT_C_COMMAND="command fd --follow --hidden -E '.steam' --min-depth 1 -td . $FZF_COMMAND_SUFFIX"
 	source $HOME/.fzf.zsh
 fi
 
