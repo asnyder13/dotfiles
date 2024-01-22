@@ -6,8 +6,9 @@ local qs_map_opts = {
 	silent = true,
 	buffer = true,
 }
+local nvim_quick_switcher = require('nvim-quick-switcher')
 local function q_switch(file, opts)
-	return function() require('nvim-quick-switcher').switch(file, opts) end
+	return function() nvim_quick_switcher.switch(file, opts) end
 end
 
 local qs_opts    = { only_existing = true, only_existing_notify = true, }
@@ -41,7 +42,15 @@ local function angular_ngrx_switcher_mappings()
 	map('n', '<leader>nc', q_switch('store.ts', qs_opts), qs_map_opts)
 	map('n', '<leader>ncj', q_switch('store.spec.ts', qs_opts), qs_map_opts)
 	map('n', '<leader>ncm', q_switch('store.mock.ts', qs_opts), qs_map_opts)
+	map('n', '<leader>ndt', function()
+		nvim_quick_switcher.find_by_fn(function(p)
+			local path = p.path;
+			local file_name = p.prefix;
+			return path:gsub('pages', ''):gsub('components', '') .. '/data-access' .. '/' .. file_name .. '*.store.ts'
+		end, qs_opts)
+	end, qs_map_opts)
 end
+
 local angular_au_group = api.nvim_create_augroup('AngularQuickSwitcher', { clear = true })
 local function angular_switcher_autocmd(prefix, callback)
 	local patterns = { '.ts', '.html', '.scss', '.sass', }
@@ -68,7 +77,7 @@ local function handler_to_command(path, filename)
 end
 local function q_find_handler_or_command()
 	return function()
-		require('nvim-quick-switcher').find_by_fn(function(p)
+		nvim_quick_switcher.find_by_fn(function(p)
 			local path = p.path;
 			local file_name = p.prefix;
 			local is_handler = file_name:lower():find('handler');

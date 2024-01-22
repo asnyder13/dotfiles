@@ -34,6 +34,7 @@ local highlightReLinks = {
 	-- TS
 	'@property.typescript',
 	'@variable.typescript',
+	'@variable.member.typescript',
 	'@lsp.type.property.typescript',
 	'@lsp.type.variable.typescript',
 	['@variable.builtin.typescript'] = 'SpecialComment',
