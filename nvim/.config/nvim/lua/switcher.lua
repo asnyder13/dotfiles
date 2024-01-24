@@ -1,4 +1,5 @@
 local map = require 'util'.map_keys_table
+local concat_tables = require 'util'.concatTables
 
 local api = vim.api
 
@@ -12,8 +13,8 @@ local function q_switch(file, opts)
 end
 
 local qs_opts    = { only_existing = true, only_existing_notify = true, }
-local qs_opts_vs = { only_existing = true, only_existing_notify = true, split = 'vertical', }
-local qs_opts_hs = { only_existing = true, only_existing_notify = true, split = 'horizontal', }
+local qs_opts_vs = concat_tables(qs_opts, { split = 'vertical' })
+local qs_opts_hs = concat_tables(qs_opts, { split = 'horizontal' })
 -- Angular
 local function angular_component_switcher_mappings(file_type)
 	map('n', '<leader>u', q_switch(file_type .. '.ts', qs_opts), qs_map_opts)

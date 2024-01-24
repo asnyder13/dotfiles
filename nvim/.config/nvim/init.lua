@@ -181,6 +181,7 @@ opt.backup         = false
 opt.hidden         = true
 opt.history        = 1000
 opt.termguicolors  = true
+opt.signcolumn     = 'auto'
 
 -- Searching
 opt.hlsearch       = true

@@ -26,11 +26,13 @@ local highlightReLinks = {
 	-- Lua
 	'@field.lua',
 	'@variable.lua',
+	'@variable.member.lua',
 	'@lsp.type.property.lua',
 	'@lsp.type.variable.lua',
 	-- Ruby
 	'@variable.ruby',
 	'@lsp.type.variable.ruby',
+	['@string.special.symbol.ruby'] = 'Number',
 	-- TS
 	'@property.typescript',
 	'@variable.typescript',
