@@ -39,11 +39,6 @@ function Util.concatTables(t1, t2)
 	return t3
 end
 
--- ---@param mode string|table	Mode short-name, see |nvim_set_keymap()|.
--- ---@param keys string|table	Table of keys to map.
--- ---@param target string|function	String commmand or function map target.
--- ---@param opts table|nil	Table of |:map-arguments|.
-
 ---@param mode string|table    Mode short-name, see |nvim_set_keymap()|.
 ---                            Can also be list of modes to create mapping on multiple modes.
 ---@param lhs string|table     Left-hand side |{lhs}| of the mapping.

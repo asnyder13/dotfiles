@@ -41,7 +41,8 @@ require 'mason-nvim-dap'.setup {}
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
-local on_attach = function(_, bufnr)
+local on_attach = {}
+on_attach.base = function(_, bufnr)
 	-- Mappings.
 	local opts = { noremap = true, silent = true, buffer = bufnr }
 
@@ -71,7 +72,7 @@ local on_attach = function(_, bufnr)
 end
 
 local _timers = {}
-local function on_attach_ruby_ls(client, buffer)
+on_attach.ruby_ls = function(client, buffer)
 	if require("vim.lsp.diagnostic")._enable then
 		return
 	end
@@ -112,7 +113,7 @@ local function on_attach_ruby_ls(client, buffer)
 		end,
 	})
 
-	on_attach(client, buffer)
+	on_attach.base(client, buffer)
 end
 
 -- Setup installed servers.
@@ -143,13 +144,13 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities()
 require 'mason-lspconfig'.setup_handlers {
 	function(server_name)
 		lspconfig[server_name].setup {
-			on_attach = on_attach,
+			on_attach = on_attach.base,
 			capabilities = capabilities,
 		}
 	end,
 	['lua_ls'] = function()
 		lspconfig.lua_ls.setup {
-			on_attach = on_attach,
+			on_attach = on_attach.base,
 			settings = custom_settings.lua,
 			capabilities = capabilities,
 		}
@@ -157,14 +158,14 @@ require 'mason-lspconfig'.setup_handlers {
 	['sorbet'] = function()
 		local target_path = require 'util'.create_expand_path '~/.cache/sorbet'
 		lspconfig.sorbet.setup {
-			on_attach = on_attach,
+			on_attach = on_attach.base,
 			cmd = { 'srb', 'tc', '--lsp', target_path },
 			capabilities = capabilities,
 		}
 	end,
 	['ruby_ls'] = function()
 		lspconfig.ruby_ls.setup {
-			on_attach = on_attach_ruby_ls,
+			on_attach = on_attach.ruby_ls,
 		}
 	end,
 }
