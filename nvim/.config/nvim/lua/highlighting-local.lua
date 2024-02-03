@@ -23,6 +23,7 @@ local highlightReLinks = {
 	'@lsp.type.namespace.cs',
 	'@lsp.type.property.cs',
 	'@lsp.type.variable.cs',
+	'@lsp.type.parameter.cs',
 	-- Lua
 	'@field.lua',
 	'@variable.lua',

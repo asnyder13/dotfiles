@@ -98,10 +98,6 @@ require 'gitsigns'.setup {}
 
 -- Auto commands
 vim.cmd([[
-	" Sytaxes
-	autocmd BufNewFile,BufRead *.npmrc   set ft=dosini
-	autocmd BufNewFile,BufRead *bash-fc* set ft=sh
-
 	" https://github.com/jeffkreeftmeijer/vim-numbertoggle
 	augroup NumberToggle
 		autocmd!
@@ -120,11 +116,6 @@ vim.cmd([[
 		autocmd TermOpen * :set nonumber norelativenumber
 		" allows you to use Ctrl-c on terminal window
 		autocmd TermOpen * nnoremap <buffer> <C-c> i<C-c>
-	augroup END
-
-	augroup ASCEND
-		autocmd!
-		au BufRead,BufNewFile *.a4c,*.a4l set syntax=ascend
 	augroup END
 ]])
 
@@ -233,6 +224,7 @@ map('n', 'ZZ', '')
 map('n', '<leader>sv', ':source $MYVIMRC<CR>', { silent = true })
 -- Collapse all levels under current fold
 map('n', 'zs', 'zCzozo')
+map('n', '<leader>zc', ':%foldc<CR>')
 -- Quick buffer switch (for tabline)
 map('n', 'gbn', ':bn<CR>')
 map('n', 'gbN', ':bN<CR>')

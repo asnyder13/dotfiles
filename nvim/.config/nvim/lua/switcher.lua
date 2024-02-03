@@ -47,7 +47,7 @@ local function angular_ngrx_switcher_mappings()
 		nvim_quick_switcher.find_by_fn(function(p)
 			local path = p.path;
 			local file_name = p.prefix;
-			return path:gsub('pages', ''):gsub('components', '') .. '/data-access' .. '/' .. file_name .. '*.store.ts'
+			return path .. '/data-access' .. '/' .. file_name .. '*.store.ts'
 		end, qs_opts)
 	end, qs_map_opts)
 end
