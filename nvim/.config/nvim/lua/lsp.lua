@@ -289,3 +289,11 @@ local delimColors = {
 for k, v in pairs(delimColors) do
 	api.nvim_set_hl(0, k, { fg = v })
 end
+
+vim.diagnostic.config {
+	virtual_text = false,
+}
+require 'corn'.setup {
+	border_style = 'rounded',
+	scope = 'line',
+}

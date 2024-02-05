@@ -68,3 +68,40 @@ dap.configurations.cs = {
 		end,
 	},
 }
+
+---- TS/ng/JS
+dap.adapters.firefox = {
+	type = 'executable',
+	command = 'node',
+	args = { os.getenv('HOME') .. '/.local/share/nvim/mason/packages/firefox-debug-adapter/dist/adapter.bundle.js' }
+}
+dap.adapters.chrome = {
+	type = 'executable',
+	command = 'node',
+	args = { os.getenv('HOME') .. '~/.local/share/nvim/mason/packages/chrome-debug-adapter/src/chromeDebug.ts' }
+}
+local chrome_config = {
+	name = 'Debug with Chrome',
+	type = 'chrome',
+	request = 'attach',
+	program = '${file}',
+	cwd = vim.fn.getcwd(),
+	sourceMaps = true,
+	protocol = 'inspector',
+	port = 9222,
+	webRoot = '${workspaceFolder}'
+}
+dap.configurations.typescript = {
+	{
+		name = 'Debug with Firefox',
+		type = 'firefox',
+		request = 'launch',
+		reAttach = true,
+		url = 'http://localhost:4200',
+		webRoot = '${workspaceFolder}',
+		firefoxExecutable = '/usr/local/bin/firefox'
+	},
+	chrome_config,
+}
+dap.configurations.javascriptreact = { chrome_config, }
+dap.configurations.typescriptreact = { chrome_config, }
