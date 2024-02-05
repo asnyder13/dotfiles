@@ -51,6 +51,8 @@ local nonLspPackages = {
 	's1n7ax/nvim-window-picker',
 	'bluz71/nvim-linefly',
 	'windwp/nvim-autopairs',
+	'LunarVim/bigfile.nvim',
+	'rasulomaroff/reactive.nvim',
 }
 
 local lspPackages = {
@@ -118,6 +120,21 @@ vim.cmd([[
 		autocmd TermOpen * nnoremap <buffer> <C-c> i<C-c>
 	augroup END
 ]])
+
+vim.filetype.add {
+	pattern = {
+		['appsettings%.*%a*%.json'] = function(path)
+			local dir = path:match('(.+)/.+')
+			local csprojs = vim.fn.glob(dir .. '/*.csproj', false, true)
+			local is_dotnet = #csprojs ~= 0
+			if is_dotnet then
+				return 'jsonc'
+			else
+				return 'json'
+			end
+		end,
+	}
+}
 
 -- Search for visual selection
 -- https://vim.fandom.com/wiki/Search_for_visually_selected_text
@@ -292,6 +309,16 @@ require 'nvim-surround'.setup { move_cursor = false }
 require 'nvim-autopairs'.setup {}
 
 map('n', '<leader>t', ':TroubleToggle<CR>')
+
+require 'bigfile'.setup {
+	filesize = 1,
+}
+
+require 'reactive'.setup { builtin = {
+	cursorline = true,
+	cursor = true,
+	modemsg = true
+} }
 
 -- https://old.reddit.com/r/neovim/comments/1abd2cq/what_are_your_favorite_tricks_using_neovim/
 -- Jump to last edit position on opening file
