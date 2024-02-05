@@ -8,7 +8,14 @@ local qs_map_opts = {
 	buffer = true,
 }
 local nvim_quick_switcher = require('nvim-quick-switcher')
+
+---@param file string
+---@param opts table
 local function q_switch(file, opts)
+	vim.validate {
+		file = { file, 'string' },
+		opts = { opts, 'table', true },
+	}
 	return function() nvim_quick_switcher.switch(file, opts) end
 end
 
@@ -16,7 +23,9 @@ local qs_opts    = { only_existing = true, only_existing_notify = true, }
 local qs_opts_vs = { only_existing = true, only_existing_notify = true, split = 'vertical' }
 local qs_opts_hs = { only_existing = true, only_existing_notify = true, split = 'horizontal' }
 -- Angular
+---@param file_type string
 local function angular_component_switcher_mappings(file_type)
+	vim.validate { file_type = { file_type, 'string' } }
 	map('n', '<leader>u', q_switch(file_type .. '.ts', qs_opts), qs_map_opts)
 	map('n', '<leader>o', q_switch(file_type .. '.html', qs_opts), qs_map_opts)
 	map('n', '<leader>i', q_switch(file_type .. '.scss', qs_opts), qs_map_opts)
@@ -53,7 +62,13 @@ local function angular_ngrx_switcher_mappings()
 end
 
 local angular_au_group = api.nvim_create_augroup('AngularQuickSwitcher', { clear = true })
+---@param prefix string
+---@param callback function
 local function angular_switcher_autocmd(prefix, callback)
+	vim.validate {
+		prefix = { prefix, 'string' },
+		callback = { callback, 'function' },
+	}
 	local patterns = { '.ts', '.html', '.scss', '.sass', }
 	local computed_patterns = {}
 	for _, v in ipairs(patterns) do

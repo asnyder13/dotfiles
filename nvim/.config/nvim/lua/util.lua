@@ -2,6 +2,9 @@ local Util = {}
 
 ---@param path string
 function Util.create_expand_path(path)
+	vim.validate {
+		path = { path, { 'string', } },
+	}
 	local target_path = vim.fn.expand(path)
 	if not vim.fn.isdirectory(target_path) == 1 then
 		vim.cmd('call system("mkdir -p " . ' .. target_path .. ')')
@@ -12,6 +15,9 @@ end
 -- https://thevaluable.dev/vim-create-text-objects/
 ---@param char string
 function Util.create_text_object(char)
+	vim.validate {
+		char = { char, { 'string', } },
+	}
 	for _, mode in ipairs { 'x', 'o' } do
 		vim.api.nvim_set_keymap(
 			mode,
@@ -31,6 +37,10 @@ end
 ---@param t1 table
 ---@param t2 table
 function Util.concatTables(t1, t2)
+	vim.validate {
+		t1 = { t1, { 'table', } },
+		t2 = { t2, { 'table', } },
+	}
 	local t3 = { unpack(t1) }
 	for i = 1, #t2 do
 		t3[#t1 + i] = t2[i]
@@ -55,9 +65,15 @@ end
 ---                        Defaults to `false`.
 ---                      - Defaults to `{ silent = true }`
 function Util.map_keys_table(mode, lhs, rhs, opts)
+	vim.validate {
+		mode = { mode, { 'string', 'table' } },
+		lhs = { lhs, { 'string', 'table' } },
+		rhs = { rhs, { 'string', 'function' } },
+		opts = { opts, { 'table', }, true },
+	}
 	opts = opts or { silent = true }
 	if type(lhs) == 'string' then
-			vim.keymap.set(mode, lhs, rhs, opts)
+		vim.keymap.set(mode, lhs, rhs, opts)
 	else
 		for _, key in ipairs(lhs) do
 			vim.keymap.set(mode, key, rhs, opts)
