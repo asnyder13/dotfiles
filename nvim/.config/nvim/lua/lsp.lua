@@ -67,8 +67,6 @@ on_attach.base = function(_, bufnr)
 	map('n', '=l', ':lua vim.lsp.buf.format { async = true }<CR>', opts)
 	map('n', '==', ':Format<CR>', opts)
 	map('n', '<C-]>', ':lua vim.lsp.buf.definition()<CR>', opts)
-
-	-- cmd [[command! Format execute 'lua vim.lsp.buf.formatting()']]
 end
 
 local _timers = {}

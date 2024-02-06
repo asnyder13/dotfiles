@@ -124,7 +124,7 @@ vim.cmd([[
 
 vim.filetype.add {
 	pattern = {
-		['appsettings%.*%a*%.json'] = function(path)
+		['appsettings[%.%a]*%.json'] = function(path)
 			local dir = path:match('(.+)/.+')
 			local csprojs = vim.fn.glob(dir .. '/*.csproj', false, true)
 			local is_dotnet = #csprojs ~= 0
@@ -326,6 +326,7 @@ require 'reactive'.setup { builtin = {
 vim.cmd([[
 	au BufReadPost * if expand('%:p') !~# '\m/\.git/' && line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 ]])
+
 ---- LSP Plugins ----
 -- VIM_USE_LSP needs to have a value, not just existing.
 if vim.env.VIM_USE_LSP then

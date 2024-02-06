@@ -14,6 +14,7 @@ vim.cmd 'colorscheme ronny'
 
 -- Interface color from Visual Studio
 vim.api.nvim_set_hl(0, 'Interface', { fg = '#B8D7A3' })
+vim.api.nvim_set_hl(0, 'SignColumn', { bg = 'NONE' })
 local highlightReLinks = {
 	-- C#
 	'@punctuation.bracket.c_sharp',
