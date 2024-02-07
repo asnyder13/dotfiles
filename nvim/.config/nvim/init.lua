@@ -53,6 +53,7 @@ local nonLspPackages = {
 	'windwp/nvim-autopairs',
 	'LunarVim/bigfile.nvim',
 	'rasulomaroff/reactive.nvim',
+	'j-hui/fidget.nvim',
 }
 
 local lspPackages = {
@@ -208,17 +209,6 @@ g.loaded_perl_provider    = false
 
 -- Syntax hl/colors
 opt.syntax                = 'on'
--- autocmd to overwrite other highlight groups.  Setup before :colorscheme
-api.nvim_create_autocmd('ColorScheme', {
-	pattern = '*',
-	command = [[
-			highlight Normal guibg=#282923
-			highlight LineNr guibg=#282923
-			highlight CursorLineNr guibg=#434343
-			highlight IblScope guifg=#b2b2b2
-			highlight TabLineFill guibg=#282923
-		]]
-})
 
 ---- Configs from dedicated files.
 -- Colorscheme and highlight overwrites.
@@ -320,6 +310,8 @@ require 'reactive'.setup { builtin = {
 	cursor = true,
 	modemsg = true
 } }
+
+require 'fidget'.setup()
 
 -- https://old.reddit.com/r/neovim/comments/1abd2cq/what_are_your_favorite_tricks_using_neovim/
 -- Jump to last edit position on opening file

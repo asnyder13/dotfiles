@@ -1,7 +1,18 @@
 local api = vim.api
 
 local colors = require "ronny.colors"
--- for _, v in pairs(colors.syntax) do v.italic = false end
+-- autocmd to overwrite other highlight groups.  Setup before :colorscheme
+api.nvim_create_autocmd('ColorScheme', {
+	pattern = '*',
+	command = [[
+			highlight Normal guibg=#282923
+			highlight LineNr guibg=#282923
+			highlight CursorLineNr guibg=#434343
+			highlight IblScope guifg=#b2b2b2
+			highlight TabLineFill guibg=#282923
+		]]
+})
+
 require 'ronny'.setup {
 	colors = colors,
 	display = { monokai_original = true },
@@ -15,7 +26,15 @@ vim.cmd 'colorscheme ronny'
 -- Interface color from Visual Studio
 vim.api.nvim_set_hl(0, 'Interface', { fg = '#B8D7A3' })
 vim.api.nvim_set_hl(0, 'SignColumn', { bg = 'NONE' })
+vim.api.nvim_set_hl(0, 'TelescopeBorder', { fg = '#808080' })
 local highlightReLinks = {
+	---- General
+	['FloatBorder'] = 'SpecialComment',
+	['NormalFloat'] = 'Normal',
+	['diffAdded'] = 'Function',
+	['diffRemoved'] = 'Operator',
+
+	---- Languages
 	-- C#
 	'@punctuation.bracket.c_sharp',
 	'@variable.c_sharp',
@@ -43,10 +62,6 @@ local highlightReLinks = {
 	'@lsp.type.variable.typescript',
 	['@variable.builtin.typescript'] = 'SpecialComment',
 	'typescriptVariableDeclaration',
-
-	['NormalFloat'] = 'Normal',
-	['diffAdded'] = 'Function',
-	['diffRemoved'] = 'Operator',
 }
 for k, v in pairs(highlightReLinks) do
 	-- Lua table literals auto-key w/ incrementing index when given literal values.
