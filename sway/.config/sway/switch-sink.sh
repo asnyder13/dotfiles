@@ -22,7 +22,7 @@ esac
 
 notify-send \
 	--app-name sway \
-	--expire-time 2000 \
+	--expire-time 3000 \
 	--transient \
 	--icon /usr/share/icons/Adwaita/symbolic/devices/audio-headphones-symbolic.svg \
 	"${message}"

@@ -230,8 +230,12 @@ require 'luasnip.loaders.from_snipmate'.lazy_load()
 ---- DAP
 require 'dap-local'
 
--- Provides the Format, FormatWrite, FormatLock, and FormatWriteLock commands
-local formatter_util = require 'formatter.util'
+local formatter_fts = {
+	['*'] = {
+		-- 'formatter.filetypes.any' defines default configurations for any filetype
+		require('formatter.filetypes.any').remove_trailing_whitespace,
+	},
+}
 local prettierd = require 'formatter.defaults.prettierd'
 local prettierd_fts = {
 	css = { prettierd },
@@ -251,20 +255,14 @@ local prettierd_fts = {
 	vue = { prettierd },
 	yaml = { prettierd },
 }
+for lang, fmt in pairs(prettierd_fts) do formatter_fts[lang] = fmt end
 require 'formatter'.setup {
 	-- Enable or disable logging
 	logging = true,
 	-- Set the log level
 	log_level = vim.log.levels.WARN,
 	-- All formatter configurations are opt-in
-	filetype = {
-		unpack(prettierd_fts),
-		-- Use the special '*' filetype for defining formatter configurations on any filetype
-		['*'] = {
-			-- 'formatter.filetypes.any' defines default configurations for any filetype
-			require('formatter.filetypes.any').remove_trailing_whitespace,
-		},
-	},
+	filetype = formatter_fts,
 }
 
 local prettierd_ft_extensions = vim.tbl_keys(prettierd_fts)
@@ -304,7 +302,7 @@ for k, v in pairs(delimColors) do
 end
 
 vim.diagnostic.config {
-	virtual_text = false,
+	virtual_text = true,
 }
 require 'corn'.setup {
 	border_style = 'rounded',
