@@ -19,9 +19,10 @@ require 'telescope'.setup {
 -- load_extension, somewhere after setup function:
 require 'telescope'.load_extension('fzf')
 
-map('n', '<C-p>', ':lua require("telescope.builtin").find_files({ hidden = false })<CR>')
-map('n', '<C-M-p>', ':lua require("telescope.builtin").find_files({ hidden = true })<CR>')
-map('n', '<C-g>', ':lua require("telescope.builtin").git_files()<CR>')
-map('n', '<leader>b', ':lua require("telescope.builtin").buffers({ sort_mru = true, })<CR>')
-map('n', '<M-;>', ':lua require("telescope.builtin").treesitter()<CR>')
-map('n', '<M-g>', ':lua require("telescope.builtin").live_grep()<CR>')
+local builtin = require 'telescope.builtin'
+map('n', '<C-p>',     function() builtin.find_files({ hidden = false }) end)
+map('n', '<C-M-p>',   function() builtin.find_files({ hidden = true }) end)
+map('n', '<C-g>',     function() builtin.git_files() end)
+map('n', '<leader>b', function() builtin.buffers({ sort_mru = true, }) end)
+map('n', '<M-;>',     function() builtin.treesitter() end)
+map('n', '<M-g>',     function() builtin.live_grep() end)

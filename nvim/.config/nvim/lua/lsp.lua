@@ -47,26 +47,24 @@ on_attach.base = function(_, bufnr)
 	local opts = { noremap = true, silent = true, buffer = bufnr }
 
 	-- See `:help vim.lsp.*` for documentation on any of the below functions
-	map('n', 'gD', ':lua vim.lsp.buf.declaration()<CR>', opts)
-	map('n', 'gd', ':lua vim.lsp.buf.definition()<CR>', opts)
-	map('n', 'K', ':lua vim.lsp.buf.hover()<CR>', opts)
-	map('n', 'gh', ':lua vim.lsp.buf.hover()<CR>', opts)
-	map('n', 'gi', ':lua vim.lsp.buf.implementation()<CR>', opts)
-	map('n', '<C-k>', ':lua vim.lsp.buf.signature_help()<CR>', opts)
-	map('i', '<C-s>', ':lua vim.lsp.buf.signature_help()<CR>', opts)
-	map('n', '<leader>D', ':lua vim.lsp.buf.type_definition()<CR>', opts)
-	map('n', '<M-r>', ':lua vim.lsp.buf.rename()<CR>', opts)
-	map('n', '<M-e>', ':lua vim.lsp.buf.rename()<CR>', opts)
-	map({ 'n', 'v' }, '<C-Space>', ':lua vim.lsp.buf.code_action()<CR>', opts)
-	map('n', { '<C-F12>', '<M-F12>' }, ':lua vim.lsp.buf.references()<CR>', opts)
-	map('n', '<leader>r', ':lua vim.lsp.buf.references()<CR>', opts)
-	map('n', '<leader>e', ':lua vim.diagnostic.open_float()<CR>', opts)
-	map('n', '[d', ':lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-	map('n', ']d', ':lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-	map('n', '<leader>q', ':lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-	map('n', '=l', ':lua vim.lsp.buf.format { async = true }<CR>', opts)
-	map('n', '==', ':Format<CR>', opts)
-	map('n', '<C-]>', ':lua vim.lsp.buf.definition()<CR>', opts)
+	map('n', 'gD',        function() vim.lsp.buf.declaration() end, opts)
+	map('n', 'gd',        function() vim.lsp.buf.definition() end, opts)
+	map('n', 'K',         function() vim.lsp.buf.hover() end, opts)
+	map('n', 'gh',        function() vim.lsp.buf.hover() end, opts)
+	map('n', 'gi',        function() vim.lsp.buf.implementation() end, opts)
+	map('n', '<C-k>',     function() vim.lsp.buf.signature_help() end, opts)
+	map('i', '<C-s>',     function() vim.lsp.buf.signature_help() end, opts)
+	map('n', '<leader>D', function() vim.lsp.buf.type_definition() end, opts)
+	map('n', '<M-r>',     function() vim.lsp.buf.rename() end, opts)
+	map('n', '<M-e>',     function() vim.lsp.buf.rename() end, opts)
+	map({ 'n', 'v' }, '<C-Space>', function() vim.lsp.buf.code_action() end, opts)
+	map('n', { '<C-F12>', '<M-F12>' }, function() vim.lsp.buf.references() end, opts)
+	map('n', '<leader>r', function() vim.lsp.buf.references() end, opts)
+	map('n', '<leader>e', function() vim.diagnostic.open_float() end, opts)
+	map('n', '[d',        function() vim.lsp.diagnostic.goto_prev() end, opts)
+	map('n', ']d',        function() vim.lsp.diagnostic.goto_next() end, opts)
+	map('n', '<leader>q', function() vim.lsp.diagnostic.set_loclist() end, opts)
+	map('n', '<C-]>', function() vim.lsp.buf.definition() end, opts)
 end
 
 local _timers = {}
@@ -235,6 +233,24 @@ require 'dap-local'
 -- Provides the Format, FormatWrite, FormatLock, and FormatWriteLock commands
 local formatter_util = require 'formatter.util'
 local prettierd = require 'formatter.defaults.prettierd'
+local prettierd_fts = {
+	css = { prettierd },
+	graphql = { prettierd },
+	html = { prettierd },
+	javascript = { prettierd },
+	javascriptreact = { prettierd },
+	['javascript.jsx'] = { prettierd },
+	json = { prettierd },
+	jsonc = { prettierd },
+	less = { prettierd },
+	markdown = { prettierd },
+	scss = { prettierd },
+	typescript = { prettierd },
+	typescriptreact = { prettierd },
+	['typescript.tsx'] = { prettierd },
+	vue = { prettierd },
+	yaml = { prettierd },
+}
 require 'formatter'.setup {
 	-- Enable or disable logging
 	logging = true,
@@ -242,23 +258,7 @@ require 'formatter'.setup {
 	log_level = vim.log.levels.WARN,
 	-- All formatter configurations are opt-in
 	filetype = {
-		cs = { require('formatter.filetypes.cs').dotnetformat },
-		css = { prettierd },
-		graphql = { prettierd },
-		html = { prettierd },
-		javascript = { prettierd },
-		javascriptreact = { prettierd },
-		['javascript.jsx'] = { prettierd },
-		json = { prettierd },
-		jsonc = { prettierd },
-		less = { prettierd },
-		markdown = { prettierd },
-		scss = { prettierd },
-		typescript = { prettierd },
-		typescriptreact = { prettierd },
-		['typescript.tsx'] = { prettierd },
-		vue = { prettierd },
-		yaml = { prettierd },
+		unpack(prettierd_fts),
 		-- Use the special '*' filetype for defining formatter configurations on any filetype
 		['*'] = {
 			-- 'formatter.filetypes.any' defines default configurations for any filetype
@@ -266,6 +266,21 @@ require 'formatter'.setup {
 		},
 	},
 }
+
+local prettierd_ft_extensions = vim.tbl_keys(prettierd_fts)
+local map_formatting_group = vim.api.nvim_create_augroup('FormattingMaps', { clear = true })
+vim.api.nvim_create_autocmd({ 'FileType', }, {
+	group = map_formatting_group,
+	pattern = '*',
+	callback = function(event)
+		local bufnr = event.buf
+		if vim.tbl_contains(prettierd_ft_extensions, event.match) then
+			map('n', '==', ':Format<CR>', { silent = true, buffer = bufnr })
+		else
+			map('n', '==', function() vim.lsp.buf.format { async = true } end, { silent = true, buffer = bufnr })
+		end
+	end
+})
 
 vim.g.rainbow_delimiters = {
 	highlight = {
