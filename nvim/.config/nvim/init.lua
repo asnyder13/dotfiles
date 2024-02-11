@@ -41,7 +41,7 @@ local nonLspPackages = {
 	'lewis6991/gitsigns.nvim',
 	'romgrk/barbar.nvim',
 	'RRethy/nvim-align',
-	'asnyder13/nvim-quick-switcher',
+	'Everduin94/nvim-quick-switcher',
 	'kylechui/nvim-surround',
 	'RRethy/vim-illuminate',
 	'numToStr/Comment.nvim',
@@ -58,9 +58,8 @@ local nonLspPackages = {
 
 local lspPackages = {
 	-- Treesitter
-	{ 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
-	'nvim-treesitter/playground',
 	'nvim-treesitter/nvim-treesitter-angular',
+	{ 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
 
 	-- LSP
 	'neovim/nvim-lspconfig',
