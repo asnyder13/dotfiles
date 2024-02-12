@@ -5,9 +5,6 @@ local g    = vim.g
 local api  = vim.api
 local opt  = vim.opt
 
-vim.cmd 'packadd paq-nvim'
-vim.cmd 'packadd matchit'
-
 local nonLspPackages = {
 	{
 		'savq/paq-nvim',
@@ -89,12 +86,38 @@ local lspPackages = {
 	'JoosepAlviste/nvim-ts-context-commentstring',
 }
 
-local paq = require 'paq'
-local packages = nonLspPackages
+local my_packages = nonLspPackages
 if vim.env.VIM_USE_LSP then
-	packages = Util.concatTables(packages, lspPackages)
+	my_packages = Util.concatTables(my_packages, lspPackages)
 end
-paq(packages)
+
+-- :h paq-bootstrapping
+local function clone_paq()
+	local path = vim.fn.stdpath('data') .. '/site/pack/paqs/start/paq-nvim'
+	local is_installed = vim.fn.empty(vim.fn.glob(path)) == 0
+	if not is_installed then
+		vim.fn.system { 'git', 'clone', '--depth=1', 'https://github.com/savq/paq-nvim.git', path }
+		return true
+	end
+end
+
+local function bootstrap_paq(packages)
+	local first_install = clone_paq()
+	vim.cmd.packadd 'paq-nvim'
+	local paq = require('paq')
+	if first_install then
+		vim.notify('Installing plugins... If prompted, hit Enter to continue.')
+	end
+
+	-- Read and install packages
+	paq(packages)
+	paq.install()
+end
+
+-- Call helper function
+bootstrap_paq(my_packages)
+
+vim.cmd.packadd 'matchit'
 require 'gitsigns'.setup {}
 
 ---- General Settings ----
@@ -247,9 +270,7 @@ map('n', '<C-w><C-w>', '<C-w><C-p>')
 
 ---- Plugin Settings ----
 -- Vim plugins
-vim.cmd [[
-	let g:sneak#use_ic_scs = 1
-]]
+g['sneak#use_ic_scs'] = 1
 -- Highlighted yank
 g.highlightedyank_highlight_duration = 500
 -- Polyglot

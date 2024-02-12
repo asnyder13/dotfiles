@@ -17,7 +17,7 @@ require 'ronny'.setup {
 	colors = colors,
 	display = { monokai_original = true },
 }
-vim.cmd 'colorscheme ronny'
+vim.cmd.colorscheme 'ronny'
 
 ---- Highlight changes
 -- The ronny colorscheme gets colors right and has robust coverage, but with TS and LSP tokens
