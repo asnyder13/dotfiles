@@ -146,6 +146,9 @@ vim.cmd([[
 ]])
 
 vim.filetype.add {
+	extension = {
+		conf = 'confini'
+	},
 	pattern = {
 		['appsettings[%.%a]*%.json'] = function(path)
 			local dir = path:match('(.+)/.+')
@@ -331,7 +334,7 @@ require 'reactive'.setup { builtin = {
 	modemsg = true
 } }
 
-require 'fidget'.setup()
+require 'fidget'.setup {}
 
 -- https://old.reddit.com/r/neovim/comments/1abd2cq/what_are_your_favorite_tricks_using_neovim/
 -- Jump to last edit position on opening file
@@ -346,4 +349,7 @@ if vim.env.VIM_USE_LSP then
 end
 
 -- Gets overwritten if something in lsp.lua is run after it.
-require 'gitsigns'.setup {}
+local gitsigns = require 'gitsigns'
+gitsigns.setup {}
+map('n', ']c', function() gitsigns.next_hunk() end)
+map('n', '[c', function() gitsigns.prev_hunk() end)
