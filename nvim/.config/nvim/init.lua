@@ -5,6 +5,7 @@ local g    = vim.g
 local api  = vim.api
 local opt  = vim.opt
 
+
 local nonLspPackages = {
 	{
 		'savq/paq-nvim',
@@ -85,6 +86,7 @@ local lspPackages = {
 	'folke/trouble.nvim',
 	'JoosepAlviste/nvim-ts-context-commentstring',
 }
+
 
 local my_packages = nonLspPackages
 if vim.env.VIM_USE_LSP then
@@ -322,7 +324,10 @@ require 'nvim-surround'.setup { move_cursor = false }
 
 require 'nvim-autopairs'.setup {}
 
-map('n', '<leader>t', ':TroubleToggle<CR>')
+local trouble = require 'trouble'
+map('n', '<leader>t', function() trouble.toggle() end)
+map('n', ']t', function() trouble.next({ skip_groups = true, jump = true }) end)
+map('n', '[t', function() trouble.previous({ skip_groups = true, jump = true }) end)
 
 require 'bigfile'.setup {
 	filesize = 1,
