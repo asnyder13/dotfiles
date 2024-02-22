@@ -219,6 +219,7 @@ opt.hidden         = true
 opt.history        = 1000
 opt.termguicolors  = true
 opt.signcolumn     = 'yes:1'
+opt.updatetime     = 250
 
 -- Searching
 opt.hlsearch       = true
@@ -344,7 +345,7 @@ require 'fidget'.setup {}
 -- https://old.reddit.com/r/neovim/comments/1abd2cq/what_are_your_favorite_tricks_using_neovim/
 -- Jump to last edit position on opening file
 vim.cmd([[
-	au BufReadPost * if expand('%:p') !~# '\m/\.git/' && line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+	au BufReadPost * if expand('%:p') !~# '\m/\.git/' && line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 ]])
 
 ---- LSP Plugins ----
