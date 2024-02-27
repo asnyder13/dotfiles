@@ -86,40 +86,44 @@ require 'illuminate'.configure {
 	},
 }
 
--- Disable illuminate when inside an angular inline template.
+local function toggle_illuminate_on_cursor()
+	local cursor_node = require 'nvim-treesitter.ts_utils'.get_node_at_cursor()
+	if cursor_node ~= nil then
+		local root = cursor_node:tree():root()
+
+		local illuminate = require 'illuminate'
+		if root:type() == 'document' or root:type() == 'fragment' then
+			illuminate.pause_buf()
+		else
+			illuminate.resume_buf()
+		end
+	end
+end
+
 local au_group_angular_illuminate = api.nvim_create_augroup('AngularIlluminateToggle', { clear = true })
+local function check_if_file_has_angular_inline()
+	-- Check if file has inline template
+	local query = vim.treesitter.query.parse('typescript', [[
+		(pair
+			value: (template_string) @template_string
+		)
+	]])
+	local bufnr = vim.api.nvim_get_current_buf()
+	local first_node = vim.treesitter.get_node({ bufnr, pos = { 0, 0 }, lang = 'typescript' }):tree():root()
+
+	if query:iter_captures(first_node, bufnr)() ~= nil then
+		-- Inline template found
+		api.nvim_create_autocmd({ 'CursorHold', }, {
+			group = au_group_angular_illuminate,
+			buffer = bufnr,
+			callback = toggle_illuminate_on_cursor,
+		})
+	end
+end
+
+-- Disable illuminate when inside an angular inline template.
 api.nvim_create_autocmd({ 'BufReadPost' }, {
 	group = au_group_angular_illuminate,
 	pattern = '*.ts',
-	callback = function()
-		-- Check if file has inline template
-		local query = vim.treesitter.query.parse('typescript', [[
-			(pair
-				value: (template_string) @template_string
-			)
-		]])
-		local bufnr = vim.api.nvim_get_current_buf()
-		local first_node = vim.treesitter.get_node({ bufnr, pos = { 0, 0 }, lang = 'typescript' }):tree():root()
-
-		if query:iter_captures(first_node, bufnr)() ~= nil then
-			-- Inline template found
-			api.nvim_create_autocmd({ 'CursorHold', }, {
-				group = au_group_angular_illuminate,
-				buffer = bufnr,
-				callback = function()
-					local cursor_node = require 'nvim-treesitter.ts_utils'.get_node_at_cursor()
-					if cursor_node ~= nil then
-						local root = cursor_node:tree():root()
-
-						local illuminate = require 'illuminate'
-						if root:type() == 'document' or root:type() == 'fragment' then
-							illuminate.pause_buf()
-						else
-							illuminate.resume_buf()
-						end
-					end
-				end,
-			})
-		end
-	end
+	callback = check_if_file_has_angular_inline
 })
