@@ -52,6 +52,7 @@ local nonLspPackages = {
 	'LunarVim/bigfile.nvim',
 	'rasulomaroff/reactive.nvim',
 	'j-hui/fidget.nvim',
+	'atusy/treemonkey.nvim',
 }
 
 local lspPackages = {
@@ -113,7 +114,6 @@ local function bootstrap_paq(packages)
 
 	-- Read and install packages
 	paq(packages)
-	paq.install()
 end
 
 -- Call helper function
@@ -347,6 +347,17 @@ require 'fidget'.setup {}
 vim.cmd([[
 	au BufReadPost * if expand('%:p') !~# '\m/\.git/' && line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 ]])
+
+map({ 'n', 'x', 'o' }, '<leader>v', function()
+	if vim.treesitter.highlighter.active[vim.api.nvim_get_current_buf()] ~= nil then
+		require 'treemonkey'.select({
+			ignore_injections = false,
+			highlight = { backdrop = 'FloatTitle', label = 'HopNextKey1' },
+		})
+	else
+		vim.print('TS not active for this ft (' .. vim.cmd('set ft?') .. ')')
+	end
+end)
 
 ---- LSP Plugins ----
 -- VIM_USE_LSP needs to have a value, not just existing.
