@@ -25,7 +25,10 @@
         "pulseaudio",
         "custom/left-arrow-light",
         "custom/left-arrow-dark",
-        "memory",
+        "memory#2",
+        "custom/left-arrow-light",
+        "custom/left-arrow-dark",
+        "memory#1",
         "custom/left-arrow-light",
         "custom/left-arrow-dark",
         "cpu",
@@ -108,9 +111,13 @@
         "on-click-right": "pavucontrol",
         "ignored-sinks": ["Easy Effects Sink"]
     },
-    "memory": {
+    "memory#1": {
         "interval": 2,
-        "format": "Mem {}%"
+        "format": "Mem {percentage}%"
+    },
+    "memory#2": {
+        "interval": 2,
+        "format": "Swp {swapPercentage}%"
     },
     "cpu": {
         "interval": 2,

@@ -6,7 +6,6 @@ local opt = vim.opt
 -- Treesitter
 require 'nvim-treesitter.configs'.setup {
 	ensure_installed = {
-		'angular',
 		'bash',
 		'c_sharp',
 		'css',
@@ -302,9 +301,21 @@ for k, v in pairs(delimColors) do
 end
 
 vim.diagnostic.config {
-	virtual_text = true,
+	virtual_text = false,
 }
 require 'corn'.setup {
 	border_style = 'rounded',
 	scope = 'line',
 }
+
+map({ 'n', 'x', 'o' }, '<leader>v', function()
+	if vim.treesitter.highlighter.active[vim.api.nvim_get_current_buf()] ~= nil then
+		require 'treemonkey'.select({
+			ignore_injections = false,
+			highlight = { backdrop = 'FloatTitle', label = 'HopNextKey1' },
+		})
+	else
+		vim.print('TS not active for this ft (' .. vim.cmd('set ft?') .. ')')
+	end
+end)
+
