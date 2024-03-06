@@ -40,12 +40,20 @@ output * bg /usr/share/backgrounds/default.png fill
 #
 # You can get the names of your outputs by running: swaymsg -t get_outputs
 
-### Idle configuration
-exec swayidle -w \
-     timeout 600 'swaylock -f -c 3d3d3d' \
-     timeout 1200 'swaymsg "output * power off"' \
-        resume 'swaymsg "output * power on"' \
-     before-sleep 'swaylock -f -c 3d3d3'
+### Idle configuration, likely overwritten by distro (eg: the sway spin of Fedora (90-swayidle.conf))
+# set $lock_timeout 900
+# set $screen_timeout 1200
+# # exec_always killall -q swayidle
+# exec LT="$lock_timeout" ST="$screen_timeout" LT=${LT:-300} ST=${ST:-60} &&           \
+#     swayidle -w                                                                             \
+#         timeout $LT 'swaylock -f'                                                           \
+#         timeout $((LT + ST)) 'swaymsg "output * power off"'                                 \
+#                       resume 'swaymsg "output * power on"'                                  \
+#         timeout $ST 'pgrep -xu "$USER" swaylock >/dev/null && swaymsg "output * power off"' \
+#              resume 'pgrep -xu "$USER" swaylock >/dev/null && swaymsg "output * power on"'  \
+#         before-sleep 'swaylock -f'                                                          \
+#         lock 'swaylock -f'                                                                  \
+#         unlock 'pkill -xu "$USER" -SIGUSR1 swaylock'
 
 ### Logout/shutdown hotkeys
 mode "$mode_system" {
