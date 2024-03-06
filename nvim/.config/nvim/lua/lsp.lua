@@ -234,6 +234,23 @@ local formatter_fts = {
 		-- 'formatter.filetypes.any' defines default configurations for any filetype
 		require('formatter.filetypes.any').remove_trailing_whitespace,
 	},
+	ruby = {
+		function()
+			local fmtutil = require "formatter.util"
+			return {
+				exe = 'rubocop',
+				stdin = true,
+				args = {
+					'-a',
+					'-f',
+					'quiet',
+					'--stderr',
+					'--stdin',
+					fmtutil.escape_path(fmtutil.get_current_buffer_file_path()),
+				},
+			}
+		end
+	}
 }
 local prettierd = require 'formatter.defaults.prettierd'
 local prettierd_fts = {

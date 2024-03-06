@@ -182,15 +182,9 @@ vim.cmd([[
 ]])
 
 ---- General
-api.nvim_create_autocmd('TextYankPost', {
-	pattern = '*',
-	callback = function() vim.highlight.on_yank { timeout = 350 } end,
-})
+api.nvim_create_autocmd('TextYankPost', { callback = function() vim.highlight.on_yank { timeout = 350 } end, })
 -- Don't auto-comment on a new line
-api.nvim_create_autocmd('FileType', {
-	pattern = '*',
-	callback = function() opt.formatoptions:remove { 'r', 'o' } end,
-})
+api.nvim_create_autocmd('FileType', { callback = function() opt.formatoptions:remove { 'r', 'o' } end, })
 
 opt.clipboard     = 'unnamedplus'
 opt.number        = true
@@ -344,9 +338,13 @@ require 'fidget'.setup {}
 
 -- https://old.reddit.com/r/neovim/comments/1abd2cq/what_are_your_favorite_tricks_using_neovim/
 -- Jump to last edit position on opening file
-vim.cmd([[
+vim.cmd [[
 	au BufReadPost * if expand('%:p') !~# '\m/\.git/' && line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
-]])
+]]
+
+vim.g.lasttab = 1
+vim.api.nvim_create_autocmd('TabLeave', { callback = function() vim.g.lasttab = vim.api.nvim_get_current_tabpage() end })
+map('n', '<C-BS>', function() vim.api.nvim_set_current_tabpage(vim.g.lasttab) end)
 
 ---- LSP Plugins ----
 -- VIM_USE_LSP needs to have a value, not just existing.
