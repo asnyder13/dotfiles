@@ -109,16 +109,19 @@ local function check_if_file_has_angular_inline()
 		)
 	]])
 	local bufnr = vim.api.nvim_get_current_buf()
-	local first_node = vim.treesitter.get_node({ bufnr, pos = { 0, 0 }, lang = 'typescript' }):tree():root()
 
-	if query:iter_captures(first_node, bufnr)() ~= nil then
-		-- Inline template found
-		api.nvim_create_autocmd({ 'CursorHold', }, {
-			group = au_group_angular_illuminate,
-			buffer = bufnr,
-			callback = toggle_illuminate_on_cursor,
-		})
-	end
+	-- Opening a blank .ts file will throw on `:tree():root()`
+	pcall(function()
+		local first_node = vim.treesitter.get_node({ bufnr, pos = { 0, 0 }, lang = 'typescript' }):tree():root()
+		if query:iter_captures(first_node, bufnr)() ~= nil then
+			-- Inline template found
+			api.nvim_create_autocmd({ 'CursorHold', }, {
+				group = au_group_angular_illuminate,
+				buffer = bufnr,
+				callback = toggle_illuminate_on_cursor,
+			})
+		end
+	end)
 end
 
 -- Disable illuminate when inside an angular inline template.
