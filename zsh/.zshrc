@@ -172,7 +172,8 @@ fancy-ctrl-z () {
 zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
 
-bindkey '^Xa' _expand_alias
+bindkey '^xa' _expand_alias
+bindkey '^x^a' _expand_alias
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -209,10 +210,19 @@ if [[ -e $HOME/.fzf.zsh ]]; then
 	fi
 fi
 
+IGNORED_DIRS=(
+	.steam
+	Steam
+	.docker
+)
+ignore_string=''
+for ig in $IGNORED_DIRS; do
+	ignore_string="$ignore_string -E '$ig'"
+done
 if [[ ! -z "$HAS_FZF" ]]; then
-	export FZF_DEFAULT_COMMAND="command fd --follow --hidden -E '.steam' -E 'Steam' -tf . $FZF_COMMAND_SUFFIX"
-	export FZF_CTRL_T_COMMAND="command fd --follow --hidden -E '.steam' -E 'Steam' --min-depth 1 -tf -td -tl . $FZF_COMMAND_SUFFIX"
-	export FZF_ALT_C_COMMAND="command fd --follow --hidden -E '.steam' -E 'Steam' --min-depth 1 -td . $FZF_COMMAND_SUFFIX"
+	export FZF_DEFAULT_COMMAND="command fd --follow --hidden $ignore_string -tf . $FZF_COMMAND_SUFFIX"
+	export FZF_CTRL_T_COMMAND="command fd --follow --hidden $ignore_string --min-depth 1 -tf -td -tl . $FZF_COMMAND_SUFFIX"
+	export FZF_ALT_C_COMMAND="command fd --follow --hidden $ignore_string --min-depth 1 -td . $FZF_COMMAND_SUFFIX"
 	source $HOME/.fzf.zsh
 fi
 

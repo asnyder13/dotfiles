@@ -27,3 +27,18 @@
 [merge]
 	conflictstyle = zdiff3
 
+[diff]
+	tool = difftastic
+	algorithm = histogram
+[difftool]
+	prompt = false
+[difftool "difftastic"]
+	cmd = difft "$LOCAL" "$REMOTE"
+[pager]
+	difftool = true
+
+[rerere]
+	enabled = true
+	; autoUpdate = true
+[branch]
+	sort = -committerdate

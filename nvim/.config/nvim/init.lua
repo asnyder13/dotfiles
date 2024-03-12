@@ -149,7 +149,7 @@ vim.cmd([[
 
 vim.filetype.add {
 	extension = {
-		conf = 'confini'
+		conf = 'confini',
 	},
 	pattern = {
 		['appsettings[%.%a]*%.json'] = function(path)
