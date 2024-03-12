@@ -33,7 +33,7 @@
 [difftool]
 	prompt = false
 [difftool "difftastic"]
-	cmd = difft "$LOCAL" "$REMOTE"
+	cmd = difft --display inline "$LOCAL" "$REMOTE"
 [pager]
 	difftool = true
 
@@ -42,3 +42,11 @@
 	; autoUpdate = true
 [branch]
 	sort = -committerdate
+[url "git@github.com:"]
+		pushInsteadOf = "https://github.com/"
+[transfer]
+	fsckobjects = true
+[fetch]
+	fsckobjects = true
+[receive]
+	fsckobjects = true

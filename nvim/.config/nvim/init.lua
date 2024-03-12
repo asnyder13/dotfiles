@@ -151,6 +151,9 @@ vim.filetype.add {
 	extension = {
 		conf = 'confini',
 	},
+	filename = {
+		syslog = 'messages',
+	},
 	pattern = {
 		['appsettings[%.%a]*%.json'] = function(path)
 			local dir = path:match('(.+)/.+')
@@ -162,6 +165,7 @@ vim.filetype.add {
 				return 'json'
 			end
 		end,
+		['%.zsh_history.*'] = 'zsh',
 	}
 }
 
