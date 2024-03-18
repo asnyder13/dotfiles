@@ -320,6 +320,11 @@ end
 vim.diagnostic.config {
 	virtual_text = false,
 }
+local trouble = require 'trouble'
+map('n', '<leader>t', function() trouble.toggle() end)
+map('n', ']t', function() vim.diagnostic.goto_next() end)
+map('n', '[t', function() vim.diagnostic.goto_prev() end)
+
 require 'corn'.setup {
 	border_style = 'rounded',
 	scope = 'line',
