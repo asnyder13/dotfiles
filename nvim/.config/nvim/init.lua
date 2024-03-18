@@ -216,7 +216,7 @@ opt.backup         = false
 opt.hidden         = true
 opt.history        = 1000
 opt.termguicolors  = true
-opt.signcolumn     = 'yes:1'
+opt.signcolumn     = 'auto:4'
 opt.updatetime     = 250
 
 -- Searching

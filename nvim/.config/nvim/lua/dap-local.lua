@@ -77,7 +77,7 @@ dap.adapters.firefox = {
 dap.adapters.chrome = {
 	type = 'executable',
 	command = 'node',
-	args = { os.getenv('HOME') .. '~/.local/share/nvim/mason/packages/chrome-debug-adapter/src/chromeDebug.ts' }
+	args = { os.getenv('HOME') .. '/.local/share/nvim/mason/packages/chrome-debug-adapter/src/chromeDebug.ts' }
 }
 local chrome_config = {
 	name = 'Debug with Chrome',
