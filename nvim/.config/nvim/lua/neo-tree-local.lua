@@ -40,7 +40,7 @@ require 'neo-tree'.setup {
 			['v'] = 'vsplit_with_window_picker',
 			['<C-x>'] = 'cut_to_clipboard',
 			['<C-c>'] = 'clear_filter',
-			['-'] = 'navigate_up',
+			['<C-k>'] = 'navigate_up',
 		},
 		width = 40
 	},
