@@ -1,4 +1,5 @@
 local api = vim.api
+local Util = require 'util'
 
 local colors = require "ronny.colors"
 -- autocmd to overwrite other highlight groups.  Setup before :colorscheme
@@ -23,14 +24,21 @@ vim.cmd.colorscheme 'ronny'
 -- The ronny colorscheme gets colors right and has robust coverage, but with TS and LSP tokens
 --   it ends up coloring literally everything and floods the brain.
 
--- Interface color from Visual Studio
-vim.api.nvim_set_hl(0, 'Interface', { fg = '#B8D7A3' })
-vim.api.nvim_set_hl(0, 'SignColumn', { bg = 'NONE' })
-vim.api.nvim_set_hl(0, 'TelescopeBorder', { fg = '#eeeeee' })
-local highlightReLinks = {
+local illuminateColor = { bg = '#434343' }
+local hls = {
 	---- General
+	['Interface'] = { fg = '#B8D7A3' }, -- Interface color from Visual Studio
+	['SignColumn'] = { bg = 'NONE' },
+	['TelescopeBorder'] = { fg = '#eeeeee' },
+	['DiffText'] = { bold = true, fg = 'NONE', bg = '#393939', },
 	['diffAdded'] = 'Function',
 	['diffRemoved'] = 'Operator',
+
+	['IlluminatedWord'] = illuminateColor,
+	['IlluminatedCurWord'] = illuminateColor,
+	['IlluminatedWordText'] = illuminateColor,
+	['IlluminatedWordRead'] = illuminateColor,
+	['IlluminatedWordWrite'] = illuminateColor,
 
 	---- Languages
 	-- C#
@@ -61,19 +69,9 @@ local highlightReLinks = {
 	['@variable.builtin.typescript'] = 'SpecialComment',
 	'typescriptVariableDeclaration',
 }
-for k, v in pairs(highlightReLinks) do
-	-- Lua table literals auto-key w/ incrementing index when given literal values.
-	if type(k) == 'number' then
-		api.nvim_set_hl(0, v, { link = 'Text' })
-	else
-		api.nvim_set_hl(0, k, { link = v })
-	end
-end
+vim.iter(hls):each(Util.highlight)
 
-local illuminateColor = { bg = '#434343' }
-local highlights = { 'IlluminatedWord', 'IlluminatedCurWord', 'IlluminatedWordText', 'IlluminatedWordRead',
-	'IlluminatedWordWrite' }
-for _, group in ipairs(highlights) do vim.api.nvim_set_hl(0, group, illuminateColor) end
+---- Illuminate
 require 'illuminate'.configure {
 	filetypes_denylist = {
 		'dirbuf',

@@ -66,4 +66,27 @@ function Util.map_keys_table(mode, lhs, rhs, opts)
 	end
 end
 
+---@param idx_or_group number|string
+---@param group_or_highlight string|table
+function Util.highlight(idx_or_group, group_or_highlight)
+	vim.validate {
+		idx_or_group = { idx_or_group, { 'number', 'string' } },
+		group_or_highlight = { group_or_highlight, { 'string', 'table' } },
+	}
+
+	if type(idx_or_group) == 'number' then
+		-- Link to 'Text' by default
+		-- Lua table literals auto-key w/ incrementing index when given literal values
+		vim.api.nvim_set_hl(0, group_or_highlight, { link = 'Text' })
+	elseif type(group_or_highlight) == 'table' then
+		-- Apply highlight
+		vim.api.nvim_set_hl(0, idx_or_group, group_or_highlight)
+	elseif type(group_or_highlight) == 'string' then
+		-- Link to specific group
+		vim.api.nvim_set_hl(0, idx_or_group, { link = group_or_highlight })
+	else
+		error('Invalid type passed to Util.highlight()')
+	end
+end
+
 return Util
