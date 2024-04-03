@@ -26,11 +26,9 @@ vim.cmd.colorscheme 'ronny'
 -- Interface color from Visual Studio
 vim.api.nvim_set_hl(0, 'Interface', { fg = '#B8D7A3' })
 vim.api.nvim_set_hl(0, 'SignColumn', { bg = 'NONE' })
-vim.api.nvim_set_hl(0, 'TelescopeBorder', { fg = '#808080' })
+vim.api.nvim_set_hl(0, 'TelescopeBorder', { fg = '#eeeeee' })
 local highlightReLinks = {
 	---- General
-	['FloatBorder'] = 'SpecialComment',
-	['NormalFloat'] = 'Normal',
 	['diffAdded'] = 'Function',
 	['diffRemoved'] = 'Operator',
 

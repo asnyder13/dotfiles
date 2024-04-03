@@ -91,7 +91,7 @@ local lspPackages = {
 
 local my_packages = nonLspPackages
 if vim.env.VIM_USE_LSP then
-	my_packages = Util.concatTables(my_packages, lspPackages)
+	vim.list_extend(my_packages, lspPackages)
 end
 
 -- :h paq-bootstrapping
@@ -168,6 +168,10 @@ vim.filetype.add {
 		['%.zsh_history.*'] = 'zsh',
 	}
 }
+vim.api.nvim_create_autocmd({ 'BufEnter', 'BufNewFile' }, {
+	pattern = '*syslog*',
+	command = 'set ft=messages'
+})
 
 -- Search for visual selection
 -- https://vim.fandom.com/wiki/Search_for_visually_selected_text

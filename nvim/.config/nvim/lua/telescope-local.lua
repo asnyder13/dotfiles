@@ -20,10 +20,11 @@ require 'telescope'.setup {
 require 'telescope'.load_extension('fzf')
 
 local builtin = require 'telescope.builtin'
-map('n', '<C-p>',     function() builtin.find_files({ hidden = false }) end)
-map('n', '<C-M-p>',   function() builtin.find_files({ hidden = true }) end)
-map('n', '<C-g>',     function() builtin.git_files() end)
-map('n', '<leader>b', function() builtin.buffers({ sort_mru = true, }) end)
-map('n', '<M-;>',     function() builtin.treesitter() end)
-map('n', '<M-g>',     function() builtin.live_grep() end)
-map('n', 'q/',        function() builtin.command_history() end)
+map('n', '<C-p>',      function() builtin.find_files({ hidden = false }) end)
+map('n', '<C-M-p>',    function() builtin.find_files({ hidden = true }) end)
+map('n', '<C-g>',      function() builtin.git_files() end)
+map('n', '<leader>b',  function() builtin.buffers({ sort_mru = true, }) end)
+map('n', '<M-;>',      function() builtin.treesitter() end)
+map('n', '<M-g>',      function() builtin.live_grep() end)
+map('n', 'q/',         function() builtin.command_history() end)
+map('n', '<leader>z=', function() builtin.spell_suggest() end)
