@@ -276,6 +276,11 @@ vim.cmd [[
 map('n', '<leader><C-i>', ':Inspect<CR>')
 map('n', '<C-w><C-w>', '<C-w><C-p>')
 
+vim.api.nvim_create_user_command('Hitest',
+	'execute "ReactiveStop" | so $VIMRUNTIME/syntax/hitest.vim',
+	{ desc = 'Open up the pretty hilight display, disable Reactive to prevent slowdown.' }
+)
+
 ---- Plugin Settings ----
 -- Vim plugins
 g['sneak#use_ic_scs'] = 1
