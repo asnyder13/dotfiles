@@ -67,8 +67,6 @@ HYPHEN_INSENSITIVE="true"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
-zstyle ':omz:plugins:nvm' lazy yes
-zstyle ':omz:plugins:rvm' lazy yes
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
@@ -112,6 +110,11 @@ zbell_ignore=(
 zbell_use_notify_send=true
 # Fedora/Gnome terminal doesn't do `print -n '\a'`?  In that case just paplay some sound.
 zbell_use_paplay=false
+
+zstyle ':omz:plugins:nvm' lazy yes
+zstyle ':omz:plugins:nvm' lazy-cmd vim nvim ng
+zstyle ':omz:plugins:rvm' lazy yes
+zstyle ':omz:plugins:rvm' lazy-cmd vim nvim ng
 
 if [[ -e $ZSH/oh-my-zsh.sh ]]; then
 	source $ZSH/oh-my-zsh.sh

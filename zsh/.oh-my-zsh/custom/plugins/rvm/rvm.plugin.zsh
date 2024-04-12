@@ -1,6 +1,11 @@
 # Completion
 fpath+=("${rvm_path}/scripts/zsh/Completion")
 
+# Don't try to load rvm if command already available
+# Note: rvm is a function so we need to use `which`
+which rvm &>/dev/null && return
+
+# See https://github.com/rvm-sh/rvm#installation-and-update
 if [[ -z "$RVM_DIR" ]]; then
   if [[ -d "$HOME/.rvm" ]]; then
     export RVM_DIR="$HOME/.rvm"
@@ -9,23 +14,23 @@ if [[ -z "$RVM_DIR" ]]; then
   fi
 fi
 
-# Don't try to load rvm if command already available
-# Note: rvm is a function so we need to use `which`
-which rvm &>/dev/null && return
-
-if [[ -z "$RVM_DIR" ]] || [[ ! -f "$RVM_DIR/rvm.sh" ]]; then 
+if [[ -z "$RVM_DIR" ]] || [[ ! -f "$RVM_DIR/scripts" ]]; then
   return
 fi
-export PATH="$PATH:$HOME/.rvm/bin"
 
-if zstyle -t ':omz:plugins:rvm' lazy && ! zstyle -t ':omz:plugins:rvm' autoload; then
-  # Call rvm when first using rvm ruby bundle rack irb or other commands in lazy-cmd
+if zstyle -t ':omz:plugins:rvm' lazy; then
+  # Call rvm when first using rvm, node, npm, pnpm, yarn or other commands in lazy-cmd
   zstyle -a ':omz:plugins:rvm' lazy-cmd rvm_lazy_cmd
+  rvm_lazy_cmd=(rvm ruby rack bundle irb $rvm_lazy_cmd) # default values
   eval "
-    function nvim vim rvm ruby bundle rack irb $rvm_lazy_cmd {
-      unfunction nvim vim rvm ruby bundle rack irb $rvm_lazy_cmd
+    function $rvm_lazy_cmd {
+      for func in $rvm_lazy_cmd; do
+        if (( \$+functions[\$func] )); then
+          unfunction \$func
+        fi
+      done
       # Load rvm if it exists in \$RVM_DIR
-      [[ -f \"\$RVM_DIR/rvm.sh\" ]] && source \"\$RVM_DIR/rvm.sh\"
+      [[ -f \"\$RVM_DIR/scripts/rvm\" ]] && source \"\$RVM_DIR/scripts/rvm\"
       \"\$0\" \"\$@\"
     }
   "
