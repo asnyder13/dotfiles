@@ -106,10 +106,14 @@ zbell_ignore=(
 	timer
 	vimg
 )
-# By default don't pop up notify
-zbell_use_notify_send=true
-# Fedora/Gnome terminal doesn't do `print -n '\a'`?  In that case just paplay some sound.
-zbell_use_paplay=false
+if [[ -n $SSH_CONNECTION || -n $SSH_CLIENT ]]; then
+	zbell_use_notify_send=false
+	zbell_use_paplay=false
+else
+	zbell_use_notify_send=true
+	# Fedora/Gnome terminal doesn't do `print -n '\a'`?  In that case just paplay some sound.
+	zbell_use_paplay=true
+fi
 
 zstyle ':omz:plugins:nvm' lazy yes
 zstyle ':omz:plugins:nvm' lazy-cmd vim nvim ng

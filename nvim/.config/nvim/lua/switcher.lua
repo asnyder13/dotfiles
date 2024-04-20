@@ -26,16 +26,18 @@ local qs_opts_hs = { only_existing = true, only_existing_notify = true, split = 
 ---@param file_type string
 local function angular_component_switcher_mappings(file_type)
 	vim.validate { file_type = { file_type, 'string' } }
-	map('n', '<leader>u', q_switch(file_type .. '.ts', qs_opts), qs_map_opts)
-	map('n', '<leader>o', q_switch(file_type .. '.html', qs_opts), qs_map_opts)
-	map('n', '<leader>i', q_switch(file_type .. '.scss', qs_opts), qs_map_opts)
-	map('n', '<leader>j', q_switch(file_type .. '.spec.ts', qs_opts), qs_map_opts)
-	map('n', '<leader>vu', q_switch(file_type .. '.ts', qs_opts_vs), qs_map_opts)
-	map('n', '<leader>vo', q_switch(file_type .. '.html', qs_opts_vs), qs_map_opts)
-	map('n', '<leader>vi', q_switch(file_type .. '.scss', qs_opts_vs), qs_map_opts)
-	map('n', '<leader>xu', q_switch(file_type .. '.ts', qs_opts_hs), qs_map_opts)
-	map('n', '<leader>xi', q_switch(file_type .. '.scss', qs_opts_hs), qs_map_opts)
-	map('n', '<leader>xo', q_switch(file_type .. '.html', qs_opts_hs), qs_map_opts)
+	return function()
+		map('n', '<leader>u', q_switch(file_type .. '.ts', qs_opts), qs_map_opts)
+		map('n', '<leader>o', q_switch(file_type .. '.html', qs_opts), qs_map_opts)
+		map('n', '<leader>i', q_switch(file_type .. '.scss', qs_opts), qs_map_opts)
+		map('n', '<leader>j', q_switch(file_type .. '.spec.ts', qs_opts), qs_map_opts)
+		map('n', '<leader>vu', q_switch(file_type .. '.ts', qs_opts_vs), qs_map_opts)
+		map('n', '<leader>vo', q_switch(file_type .. '.html', qs_opts_vs), qs_map_opts)
+		map('n', '<leader>vi', q_switch(file_type .. '.scss', qs_opts_vs), qs_map_opts)
+		map('n', '<leader>xu', q_switch(file_type .. '.ts', qs_opts_hs), qs_map_opts)
+		map('n', '<leader>xi', q_switch(file_type .. '.scss', qs_opts_hs), qs_map_opts)
+		map('n', '<leader>xo', q_switch(file_type .. '.html', qs_opts_hs), qs_map_opts)
+	end
 end
 local function angular_ngrx_switcher_mappings()
 	-- Components
@@ -54,8 +56,8 @@ local function angular_ngrx_switcher_mappings()
 	map('n', '<leader>ncm', q_switch('store.mock.ts', qs_opts), qs_map_opts)
 	map('n', '<leader>ndt', function()
 		nvim_quick_switcher.find_by_fn(function(p)
-			local path = p.path;
-			local file_name = p.prefix;
+			local path = p.path
+			local file_name = p.prefix
 			return path .. '/data-access' .. '/' .. file_name .. '*.store.ts'
 		end, qs_opts)
 	end, qs_map_opts)
@@ -70,7 +72,7 @@ local function angular_switcher_autocmd(prefix, callback)
 		callback = { callback, 'function' },
 	}
 	local patterns = { '.ts', '.html', '.scss', '.sass', }
-	local computed_patterns = vim.iter.map(function (p) return prefix .. p end, patterns)
+	local computed_patterns = vim.iter.map(function(p) return prefix .. p end, patterns)
 	api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter', }, {
 		group = angular_au_group,
 		pattern = computed_patterns,
@@ -78,25 +80,25 @@ local function angular_switcher_autocmd(prefix, callback)
 	})
 end
 angular_switcher_autocmd('*', angular_ngrx_switcher_mappings)
-angular_switcher_autocmd('*.component', function() angular_component_switcher_mappings('component') end)
-angular_switcher_autocmd('*.view', function() angular_component_switcher_mappings('view') end)
+angular_switcher_autocmd('*.component', angular_component_switcher_mappings('component'))
+angular_switcher_autocmd('*.view', angular_component_switcher_mappings('view'))
 
 -- C# Saga dir patterns
 local function command_to_handler(path, filename)
-	return path:gsub('Commands', 'Handlers') .. '/' .. filename .. 'Handler' .. '*';
+	return path:gsub('Commands', 'Handlers') .. '/' .. filename .. 'Handler' .. '*'
 end
 local function handler_to_command(path, filename)
-	return path:gsub('Handlers', 'Commands') .. '/' .. filename:gsub('Handler', '') .. '*';
+	return path:gsub('Handlers', 'Commands') .. '/' .. filename:gsub('Handler', '') .. '*'
 end
 local function q_find_handler_or_command()
 	return function()
 		nvim_quick_switcher.find_by_fn(function(p)
-			local path = p.path;
-			local file_name = p.prefix;
-			local is_handler = file_name:lower():find('handler');
-			local path_func = is_handler and handler_to_command or command_to_handler;
-			local result = path_func(path, file_name);
-			return result;
+			local path = p.path
+			local file_name = p.prefix
+			local is_handler = file_name:lower():find('handler')
+			local path_func = is_handler and handler_to_command or command_to_handler
+			local result = path_func(path, file_name)
+			return result
 		end)
 	end
 end
@@ -106,4 +108,18 @@ api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter', }, {
 	group = cs_au_group,
 	pattern = { '*.cs' },
 	callback = function() map('n', '<leader>ch', q_find_handler_or_command(), qs_map_opts) end,
+})
+
+local rb_au_group = api.nvim_create_augroup('RbQuickSwitcher', { clear = true })
+api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter', }, {
+	group = rb_au_group,
+	pattern = { '*.rb' },
+	callback = function()
+		map('n', '<leader>o', function()
+			nvim_quick_switcher.find_by_fn(function(p)
+				local replace = p.prefix == 'pt1' and '/pt2' or '/pt1'
+				return p.path .. replace .. '.rb'
+			end, qs_opts)
+		end, qs_map_opts)
+	end,
 })
