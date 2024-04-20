@@ -72,7 +72,7 @@ local function angular_switcher_autocmd(prefix, callback)
 		callback = { callback, 'function' },
 	}
 	local patterns = { '.ts', '.html', '.scss', '.sass', }
-	local computed_patterns = vim.iter.map(function(p) return prefix .. p end, patterns)
+	local computed_patterns = vim.iter(patterns):map(function(p) return prefix .. p end):totable()
 	api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter', }, {
 		group = angular_au_group,
 		pattern = computed_patterns,

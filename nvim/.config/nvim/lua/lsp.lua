@@ -234,31 +234,14 @@ require 'luasnip.loaders.from_snipmate'.lazy_load()
 ---- DAP
 require 'dap-local'
 
+local prettierd = require 'formatter.defaults.prettierd'
 local formatter_fts = {
 	['*'] = {
 		-- 'formatter.filetypes.any' defines default configurations for any filetype
 		require('formatter.filetypes.any').remove_trailing_whitespace,
 	},
-	ruby = {
-		function()
-			local fmtutil = require "formatter.util"
-			return {
-				exe = 'rubocop',
-				stdin = true,
-				args = {
-					'-a',
-					'-f',
-					'quiet',
-					'--stderr',
-					'--stdin',
-					fmtutil.escape_path(fmtutil.get_current_buffer_file_path()),
-				},
-			}
-		end
-	}
-}
-local prettierd = require 'formatter.defaults.prettierd'
-local prettierd_fts = {
+	ruby = { require 'formatter.filetypes.ruby'.rubocop },
+
 	css = { prettierd },
 	graphql = { prettierd },
 	html = { prettierd },
@@ -276,24 +259,21 @@ local prettierd_fts = {
 	vue = { prettierd },
 	yaml = { prettierd },
 }
-for lang, fmt in pairs(prettierd_fts) do formatter_fts[lang] = fmt end
 require 'formatter'.setup {
-	-- Enable or disable logging
 	logging = true,
-	-- Set the log level
 	log_level = vim.log.levels.WARN,
 	-- All formatter configurations are opt-in
 	filetype = formatter_fts,
 }
 
-local prettierd_ft_extensions = vim.tbl_keys(prettierd_fts)
+local ft_extensions = vim.tbl_keys(formatter_fts)
 local map_formatting_group = vim.api.nvim_create_augroup('FormattingMaps', { clear = true })
 vim.api.nvim_create_autocmd({ 'FileType', }, {
 	group = map_formatting_group,
 	pattern = '*',
 	callback = function(event)
 		local bufnr = event.buf
-		if vim.tbl_contains(prettierd_ft_extensions, event.match) then
+		if vim.tbl_contains(ft_extensions, event.match) then
 			map('n', '==', ':Format<CR>', { silent = true, buffer = bufnr })
 		else
 			map('n', '==', function() vim.lsp.buf.format { async = true } end, { silent = true, buffer = bufnr })
@@ -345,4 +325,3 @@ map({ 'n', 'x', 'o' }, '<leader>v', function()
 		vim.print('TS not active for this ft (' .. vim.cmd('set ft?') .. ')')
 	end
 end)
-
