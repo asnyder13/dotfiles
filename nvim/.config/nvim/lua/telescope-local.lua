@@ -5,6 +5,12 @@ require 'telescope'.setup {
 	defaults = {
 		file_ignore_patterns = { 'node_modules', '.git', },
 		layout_strategy = 'vertical',
+		mappings = {
+			i = {
+				["<C-Down>"] = require('telescope.actions').cycle_history_next,
+				["<C-Up>"] = require('telescope.actions').cycle_history_prev,
+			},
+		}
 	},
 	extensions = {
 		fzf = {
@@ -13,7 +19,7 @@ require 'telescope'.setup {
 			override_file_sorter = true, -- override the file sorter
 			case_mode = 'smart_case',    -- or "ignore_case" or "respect_case" the default case_mode is "smart_case"
 		}
-	}
+	},
 }
 -- To get fzf loaded and working with telescope, you need to call
 -- load_extension, somewhere after setup function:

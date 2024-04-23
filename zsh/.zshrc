@@ -106,7 +106,7 @@ zbell_ignore=(
 	timer
 	vimg
 )
-if [[ -n $SSH_CONNECTION || -n $SSH_CLIENT ]]; then
+if [[ -n $SSH_CONNECTION || -n $SSH_CLIENT || -e /proc/sys/fs/binfmt_misc/WSLInterop ]]; then
 	zbell_use_notify_send=false
 	zbell_use_paplay=false
 else

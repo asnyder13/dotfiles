@@ -67,7 +67,7 @@ on_attach.base = function(_, bufnr)
 end
 
 local _timers = {}
-on_attach.ruby_ls = function(client, buffer)
+on_attach.ruby_lsp = function(client, buffer)
 	if require("vim.lsp.diagnostic")._enable then
 		return
 	end
@@ -158,9 +158,9 @@ require 'mason-lspconfig'.setup_handlers {
 			capabilities = capabilities,
 		}
 	end,
-	['ruby_ls'] = function()
-		lspconfig.ruby_ls.setup {
-			on_attach = on_attach.ruby_ls,
+	['ruby_lsp'] = function()
+		lspconfig.ruby_lsp.setup {
+			on_attach = on_attach.ruby_lsp,
 		}
 	end,
 }
