@@ -143,14 +143,14 @@ require 'mason-lspconfig'.setup_handlers {
 			capabilities = capabilities,
 		}
 	end,
-	['lua_ls'] = function()
+	lua_ls = function()
 		lspconfig.lua_ls.setup {
 			on_attach = on_attach.base,
 			settings = custom_settings.lua,
 			capabilities = capabilities,
 		}
 	end,
-	['sorbet'] = function()
+	sorbet = function()
 		local target_path = require 'util'.create_expand_path '~/.cache/sorbet'
 		lspconfig.sorbet.setup {
 			on_attach = on_attach.base,
@@ -158,9 +158,14 @@ require 'mason-lspconfig'.setup_handlers {
 			capabilities = capabilities,
 		}
 	end,
-	['ruby_lsp'] = function()
+	ruby_lsp = function()
 		lspconfig.ruby_lsp.setup {
 			on_attach = on_attach.ruby_lsp,
+		}
+	end,
+	rubocop = function()
+		lspconfig.rubocop.setup {
+			single_file_support = true,
 		}
 	end,
 }
