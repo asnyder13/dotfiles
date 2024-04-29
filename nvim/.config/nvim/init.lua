@@ -56,7 +56,6 @@ local nonLspPackages = {
 
 local lspPackages = {
 	-- Treesitter
-	'nvim-treesitter/nvim-treesitter-angular',
 	{ 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
 	'atusy/treemonkey.nvim',
 

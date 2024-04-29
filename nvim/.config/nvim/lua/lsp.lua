@@ -318,6 +318,7 @@ map('n', '[t', function() vim.diagnostic.goto_prev() end)
 require 'corn'.setup {
 	border_style = 'rounded',
 	scope = 'line',
+	item_preprocess_func = function(item) return item end,
 }
 
 map({ 'n', 'x', 'o' }, '<leader>v', function()
