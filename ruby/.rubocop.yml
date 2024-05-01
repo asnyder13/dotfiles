@@ -1,5 +1,5 @@
 AllCops:
-  TargetRubyVersion: 3.2
+  TargetRubyVersion: 3.3
   NewCops: enable
 Layout/CommentIndentation:
   Enabled: false
@@ -23,7 +23,9 @@ Style/RedundantReturn:
   Enabled: false
 Style/TrailingCommaInHashLiteral:
   Enabled: false
-Naming/MethodParameterName:
-  Enabled: false
+Style/NumberedParametersLimit:
+  Max: 2
 Style/BlockDelimiters:
+  Enabled: false
+Style/TrailingCommaInArrayLiteral:
   Enabled: false
