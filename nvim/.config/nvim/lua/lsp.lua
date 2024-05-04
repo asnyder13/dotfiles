@@ -318,7 +318,19 @@ map('n', '[t', function() vim.diagnostic.goto_prev() end)
 require 'corn'.setup {
 	border_style = 'rounded',
 	scope = 'line',
-	item_preprocess_func = function(item) return item end,
+  ---@param item Corn.Item
+  ---@return Corn.Item
+  item_preprocess_func = function(item)
+    local trunc_tail = "..."
+    local max_width = vim.api.nvim_win_get_width(0) - 30
+
+    if #item.message > max_width then
+      item.message = string.sub(item.message, 1, max_width - #trunc_tail) .. trunc_tail
+      item.source = trunc_tail
+    end
+
+    return item
+  end,
 }
 
 map({ 'n', 'x', 'o' }, '<leader>v', function()

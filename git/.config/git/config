@@ -33,7 +33,7 @@
 [difftool]
 	prompt = false
 [difftool "difftastic"]
-	cmd = difft --display inline "$LOCAL" "$REMOTE"
+	cmd = difft --display side-by-side "$LOCAL" "$REMOTE"
 [pager]
 	difftool = true
 

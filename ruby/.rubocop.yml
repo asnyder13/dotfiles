@@ -23,3 +23,7 @@ Style/RedundantReturn:
   Enabled: false
 Style/TrailingCommaInHashLiteral:
   Enabled: false
+Naming/MethodParameterName:
+  Enabled: false
+Style/BlockDelimiters:
+  Enabled: false
