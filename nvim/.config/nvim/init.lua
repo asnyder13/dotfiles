@@ -211,6 +211,7 @@ opt.showmode   = true
 opt.wildmode   = { 'list:longest' }
 opt.scrolloff  = 1
 opt.wildignore:append { '*/node_modules/*', '*/.git/*', '*/tmp/*', '*.swp', '*/.angular/*' }
+opt.sidescrolloff  = 5
 opt.splitright     = true
 opt.splitbelow     = true
 

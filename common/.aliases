@@ -41,7 +41,7 @@ fi
 
 # General aliases.
 alias lssz='du -sh *' ;
-alias tmat='tmux attach' ;
+alias tmat='tmux attach || tmux' ;
 alias df='df -h' ;
 alias wttr='curl --compressed "wttr.in/Charlotte?F&q"' ;
 alias rsync='rsync --archive --info=progress2 --human-readable --stats --partial' ;
