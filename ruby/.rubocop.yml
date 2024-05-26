@@ -29,3 +29,7 @@ Style/BlockDelimiters:
   Enabled: false
 Style/TrailingCommaInArrayLiteral:
   Enabled: false
+Naming/MethodParameterName:
+  Enabled: false
+Style/EmptyCaseCondition:
+  Enabled: false

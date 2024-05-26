@@ -22,7 +22,7 @@ require 'nvim-treesitter.configs'.setup {
 	highlight = { enable = true },
 	incremental_selection = { enable = true },
 	textobjects = { enable = true },
-	indent = { enable = true },
+	indent = { enable = true, disable = { 'ruby' } },
 	context_commentstring = {
 		enable = true,
 		enable_autocmd = false,
@@ -140,14 +140,12 @@ require 'mason-lspconfig'.setup_handlers {
 	function(server_name)
 		lspconfig[server_name].setup {
 			on_attach = on_attach.base,
-			capabilities = capabilities,
 		}
 	end,
 	lua_ls = function()
 		lspconfig.lua_ls.setup {
 			on_attach = on_attach.base,
 			settings = custom_settings.lua,
-			capabilities = capabilities,
 		}
 	end,
 	sorbet = function()
@@ -155,7 +153,6 @@ require 'mason-lspconfig'.setup_handlers {
 		lspconfig.sorbet.setup {
 			on_attach = on_attach.base,
 			cmd = { 'srb', 'tc', '--lsp', target_path },
-			capabilities = capabilities,
 		}
 	end,
 	ruby_lsp = function()
@@ -163,11 +160,8 @@ require 'mason-lspconfig'.setup_handlers {
 			on_attach = on_attach.ruby_lsp,
 		}
 	end,
-	rubocop = function()
-		lspconfig.rubocop.setup {
-			single_file_support = true,
-		}
-	end,
+	-- Ignore RuboCop for LSP stuff, but we want it installed for formatting
+	rubocop = function() end,
 }
 
 -- Change border of documentation hover window, See https://github.com/neovim/neovim/pull/13998.
@@ -294,7 +288,13 @@ vim.g.rainbow_delimiters = {
 	},
 	blacklist = {
 		'c_sharp',
-	}
+	},
+	query = {
+		[''] = 'rainbow-delimiters',
+		lua = 'rainbow-blocks',
+		latex = 'rainbow-blocks',
+		query = 'rainbow-blocks',
+	},
 }
 -- Colors from VSCode's rainbow highlight which work well w/ monokai.
 local delimColors = {
@@ -318,19 +318,19 @@ map('n', '[t', function() vim.diagnostic.goto_prev() end)
 require 'corn'.setup {
 	border_style = 'rounded',
 	scope = 'line',
-  ---@param item Corn.Item
-  ---@return Corn.Item
-  item_preprocess_func = function(item)
-    local trunc_tail = "..."
-    local max_width = vim.api.nvim_win_get_width(0) - 30
+	---@param item Corn.Item
+	---@return Corn.Item
+	item_preprocess_func = function(item)
+		local trunc_tail = "..."
+		local max_width = vim.api.nvim_win_get_width(0) - 30
 
-    if #item.message > max_width then
-      item.message = string.sub(item.message, 1, max_width - #trunc_tail) .. trunc_tail
-      item.source = trunc_tail
-    end
+		if #item.message > max_width then
+			item.message = string.sub(item.message, 1, max_width - #trunc_tail) .. trunc_tail
+			item.source = trunc_tail
+		end
 
-    return item
-  end,
+		return item
+	end,
 }
 
 map({ 'n', 'x', 'o' }, '<leader>v', function()

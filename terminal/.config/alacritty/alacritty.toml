@@ -1,0 +1,58 @@
+[font]
+size = 13
+
+[font.bold]
+family = "SauceCodePro Nerd Font"
+style = "Bold"
+
+[font.bold_italic]
+family = "SauceCodePro Nerd Font"
+style = "Bold Italic"
+
+[font.italic]
+family = "SauceCodePro Nerd Font"
+style = "Italic"
+
+[font.normal]
+family = "SauceCodePro Nerd Font"
+style = "Regular"
+
+[keyboard]
+bindings = [
+   { key = "n", mods = "Control|Shift", action = "SpawnNewInstance" },
+]
+
+[scrolling]
+history = 100000
+
+[colors.primary]
+background = "#282923"
+foreground = "#e2e2e2"
+
+[colors.normal]
+black = "#222222"
+red = "#dd0000"
+green = "#00dd00"
+yellow = "#dddd00"
+blue = "#0099cc"
+magenta = "#dd00dd"
+cyan = "#00eedd"
+white = "#dddddd"
+[colors.dim]
+black = "#181818"
+red = "#ac4242"
+green = "#90a959"
+yellow = "#f4bf75"
+blue = "#6a9fb5"
+magenta = "#aa759f"
+cyan = "#75b5aa"
+white = "#d8d8d8"
+[colors.bright]
+black = "#000000"
+red = "#ff0000"
+green = "#00ff00"
+yellow = "#ffff00"
+blue = "#0099ff"
+magenta = "#ff00ff"
+cyan = "#00ffff"
+white = "#ffffff"

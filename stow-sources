@@ -14,5 +14,5 @@ GENERAL_SOURCES=(
 	vim
 )
 I3_SOURCES=( i3 )
-SWAY_SOURCES=( sway foot )
+SWAY_SOURCES=( sway terminal )
 ALL_SOURCES=( "${GENERAL_SOURCES[@]}" "${SHELL_SOURCES[@]}" "${SWAY_SOURCES[@]}" "${I3_SOURCES[@]}" )

@@ -82,7 +82,7 @@ local lspPackages = {
 	'theHamsta/nvim-dap-virtual-text',
 	'suketa/nvim-dap-ruby',
 
-	{ 'HiPhish/rainbow-delimiters.nvim', branch = 'v0.3.0' },
+	'HiPhish/rainbow-delimiters.nvim',
 	'folke/trouble.nvim',
 	'JoosepAlviste/nvim-ts-context-commentstring',
 }
