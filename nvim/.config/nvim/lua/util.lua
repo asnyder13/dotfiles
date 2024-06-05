@@ -66,8 +66,8 @@ function Util.map_keys_table(mode, lhs, rhs, opts)
 	end
 end
 
---- HighlightGroup => link to 'Text'
---- HighlightGroup:Highlights => apply highlight
+--- HighlightGroup                => link to 'Text'
+--- HighlightGroup:Highlights     => apply highlight
 --- HighlightGroup:HighlightGroup => link specific group.
 ---
 ---@param idx_or_group number|string

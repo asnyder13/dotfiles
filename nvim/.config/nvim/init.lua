@@ -52,6 +52,7 @@ local nonLspPackages = {
 	'LunarVim/bigfile.nvim',
 	'rasulomaroff/reactive.nvim',
 	'j-hui/fidget.nvim',
+	'RRethy/nvim-treesitter-endwise',
 }
 
 local lspPackages = {
