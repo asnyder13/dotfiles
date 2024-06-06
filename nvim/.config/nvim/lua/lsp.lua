@@ -3,6 +3,9 @@ local map = require 'util'.map_keys_table
 local api = vim.api
 local opt = vim.opt
 
+-- Hide default LSP popup
+map('n', '<C-k>', '<NOP>')
+
 -- Treesitter
 require 'nvim-treesitter.configs'.setup {
 	ensure_installed = {
