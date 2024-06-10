@@ -7,7 +7,7 @@ local qs_map_opts = {
 	silent = true,
 	buffer = true,
 }
-local nvim_quick_switcher = require('nvim-quick-switcher')
+local nvim_quick_switcher = require 'nvim-quick-switcher'
 
 ---@param file string
 ---@param opts table

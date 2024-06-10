@@ -53,11 +53,13 @@ local nonLspPackages = {
 	'rasulomaroff/reactive.nvim',
 	'j-hui/fidget.nvim',
 	'RRethy/nvim-treesitter-endwise',
+	'folke/which-key.nvim',
 }
 
 local lspPackages = {
 	-- Treesitter
 	{ 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
+	'nvim-treesitter/nvim-treesitter-refactor',
 	'atusy/treemonkey.nvim',
 
 	-- LSP
@@ -66,26 +68,30 @@ local lspPackages = {
 	'williamboman/mason-lspconfig.nvim',
 	'mhartington/formatter.nvim',
 
-	-- cpm for LSP
+	-- cmp for LSP
 	'hrsh7th/nvim-cmp',
 	'hrsh7th/cmp-nvim-lsp',
 	'hrsh7th/cmp-buffer',
 	'hrsh7th/cmp-path',
-	'ray-x/lsp_signature.nvim',
-	'RaafatTurki/corn.nvim',
+	'ray-x/cmp-treesitter',
 
+	-- Snippets
 	{ 'L3MON4D3/LuaSnip',                build = 'make install_jsregexp' },
 	'rafamadriz/friendly-snippets',
 	'honza/vim-snippets',
 
+	-- DAP
 	'mfussenegger/nvim-dap',
 	'jay-babu/mason-nvim-dap.nvim',
 	'theHamsta/nvim-dap-virtual-text',
 	'suketa/nvim-dap-ruby',
 
+	-- misc
 	'HiPhish/rainbow-delimiters.nvim',
-	'folke/trouble.nvim',
 	'JoosepAlviste/nvim-ts-context-commentstring',
+	'ray-x/lsp_signature.nvim',
+	'RaafatTurki/corn.nvim',
+	'b0o/schemastore.nvim',
 }
 
 
@@ -107,7 +113,7 @@ end
 local function bootstrap_paq(packages)
 	local first_install = clone_paq()
 	vim.cmd.packadd 'paq-nvim'
-	local paq = require('paq')
+	local paq = require'paq'
 	if first_install then
 		vim.notify('Installing plugins... If prompted, hit Enter to continue.')
 	end
@@ -355,10 +361,13 @@ vim.g.lasttab = 1
 vim.api.nvim_create_autocmd('TabLeave', { callback = function() vim.g.lasttab = vim.api.nvim_get_current_tabpage() end })
 map('n', '<C-BS>', function() vim.api.nvim_set_current_tabpage(vim.g.lasttab) end)
 
+require 'which-key'.setup {}
+
 ---- LSP Plugins ----
 -- VIM_USE_LSP needs to have a value, not just existing.
 if vim.env.VIM_USE_LSP then
 	require 'lsp'
+	require 'format'
 end
 
 -- Gets overwritten if something in lsp.lua is run after it.

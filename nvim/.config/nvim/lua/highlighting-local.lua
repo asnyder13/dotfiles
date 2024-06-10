@@ -126,3 +126,30 @@ api.nvim_create_autocmd({ 'BufReadPost' }, {
 	pattern = '*.ts',
 	callback = check_if_file_has_angular_inline
 })
+
+vim.g.rainbow_delimiters = {
+	highlight = {
+		'RainbowDelimiterYellow',
+		'RainbowDelimiterViolet',
+		'RainbowDelimiterGreen',
+	},
+	blacklist = {
+		'c_sharp',
+	},
+	query = {
+		[''] = 'rainbow-delimiters',
+		lua = 'rainbow-blocks',
+		latex = 'rainbow-blocks',
+		query = 'rainbow-blocks',
+	},
+}
+-- Colors from VSCode's rainbow highlight which work well w/ monokai.
+local delimColors = {
+	RainbowDelimiterYellow = '#FFFF40',
+	RainbowDelimiterViolet = '#FF7FFF',
+	RainbowDelimiterGreen  = '#7FFF7F',
+	RainbowDelimiterCyan   = '#4FECEC',
+}
+for k, v in pairs(delimColors) do
+	api.nvim_set_hl(0, k, { fg = v })
+end

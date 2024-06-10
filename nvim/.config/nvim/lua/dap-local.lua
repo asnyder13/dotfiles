@@ -18,14 +18,14 @@ map('n', '<Leader>dB',             function() dap.set_breakpoint(vim.fn.input('B
 map('n', '<Leader>lp',             function() dap.set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) end, dap_opts)
 map('n', '<Leader>dr',             function() dap.repl.open() end, dap_opts)
 map('n', '<Leader>dl',             function() dap.run_last() end, dap_opts)
-map({ 'n', 'v' }, '<Leader>dh',    function() require('dap.ui.widgets').hover() end)
-map({ 'n', 'v' }, '<Leader>dp',    function() require('dap.ui.widgets').preview() end)
+map({ 'n', 'v' }, '<Leader>dh',    function() require 'dap.ui.widgets'.hover() end)
+map({ 'n', 'v' }, '<Leader>dp',    function() require 'dap.ui.widgets'.preview() end)
 map('n', '<Leader>df',             function()
-	local widgets = require('dap.ui.widgets')
+	local widgets = require 'dap.ui.widgets'
 	widgets.centered_float(widgets.frames)
 end)
 map('n', '<Leader>ds', function()
-	local widgets = require('dap.ui.widgets')
+	local widgets = require 'dap.ui.widgets'
 	widgets.centered_float(widgets.scopes)
 end)
 
@@ -63,7 +63,7 @@ dap.configurations.cs = {
 		name = 'launch - netcoredbg',
 		request = 'launch',
 		program = function()
-			return vim.fn.input('Path to dll', vim.fn.getcwd() .. '/bin/Debug/', 'file')
+			return vim.fn.input('Path to dll ', vim.fn.getcwd() .. '/bin/Debug/', 'file')
 		end,
 	},
 }
@@ -90,17 +90,15 @@ local chrome_config = {
 	port = 9222,
 	webRoot = '${workspaceFolder}'
 }
-dap.configurations.typescript = {
-	{
-		name = 'Debug with Firefox',
-		type = 'firefox',
-		request = 'launch',
-		reAttach = true,
-		url = 'http://localhost:4200',
-		webRoot = '${workspaceFolder}',
-		firefoxExecutable = '/usr/local/bin/firefox'
-	},
-	chrome_config,
+local firefox_config = {
+	name = 'Debug with Firefox',
+	type = 'firefox',
+	request = 'launch',
+	reAttach = true,
+	url = 'http://localhost:4200',
+	webRoot = '${workspaceFolder}',
+	firefoxExecutable = '/usr/local/bin/firefox'
 }
-dap.configurations.javascriptreact = { chrome_config, }
-dap.configurations.typescriptreact = { chrome_config, }
+dap.configurations.typescript = { firefox_config, chrome_config, }
+dap.configurations.javascriptreact = { firefox_config, chrome_config, }
+dap.configurations.typescriptreact = { firefox_config, chrome_config, }

@@ -64,7 +64,7 @@ on_attach.base = function(_, bufnr)
 	map('n', '[d',        function() vim.lsp.diagnostic.goto_prev() end, opts)
 	map('n', ']d',        function() vim.lsp.diagnostic.goto_next() end, opts)
 	map('n', '<leader>q', function() vim.lsp.diagnostic.set_loclist() end, opts)
-	map('n', '<C-]>', function() vim.lsp.buf.definition() end, opts)
+	map('n', '<C-]>',     function() vim.lsp.buf.definition() end, opts)
 end
 
 local _timers = {}
@@ -163,6 +163,30 @@ require 'mason-lspconfig'.setup_handlers {
 	end,
 	-- Ignore RuboCop for LSP stuff, but we want it installed for formatting
 	rubocop = function() end,
+	jsonls = function()
+		lspconfig.jsonls.setup {
+			settings = {
+				schemas = require 'schemastore'.json.schemas(),
+				validate = { enable = true }
+			}
+		}
+	end,
+	yamlls = function()
+		lspconfig.yamlls.setup {
+			settings = {
+				yaml = {
+					schemaStore = {
+						-- You must disable built-in schemaStore support if you want to use
+						-- this plugin and its advanced options like `ignore`.
+						enable = false,
+						-- Avoid TypeError: Cannot read properties of undefined (reading 'length')
+						url = "",
+					},
+					schemas = require 'schemastore'.yaml.schemas(),
+				},
+			},
+		}
+	end,
 }
 
 -- Change border of documentation hover window, See https://github.com/neovim/neovim/pull/13998.
@@ -171,7 +195,6 @@ vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
 })
 
 -- cmpe
--- opt.completeopt = { 'menuone', 'noinsert', 'noselect' }
 opt.completeopt = { 'menu', 'noselect', 'noinsert' }
 local cmp = require 'cmp'
 cmp.setup {
@@ -192,7 +215,6 @@ cmp.setup {
 		{ name = 'luasnip',    group_index = 3 },
 		{ name = 'buffer', group_index = 4,
 			option = {
-				-- get_bufnrs = function() vim.api.nvim_list_bufs() end
 				get_bufnrs = function()
 					local bufs = {}
 					for _, win in ipairs(vim.api.nvim_list_wins()) do
@@ -221,7 +243,7 @@ require 'lsp_signature'.setup {
 }
 
 -- If you want insert `(` after select function or method item
-local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+local cmp_autopairs = require 'nvim-autopairs.completion.cmp'
 cmp.event:on(
 	'confirm_done',
 	cmp_autopairs.on_confirm_done()
@@ -234,87 +256,9 @@ require 'luasnip.loaders.from_snipmate'.lazy_load()
 ---- DAP
 require 'dap-local'
 
-local prettierd = require 'formatter.defaults.prettierd'
-local formatter_fts = {
-	['*'] = {
-		-- 'formatter.filetypes.any' defines default configurations for any filetype
-		require('formatter.filetypes.any').remove_trailing_whitespace,
-	},
-	ruby = { require 'formatter.filetypes.ruby'.rubocop },
-
-	css = { prettierd },
-	graphql = { prettierd },
-	html = { prettierd },
-	javascript = { prettierd },
-	javascriptreact = { prettierd },
-	['javascript.jsx'] = { prettierd },
-	json = { prettierd },
-	jsonc = { prettierd },
-	less = { prettierd },
-	markdown = { prettierd },
-	scss = { prettierd },
-	typescript = { prettierd },
-	typescriptreact = { prettierd },
-	['typescript.tsx'] = { prettierd },
-	vue = { prettierd },
-	yaml = { prettierd },
-}
-require 'formatter'.setup {
-	logging = true,
-	log_level = vim.log.levels.WARN,
-	-- All formatter configurations are opt-in
-	filetype = formatter_fts,
-}
-
-local ft_extensions = vim.tbl_keys(formatter_fts)
-local map_formatting_group = vim.api.nvim_create_augroup('FormattingMaps', { clear = true })
-vim.api.nvim_create_autocmd({ 'FileType', }, {
-	group = map_formatting_group,
-	pattern = '*',
-	callback = function(event)
-		local bufnr = event.buf
-		if vim.tbl_contains(ft_extensions, event.match) then
-			map('n', '==', ':Format<CR>', { silent = true, buffer = bufnr })
-		else
-			map('n', '==', function() vim.lsp.buf.format { async = true } end, { silent = true, buffer = bufnr })
-		end
-	end
-})
-
-vim.g.rainbow_delimiters = {
-	highlight = {
-		'RainbowDelimiterYellow',
-		'RainbowDelimiterViolet',
-		'RainbowDelimiterGreen',
-	},
-	blacklist = {
-		'c_sharp',
-	},
-	query = {
-		[''] = 'rainbow-delimiters',
-		lua = 'rainbow-blocks',
-		latex = 'rainbow-blocks',
-		query = 'rainbow-blocks',
-	},
-}
--- Colors from VSCode's rainbow highlight which work well w/ monokai.
-local delimColors = {
-	RainbowDelimiterYellow = '#FFFF40',
-	RainbowDelimiterViolet = '#FF7FFF',
-	RainbowDelimiterGreen  = '#7FFF7F',
-	RainbowDelimiterCyan   = '#4FECEC',
-}
-for k, v in pairs(delimColors) do
-	api.nvim_set_hl(0, k, { fg = v })
-end
-
 vim.diagnostic.config {
 	virtual_text = false,
 }
-local trouble = require 'trouble'
-map('n', '<leader>t', function() trouble.toggle() end)
-map('n', ']t', function() vim.diagnostic.goto_next() end)
-map('n', '[t', function() vim.diagnostic.goto_prev() end)
 
 require 'corn'.setup {
 	border_style = 'rounded',
@@ -344,3 +288,5 @@ map({ 'n', 'x', 'o' }, '<leader>v', function()
 		vim.print('TS not active for this ft (' .. vim.cmd('set ft?') .. ')')
 	end
 end)
+
+vim.lsp.inlay_hint.enable()
