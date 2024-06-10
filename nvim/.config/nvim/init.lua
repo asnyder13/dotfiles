@@ -92,6 +92,8 @@ local lspPackages = {
 	'ray-x/lsp_signature.nvim',
 	'RaafatTurki/corn.nvim',
 	'b0o/schemastore.nvim',
+	{ 'ray-x/guihua.lua', build = 'make' },
+	'ray-x/navigator.lua',
 }
 
 
@@ -337,7 +339,10 @@ require 'Comment'.setup {
 
 require 'nvim-surround'.setup { move_cursor = false }
 
-require 'nvim-autopairs'.setup {}
+-- require 'nvim-autopairs'.setup {}
+require 'nvim-autopairs'.setup {
+	disable_filetype = { "TelescopePrompt", "guihua", "guihua_rust", "clap_input" },
+}
 
 require 'bigfile'.setup {
 	filesize = 1,

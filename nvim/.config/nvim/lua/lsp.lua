@@ -113,42 +113,8 @@ on_attach.ruby_lsp = function(client, buffer)
 end
 
 -- Setup installed servers.
-local custom_settings = {
-	lua = {
-		Lua = {
-			runtime = {
-				-- LuaJIT in the case of Neovim
-				version = 'LuaJIT',
-				path = vim.split(package.path, ';'),
-			},
-			diagnostics = {
-				-- Get the language server to recognize the `vim` global
-				globals = { 'vim' },
-			},
-			workspace = {
-				-- Make the server aware of Neovim runtime files
-				library = vim.api.nvim_get_runtime_file('', true),
-				checkThirdParty = false
-			},
-			telemetry = { enable = false },
-		},
-	},
-}
-
 local lspconfig = require 'lspconfig';
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
 require 'mason-lspconfig'.setup_handlers {
-	function(server_name)
-		lspconfig[server_name].setup {
-			on_attach = on_attach.base,
-		}
-	end,
-	lua_ls = function()
-		lspconfig.lua_ls.setup {
-			on_attach = on_attach.base,
-			settings = custom_settings.lua,
-		}
-	end,
 	sorbet = function()
 		local target_path = require 'util'.create_expand_path '~/.cache/sorbet'
 		lspconfig.sorbet.setup {
@@ -187,6 +153,22 @@ require 'mason-lspconfig'.setup_handlers {
 			},
 		}
 	end,
+}
+
+require 'navigator'.setup {
+	mason = true,
+	lsp = {
+		disable_lsp = { 'sorbet', 'ruby_lsp', 'rubocop', 'jsonls', 'yamlls', },
+		format_on_save = false,
+	},
+	on_attach = function(_, bufnr)
+		on_attach.base(_, bufnr)
+	end,
+	keymaps = {
+
+	},
+	-- default_mapping = false,
+	icons = { icons = false },
 }
 
 -- Change border of documentation hover window, See https://github.com/neovim/neovim/pull/13998.
@@ -237,10 +219,11 @@ cmp.setup {
 		end,
 	},
 }
-require 'lsp_signature'.setup {
-	hint_enable = false,
-	hi_parameter = 'Error',
-}
+
+-- require 'lsp_signature'.setup {
+-- 	hint_enable = false,
+-- 	hi_parameter = 'Error',
+-- }
 
 -- If you want insert `(` after select function or method item
 local cmp_autopairs = require 'nvim-autopairs.completion.cmp'
