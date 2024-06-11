@@ -1,5 +1,6 @@
 local map = require 'util'.map_keys_table
 
+require 'mason-nvim-dap'.setup {}
 require 'nvim-dap-virtual-text'.setup {}
 local dap = require 'dap'
 

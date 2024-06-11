@@ -36,18 +36,18 @@ vim.g.skip_ts_context_commentstring_module = true
 ---- Language Servers
 require 'mason'.setup {}
 require 'mason-lspconfig'.setup {}
-require 'mason-nvim-dap'.setup {}
 
 -- lsp_installer/lspconfig
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = {}
-on_attach.base = function(_, bufnr)
+on_attach.base = function(client, bufnr)
 	-- Mappings.
 	local opts = { noremap = true, silent = true, buffer = bufnr, desc = 'LSP mapping' }
 
-	-- See `:help vim.lsp.*` for documentation on any of the below functions
+	require 'navigator.lspclient.mapping'.setup({ bufnr = bufnr, client = client })
+
 	map('n', 'gD',        function() vim.lsp.buf.declaration() end, opts)
 	map('n', 'gd',        function() vim.lsp.buf.definition() end, opts)
 	map('n', 'K',         function() vim.lsp.buf.hover() end, opts)
@@ -65,7 +65,6 @@ on_attach.base = function(_, bufnr)
 	map('n', '[d',        function() vim.lsp.diagnostic.goto_prev() end, opts)
 	map('n', ']d',        function() vim.lsp.diagnostic.goto_next() end, opts)
 	map('n', '<leader>q', function() vim.lsp.diagnostic.set_loclist() end, opts)
-	map('n', '<C-]>',     function() vim.lsp.buf.definition() end, opts)
 end
 
 local _timers = {}
@@ -116,11 +115,16 @@ end
 -- Setup installed servers.
 local lspconfig = require 'lspconfig';
 require 'mason-lspconfig'.setup_handlers {
+	function (server_name)
+		lspconfig[server_name].setup {}
+	end,
 	sorbet = function()
 		local target_path = require 'util'.create_expand_path '~/.cache/sorbet'
 		lspconfig.sorbet.setup {
 			on_attach = on_attach.base,
-			cmd = { 'srb', 'tc', '--lsp', target_path },
+			-- cmd = { 'srb', 'tc', '--lsp', target_path },
+			-- cmd = { 'srb', 'tc', '--lsp', '--disable-watchman', target_path },
+			cmd = { 'srb', 'tc', '--lsp', '--disable-watchman', '.' },
 		}
 	end,
 	ruby_lsp = function()
@@ -159,7 +163,8 @@ require 'mason-lspconfig'.setup_handlers {
 require 'navigator'.setup {
 	mason = true,
 	lsp = {
-		disable_lsp = { 'sorbet', 'ruby_lsp', 'rubocop', 'jsonls', 'yamlls', },
+		-- disable_lsp = { 'sorbet', 'ruby_lsp', 'rubocop', 'jsonls', 'yamlls', 'omnisharp', },
+		disable_lsp = 'all',
 		format_on_save = false,
 	},
 	on_attach = function(_, bufnr)
