@@ -41,7 +41,6 @@ local nonLspPackages = {
 	'RRethy/nvim-align',
 	'Everduin94/nvim-quick-switcher',
 	'kylechui/nvim-surround',
-	'RRethy/vim-illuminate',
 	'numToStr/Comment.nvim',
 	'm-demare/hlargs.nvim',
 	'nvim-neo-tree/neo-tree.nvim',
