@@ -1,32 +1,27 @@
 #!/usr/bin/env bash
 
+if ! command -v git >/dev/null 2>&1; then
+	echo 'FAILURE: You need git.'
+	exit 1
+fi
+
+if command -v wget >/dev/null 2>&1;   then fetcher='wget -O'
+elif command -v curl >/dev/null 2>&1; then fetcher='curl -o'
+else
+	echo 'FAILURE: wget nor curl are installed.'
+	exit 1
+fi
+
 ####################
 ### n/vim setup. ###
 ####################
 if command -v nvim >/dev/null 2>&1; then
 	echo 'Found neovim.'
-	if ! command -v git >/dev/null 2>&1; then
-		echo 'FAILURE: You need git to retrieve Paq.'
-		exit 1
-	fi
 
-	paq_loc="$HOME/.local/share/nvim/site/pack/paqs/opt/paq-nvim"
-	if [[ ! -d "$paq_loc" ]]; then
-		echo 'Cloning Paq.'
-		git clone -q https://github.com/savq/paq-nvim.git "$paq_loc"
-	else
-		echo 'Paq is already installed, run :PaqInstall or :PaqUpdate.'
-	fi
+	echo "Neovim will bootstrap it's own package manager."
 elif command -v vim >/dev/null 2>&1; then
 	echo 'Found vim.'
 	# Vim theme
-	if command -v wget >/dev/null 2>&1;   then fetcher='wget -O'
-	elif command -v curl >/dev/null 2>&1; then fetcher='curl -o'
-	else
-		echo 'FAILURE: wget nor curl are installed!'
-		exit 1
-	fi
-
 	mkdir -p ~/.vim/colors
 	test -e ~/.vim/colors/monokai.vim || $fetcher ~/.vim/colors/monokai.vim https://raw.githubusercontent.com/crusoexia/vim-monokai/master/colors/monokai.vim
 
@@ -52,11 +47,6 @@ elif command -v vim >/dev/null 2>&1; then
 		AndrewRadev/splitjoin.vim
 		tpope/vim-surround
 	)
-
-	if ! command -v git >/dev/null 2>&1; then
-		echo 'FAILURE: You need git to retrieve the plugins.'
-		exit 1
-	fi
 
 	# Clone a plugin
 	# param $1: base dir
@@ -103,13 +93,6 @@ fi
 #####################
 if command -v zsh >/dev/null 2>&1; then
 	echo 'zsh is installed'
-
-	if command -v wget >/dev/null 2>&1;   then fetcher='wget -O-'
-	elif command -v curl >/dev/null 2>&1; then fetcher='curl -fsSL'
-	else
-		echo 'FAILURE: wget nor curl are installed!'
-		exit 1
-	fi
 
 	### oh-my-zsh
 	if [[ ! -f "$HOME/.oh-my-zsh" ]]; then
