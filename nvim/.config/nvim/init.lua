@@ -93,6 +93,7 @@ local lspPackages = {
 	'b0o/schemastore.nvim',
 	{ 'ray-x/guihua.lua', build = 'make' },
 	'ray-x/navigator.lua',
+	'folke/neodev.nvim',
 }
 
 
@@ -114,7 +115,7 @@ end
 local function bootstrap_paq(packages)
 	local first_install = clone_paq()
 	vim.cmd.packadd 'paq-nvim'
-	local paq = require'paq'
+	local paq = require 'paq'
 	if first_install then
 		vim.notify('Installing plugins... If prompted, hit Enter to continue.')
 	end
@@ -240,6 +241,7 @@ opt.foldmethod     = 'indent'
 opt.foldlevelstart = 99
 
 
+g.user_emmet_leader_key   = '<C-t>'
 g.loaded_python3_provider = false
 g.loaded_ruby_provider    = false
 g.loaded_node_provider    = false

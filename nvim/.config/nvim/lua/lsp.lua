@@ -37,16 +37,14 @@ vim.g.skip_ts_context_commentstring_module = true
 require 'mason'.setup {}
 require 'mason-lspconfig'.setup {}
 
--- lsp_installer/lspconfig
-
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = {}
 on_attach.base = function(client, bufnr)
-	-- Mappings.
+	-- Mappings
 	local opts = { noremap = true, silent = true, buffer = bufnr, desc = 'LSP mapping' }
 
-	require 'navigator.lspclient.mapping'.setup({ bufnr = bufnr, client = client })
+	-- require 'navigator.lspclient.mapping'.setup({ bufnr = bufnr, client = client })
 
 	map('n', 'gD',        function() vim.lsp.buf.declaration() end, opts)
 	map('n', 'gd',        function() vim.lsp.buf.definition() end, opts)
@@ -65,6 +63,10 @@ on_attach.base = function(client, bufnr)
 	map('n', '[d',        function() vim.lsp.diagnostic.goto_prev() end, opts)
 	map('n', ']d',        function() vim.lsp.diagnostic.goto_next() end, opts)
 	map('n', '<leader>q', function() vim.lsp.diagnostic.set_loclist() end, opts)
+
+	if client and client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
+		vim.lsp.inlay_hint.enable(true)
+	end
 end
 
 local _timers = {}
@@ -139,7 +141,7 @@ require 'mason-lspconfig'.setup_handlers {
 			settings = {
 				schemas = require 'schemastore'.json.schemas(),
 				validate = { enable = true }
-			}
+			},
 		}
 	end,
 	yamlls = function()
@@ -162,11 +164,6 @@ require 'mason-lspconfig'.setup_handlers {
 
 require 'navigator'.setup {
 	mason = true,
-	lsp = {
-		-- disable_lsp = { 'sorbet', 'ruby_lsp', 'rubocop', 'jsonls', 'yamlls', 'omnisharp', },
-		disable_lsp = 'all',
-		format_on_save = false,
-	},
 	on_attach = function(_, bufnr)
 		on_attach.base(_, bufnr)
 	end,
@@ -175,6 +172,18 @@ require 'navigator'.setup {
 	},
 	-- default_mapping = false,
 	icons = { icons = false },
+	lsp_signature_help = true,
+	lsp = {
+		-- disable_lsp = 'all',
+		disable_lsp = { 'sorbet', 'ruby_lsp', 'rubocop', 'jsonls', 'yamlls', 'omnisharp', },
+		code_action = { sign = false, virtual_text = false, },
+		code_lens_action = { sign = false, virtual_text = false, },
+		format_on_save = false,
+		diagnostic_scrollbar_sign = false,
+	},
+	diagnostic = {
+		virtual_text = false,
+	}
 }
 
 -- Change border of documentation hover window, See https://github.com/neovim/neovim/pull/13998.
@@ -182,7 +191,7 @@ vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
 	border = "rounded",
 })
 
--- cmpe
+-- cmp
 opt.completeopt = { 'menu', 'noselect', 'noinsert' }
 local cmp = require 'cmp'
 cmp.setup {
@@ -227,7 +236,7 @@ cmp.setup {
 }
 
 -- require 'lsp_signature'.setup {
--- 	hint_enable = false,
+-- 	hint_enable = true,
 -- 	hi_parameter = 'Error',
 -- }
 
@@ -277,5 +286,3 @@ map({ 'n', 'x', 'o' }, '<leader>v', function()
 		vim.print('TS not active for this ft (' .. vim.cmd('set ft?') .. ')')
 	end
 end, { desc = 'Treemonkey' })
-
-vim.lsp.inlay_hint.enable()
