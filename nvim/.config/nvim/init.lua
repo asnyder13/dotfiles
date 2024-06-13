@@ -38,7 +38,6 @@ local nonLspPackages = {
 	{ 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
 	'lewis6991/gitsigns.nvim',
 	'romgrk/barbar.nvim',
-	'RRethy/nvim-align',
 	'Everduin94/nvim-quick-switcher',
 	'kylechui/nvim-surround',
 	'numToStr/Comment.nvim',
@@ -53,6 +52,7 @@ local nonLspPackages = {
 	'j-hui/fidget.nvim',
 	'RRethy/nvim-treesitter-endwise',
 	'folke/which-key.nvim',
+	'echasnovski/mini.align',
 }
 
 local lspPackages = {
@@ -304,8 +304,25 @@ g.SignatureMarkTextHLDynamic = 1
 g.loaded_netrwPlugin = 1
 
 -- Neovim plugins
-require 'colorizer'.setup {}
--- require 'lualine'.setup {}
+require 'colorizer'.setup {
+	filetypes = { '*' },
+	user_default_options = {
+		RGB = true,
+		RRGGBB = true,
+		names = true,
+		RRGGBBAA = true,
+		AARRGGBB = true,
+		rgb_fn = true,
+		hsl_fn = true,
+		css = true,
+		css_fn = true,
+		mode = 'virtualtext',
+		tailwind = true,
+		sass = { enable = true, parsers = { "css" }, },
+		virtualtext = "■",
+		always_update = true
+	}
+}
 
 require 'barbar'.setup {
 	exclude_ft = { 'neo-tree' },
@@ -368,6 +385,8 @@ vim.api.nvim_create_autocmd('TabLeave', { callback = function() vim.g.lasttab = 
 map('n', '<C-BS>', function() vim.api.nvim_set_current_tabpage(vim.g.lasttab) end, { desc = 'Last window' })
 
 require 'which-key'.setup {}
+
+require 'mini.align'.setup {}
 
 ---- LSP Plugins ----
 -- VIM_USE_LSP needs to have a value, not just existing.

@@ -117,8 +117,12 @@ end
 -- Setup installed servers.
 local lspconfig = require 'lspconfig';
 require 'mason-lspconfig'.setup_handlers {
-	function (server_name)
-		lspconfig[server_name].setup {}
+	function(server_name)
+		lspconfig[server_name].setup {
+			-- capabilities = require 'cmp_nvim_lsp'.default_capabilities(),
+			capabilities = vim.lsp.protocol.make_client_capabilities(),
+			on_attach = on_attach.base,
+		}
 	end,
 	sorbet = function()
 		local target_path = require 'util'.create_expand_path '~/.cache/sorbet'
@@ -158,6 +162,7 @@ require 'mason-lspconfig'.setup_handlers {
 					schemas = require 'schemastore'.yaml.schemas(),
 				},
 			},
+			capabilities = vim.lsp.protocol.make_client_capabilities()
 		}
 	end,
 }
