@@ -27,16 +27,20 @@ vim.cmd.colorscheme 'ronny'
 local illuminateColor = { bg = '#434343' }
 local hls = {
 	---- General
-	['Interface'] = { fg = '#B8D7A3' }, -- Interface color from Visual Studio
+	['Interface']  = { fg = '#B8D7A3' }, -- Interface color from Visual Studio
 	['SignColumn'] = { bg = 'NONE' },
-	['TelescopeBorder'] = { fg = '#eeeeee' },
-	['DiffText'] = { bold = true, fg = 'NONE', bg = '#393939', },
-	['diffAdded'] = 'Function',
-	['diffRemoved'] = 'Operator',
 
-	['LspReferenceRead'] = illuminateColor,
+	['TelescopeBorder'] = { fg = '#eeeeee', bg = 'NONE' },
+	['DiffText']        = { bold = true, fg = 'NONE', bg = '#393939', },
+	['diffAdded']       = 'Function',
+	['diffRemoved']     = 'Operator',
+
+	['LspReferenceRead']  = illuminateColor,
 	['LspReferenceWrite'] = illuminateColor,
-	['LspReferenceText'] = illuminateColor,
+	['LspReferenceText']  = illuminateColor,
+	['GitSignsAdd']       = { bg = 'NONE' },
+	['GitSignsChange']    = { bg = 'NONE' },
+	['GitSignsDelete']    = { bg = 'NONE' },
 
 	---- Languages
 	-- C#

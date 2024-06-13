@@ -316,7 +316,7 @@ require 'colorizer'.setup {
 		hsl_fn = true,
 		css = true,
 		css_fn = true,
-		mode = 'virtualtext',
+		mode = 'background',
 		tailwind = true,
 		sass = { enable = true, parsers = { "css" }, },
 		virtualtext = "■",
