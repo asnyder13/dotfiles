@@ -91,7 +91,7 @@ local lspPackages = {
 	'ray-x/lsp_signature.nvim',
 	'RaafatTurki/corn.nvim',
 	'b0o/schemastore.nvim',
-	{ 'ray-x/guihua.lua', build = 'make' },
+	{ 'ray-x/guihua.lua', build = 'make -C lua/fzy' },
 	'ray-x/navigator.lua',
 	'folke/neodev.nvim',
 }

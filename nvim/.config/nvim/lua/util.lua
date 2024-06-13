@@ -53,10 +53,12 @@ function Util.map_keys_table(mode, lhs, rhs, opts)
 	vim.validate {
 		mode = { mode, { 'string', 'table' } },
 		lhs = { lhs, { 'string', 'table' } },
-		rhs = { rhs, { 'string', 'function' } },
+		rhs = { rhs, { 'string', 'function', 'nil' } },
 		opts = { opts, { 'table', }, true },
 	}
 	opts = opts or { silent = true }
+	if not rhs then return end
+
 	if type(lhs) == 'string' then
 		vim.keymap.set(mode, lhs, rhs, opts)
 	else

@@ -42,31 +42,48 @@ require 'mason-lspconfig'.setup {}
 local on_attach = {}
 on_attach.base = function(client, bufnr)
 	-- Mappings
-	local opts = { noremap = true, silent = true, buffer = bufnr, desc = 'LSP mapping' }
+	local opts = { noremap = true, silent = true, buffer = bufnr, desc = nil }
+	local o = function(desc) return vim.tbl_extend('force', opts, { desc = desc }) end
 
-	-- require 'navigator.lspclient.mapping'.setup({ bufnr = bufnr, client = client })
+	map('n', '<leader>e',  vim.diagnostic.open_float,               o('lsp_open_float'))
+	map('n', 'gh',         vim.lsp.buf.hover,                       o('lsp_hover'))
+	map('i', '<M-K>',      vim.lsp.buf.signature_help,              o('signature_help'))
+	map('n', '<C-k>',      vim.lsp.buf.signature_help,              o('signature_help'))
+	map('n', 'gW',         require 'navigator.workspace'.workspace_symbol_live, o('workspace_symbol_live'))
+	map('n', '<leader>gT', require 'navigator.treesitter'.bufs_ts,              o('bufs_ts'))
 
-	map('n', 'gD',        function() vim.lsp.buf.declaration() end, opts)
-	map('n', 'gd',        function() vim.lsp.buf.definition() end, opts)
-	map('n', 'K',         function() vim.lsp.buf.hover() end, opts)
-	map('n', 'gh',        function() vim.lsp.buf.hover() end, opts)
-	map('n', 'gi',        function() vim.lsp.buf.implementation() end, opts)
-	map('n', '<C-k>',     function() vim.lsp.buf.signature_help() end, opts)
-	map('i', '<C-s>',     function() vim.lsp.buf.signature_help() end, opts)
-	map('n', '<leader>D', function() vim.lsp.buf.type_definition() end, opts)
-	map('n', '<M-r>',     function() vim.lsp.buf.rename() end, opts)
-	map('n', '<M-e>',     function() vim.lsp.buf.rename() end, opts)
-	map({ 'n', 'v' }, '<C-Space>', function() vim.lsp.buf.code_action() end, opts)
-	map('n', { '<C-F12>', '<M-F12>' }, function() vim.lsp.buf.references() end, opts)
-	map('n', '<leader>r', function() vim.lsp.buf.references() end, opts)
-	map('n', '<leader>e', function() vim.diagnostic.open_float() end, opts)
-	map('n', '[d',        function() vim.lsp.diagnostic.goto_prev() end, opts)
-	map('n', ']d',        function() vim.lsp.diagnostic.goto_next() end, opts)
-	map('n', '<leader>q', function() vim.lsp.diagnostic.set_loclist() end, opts)
+	map('n', 'gD',        vim.lsp.buf.declaration,                                             o('declaration'))
+	map('n', '<C-]>',     require 'navigator.definition'.definition or vim.lsp.buf.definition, o('definition'))
+	map('n', 'gd',        require 'navigator.definition'.definition or vim.lsp.buf.definition, o('definition'))
+	map('n', '<leader>r', require 'navigator.reference'.async_ref,                             o('async_ref'))
+
+	map({ 'n', 'v' }, '<C-Space>', vim.lsp.buf.code_action,                  o('code_action'))
+	map('v', '<C-Space>',  require 'navigator.codeAction'.range_code_action, o('range_code_action'))
+	map('n', { '<M-r>', '<M-e>' }, require 'navigator.rename'.rename,        o('rename'))
+
+	map('n', '<leader>gi', vim.lsp.buf.incoming_calls,                            o('incoming_calls'))
+	map('n', '<leader>go', vim.lsp.buf.outgoing_calls,                            o('outgoing_calls'))
+	map('n', 'gi',         vim.lsp.buf.implementation,                            o('implementation'))
+	map('n', '<leader>D',  vim.lsp.buf.type_definition,                           o('type_definition'))
+	map('n', 'gL',         require 'navigator.diagnostics'.show_diagnostics,      o('show_diagnostics'))
+	map('n', 'gG',         require 'navigator.diagnostics'.show_buf_diagnostics,  o('show_buf_diagnostics'))
+	map('n', ']d',         require 'navigator.diagnostics'.goto_next,             o('next_diagnostics'))
+	map('n', '[d',         require 'navigator.diagnostics'.goto_prev,             o('prev_diagnostics'))
+	map('n', ']O',         vim.diagnostic.set_loclist,                            o('diagnostics_set_loclist'))
+	map('n', ']r',         require 'navigator.treesitter'.goto_next_usage,        o('goto_next_usage'))
+	map('n', '[r',         require 'navigator.treesitter'.goto_previous_usage,    o('goto_previous_usage'))
+	map('n', '<leader>k',  require 'navigator.dochighlight'.hi_symbol,            o('hi_symbol'))
+	map('v', '<leader>gm',  require 'navigator.formatting'.range_format,           o('rangeformatoperatore.ggmip'))
+	map('n', '<leader>la',  require 'navigator.codelens'.run_action,               o('runcodelensaction'))
+	-- map('n', '<leader>wa',  require 'navigator.workspace'.add_workspace_folder,    o('add_workspace_folder'))
+	-- map('n', '<leader>wr',  require 'navigator.workspace'.remove_workspace_folder, o('remove_workspace_folder'))
+	-- map('n', '<leader>wl',  require 'navigator.workspace'.list_workspace_folders,  o('list_workspace_folders'))
 
 	if client and client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
 		vim.lsp.inlay_hint.enable(true)
 	end
+
+	require 'navigator.lspclient.mapping'.setup({ bufnr = bufnr, client = client })
 end
 
 local _timers = {}
@@ -115,7 +132,7 @@ on_attach.ruby_lsp = function(client, buffer)
 end
 
 -- Setup installed servers.
-local lspconfig = require 'lspconfig';
+local lspconfig = require 'lspconfig'
 require 'mason-lspconfig'.setup_handlers {
 	function(server_name)
 		lspconfig[server_name].setup {
@@ -131,11 +148,13 @@ require 'mason-lspconfig'.setup_handlers {
 			-- cmd = { 'srb', 'tc', '--lsp', target_path },
 			-- cmd = { 'srb', 'tc', '--lsp', '--disable-watchman', target_path },
 			cmd = { 'srb', 'tc', '--lsp', '--disable-watchman', '.' },
+			capabilities = vim.lsp.protocol.make_client_capabilities(),
 		}
 	end,
 	ruby_lsp = function()
 		lspconfig.ruby_lsp.setup {
 			on_attach = on_attach.ruby_lsp,
+			capabilities = vim.lsp.protocol.make_client_capabilities(),
 		}
 	end,
 	-- Ignore RuboCop for LSP stuff, but we want it installed for formatting
@@ -146,6 +165,7 @@ require 'mason-lspconfig'.setup_handlers {
 				schemas = require 'schemastore'.json.schemas(),
 				validate = { enable = true }
 			},
+			capabilities = vim.lsp.protocol.make_client_capabilities(),
 		}
 	end,
 	yamlls = function()
@@ -167,6 +187,8 @@ require 'mason-lspconfig'.setup_handlers {
 	end,
 }
 
+require 'guihua.maps'.setup { maps = { close_view = '<C-c>', }, }
+
 require 'navigator'.setup {
 	mason = true,
 	on_attach = function(_, bufnr)
@@ -175,7 +197,7 @@ require 'navigator'.setup {
 	keymaps = {
 
 	},
-	-- default_mapping = false,
+	default_mapping = false,
 	icons = { icons = false },
 	lsp_signature_help = true,
 	lsp = {
@@ -185,10 +207,10 @@ require 'navigator'.setup {
 		code_lens_action = { sign = false, virtual_text = false, },
 		format_on_save = false,
 		diagnostic_scrollbar_sign = false,
+		diagnostic = {
+			virtual_text = true,
+		}
 	},
-	diagnostic = {
-		virtual_text = false,
-	}
 }
 
 -- Change border of documentation hover window, See https://github.com/neovim/neovim/pull/13998.
