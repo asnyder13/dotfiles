@@ -40,11 +40,11 @@ vim.api.nvim_create_autocmd({ 'FileType', }, {
 	callback = function(event)
 		local bufnr = event.buf
 		if vim.tbl_contains(ft_extensions, event.match) then
-			map('n', '==', ':Format<CR>', { silent = true, buffer = bufnr })
+			map('n', '==', ':Format<CR>', { silent = true, buffer = bufnr, desc = 'Format file' })
 		else
 			map('n', '==', function()
 				vim.lsp.buf.format { async = true }
-			end, { silent = true, buffer = bufnr })
+			end, { silent = true, buffer = bufnr, desc = 'Format file' })
 		end
 	end
 })

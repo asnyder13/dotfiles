@@ -44,7 +44,7 @@ require 'mason-nvim-dap'.setup {}
 local on_attach = {}
 on_attach.base = function(_, bufnr)
 	-- Mappings.
-	local opts = { noremap = true, silent = true, buffer = bufnr }
+	local opts = { noremap = true, silent = true, buffer = bufnr, desc = 'LSP mapping' }
 
 	-- See `:help vim.lsp.*` for documentation on any of the below functions
 	map('n', 'gD',        function() vim.lsp.buf.declaration() end, opts)
@@ -287,6 +287,6 @@ map({ 'n', 'x', 'o' }, '<leader>v', function()
 	else
 		vim.print('TS not active for this ft (' .. vim.cmd('set ft?') .. ')')
 	end
-end)
+end, { desc = 'Treemonkey' })
 
 vim.lsp.inlay_hint.enable()

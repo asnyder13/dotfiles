@@ -21,7 +21,7 @@ local openWindowPicker = function()
 		vim.fn.win_gotoid(picked_window_id)
 	end
 end
-map('n', { '<C-w><C-e>', '<C-w>e' }, openWindowPicker)
+map('n', { '<C-w><C-e>', '<C-w>e' }, openWindowPicker, { desc = 'Window picker' })
 
 require 'neo-tree'.setup {
 	filesystem = {
@@ -76,5 +76,5 @@ require 'neo-tree'.setup {
 		},
 	}
 }
-map('n', '-', ':Neotree<CR>', { silent = true })
-map('n', '<M-->', ':Neotree toggle<CR>', { silent = true })
+map('n', '-', ':Neotree<CR>', { silent = true, desc = 'Open Neotree' })
+map('n', '<M-->', ':Neotree toggle<CR>', { silent = true, desc = 'Toggle Neotree' })

@@ -266,22 +266,22 @@ end
 ---- General Mappings ----
 map('n', 'ZZ', '')
 -- Reload this config
-map('n', '<leader>sv', ':source $MYVIMRC<CR>', { silent = true })
+map('n', '<leader>sv', ':source $MYVIMRC<CR>', { silent = true, desc = 'Source vimrc/init' })
 -- Collapse all levels under current fold
-map('n', 'zs', 'zCzozo')
-map('n', '<leader>zc', ':%foldc<CR>')
+map('n', 'zs', 'zCzozo', { desc = 'Collapse all levels under current fold' })
+map('n', '<leader>zc', ':%foldc<CR>', { desc = 'Close all folds' })
 -- Quick buffer switch (for tabline)
-map('n', 'gbn', ':bn<CR>')
-map('n', 'gbN', ':bN<CR>')
-map('n', 'gbd', ':bd<CR>')
-map('n', '<BS>', '<C-^>')
+map('n', 'gbn', ':bn<CR>', { desc = 'Buffer next' })
+map('n', 'gbN', ':bN<CR>', { desc = 'Buffer prev' })
+map('n', 'gbd', ':bd<CR>', { desc = 'Buffer delete' })
+map('n', '<BS>', '<C-^>', { desc = 'Last buffer' })
 vim.cmd [[
 	nnoremap <expr> j v:count ? (v:count > 5 ? "m'" . v:count : '') . 'j' : 'gj'
 	nnoremap <expr> k v:count ? (v:count > 5 ? "m'" . v:count : '') . 'k' : 'gk'
 	command! TrimLineEnds %s/\v\s+$// | normal `'
 ]]
-map('n', '<leader><C-i>', ':Inspect<CR>')
-map('n', '<C-w><C-w>', '<C-w><C-p>')
+map('n', '<leader><C-i>', ':Inspect<CR>', { desc = ':Inspect' })
+map('n', '<C-w><C-w>', '<C-w><C-p>', { desc = 'Last window' })
 
 vim.api.nvim_create_user_command('Hitest',
 	'execute "ReactiveStop" | so $VIMRUNTIME/syntax/hitest.vim',
@@ -311,12 +311,12 @@ require 'barbar'.setup {
 		buffer_number = true,
 	}
 }
-map('n', '<M-b>', ':BufferPick<CR>')
+map('n', '<M-b>', ':BufferPick<CR>', { desc = 'Buffer pick' })
 
 -- Hop
 require 'hop'.setup { keys = 'hklyuiopnm,qwertzxcvbasdgjf;' }
-map('n', '<leader>f', '<Esc> :lua require("hop").hint_char1()<CR>')
-map('n', '<leader>w', '<Esc> :lua require("hop").hint_words()<CR>')
+map('n', '<leader>f', '<Esc> :lua require("hop").hint_char1()<CR>', { desc = 'Hop 1 char' })
+map('n', '<leader>w', '<Esc> :lua require("hop").hint_words()<CR>', { desc = 'Hop words' })
 
 -- Indent Blankline
 require 'ibl'.setup {
@@ -359,7 +359,7 @@ vim.cmd [[
 
 vim.g.lasttab = 1
 vim.api.nvim_create_autocmd('TabLeave', { callback = function() vim.g.lasttab = vim.api.nvim_get_current_tabpage() end })
-map('n', '<C-BS>', function() vim.api.nvim_set_current_tabpage(vim.g.lasttab) end)
+map('n', '<C-BS>', function() vim.api.nvim_set_current_tabpage(vim.g.lasttab) end, { desc = 'Last window' })
 
 require 'which-key'.setup {}
 
@@ -373,5 +373,5 @@ end
 -- Gets overwritten if something in lsp.lua is run after it.
 local gitsigns = require 'gitsigns'
 gitsigns.setup {}
-map('n', ']c', function() gitsigns.next_hunk() end)
-map('n', '[c', function() gitsigns.prev_hunk() end)
+map('n', ']c', function() gitsigns.next_hunk() end, { desc = 'Git hunk next' })
+map('n', '[c', function() gitsigns.prev_hunk() end, { desc = 'Git hunk prev' })

@@ -6,6 +6,7 @@ local api = vim.api
 local qs_map_opts = {
 	silent = true,
 	buffer = true,
+	desc = 'Switcher mapping'
 }
 local nvim_quick_switcher = require 'nvim-quick-switcher'
 

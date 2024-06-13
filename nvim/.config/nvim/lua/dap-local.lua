@@ -6,6 +6,7 @@ local dap = require 'dap'
 -- dap mappings
 local dap_opts = {
 	silent = true,
+	desc = 'DAP'
 }
 map('n', '<F5>',                   function() dap.continue() end, dap_opts)
 map('n', '<Leader><F5>',           function() dap.terminate() end, dap_opts)
