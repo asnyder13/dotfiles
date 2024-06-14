@@ -189,9 +189,6 @@ require 'navigator'.setup {
 	on_attach = function(_, bufnr)
 		on_attach.base(_, bufnr)
 	end,
-	keymaps = {
-
-	},
 	default_mapping = false,
 	icons = { icons = false },
 	-- lsp_signature_help = true,
@@ -201,10 +198,11 @@ require 'navigator'.setup {
 		code_action = { sign = false, virtual_text = false, },
 		code_lens_action = { sign = false, virtual_text = false, },
 		format_on_save = false,
+		document_highlight = false,
 		diagnostic_scrollbar_sign = false,
 		diagnostic = {
 			virtual_text = true,
-		}
+		},
 	},
 }
 
