@@ -116,9 +116,9 @@ else
 fi
 
 zstyle ':omz:plugins:nvm' lazy yes
-zstyle ':omz:plugins:nvm' lazy-cmd vim nvim ng
+zstyle ':omz:plugins:nvm' lazy-cmd vim nvim ng make
 zstyle ':omz:plugins:rvm' lazy yes
-zstyle ':omz:plugins:rvm' lazy-cmd vim nvim ng
+zstyle ':omz:plugins:rvm' lazy-cmd vim nvim ng make
 
 if [[ -e $ZSH/oh-my-zsh.sh ]]; then
 	source $ZSH/oh-my-zsh.sh

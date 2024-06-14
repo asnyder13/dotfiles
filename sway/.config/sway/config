@@ -119,6 +119,9 @@ bindsym {
     $mod+Up focus up
     $mod+Right focus right
 
+    $mod+Ctrl+Right workspace next
+    $mod+Ctrl+Left  workspace prev
+
     # Move the focused window with the same, but add Shift
     $mod+Shift+$left move left 50 px
     $mod+Shift+$down move down 50 px
