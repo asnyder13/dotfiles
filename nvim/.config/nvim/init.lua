@@ -243,7 +243,7 @@ opt.foldmethod     = 'indent'
 opt.foldlevelstart = 99
 
 
-g.user_emmet_leader_key   = '<C-t>'
+g.user_emmet_leader_key   = '<leader>e'
 g.loaded_python3_provider = false
 g.loaded_ruby_provider    = false
 g.loaded_node_provider    = false

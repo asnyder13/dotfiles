@@ -1,13 +1,14 @@
 local map = require 'util'.map_keys_table
-local concat_tables = require 'util'.concatTables
 
 local api = vim.api
 
-local qs_map_opts = {
-	silent = true,
-	buffer = true,
-	desc = 'Switcher mapping'
-}
+local qs_map_opts = function(desc)
+	return {
+		silent = true,
+		buffer = true,
+		desc = desc or 'Switcher mapping'
+	}
+end
 local nvim_quick_switcher = require 'nvim-quick-switcher'
 
 ---@param file string
@@ -21,47 +22,54 @@ local function q_switch(file, opts)
 end
 
 local qs_opts    = { only_existing = true, only_existing_notify = true, }
-local qs_opts_vs = { only_existing = true, only_existing_notify = true, split = 'vertical' }
-local qs_opts_hs = { only_existing = true, only_existing_notify = true, split = 'horizontal' }
+local qs_opts_vs = vim.tbl_extend('force', qs_opts, { split = 'vertical' })
+local qs_opts_hs = vim.tbl_extend('force', qs_opts, { split = 'horizontal' })
+local qs_maps_factory = function(label)
+	return function(lhs1, lhs2, file)
+		map('n', lhs1 .. lhs2,        q_switch(file, qs_opts),    qs_map_opts('switcher '  .. label .. ': ' .. file))
+		map('n', lhs1 .. 'v' .. lhs2, q_switch(file, qs_opts_vs), qs_map_opts('switcherv ' .. label .. ': ' .. file))
+		map('n', lhs1 .. 'x' .. lhs2, q_switch(file, qs_opts_hs), qs_map_opts('switcherh ' .. label .. ': ' .. file))
+	end
+end
+
 -- Angular
 ---@param file_type string
 local function angular_component_switcher_mappings(file_type)
 	vim.validate { file_type = { file_type, 'string' } }
 	return function()
-		map('n', '<leader>u', q_switch(file_type .. '.ts', qs_opts), qs_map_opts)
-		map('n', '<leader>o', q_switch(file_type .. '.html', qs_opts), qs_map_opts)
-		map('n', '<leader>i', q_switch(file_type .. '.scss', qs_opts), qs_map_opts)
-		map('n', '<leader>j', q_switch(file_type .. '.spec.ts', qs_opts), qs_map_opts)
-		map('n', '<leader>vu', q_switch(file_type .. '.ts', qs_opts_vs), qs_map_opts)
-		map('n', '<leader>vo', q_switch(file_type .. '.html', qs_opts_vs), qs_map_opts)
-		map('n', '<leader>vi', q_switch(file_type .. '.scss', qs_opts_vs), qs_map_opts)
-		map('n', '<leader>xu', q_switch(file_type .. '.ts', qs_opts_hs), qs_map_opts)
-		map('n', '<leader>xi', q_switch(file_type .. '.scss', qs_opts_hs), qs_map_opts)
-		map('n', '<leader>xo', q_switch(file_type .. '.html', qs_opts_hs), qs_map_opts)
+		local maps = qs_maps_factory('ng')
+		local leader = '<leader>'
+
+		maps(leader, 'u', file_type .. '.ts')
+		maps(leader, 'o', file_type .. '.html')
+		maps(leader, 'i', file_type .. '.scss')
+		maps(leader, 'j', file_type .. '.spec.ts')
 	end
 end
 local function angular_ngrx_switcher_mappings()
 	-- Components
-	map('n', '<leader>p', q_switch('module.ts', qs_opts), qs_map_opts)
+	map('n', '<leader>p', q_switch('module.ts', qs_opts), qs_map_opts('switcher: module'))
 
 	-- NgRx
-	map('n', '<leader>na', q_switch('actions.ts', qs_opts), qs_map_opts)
-	map('n', '<leader>ne', q_switch('effects.ts', qs_opts), qs_map_opts)
-	map('n', '<leader>nje', q_switch('effects.spec.ts', qs_opts), qs_map_opts)
-	map('n', '<leader>nr', q_switch('reducer.ts', qs_opts), qs_map_opts)
-	map('n', '<leader>njr', q_switch('reducer.spec.ts', qs_opts), qs_map_opts)
-	map('n', '<leader>ns', q_switch('selector.ts', qs_opts), qs_map_opts)
-	map('n', '<leader>nt', q_switch('state.ts', qs_opts), qs_map_opts)
-	map('n', '<leader>nc', q_switch('store.ts', qs_opts), qs_map_opts)
-	map('n', '<leader>ncj', q_switch('store.spec.ts', qs_opts), qs_map_opts)
-	map('n', '<leader>ncm', q_switch('store.mock.ts', qs_opts), qs_map_opts)
+	local maps = qs_maps_factory('ngrx')
+	local leader = '<leader>n'
+	maps(leader, 'a',  'actions.ts')
+	maps(leader, 'e',  'effects.ts')
+	maps(leader, 'je', 'effects.spec.ts')
+	maps(leader, 'r',  'reducer.ts')
+	maps(leader, 'jr', 'reducer.spec.ts')
+	maps(leader, 's',  'selector.ts')
+	maps(leader, 't',  'state.ts')
+	maps(leader, 'c',  'store.ts')
+	maps(leader, 'jc', 'store.spec.ts')
+	maps(leader, 'cm', 'store.mock.ts')
 	map('n', '<leader>ndt', function()
 		nvim_quick_switcher.find_by_fn(function(p)
 			local path = p.path
 			local file_name = p.prefix
 			return path .. '/data-access' .. '/' .. file_name .. '*.store.ts'
 		end, qs_opts)
-	end, qs_map_opts)
+	end, qs_map_opts('switcher: data-access/*.store.ts'))
 end
 
 local angular_au_group = api.nvim_create_augroup('AngularQuickSwitcher', { clear = true })
@@ -108,7 +116,7 @@ local cs_au_group = api.nvim_create_augroup('CsQuickSwitcher', { clear = true })
 api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter', }, {
 	group = cs_au_group,
 	pattern = { '*.cs' },
-	callback = function() map('n', '<leader>ch', q_find_handler_or_command(), qs_map_opts) end,
+	callback = function() map('n', '<leader>ch', q_find_handler_or_command(), qs_map_opts()) end,
 })
 
 local rb_au_group = api.nvim_create_augroup('RbQuickSwitcher', { clear = true })
@@ -121,6 +129,6 @@ api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter', }, {
 				local replace = p.prefix == 'pt1' and '/pt2' or '/pt1'
 				return p.path .. replace .. '.rb'
 			end, qs_opts)
-		end, qs_map_opts)
+		end, qs_map_opts())
 	end,
 })

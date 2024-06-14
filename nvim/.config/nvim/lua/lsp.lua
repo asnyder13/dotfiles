@@ -45,7 +45,7 @@ on_attach.base = function(client, bufnr)
 	local opts = { noremap = true, silent = true, buffer = bufnr, desc = nil }
 	local o = function(desc) return vim.tbl_extend('force', opts, { desc = desc }) end
 
-	map('n', '<leader>e',  vim.diagnostic.open_float,               o('lsp_open_float'))
+	map('n', '<leader>h',  vim.diagnostic.open_float,               o('lsp_open_float'))
 	map('n', 'gh',         vim.lsp.buf.hover,                       o('lsp_hover'))
 	map('i', '<M-K>',      vim.lsp.buf.signature_help,              o('signature_help'))
 	map('n', '<C-k>',      vim.lsp.buf.signature_help,              o('signature_help'))
