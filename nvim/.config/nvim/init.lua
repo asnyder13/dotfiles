@@ -130,7 +130,6 @@ end
 bootstrap_paq(my_packages)
 
 vim.cmd.packadd 'matchit'
-require 'gitsigns'.setup {}
 
 ---- General Settings ----
 
@@ -243,7 +242,6 @@ opt.foldmethod     = 'indent'
 opt.foldlevelstart = 99
 
 
-g.user_emmet_leader_key   = '<leader>e'
 g.loaded_python3_provider = false
 g.loaded_ruby_provider    = false
 g.loaded_node_provider    = false
@@ -279,7 +277,7 @@ map('n', '<leader>zC', ':%foldo<CR>', { desc = 'Open all folds' })
 -- Quick buffer switch (for tabline)
 map('n', 'gbn', ':bn<CR>', { desc = 'Buffer next' })
 map('n', 'gbN', ':bN<CR>', { desc = 'Buffer prev' })
-map('n', 'gbd', ':bd<CR>', { desc = 'Buffer delete' })
+map('n', 'gbd', ':bp|bd #<CR>', { desc = 'Buffer delete, keep window' })
 map('n', '<BS>', '<C-^>', { desc = 'Last buffer' })
 vim.cmd [[
 	nnoremap <expr> j v:count ? (v:count > 5 ? "m'" . v:count : '') . 'j' : 'gj'
@@ -360,7 +358,6 @@ require 'Comment'.setup {
 
 require 'nvim-surround'.setup { move_cursor = false }
 
--- require 'nvim-autopairs'.setup {}
 require 'nvim-autopairs'.setup {
 	disable_filetype = { "TelescopePrompt", "guihua", "guihua_rust", "clap_input" },
 }

@@ -26,9 +26,9 @@ local qs_opts_vs = vim.tbl_extend('force', qs_opts, { split = 'vertical' })
 local qs_opts_hs = vim.tbl_extend('force', qs_opts, { split = 'horizontal' })
 local qs_maps_factory = function(label)
 	return function(lhs1, lhs2, file)
-		map('n', lhs1 .. lhs2,        q_switch(file, qs_opts),    qs_map_opts('switcher '  .. label .. ': ' .. file))
-		map('n', lhs1 .. 'v' .. lhs2, q_switch(file, qs_opts_vs), qs_map_opts('switcherv ' .. label .. ': ' .. file))
-		map('n', lhs1 .. 'x' .. lhs2, q_switch(file, qs_opts_hs), qs_map_opts('switcherh ' .. label .. ': ' .. file))
+		map('n', lhs1 .. lhs2,        q_switch(file, qs_opts),    qs_map_opts('switcher ' .. label .. ': ' .. file))
+		map('n', lhs1 .. 'v' .. lhs2, q_switch(file, qs_opts_vs), qs_map_opts('switcher ' .. label .. ': ' .. file))
+		map('n', lhs1 .. 'x' .. lhs2, q_switch(file, qs_opts_hs), qs_map_opts('switcher ' .. label .. ': ' .. file))
 	end
 end
 
