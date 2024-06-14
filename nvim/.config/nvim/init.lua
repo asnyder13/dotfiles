@@ -73,6 +73,7 @@ local lspPackages = {
 	'hrsh7th/cmp-buffer',
 	'hrsh7th/cmp-path',
 	'ray-x/cmp-treesitter',
+	'hrsh7th/cmp-nvim-lsp-signature-help',
 
 	-- Snippets
 	{ 'L3MON4D3/LuaSnip',                build = 'make install_jsregexp' },
@@ -273,6 +274,7 @@ map('n', '<leader>sv', ':source $MYVIMRC<CR>', { silent = true, desc = 'Source v
 -- Collapse all levels under current fold
 map('n', 'zs', 'zCzozo', { desc = 'Collapse all levels under current fold' })
 map('n', '<leader>zc', ':%foldc<CR>', { desc = 'Close all folds' })
+map('n', '<leader>zC', ':%foldo<CR>', { desc = 'Open all folds' })
 -- Quick buffer switch (for tabline)
 map('n', 'gbn', ':bn<CR>', { desc = 'Buffer next' })
 map('n', 'gbN', ':bN<CR>', { desc = 'Buffer prev' })

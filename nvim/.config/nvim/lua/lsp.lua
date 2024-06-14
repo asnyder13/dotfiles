@@ -131,45 +131,26 @@ on_attach.ruby_lsp = function(client, buffer)
 	on_attach.base(client, buffer)
 end
 
--- Setup installed servers.
-local lspconfig = require 'lspconfig'
-require 'mason-lspconfig'.setup_handlers {
-	function(server_name)
-		lspconfig[server_name].setup {
-			-- capabilities = require 'cmp_nvim_lsp'.default_capabilities(),
-			capabilities = vim.lsp.protocol.make_client_capabilities(),
-			on_attach = on_attach.base,
-		}
-	end,
+local default_cfg = {
+	on_attach = on_attach.base,
+	capabilities = vim.lsp.protocol.make_client_capabilities(),
+}
+local custom_cfg = {
 	sorbet = function()
 		local target_path = require 'util'.create_expand_path '~/.cache/sorbet'
-		lspconfig.sorbet.setup {
-			on_attach = on_attach.base,
-			-- cmd = { 'srb', 'tc', '--lsp', target_path },
-			-- cmd = { 'srb', 'tc', '--lsp', '--disable-watchman', target_path },
-			cmd = { 'srb', 'tc', '--lsp', '--disable-watchman', '.' },
-			capabilities = vim.lsp.protocol.make_client_capabilities(),
-		}
+		return { cmd = { 'srb', 'tc', '--lsp', '--disable-watchman', target_path }, }
 	end,
-	ruby_lsp = function()
-		lspconfig.ruby_lsp.setup {
-			on_attach = on_attach.ruby_lsp,
-			capabilities = vim.lsp.protocol.make_client_capabilities(),
-		}
-	end,
-	-- Ignore RuboCop for LSP stuff, but we want it installed for formatting
-	rubocop = function() end,
+	ruby_lsp = function() return { on_attach = on_attach.ruby_lsp } end,
 	jsonls = function()
-		lspconfig.jsonls.setup {
+		return {
 			settings = {
 				schemas = require 'schemastore'.json.schemas(),
 				validate = { enable = true }
 			},
-			capabilities = vim.lsp.protocol.make_client_capabilities(),
 		}
 	end,
 	yamlls = function()
-		lspconfig.yamlls.setup {
+		return {
 			settings = {
 				yaml = {
 					schemaStore = {
@@ -182,13 +163,27 @@ require 'mason-lspconfig'.setup_handlers {
 					schemas = require 'schemastore'.yaml.schemas(),
 				},
 			},
-			capabilities = vim.lsp.protocol.make_client_capabilities()
 		}
 	end,
 }
 
-require 'guihua.maps'.setup { maps = { close_view = '<C-c>', }, }
+-- Setup installed servers.
+require 'mason-lspconfig'.setup_handlers {
+	function(server_name)
+		local cfg = custom_cfg[server_name] and vim.tbl_deep_extend('force', default_cfg, custom_cfg[server_name]()) or
+		default_cfg
+		require 'lspconfig'[server_name].setup(cfg)
+	end,
+	-- Ignore RuboCop for LSP stuff, but we want it installed for formatting
+	rubocop = function() end,
+}
 
+-- require 'lsp_signature'.setup {
+-- 	hint_enable = true,
+-- 	hi_parameter = 'Error',
+-- }
+
+require 'guihua.maps'.setup { maps = { close_view = '<C-c>', }, }
 require 'navigator'.setup {
 	mason = true,
 	on_attach = function(_, bufnr)
@@ -199,9 +194,9 @@ require 'navigator'.setup {
 	},
 	default_mapping = false,
 	icons = { icons = false },
-	lsp_signature_help = true,
+	-- lsp_signature_help = true,
+	-- signature_help_cfg = { hint_enable = true, hi_parameter = 'Error', },
 	lsp = {
-		-- disable_lsp = 'all',
 		disable_lsp = { 'sorbet', 'ruby_lsp', 'rubocop', 'jsonls', 'yamlls', 'omnisharp', },
 		code_action = { sign = false, virtual_text = false, },
 		code_lens_action = { sign = false, virtual_text = false, },
@@ -212,11 +207,6 @@ require 'navigator'.setup {
 		}
 	},
 }
-
--- Change border of documentation hover window, See https://github.com/neovim/neovim/pull/13998.
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-	border = "rounded",
-})
 
 -- cmp
 opt.completeopt = { 'menu', 'noselect', 'noinsert' }
@@ -237,7 +227,7 @@ cmp.setup {
 		{ name = 'nvim_lsp',   group_index = 1 },
 		{ name = 'treesitter', group_index = 2 },
 		{ name = 'luasnip',    group_index = 3 },
-		{ name = 'buffer', group_index = 4,
+		{ name = 'buffer',     group_index = 4,
 			option = {
 				get_bufnrs = function()
 					local bufs = {}
@@ -248,7 +238,8 @@ cmp.setup {
 				end
 			}
 		},
-		{ name = 'path', group_index = 4 },
+		{ name = 'path', group_index = 5 },
+		{ name = 'nvim_lsp_signature_help' },
 	}),
 	window = {
 		completion = cmp.config.window.bordered(),
@@ -261,11 +252,6 @@ cmp.setup {
 		end,
 	},
 }
-
--- require 'lsp_signature'.setup {
--- 	hint_enable = true,
--- 	hi_parameter = 'Error',
--- }
 
 -- If you want insert `(` after select function or method item
 local cmp_autopairs = require 'nvim-autopairs.completion.cmp'
