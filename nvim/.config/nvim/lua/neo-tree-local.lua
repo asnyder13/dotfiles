@@ -76,5 +76,5 @@ require 'neo-tree'.setup {
 		},
 	}
 }
-map('n', '-', ':Neotree<CR>', { silent = true, desc = 'Open Neotree' })
-map('n', '<M-->', ':Neotree toggle<CR>', { silent = true, desc = 'Toggle Neotree' })
+map('n', '-',     ':Neotree<CR>',        { desc = 'Open Neotree' })
+map('n', '<M-->', ':Neotree toggle<CR>', { desc = 'Toggle Neotree' })

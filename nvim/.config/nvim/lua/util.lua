@@ -56,7 +56,7 @@ function Util.map_keys_table(mode, lhs, rhs, opts)
 		rhs = { rhs, { 'string', 'function', 'nil' } },
 		opts = { opts, { 'table', }, true },
 	}
-	opts = opts or { silent = true }
+	opts = vim.tbl_extend('force', { silent = true }, opts or {})
 	if not rhs then return end
 
 	if type(lhs) == 'string' then

@@ -8,7 +8,7 @@ require 'telescope'.setup {
 		mappings = {
 			i = {
 				["<C-Down>"] = require('telescope.actions').cycle_history_next,
-				["<C-Up>"] = require('telescope.actions').cycle_history_prev,
+				["<C-Up>"]   = require('telescope.actions').cycle_history_prev,
 			},
 		}
 	},
@@ -27,10 +27,10 @@ require 'telescope'.load_extension('fzf')
 
 local builtin = require 'telescope.builtin'
 map('n', '<C-p>',      function() builtin.find_files({ hidden = false }) end, { desc = 'Telescope find files' })
-map('n', '<C-M-p>',    function() builtin.find_files({ hidden = true }) end, { desc = 'Telescope find files (hidden)' })
-map('n', '<C-g>',      function() builtin.git_files() end, { desc = 'Telescope git files' })
-map('n', '<leader>b',  function() builtin.buffers({ sort_mru = true, }) end, { desc = 'Telescope buffers' })
-map('n', '<M-;>',      function() builtin.treesitter() end, { desc = 'Telescope treesitter' })
-map('n', '<M-g>',      function() builtin.live_grep() end, { desc = 'Telescope live grep' })
-map('n', 'q/',         function() builtin.command_history() end, { desc = 'Telescope command history' })
-map('n', '<leader>z=', function() builtin.spell_suggest() end, { desc = 'Telescope spell suggest' })
+map('n', '<C-M-p>',    function() builtin.find_files({ hidden = true }) end,  { desc = 'Telescope find files (hidden)' })
+map('n', '<C-g>',      function() builtin.git_files() end,                    { desc = 'Telescope git files' })
+map('n', '<leader>b',  function() builtin.buffers({ sort_mru = true, }) end,  { desc = 'Telescope buffers' })
+map('n', '<M-;>',      function() builtin.treesitter() end,                   { desc = 'Telescope treesitter' })
+map('n', '<M-g>',      function() builtin.live_grep() end,                    { desc = 'Telescope live grep' })
+map('n', 'q/',         function() builtin.command_history() end,              { desc = 'Telescope command history' })
+map('n', '<leader>z=', function() builtin.spell_suggest() end,                { desc = 'Telescope spell suggest' })

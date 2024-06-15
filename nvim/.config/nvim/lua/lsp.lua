@@ -42,7 +42,7 @@ require 'mason-lspconfig'.setup {}
 local on_attach = {}
 on_attach.base = function(client, bufnr)
 	-- Mappings
-	local opts = { noremap = true, silent = true, buffer = bufnr, desc = nil }
+	local opts = { noremap = true, buffer = bufnr, desc = nil }
 	local o = function(desc) return vim.tbl_extend('force', opts, { desc = desc }) end
 
 	map('n', '<leader>h',  vim.diagnostic.open_float,               o('lsp_open_float'))
@@ -211,15 +211,15 @@ opt.completeopt = { 'menu', 'noselect', 'noinsert' }
 local cmp = require 'cmp'
 cmp.setup {
 	mapping = {
-		['<S-Tab>'] = cmp.mapping.select_prev_item(),
-		['<Tab>'] = cmp.mapping.select_next_item(),
-		['<C-p>'] = cmp.mapping.select_prev_item(),
-		['<C-n>'] = cmp.mapping.select_next_item(),
+		['<S-Tab>']   = cmp.mapping.select_prev_item(),
+		['<Tab>']     = cmp.mapping.select_next_item(),
+		['<C-p>']     = cmp.mapping.select_prev_item(),
+		['<C-n>']     = cmp.mapping.select_next_item(),
 		['<C-Space>'] = cmp.mapping.complete(),
-		['<C-e>'] = cmp.mapping.close(),
-		['<CR>'] = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Replace, select = true, },
-		['<C-d>'] = cmp.mapping.scroll_docs(4),
-		['<C-u>'] = cmp.mapping.scroll_docs(-4),
+		['<C-e>']     = cmp.mapping.close(),
+		['<CR>']      = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Replace, select = true, },
+		['<C-d>']     = cmp.mapping.scroll_docs(4),
+		['<C-u>']     = cmp.mapping.scroll_docs(-4),
 	},
 	sources = cmp.config.sources({
 		{ name = 'nvim_lsp',   group_index = 1 },

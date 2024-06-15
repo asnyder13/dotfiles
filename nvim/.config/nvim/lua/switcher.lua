@@ -4,7 +4,6 @@ local api = vim.api
 
 local qs_map_opts = function(desc)
 	return {
-		silent = true,
 		buffer = true,
 		desc = desc or 'Switcher mapping'
 	}
