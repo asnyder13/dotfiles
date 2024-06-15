@@ -91,49 +91,80 @@ require 'illuminate'.configure {
 	},
 }
 
-local function toggle_illuminate_on_cursor()
-	local cursor_node = require 'nvim-treesitter.ts_utils'.get_node_at_cursor()
-	if cursor_node ~= nil then
-		local root = cursor_node:tree():root()
+local au_group_illuminate_hold = function(lang) api.nvim_create_augroup('IlluminateToggleCursor_' .. lang, { clear = false }) end
+--- Create toggle for Illuminate in certain languages' nested Treesitter languages.
+---@param in_sublanguage_fn fun(root: TSNode): boolean
+---@param lang string
+---@param query string
+---@return function
+local function create_illuminate_toggle(in_sublanguage_fn, lang, query)
+	local function toggle_illuminate_on_cursor()
+		local cursor_node = require 'nvim-treesitter.ts_utils'.get_node_at_cursor()
+		if cursor_node ~= nil then
+			local root = cursor_node:tree():root()
 
-		local illuminate = require 'illuminate'
-		if root:type() == 'document' or root:type() == 'fragment' then
-			illuminate.pause_buf()
-		else
-			illuminate.resume_buf()
+			local illuminate = require 'illuminate'
+			if in_sublanguage_fn(root) then
+				illuminate.pause_buf()
+			else
+				illuminate.resume_buf()
+			end
 		end
 	end
-end
-local au_group_angular_illuminate = api.nvim_create_augroup('AngularIlluminateToggle', { clear = true })
-local function check_if_file_has_angular_inline()
-	-- Check if file has inline template
-	local query = vim.treesitter.query.parse('typescript', [[
-		(pair
-			value: (template_string) @template_string
-		)
-	]])
-	local bufnr = vim.api.nvim_get_current_buf()
+	return function()
+		-- Check if file has inline template
+		local query_result = vim.treesitter.query.parse(lang, query)
+		local bufnr = vim.api.nvim_get_current_buf()
 
-	-- Opening a blank .ts file will throw on `:tree():root()`
-	pcall(function()
-		local first_node = vim.treesitter.get_node({ bufnr, pos = { 0, 0 }, lang = 'typescript' }):tree():root()
-		if query:iter_captures(first_node, bufnr)() ~= nil then
-			-- Inline template found
-			api.nvim_create_autocmd({ 'CursorHold', }, {
-				group = au_group_angular_illuminate,
-				buffer = bufnr,
-				callback = toggle_illuminate_on_cursor,
-			})
-		end
-	end)
+		-- Opening an empty file will throw on `:tree():root()`
+		pcall(function()
+			local first_node = vim.treesitter.get_node({ bufnr, pos = { 0, 0 }, lang = lang }):tree():root()
+			if query_result:iter_captures(first_node, bufnr)() ~= nil then
+				-- Inline template found
+				api.nvim_create_autocmd({ 'CursorHold', }, {
+					group = au_group_illuminate_hold(lang),
+					buffer = bufnr,
+					callback = toggle_illuminate_on_cursor,
+				})
+			end
+		end)
+	end
 end
 
--- Disable illuminate when inside an angular inline template.
-api.nvim_create_autocmd({ 'BufReadPost' }, {
-	group = au_group_angular_illuminate,
-	pattern = '*.ts',
-	callback = check_if_file_has_angular_inline
-})
+-- Disable illuminate when inside certain nested TS sections
+local ill_cfgs = {
+	typescript = {
+		pattern = '*.ts',
+		in_subsection_fn = function(root) return root:type() == 'document' or root:type() == 'fragment' end,
+		query = [[
+			(pair
+				value: (template_string) @template_string
+			)
+		]]
+	},
+	lua = {
+		pattern = '*.lua',
+		in_subsection_fn = function(root) return root:type() == 'script_file' end,
+		query = [[
+			(string
+				content: (string_content) @script_file
+			)
+		]]
+	},
+}
+
+local au_group_illuminate = function(lang) api.nvim_create_augroup('IlluminateToggle_' .. lang, { clear = true }) end
+for lang, cfg in pairs(ill_cfgs) do
+	api.nvim_create_autocmd({ 'BufReadPost' }, {
+		group = au_group_illuminate(lang),
+		pattern = cfg.pattern,
+		callback = create_illuminate_toggle(
+			cfg.in_subsection_fn,
+			lang,
+			cfg.query)
+	})
+end
+
 
 vim.g.rainbow_delimiters = {
 	highlight = {
