@@ -283,7 +283,7 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
-client.focused #4c7899 #285577 #ffffff #2e9ef4 #994c78
+client.focused #b34a00 #b34a00 #ffffff #2e9ef4 #994000
 
 default_border normal 3
 default_floating_border none

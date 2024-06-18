@@ -54,6 +54,7 @@ local nonLspPackages = {
 	'RRethy/nvim-treesitter-endwise',
 	'folke/which-key.nvim',
 	'echasnovski/mini.align',
+	'windwp/nvim-ts-autotag',
 }
 
 local lspPackages = {
@@ -90,12 +91,12 @@ local lspPackages = {
 	-- misc
 	'HiPhish/rainbow-delimiters.nvim',
 	'JoosepAlviste/nvim-ts-context-commentstring',
-	'ray-x/lsp_signature.nvim',
+	-- 'ray-x/lsp_signature.nvim',
 	'RaafatTurki/corn.nvim',
 	'b0o/schemastore.nvim',
 	{ 'ray-x/guihua.lua', build = 'make -C lua/fzy' },
 	'ray-x/navigator.lua',
-	'folke/neodev.nvim',
+	-- 'folke/neodev.nvim',
 }
 
 
@@ -240,6 +241,7 @@ opt.smartcase      = true
 
 opt.foldmethod     = 'indent'
 opt.foldlevelstart = 99
+map('n', 'zM', function () opt.foldlevel = 1 end)
 
 
 g.loaded_python3_provider = false
@@ -275,10 +277,10 @@ map('n', '<leader>zc', ':%foldc!<CR>',     { desc = 'Close all folds' })
 map('x', '<leader>zc', ":'<,'>foldc!<CR>", { desc = 'Close all folds' })
 map('n', '<leader>zC', ':%foldo<CR>',      { desc = 'Open all folds' })
 -- Quick buffer switch (for tabline)
-map('n', 'gbn',  ':bn<CR>',      { desc = 'Buffer next' })
-map('n', 'gbN',  ':bN<CR>',      { desc = 'Buffer prev' })
-map('n', 'gbd',  ':bp|bd #<CR>', { desc = 'Buffer delete, keep window' })
-map('n', '<BS>', '<C-^>',        { desc = 'Last buffer' })
+map('n', 'gbn',  ':bn<CR>',     { desc = 'Buffer next' })
+map('n', 'gbN',  ':bN<CR>',     { desc = 'Buffer prev' })
+map('n', 'gbd',  ':b#|bd#<CR>', { desc  = 'Buffer delete, keep window' })
+map('n', '<BS>', '<C-^>',       { desc = 'Last buffer' })
 vim.cmd [[
 	nnoremap <expr> j v:count ? (v:count > 5 ? "m'" . v:count : '') . 'j' : 'gj'
 	nnoremap <expr> k v:count ? (v:count > 5 ? "m'" . v:count : '') . 'k' : 'gk'
@@ -358,8 +360,27 @@ require 'Comment'.setup {
 
 require 'nvim-surround'.setup { move_cursor = false }
 
-require 'nvim-autopairs'.setup {
+local autopairs = require 'nvim-autopairs'
+autopairs.setup {
 	disable_filetype = { "TelescopePrompt", "guihua", "guihua_rust", "clap_input" },
+	check_ts = true,
+	enable_check_bracket_line = false,
+	fast_wrap = {
+		map = '<M-w>'
+	},
+	enable_moveright = true,
+}
+local Rule = require 'nvim-autopairs.rule'
+autopairs.add_rules {
+	Rule('<', '>', { 'typescript' })
+}
+
+require 'nvim-ts-autotag'.setup {
+	opts = {
+		enable_close = true,
+		enable_rename = true,
+		enable_close_on_slash = true,
+	}
 }
 
 require 'bigfile'.setup {

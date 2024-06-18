@@ -16,6 +16,7 @@ require 'nvim-treesitter.configs'.setup {
 		'html',
 		'javascript',
 		'json',
+		'json5',
 		'lua',
 		'ruby',
 		'scss',
@@ -60,9 +61,9 @@ on_attach.base = function(client, bufnr)
 	map('n', 'gd',        require 'navigator.definition'.definition or vim.lsp.buf.definition, o('definition'))
 	map('n', '<leader>r', require 'navigator.reference'.async_ref,                             o('async_ref'))
 
-	map({ 'n', 'v' }, '<C-Space>', vim.lsp.buf.code_action,                  o('code_action'))
-	map('v', '<C-Space>',  require 'navigator.codeAction'.range_code_action, o('range_code_action'))
-	map('n', { '<M-r>', '<M-e>' }, require 'navigator.rename'.rename,        o('rename'))
+	-- map({ 'n', 'v' }, { '<C-Space>', '<C-.>' }, vim.lsp.buf.code_action,                       o('code_action'))
+	map({ 'n', 'v' }, { '<C-Space>', '<C-.>' }, require 'navigator.codeAction'.code_action, o('code_action'))
+	map('n', { '<M-r>', '<M-e>' }, vim.lsp.buf.rename, o('rename'))
 
 	map('n', '<leader>gi', vim.lsp.buf.incoming_calls,                            o('incoming_calls'))
 	map('n', '<leader>go', vim.lsp.buf.outgoing_calls,                            o('outgoing_calls'))
@@ -194,7 +195,7 @@ require 'navigator'.setup {
 	end,
 	default_mapping = false,
 	icons = { icons = false },
-	-- lsp_signature_help = true,
+	lsp_signature_help = false,
 	-- signature_help_cfg = { hint_enable = true, hi_parameter = 'Error', },
 	lsp = {
 		disable_lsp = { 'sorbet', 'ruby_lsp', 'rubocop', 'jsonls', 'yamlls', 'omnisharp', },
@@ -240,7 +241,7 @@ cmp.setup {
 			}
 		},
 		{ name = 'path', group_index = 5 },
-		{ name = 'nvim_lsp_signature_help' },
+		-- { name = 'nvim_lsp_signature_help' },
 	}),
 	window = {
 		completion = cmp.config.window.bordered(),
