@@ -241,7 +241,7 @@ opt.smartcase      = true
 
 opt.foldmethod     = 'indent'
 opt.foldlevelstart = 99
-map('n', 'zM', function () opt.foldlevel = 1 end)
+map('n', 'zM', function() opt.foldlevel = 1 end)
 
 
 g.loaded_python3_provider = false
@@ -279,7 +279,7 @@ map('n', '<leader>zC', ':%foldo<CR>',      { desc = 'Open all folds' })
 -- Quick buffer switch (for tabline)
 map('n', 'gbn',  ':bn<CR>',     { desc = 'Buffer next' })
 map('n', 'gbN',  ':bN<CR>',     { desc = 'Buffer prev' })
-map('n', 'gbd',  ':b#|bd#<CR>', { desc  = 'Buffer delete, keep window' })
+map('n', 'gbd',  ':b#|bd#<CR>', { desc = 'Buffer delete, keep window' })
 map('n', '<BS>', '<C-^>',       { desc = 'Last buffer' })
 vim.cmd [[
 	nnoremap <expr> j v:count ? (v:count > 5 ? "m'" . v:count : '') . 'j' : 'gj'
@@ -384,7 +384,31 @@ require 'nvim-ts-autotag'.setup {
 }
 
 require 'bigfile'.setup {
+	pattern = { '*' },
 	filesize = 1,
+	features = {
+		"indent_blankline",
+		"illuminate",
+		"lsp",
+		"treesitter",
+		"syntax",
+		"matchparen",
+		"vimopts",
+		"filetype",
+		{
+			name = 'reactive',
+			opts = { defer = false },
+			disable = function() vim.cmd 'ReactiveStop' end,
+		},
+		{ name = 'wrap',
+			opts = { defer = false },
+			disable = function() vim.opt_local.wrap = false end,
+		},
+		{ name = 'rainbow',
+			opts = { defer = false },
+			disable = function(bufnr) require 'rainbow-delimiters'.disable(bufnr) end,
+		},
+	}
 }
 
 require 'reactive'.setup { builtin = {

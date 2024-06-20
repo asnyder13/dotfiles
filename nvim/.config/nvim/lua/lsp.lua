@@ -138,6 +138,7 @@ end
 local default_cfg = {
 	on_attach = on_attach.base,
 	capabilities = vim.lsp.protocol.make_client_capabilities(),
+	inlay_hints = { enabled = true },
 }
 local custom_cfg = {
 	sorbet = function()
@@ -169,13 +170,43 @@ local custom_cfg = {
 			},
 		}
 	end,
+	tsserver = function()
+		return {
+			settings = {
+				typescript = {
+					inlayHints = {
+						includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all'
+						includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+						includeInlayVariableTypeHints = true,
+						includeInlayFunctionParameterTypeHints = true,
+						includeInlayVariableTypeHintsWhenTypeMatchesName = true,
+						includeInlayPropertyDeclarationTypeHints = true,
+						includeInlayFunctionLikeReturnTypeHints = true,
+						includeInlayEnumMemberValueHints = true,
+					},
+				},
+				javascript = {
+					inlayHints = {
+						includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all'
+						includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+						includeInlayVariableTypeHints = true,
+
+						includeInlayFunctionParameterTypeHints = true,
+						includeInlayVariableTypeHintsWhenTypeMatchesName = true,
+						includeInlayPropertyDeclarationTypeHints = true,
+						includeInlayFunctionLikeReturnTypeHints = true,
+						includeInlayEnumMemberValueHints = true,
+					},
+				},
+			},
+		}
+	end,
 }
 
 -- Setup installed servers.
 require 'mason-lspconfig'.setup_handlers {
 	function(server_name)
-		local cfg = custom_cfg[server_name] and vim.tbl_deep_extend('force', default_cfg, custom_cfg[server_name]()) or
-		default_cfg
+		local cfg = custom_cfg[server_name] and vim.tbl_deep_extend('force', default_cfg, custom_cfg[server_name]()) or default_cfg
 		require 'lspconfig'[server_name].setup(cfg)
 	end,
 	-- Ignore RuboCop for LSP stuff, but we want it installed for formatting
