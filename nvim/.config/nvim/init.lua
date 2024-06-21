@@ -55,6 +55,7 @@ local nonLspPackages = {
 	'folke/which-key.nvim',
 	'echasnovski/mini.align',
 	'windwp/nvim-ts-autotag',
+	'BranimirE/fix-auto-scroll.nvim',
 }
 
 local lspPackages = {
@@ -432,6 +433,8 @@ map('n', '<C-BS>', function() vim.api.nvim_set_current_tabpage(vim.g.lasttab) en
 require 'which-key'.setup {}
 
 require 'mini.align'.setup {}
+
+require 'fix-auto-scroll'.setup()
 
 ---- LSP Plugins ----
 -- VIM_USE_LSP needs to have a value, not just existing.

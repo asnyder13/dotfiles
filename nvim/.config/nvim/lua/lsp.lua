@@ -78,13 +78,17 @@ on_attach.base = function(client, bufnr)
 	map('n', '[r',         require 'navigator.treesitter'.goto_previous_usage,    o('goto_previous_usage'))
 	map('n', '<leader>k',  require 'navigator.dochighlight'.hi_symbol,            o('hi_symbol'))
 	map('v', '<leader>gm',  require 'navigator.formatting'.range_format,           o('rangeformatoperatore.ggmip'))
-	map('n', '<leader>la',  require 'navigator.codelens'.run_action,               o('runcodelensaction'))
 	-- map('n', '<leader>wa',  require 'navigator.workspace'.add_workspace_folder,    o('add_workspace_folder'))
 	-- map('n', '<leader>wr',  require 'navigator.workspace'.remove_workspace_folder, o('remove_workspace_folder'))
 	-- map('n', '<leader>wl',  require 'navigator.workspace'.list_workspace_folders,  o('list_workspace_folders'))
 
+	map('n', '<leader>th', function ()
+		local ilh_state = vim.lsp.inlay_hint.is_enabled { bufnr = bufnr }
+		vim.lsp.inlay_hint.enable(not ilh_state, { bufnr = bufnr })
+	end, o('toggle inlay hints'))
+
 	if client and client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
-		vim.lsp.inlay_hint.enable(true)
+		vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
 	end
 
 	require 'navigator.lspclient.mapping'.setup({ bufnr = bufnr, client = client })
@@ -229,7 +233,8 @@ require 'navigator'.setup {
 	lsp_signature_help = false,
 	-- signature_help_cfg = { hint_enable = true, hi_parameter = 'Error', },
 	lsp = {
-		disable_lsp = { 'sorbet', 'ruby_lsp', 'rubocop', 'jsonls', 'yamlls', 'omnisharp', },
+		-- disable_lsp = { 'sorbet', 'ruby_lsp', 'rubocop', 'jsonls', 'yamlls', 'omnisharp', 'tsserver' },
+		disable_lsp = 'all',
 		code_action = { sign = false, virtual_text = false, },
 		code_lens_action = { sign = false, virtual_text = false, },
 		format_on_save = false,
