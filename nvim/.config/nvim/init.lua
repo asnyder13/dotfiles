@@ -142,8 +142,9 @@ vim.cmd([[
 		autocmd!
 		autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set rnu   | endif
 		autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set nornu | endif
-		autocmd OptionSet                                 * if !&nu                 | set nornu | endif
-		autocmd OptionSet                                 * if &nu                  | set rnu   | endif
+		" Keep 'relativenumber' synced, but only when 'number' is changed.
+		autocmd OptionSet                                 * if !&nu && expand('<amatch>') == 'number' | set nornu | endif
+		autocmd OptionSet                                 * if &nu  && expand('<amatch>') == 'number' | set rnu   | endif
 	augroup END
 
 	" https://stackoverflow.com/questions/63906439/how-to-disable-line-numbers-in-neovim-terminal
@@ -289,6 +290,7 @@ vim.cmd [[
 ]]
 map('n', '<leader><C-i>', ':Inspect<CR>', { desc = ':Inspect' })
 map('n', '<C-w><C-w>', '<C-w><C-p>', { desc = 'Last window' })
+map('n', '<leader>tw', ':set wrap!<CR>')
 
 vim.api.nvim_create_user_command('Hitest',
 	'execute "ReactiveStop" | so $VIMRUNTIME/syntax/hitest.vim',
@@ -353,7 +355,7 @@ require 'ibl'.setup {
 		remove_blankline_trail = false,
 	},
 }
-Util.map_keys_table('n', { '<leader>i', '<leader>I' }, ':IBLToggle<CR>:set number!<CR>')
+map('n', '<leader>tn', ':IBLToggle<CR>:set number!<CR>')
 
 require 'Comment'.setup {
 	pre_hook = require 'ts_context_commentstring.integrations.comment_nvim'.create_pre_hook(),
@@ -446,5 +448,17 @@ end
 -- Gets overwritten if something in lsp.lua is run after it.
 local gitsigns = require 'gitsigns'
 gitsigns.setup {}
-map('n', ']c', function() gitsigns.next_hunk() end, { desc = 'Git hunk next' })
-map('n', '[c', function() gitsigns.prev_hunk() end, { desc = 'Git hunk prev' })
+map('n', ']c', function()
+	if vim.wo.diff then
+		vim.cmd.normal({ ']c', bang = true })
+	else
+		gitsigns.nav_hunk('next')
+	end
+end, { desc = 'Git hunk next' })
+map('n', '[c', function()
+	if vim.wo.diff then
+		vim.cmd.normal({ '[c', bang = true })
+	else
+		gitsigns.nav_hunk('prev')
+	end
+end, { desc = 'Git hunk prev' })

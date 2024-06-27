@@ -82,7 +82,7 @@ on_attach.base = function(client, bufnr)
 	-- map('n', '<leader>wr',  require 'navigator.workspace'.remove_workspace_folder, o('remove_workspace_folder'))
 	-- map('n', '<leader>wl',  require 'navigator.workspace'.list_workspace_folders,  o('list_workspace_folders'))
 
-	map('n', '<leader>th', function ()
+	map('n', '<leader>ti', function ()
 		local ilh_state = vim.lsp.inlay_hint.is_enabled { bufnr = bufnr }
 		vim.lsp.inlay_hint.enable(not ilh_state, { bufnr = bufnr })
 	end, o('toggle inlay hints'))
