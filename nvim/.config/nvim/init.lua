@@ -367,15 +367,18 @@ local autopairs = require 'nvim-autopairs'
 autopairs.setup {
 	disable_filetype = { "TelescopePrompt", "guihua", "guihua_rust", "clap_input" },
 	check_ts = true,
-	enable_check_bracket_line = false,
+	enable_check_bracket_line = true,
 	fast_wrap = {
 		map = '<M-w>'
 	},
 	enable_moveright = true,
 }
 local Rule = require 'nvim-autopairs.rule'
+local cond = require 'nvim-autopairs.conds'
 autopairs.add_rules {
-	Rule('<', '>', { 'typescript' })
+	Rule('<', '>')
+		:with_pair(cond.before_regex('%a+'))
+		:with_move(cond.after_text('>'))
 }
 
 require 'nvim-ts-autotag'.setup {

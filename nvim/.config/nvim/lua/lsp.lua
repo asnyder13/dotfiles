@@ -82,7 +82,7 @@ on_attach.base = function(client, bufnr)
 	-- map('n', '<leader>wr',  require 'navigator.workspace'.remove_workspace_folder, o('remove_workspace_folder'))
 	-- map('n', '<leader>wl',  require 'navigator.workspace'.list_workspace_folders,  o('list_workspace_folders'))
 
-	map('n', '<leader>ti', function ()
+	map('n', '<leader>ti', function()
 		local ilh_state = vim.lsp.inlay_hint.is_enabled { bufnr = bufnr }
 		vim.lsp.inlay_hint.enable(not ilh_state, { bufnr = bufnr })
 	end, o('toggle inlay hints'))
@@ -249,14 +249,33 @@ require 'navigator'.setup {
 -- cmp
 opt.completeopt = { 'menu', 'noselect', 'noinsert' }
 local cmp = require 'cmp'
+local luasnip = require 'luasnip'
+
 cmp.setup {
 	mapping = {
-		['<S-Tab>']   = cmp.mapping.select_prev_item(),
-		['<Tab>']     = cmp.mapping.select_next_item(),
+		['<Tab>']     = function(fallback)
+			if cmp.visible() then
+				cmp.mapping.select_next_item()()
+			elseif luasnip.expand_or_locally_jumpable() then
+				luasnip.expand_or_jump()
+			else
+				fallback()
+			end
+		end,
+		['<S-Tab>']   = function(fallback)
+			if cmp.visible() then
+				cmp.mapping.select_prev_item()()
+			elseif luasnip.jumpable(-1) then
+				luasnip.jump(-1)
+			else
+				fallback()
+			end
+		end,
 		['<C-p>']     = cmp.mapping.select_prev_item(),
 		['<C-n>']     = cmp.mapping.select_next_item(),
 		['<C-Space>'] = cmp.mapping.complete(),
 		['<C-e>']     = cmp.mapping.close(),
+		['<C-c>']     = cmp.mapping.close(),
 		['<CR>']      = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Replace, select = true, },
 		['<C-d>']     = cmp.mapping.scroll_docs(4),
 		['<C-u>']     = cmp.mapping.scroll_docs(-4),
@@ -286,7 +305,7 @@ cmp.setup {
 	completion = { completeopt = 'menu,noinsert,noselect' },
 	snippet = {
 		expand = function(args)
-			require 'luasnip'.lsp_expand(args.body)
+			luasnip.lsp_expand(args.body)
 		end,
 	},
 }
