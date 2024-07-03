@@ -215,6 +215,7 @@ opt.tabstop       = indent_size
 opt.shiftwidth    = indent_size
 opt.expandtab     = false
 vim.cmd 'au FileType cs setlocal shiftwidth=4 softtabstop=4 expandtab'
+vim.cmd 'au FileType make setlocal shiftwidth=0 softtabstop=0 noexpandtab'
 
 opt.mouse      = 'cnv'
 opt.autoindent = true
@@ -296,6 +297,16 @@ vim.api.nvim_create_user_command('Hitest',
 	'execute "ReactiveStop" | so $VIMRUNTIME/syntax/hitest.vim',
 	{ desc = 'Open up the pretty hilight display, disable Reactive to prevent slowdown.' }
 )
+
+-- Stolen from primeagen
+-- Move selected lines
+map('v', 'J', ":m '>+1<CR>gv=gv")
+map('v', 'K', ":m '<-2<CR>gv=gv")
+-- Keep cursor in same position after line join
+map('n', 'J', 'mzJ`zh :delmarks z<CR>')
+-- Center window at cursor on search
+map('n', 'n', 'nzzzv')
+map('n', 'N', 'Nzzzv')
 
 ---- Plugin Settings ----
 -- Vim plugins

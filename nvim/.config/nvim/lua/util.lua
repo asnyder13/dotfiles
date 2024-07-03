@@ -56,7 +56,7 @@ function Util.map_keys_table(mode, lhs, rhs, opts)
 		rhs = { rhs, { 'string', 'function', 'nil' } },
 		opts = { opts, { 'table', }, true },
 	}
-	opts = vim.tbl_extend('force', { silent = true }, opts or {})
+	opts = vim.tbl_extend('force', { silent = true, noremap = true, }, opts or {})
 	if not rhs then return end
 
 	if type(lhs) == 'string' then
@@ -87,7 +87,7 @@ function Util.highlight(group, group_or_highlight)
 	elseif type(group_or_highlight) == 'table' then
 		-- Merge with existing highlight highlight
 		local existing_hl = vim.api.nvim_get_hl(0, { name = group })
-		local merged_hl = vim.tbl_deep_extend('force',	existing_hl, group_or_highlight)
+		local merged_hl = vim.tbl_deep_extend('force', existing_hl, group_or_highlight)
 		vim.api.nvim_set_hl(0, group, merged_hl)
 	elseif type(group_or_highlight) == 'string' then
 		-- Link to specific group
