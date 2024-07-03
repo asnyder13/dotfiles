@@ -321,8 +321,11 @@ g.SignatureMarkTextHLDynamic = 1
 g.loaded_netrwPlugin = 1
 
 -- Neovim plugins
+local extra_parsing = {
+	tailwind = true,
+	sass = { enable = true, parsers = { "css" }, },
+}
 require 'colorizer'.setup {
-	filetypes = { '*' },
 	user_default_options = {
 		RGB = true,
 		RRGGBB = true,
@@ -334,11 +337,16 @@ require 'colorizer'.setup {
 		css = true,
 		css_fn = true,
 		mode = 'background',
-		tailwind = true,
-		sass = { enable = true, parsers = { "css" }, },
-		virtualtext = "■",
-		always_update = true
-	}
+	},
+	filetypes = {
+		'*',
+		cmp_docs = { always_update = true, },
+		scss = extra_parsing,
+		css = extra_parsing,
+		typescript = extra_parsing,
+		javascript = extra_parsing,
+		html = extra_parsing,
+	},
 }
 
 require 'barbar'.setup {
