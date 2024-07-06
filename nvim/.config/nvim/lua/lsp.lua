@@ -41,6 +41,9 @@ vim.g.skip_ts_context_commentstring_module = true
 require 'mason'.setup {}
 require 'mason-lspconfig'.setup {}
 
+---- DAP
+local dap_on_attach = require 'dap-local'
+
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = {}
@@ -48,6 +51,8 @@ on_attach.base = function(client, bufnr)
 	-- Mappings
 	local opts = { noremap = true, buffer = bufnr, desc = nil }
 	local o = function(desc) return vim.tbl_extend('force', opts, { desc = desc }) end
+
+	dap_on_attach(bufnr)
 
 	map('n', '<leader>h',  vim.diagnostic.open_float,               o('lsp_open_float'))
 	map('n', 'gh',         vim.lsp.buf.hover,                       o('lsp_hover'))
@@ -320,9 +325,6 @@ cmp.event:on(
 -- luasnip
 require 'luasnip.loaders.from_vscode'.lazy_load()
 require 'luasnip.loaders.from_snipmate'.lazy_load()
-
----- DAP
-require 'dap-local'
 
 vim.diagnostic.config {
 	virtual_text = false,

@@ -5,28 +5,36 @@ require 'nvim-dap-virtual-text'.setup {}
 local dap = require 'dap'
 
 -- dap mappings
-local dap_opts = { desc = 'DAP' }
-map('n', '<F5>',                   function() dap.continue() end, dap_opts)
-map('n', '<Leader><F5>',           function() dap.terminate() end, dap_opts)
-map('n', '<F10>',                  function() dap.step_over() end, dap_opts)
-map('n', '<Leader><F11>',          function() dap.step_into() end, dap_opts)
-map('n', '<F11>',                  function() dap.step_into() end, dap_opts)
-map('n', '<F12>',                  function() dap.step_out() end, dap_opts)
-map('n', { '<Leader>db', '<F9>' }, function() dap.toggle_breakpoint() end, dap_opts)
-map('n', '<Leader>dB',             function() dap.set_breakpoint(vim.fn.input('Breakpoint condition: ')) end, dap_opts)
-map('n', '<Leader>lp',             function() dap.set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) end, dap_opts)
-map('n', '<Leader>dr',             function() dap.repl.open() end, dap_opts)
-map('n', '<Leader>dl',             function() dap.run_last() end, dap_opts)
-map({ 'n', 'v' }, '<Leader>dh',    function() require 'dap.ui.widgets'.hover() end)
-map({ 'n', 'v' }, '<Leader>dp',    function() require 'dap.ui.widgets'.preview() end)
-map('n', '<Leader>df',             function()
-	local widgets = require 'dap.ui.widgets'
-	widgets.centered_float(widgets.frames)
-end)
-map('n', '<Leader>ds', function()
-	local widgets = require 'dap.ui.widgets'
-	widgets.centered_float(widgets.scopes)
-end)
+-- local dap_opts = { desc = 'DAP' }
+
+dap_on_attach = function(bufnr)
+	local opts = { noremap = true, buffer = bufnr, desc = nil }
+	local o = function(desc) return vim.tbl_extend('force', opts, { desc = 'DAP ' .. desc }) end
+
+	map('n', '<F5>', dap.continue, o('continue'))
+	map('n', '<Leader><F5>', dap.terminate, o('terminate'))
+	map('n', '<F10>', dap.step_over, o('step_over'))
+	map('n', { '<Leader><F11>', '<F11>' }, dap.step_into, o('step_into'))
+	map('n', '<F12>', dap.step_out, o('step_out'))
+	map('n', { '<Leader>db', '<F9>' }, dap.toggle_breakpoint, o('toggle_breakpoint'))
+	map('n', '<Leader>dB', function() dap.set_breakpoint(vim.fn.input('Breakpoint condition: ')) end,
+		o('conditional breakpoint'))
+	map('n', '<Leader>lp', function() dap.set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) end,
+		o('log breakpoint'))
+	map('n', '<Leader>dr', dap.repl.open, o('repl open'))
+	map('n', '<Leader>dl', dap.run_last, o('run_last'))
+	map({ 'n', 'v' }, '<Leader>dh', require 'dap.ui.widgets'.hover, o('ui hover'))
+	map({ 'n', 'v' }, '<Leader>dp', require 'dap.ui.widgets'.preview, o('ui preview'))
+	map('n', '<Leader>df', function()
+		local widgets = require 'dap.ui.widgets'
+		widgets.centered_float(widgets.frames)
+	end, o('ui centered float frames'))
+	map('n', '<Leader>ds', function()
+		local widgets = require 'dap.ui.widgets'
+		widgets.centered_float(widgets.scopes)
+	end, o('ui centered float scopes'))
+end
+
 
 ---- Ruby
 require 'dap-ruby'.setup()
@@ -101,3 +109,5 @@ local firefox_config = {
 dap.configurations.typescript = { firefox_config, chrome_config, }
 dap.configurations.javascriptreact = { firefox_config, chrome_config, }
 dap.configurations.typescriptreact = { firefox_config, chrome_config, }
+
+return dap_on_attach
