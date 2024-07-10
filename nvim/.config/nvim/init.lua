@@ -303,7 +303,7 @@ vim.api.nvim_create_user_command('Hitest',
 map('v', 'J', ":m '>+1<CR>gv=gv")
 map('v', 'K', ":m '<-2<CR>gv=gv")
 -- Keep cursor in same position after line join
-map('n', 'J', 'mzJ`zh :delmarks z<CR>')
+map('n', 'J', function() return 'mz' .. vim.v.count1 .. 'J`zdmz<CR>' end, { expr = true })
 -- Center window at cursor on search
 map('n', 'n', 'nzzzv')
 map('n', 'N', 'Nzzzv')

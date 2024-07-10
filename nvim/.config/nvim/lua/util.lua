@@ -39,7 +39,7 @@ end
 ---@param lhs string|table     Left-hand side |{lhs}| of the mapping.
 ---@param rhs string|function  Right-hand side |{rhs}| of the mapping, can be a Lua function.
 ---
----@param opts table|nil Table of |:map-arguments|.
+---@param opts vim.keymap.set.Opts|nil Table of |:map-arguments|.
 ---                      - Same as |nvim_set_keymap()| {opts}, except:
 ---                        - "replace_keycodes" defaults to `true` if "expr" is `true`.
 ---                        - "noremap": inverse of "remap" (see below).
