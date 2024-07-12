@@ -10,6 +10,7 @@
         "custom/right-arrow-dark"
     ],
     "modules-center": [
+        "custom/space",
         "custom/left-arrow-dark",
         "clock#1",
         "custom/left-arrow-light",
@@ -43,6 +44,10 @@
         "tray"
     ],
 
+    "custom/space": {
+        "format": " ",
+        "tooltip": false
+    },
     "custom/left-arrow-dark": {
         "format": "",
         "tooltip": false
