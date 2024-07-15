@@ -37,6 +37,12 @@ require 'nvim-treesitter.configs'.setup {
 require 'ts_context_commentstring'.setup {}
 vim.g.skip_ts_context_commentstring_module = true
 
+-- Temp fix for missing htmlangular interactions.
+vim.api.nvim_create_autocmd('FileType', {
+	pattern = 'htmlangular',
+	command = 'set ft=html'
+})
+
 ---- Language Servers
 require 'mason'.setup {}
 require 'mason-lspconfig'.setup {}
@@ -64,6 +70,7 @@ on_attach.base = function(client, bufnr)
 	map('n', 'gD',        vim.lsp.buf.declaration,                                             o('declaration'))
 	map('n', '<C-]>',     require 'navigator.definition'.definition or vim.lsp.buf.definition, o('definition'))
 	map('n', 'gd',        require 'navigator.definition'.definition or vim.lsp.buf.definition, o('definition'))
+	map('n', '<leader>d', require 'navigator.definition'.definition_preview,                   o('definition'))
 	map('n', '<leader>r', require 'navigator.reference'.async_ref,                             o('async_ref'))
 
 	-- map({ 'n', 'v' }, { '<C-Space>', '<C-.>' }, vim.lsp.buf.code_action,                       o('code_action'))
