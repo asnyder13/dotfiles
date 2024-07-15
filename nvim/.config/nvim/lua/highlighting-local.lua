@@ -47,6 +47,7 @@ local hls = {
 	['GitSignsAdd']          = { bg = 'NONE' },
 	['GitSignsChange']       = { bg = 'NONE' },
 	['GitSignsDelete']       = { bg = 'NONE' },
+	'MarkSignNumHL',
 
 	---- Languages
 	-- C#

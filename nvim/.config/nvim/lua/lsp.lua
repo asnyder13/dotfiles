@@ -99,7 +99,7 @@ on_attach.base = function(client, bufnr)
 	require 'navigator.lspclient.mapping'.setup({ bufnr = bufnr, client = client })
 
 	require("better-diagnostic-virtual-text.api").setup_buf(bufnr, {
-		inline = false,
+		inline = true,
 		ui = {
 			wrap_line_after = true, -- Wrap the line after this length to avoid the virtual text is too long
 			above = false,
@@ -107,8 +107,8 @@ on_attach.base = function(client, bufnr)
 	})
 
 	require 'lsp_signature'.on_attach({
-		hint_enable = true,
-		hi_parameter = 'Error',
+		hint_enable = false,
+		hi_parameter = 'CursorLine',
 	}, bufnr)
 end
 
@@ -238,14 +238,12 @@ require 'mason-lspconfig'.setup_handlers {
 
 require 'guihua.maps'.setup { maps = { close_view = '<C-c>', }, }
 require 'navigator'.setup {
-	mason = true,
-	on_attach = function(_, bufnr)
-		on_attach.base(_, bufnr)
-	end,
+	on_attach = function(...) on_attach.base(...) end,
 	default_mapping = false,
 	icons = { icons = false },
+	mason = true,
 	lsp = {
-		-- disable_lsp = { 'sorbet', 'ruby_lsp', 'rubocop', 'jsonls', 'yamlls', 'omnisharp', 'tsserver' },
+		enable = false,
 		disable_lsp = 'all',
 		code_action = { sign = false, virtual_text = false, },
 		code_lens_action = { sign = false, virtual_text = false, },
@@ -253,7 +251,9 @@ require 'navigator'.setup {
 		document_highlight = false,
 		diagnostic_scrollbar_sign = false,
 		diagnostic = {
-			virtual_text = false,
+			underline = false,
+			virtual_text = true,
+			update_in_insert = true,
 		},
 	},
 }
