@@ -19,7 +19,6 @@ local nonLspPackages = {
 	'ntpeters/vim-better-whitespace',
 	'tpope/vim-fugitive',
 	'vim-scripts/ReplaceWithRegister',
-	'kshenoy/vim-signature',
 	'tpope/vim-sleuth',
 	'justinmk/vim-sneak',
 	'AndrewRadev/splitjoin.vim',
@@ -56,6 +55,7 @@ local nonLspPackages = {
 	'echasnovski/mini.align',
 	'windwp/nvim-ts-autotag',
 	'BranimirE/fix-auto-scroll.nvim',
+	'chentoast/marks.nvim',
 }
 
 local lspPackages = {
@@ -234,7 +234,7 @@ opt.backup         = false
 opt.hidden         = true
 opt.history        = 1000
 opt.termguicolors  = true
-opt.signcolumn     = 'auto:2'
+opt.signcolumn     = 'auto:3'
 opt.updatetime     = 250
 
 -- Searching
@@ -303,7 +303,7 @@ vim.api.nvim_create_user_command('Hitest',
 map('v', 'J', ":m '>+1<CR>gv=gv")
 map('v', 'K', ":m '<-2<CR>gv=gv")
 -- Keep cursor in same position after line join
-map('n', 'J', function() return 'mz' .. vim.v.count1 .. 'J`zdmz<CR>' end, { expr = true })
+map('n', 'J', function() return 'mz' .. vim.v.count1 .. 'J`zdmz' end, { expr = true })
 -- Center window at cursor on search
 map('n', 'n', 'nzzzv')
 map('n', 'N', 'Nzzzv')
@@ -313,13 +313,6 @@ map('n', 'N', 'Nzzzv')
 g['sneak#use_ic_scs'] = 1
 -- Highlighted yank
 g.highlightedyank_highlight_duration = 500
--- Polyglot
-g.ruby_recommended_style = 0
--- Signature
-g.SignatureMarkTextHLDynamic = 1
-g.SignatureIncludeMarks =  'abcdefghijklmnopqrstuvwxyABCDEFGHIJKLMNOPQRSTUVWXYZ'
--- Dirvish
-g.loaded_netrwPlugin = 1
 
 -- Neovim plugins
 local extra_parsing = {
@@ -385,7 +378,7 @@ require 'nvim-surround'.setup { move_cursor = false }
 
 local autopairs = require 'nvim-autopairs'
 autopairs.setup {
-	disable_filetype = { "TelescopePrompt", "guihua", "guihua_rust", "clap_input" },
+	disable_filetype = { 'TelescopePrompt', 'guihua', 'guihua_rust', 'clap_input' },
 	check_ts = true,
 	enable_check_bracket_line = true,
 	fast_wrap = {
@@ -453,7 +446,7 @@ vim.cmd [[
 
 vim.g.lasttab = 1
 vim.api.nvim_create_autocmd('TabLeave', { callback = function() vim.g.lasttab = vim.api.nvim_get_current_tabpage() end })
-map('n', '<C-BS>', function() vim.api.nvim_set_current_tabpage(vim.g.lasttab) end, { desc = 'Last window' })
+map('n', '<C-BS>', function() vim.api.nvim_set_current_tabpage(vim.g.lasttab) end, { desc = 'Last tab' })
 
 require 'which-key'.setup {
 	delay = function(ctx) return ctx.plugin and 0 or 1000 end,
@@ -462,6 +455,11 @@ require 'which-key'.setup {
 require 'mini.align'.setup {}
 
 require 'fix-auto-scroll'.setup()
+
+require 'marks'.setup {
+	default_mappings = true,
+	builtin_marks = { ".", "<", ">", "^" },
+}
 
 ---- LSP Plugins ----
 -- VIM_USE_LSP needs to have a value, not just existing.
@@ -472,7 +470,7 @@ end
 
 -- Gets overwritten if something in lsp.lua is run after it.
 local gitsigns = require 'gitsigns'
-gitsigns.setup {}
+gitsigns.setup { sign_priority = 99, }
 map('n', ']c', function()
 	if vim.wo.diff then
 		vim.cmd.normal({ ']c', bang = true })
