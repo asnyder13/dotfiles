@@ -76,7 +76,7 @@ local lspPackages = {
 	'hrsh7th/cmp-buffer',
 	'hrsh7th/cmp-path',
 	'ray-x/cmp-treesitter',
-	'hrsh7th/cmp-nvim-lsp-signature-help',
+	-- 'hrsh7th/cmp-nvim-lsp-signature-help',
 
 	-- Snippets
 	{ 'L3MON4D3/LuaSnip',                build = 'make install_jsregexp' },
@@ -92,8 +92,8 @@ local lspPackages = {
 	-- misc
 	'HiPhish/rainbow-delimiters.nvim',
 	'JoosepAlviste/nvim-ts-context-commentstring',
-	-- 'ray-x/lsp_signature.nvim',
-	'RaafatTurki/corn.nvim',
+	'ray-x/lsp_signature.nvim',
+	'sontungexpt/better-diagnostic-virtual-text',
 	'b0o/schemastore.nvim',
 	{ 'ray-x/guihua.lua', build = 'make -C lua/fzy' },
 	'ray-x/navigator.lua',
@@ -317,6 +317,7 @@ g.highlightedyank_highlight_duration = 500
 g.ruby_recommended_style = 0
 -- Signature
 g.SignatureMarkTextHLDynamic = 1
+g.SignatureIncludeMarks =  'abcdefghijklmnopqrstuvwxyABCDEFGHIJKLMNOPQRSTUVWXYZ'
 -- Dirvish
 g.loaded_netrwPlugin = 1
 
@@ -454,7 +455,9 @@ vim.g.lasttab = 1
 vim.api.nvim_create_autocmd('TabLeave', { callback = function() vim.g.lasttab = vim.api.nvim_get_current_tabpage() end })
 map('n', '<C-BS>', function() vim.api.nvim_set_current_tabpage(vim.g.lasttab) end, { desc = 'Last window' })
 
-require 'which-key'.setup {}
+require 'which-key'.setup {
+	delay = function(ctx) return ctx.plugin and 0 or 1000 end,
+}
 
 require 'mini.align'.setup {}
 

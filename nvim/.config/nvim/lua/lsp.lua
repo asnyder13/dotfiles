@@ -97,6 +97,19 @@ on_attach.base = function(client, bufnr)
 	end
 
 	require 'navigator.lspclient.mapping'.setup({ bufnr = bufnr, client = client })
+
+	require("better-diagnostic-virtual-text.api").setup_buf(bufnr, {
+		inline = false,
+		ui = {
+			wrap_line_after = true, -- Wrap the line after this length to avoid the virtual text is too long
+			above = false,
+		}
+	})
+
+	require 'lsp_signature'.on_attach({
+		hint_enable = true,
+		hi_parameter = 'Error',
+	}, bufnr)
 end
 
 local _timers = {}
@@ -215,17 +228,13 @@ local custom_cfg = {
 -- Setup installed servers.
 require 'mason-lspconfig'.setup_handlers {
 	function(server_name)
-		local cfg = custom_cfg[server_name] and vim.tbl_deep_extend('force', default_cfg, custom_cfg[server_name]()) or default_cfg
+		local cfg = custom_cfg[server_name] and vim.tbl_deep_extend('force', default_cfg, custom_cfg[server_name]()) or
+				default_cfg
 		require 'lspconfig'[server_name].setup(cfg)
 	end,
 	-- Ignore RuboCop for LSP stuff, but we want it installed for formatting
 	rubocop = function() end,
 }
-
--- require 'lsp_signature'.setup {
--- 	hint_enable = true,
--- 	hi_parameter = 'Error',
--- }
 
 require 'guihua.maps'.setup { maps = { close_view = '<C-c>', }, }
 require 'navigator'.setup {
@@ -235,8 +244,6 @@ require 'navigator'.setup {
 	end,
 	default_mapping = false,
 	icons = { icons = false },
-	lsp_signature_help = false,
-	-- signature_help_cfg = { hint_enable = true, hi_parameter = 'Error', },
 	lsp = {
 		-- disable_lsp = { 'sorbet', 'ruby_lsp', 'rubocop', 'jsonls', 'yamlls', 'omnisharp', 'tsserver' },
 		disable_lsp = 'all',
@@ -246,7 +253,7 @@ require 'navigator'.setup {
 		document_highlight = false,
 		diagnostic_scrollbar_sign = false,
 		diagnostic = {
-			virtual_text = true,
+			virtual_text = false,
 		},
 	},
 }
@@ -282,6 +289,16 @@ cmp.setup {
 		['<C-e>']     = cmp.mapping.close(),
 		['<C-c>']     = cmp.mapping.close(),
 		['<CR>']      = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Replace, select = true, },
+		-- nvim_lsp_signature_help fixes, still doesn't work great.
+		-- ['<CR>']      = function(fallback)
+		-- 	-- Don't replace with the signature help param name when <CR> is hit.
+		-- 	local entries = cmp.get_entries()
+		-- 	if entries and entries[1] and entries[1].source and entries[1].source.source and entries[1].source.source['signature_help'] == nil then
+		-- 		cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Replace, select = true, } ()
+		-- 	else
+		-- 		fallback()
+		-- 	end
+		-- end,
 		['<C-d>']     = cmp.mapping.scroll_docs(4),
 		['<C-u>']     = cmp.mapping.scroll_docs(-4),
 	},
@@ -326,28 +343,6 @@ cmp.event:on(
 require 'luasnip.loaders.from_vscode'.lazy_load()
 require 'luasnip.loaders.from_snipmate'.lazy_load()
 
-vim.diagnostic.config {
-	virtual_text = false,
-}
-
-require 'corn'.setup {
-	border_style = 'rounded',
-	scope = 'line',
-	---@param item Corn.Item
-	---@return Corn.Item
-	item_preprocess_func = function(item)
-		local trunc_tail = "..."
-		local max_width = vim.api.nvim_win_get_width(0) - 30
-
-		if #item.message > max_width then
-			item.message = string.sub(item.message, 1, max_width - #trunc_tail) .. trunc_tail
-			item.source = trunc_tail
-		end
-
-		return item
-	end,
-}
-
 map({ 'n', 'x', 'o' }, '<leader>v', function()
 	if vim.treesitter.highlighter.active[vim.api.nvim_get_current_buf()] ~= nil then
 		require 'treemonkey'.select({
@@ -355,6 +350,6 @@ map({ 'n', 'x', 'o' }, '<leader>v', function()
 			highlight = { backdrop = 'FloatTitle', label = 'HopNextKey1' },
 		})
 	else
-		vim.print('TS not active for this ft (' .. vim.cmd('set ft?') .. ')')
+		vim.print('TS not active for this ft (' .. vim.cmd 'set ft?' .. ')')
 	end
 end, { desc = 'Treemonkey' })
