@@ -76,7 +76,7 @@ end
 ---@param group_or_highlight string|table
 function Util.highlight(group, group_or_highlight)
 	vim.validate {
-		idx_or_group = { group, { 'number', 'string' } },
+		group = { group, { 'number', 'string' } },
 		group_or_highlight = { group_or_highlight, { 'string', 'table' } },
 	}
 

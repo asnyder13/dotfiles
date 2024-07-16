@@ -49,13 +49,11 @@ local nonLspPackages = {
 	'windwp/nvim-autopairs',
 	'LunarVim/bigfile.nvim',
 	'rasulomaroff/reactive.nvim',
-	'j-hui/fidget.nvim',
-	'RRethy/nvim-treesitter-endwise',
 	'folke/which-key.nvim',
 	'echasnovski/mini.align',
-	'windwp/nvim-ts-autotag',
 	'BranimirE/fix-auto-scroll.nvim',
 	'chentoast/marks.nvim',
+	'sindrets/diffview.nvim',
 }
 
 local lspPackages = {
@@ -63,12 +61,15 @@ local lspPackages = {
 	{ 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
 	'nvim-treesitter/nvim-treesitter-refactor',
 	'atusy/treemonkey.nvim',
+	'windwp/nvim-ts-autotag',
+	'RRethy/nvim-treesitter-endwise',
 
 	-- LSP
 	'neovim/nvim-lspconfig',
 	'williamboman/mason.nvim',
 	'williamboman/mason-lspconfig.nvim',
 	'mhartington/formatter.nvim',
+	'j-hui/fidget.nvim',
 
 	-- cmp for LSP
 	'hrsh7th/nvim-cmp',
@@ -394,14 +395,6 @@ autopairs.add_rules {
 		:with_move(cond.after_text('>'))
 }
 
-require 'nvim-ts-autotag'.setup {
-	opts = {
-		enable_close = true,
-		enable_rename = true,
-		enable_close_on_slash = true,
-	}
-}
-
 require 'bigfile'.setup {
 	pattern = { '*' },
 	filesize = 1,
@@ -435,8 +428,6 @@ require 'reactive'.setup { builtin = {
 	cursor = true,
 	modemsg = true
 } }
-
-require 'fidget'.setup {}
 
 -- https://old.reddit.com/r/neovim/comments/1abd2cq/what_are_your_favorite_tricks_using_neovim/
 -- Jump to last edit position on opening file

@@ -43,12 +43,22 @@ vim.api.nvim_create_autocmd('FileType', {
 	command = 'set ft=html'
 })
 
+require 'nvim-ts-autotag'.setup {
+	opts = {
+		enable_close = true,
+		enable_rename = true,
+		enable_close_on_slash = true,
+	}
+}
+
 ---- Language Servers
 require 'mason'.setup {}
 require 'mason-lspconfig'.setup {}
 
 ---- DAP
 local dap_on_attach = require 'dap-local'
+
+require 'fidget'.setup {}
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
