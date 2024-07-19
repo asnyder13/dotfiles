@@ -58,14 +58,6 @@ on_attach.base = function(client, bufnr)
 
 	-- require 'navigator.lspclient.mapping'.setup({ bufnr = bufnr, client = client })
 
-	require("better-diagnostic-virtual-text.api").setup_buf(bufnr, {
-		inline = true,
-		ui = {
-			wrap_line_after = true, -- Wrap the line after this length to avoid the virtual text is too long
-			above = false,
-		}
-	})
-
 	require 'lsp_signature'.on_attach({
 		hint_enable = false,
 		hi_parameter = 'CursorLine',

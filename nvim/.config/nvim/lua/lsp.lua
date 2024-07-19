@@ -56,6 +56,11 @@ require 'mason-lspconfig'.setup {}
 
 require 'fidget'.setup {}
 
+vim.diagnostic.config {
+	virtual_lines = { only_current_line = true, },
+}
+require 'lsp_lines'.setup()
+
 local default_cfg, custom_cfg = require 'lspconfig-local' ()
 -- Setup installed servers.
 require 'mason-lspconfig'.setup_handlers {
@@ -75,7 +80,7 @@ require 'navigator'.setup {
 	icons = { icons = false },
 	mason = true,
 	lsp = {
-		enable = false,
+		enable = true,
 		disable_lsp = 'all',
 		code_action = { sign = false, virtual_text = false, },
 		code_lens_action = { sign = false, virtual_text = false, },
@@ -83,7 +88,7 @@ require 'navigator'.setup {
 		document_highlight = false,
 		diagnostic_scrollbar_sign = false,
 		diagnostic = {
-			underline = false,
+			underline = true,
 			virtual_text = true,
 			update_in_insert = true,
 		},
