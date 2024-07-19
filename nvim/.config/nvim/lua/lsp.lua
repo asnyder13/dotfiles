@@ -56,10 +56,17 @@ require 'mason-lspconfig'.setup {}
 
 require 'fidget'.setup {}
 
-vim.diagnostic.config {
+local virt_lines = {
 	virtual_lines = { only_current_line = true, },
 }
+local virt_on  = vim.tbl_extend('error', virt_lines, { virtual_text = true })
+local virt_off = vim.tbl_extend('error', virt_lines, { virtual_text = false })
+
 require 'lsp_lines'.setup()
+vim.diagnostic.config(virt_on)
+local virt_group = vim.api.nvim_create_augroup('ToggleVirtualDiagText', { clear = true })
+vim.api.nvim_create_autocmd('InsertEnter', { group = virt_group, callback = function() vim.diagnostic.config(virt_off) end })
+vim.api.nvim_create_autocmd('InsertLeave', { group = virt_group, callback = function() vim.diagnostic.config(virt_on) end })
 
 local default_cfg, custom_cfg = require 'lspconfig-local' ()
 -- Setup installed servers.
