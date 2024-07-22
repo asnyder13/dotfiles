@@ -185,6 +185,10 @@ vim.api.nvim_create_autocmd({ 'BufEnter', 'BufNewFile' }, {
 	pattern = '*syslog*',
 	command = 'set ft=messages'
 })
+vim.api.nvim_create_autocmd({ 'BufEnter', 'BufNewFile' }, {
+	pattern = '*.md',
+	command = 'set linebreak'
+})
 
 -- Search for visual selection
 -- https://vim.fandom.com/wiki/Search_for_visually_selected_text
@@ -290,6 +294,8 @@ vim.cmd [[
 	nnoremap <expr> k v:count ? (v:count > 5 ? "m'" . v:count : '') . 'k' : 'gk'
 	command! TrimLineEnds %s/\v\s+$// | normal `'
 ]]
+map('n', 'gj', 'j')
+map('n', 'gk', 'k')
 map('n', '<leader><C-i>', ':Inspect<CR>', { desc = ':Inspect' })
 map('n', '<C-w><C-w>', '<C-w><C-p>', { desc = 'Last window' })
 map('n', '<leader>tw', ':set wrap!<CR>')
