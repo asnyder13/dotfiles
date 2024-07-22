@@ -70,6 +70,7 @@ local lspPackages = {
 	'williamboman/mason-lspconfig.nvim',
 	'mhartington/formatter.nvim',
 	'j-hui/fidget.nvim',
+	'Hoffs/omnisharp-extended-lsp.nvim',
 
 	-- cmp for LSP
 	'hrsh7th/nvim-cmp',
