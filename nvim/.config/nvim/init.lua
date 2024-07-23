@@ -1,9 +1,11 @@
-local Util = require 'util'
-local map  = Util.map_keys_table
+local Util     = require 'util'
+local map      = Util.map_keys_table
+local centerfn = Util.run_then_center_cursor_func
 
-local g    = vim.g
-local api  = vim.api
-local opt  = vim.opt
+
+local g   = vim.g
+local api = vim.api
+local opt = vim.opt
 
 
 local nonLspPackages = {
@@ -174,11 +176,7 @@ vim.filetype.add {
 			local dir = path:match('(.+)/.+')
 			local csprojs = vim.fn.glob(dir .. '/*.csproj', false, true)
 			local is_dotnet = #csprojs ~= 0
-			if is_dotnet then
-				return 'jsonc'
-			else
-				return 'json'
-			end
+			return is_dotnet and 'jsonc' or 'json'
 		end,
 		['%.zsh_history.*'] = 'zsh',
 	}
@@ -470,17 +468,17 @@ end
 -- Gets overwritten if something in lsp.lua is run after it.
 local gitsigns = require 'gitsigns'
 gitsigns.setup { sign_priority = 99, }
-map('n', ']c', function()
+map('n', ']c', centerfn(function()
 	if vim.wo.diff then
 		vim.cmd.normal({ ']c', bang = true })
 	else
 		gitsigns.nav_hunk('next')
 	end
-end, { desc = 'Git hunk next' })
-map('n', '[c', function()
+end), { desc = 'Git hunk next' })
+map('n', '[c', centerfn(function()
 	if vim.wo.diff then
 		vim.cmd.normal({ '[c', bang = true })
 	else
 		gitsigns.nav_hunk('prev')
 	end
-end, { desc = 'Git hunk prev' })
+end), { desc = 'Git hunk prev' })

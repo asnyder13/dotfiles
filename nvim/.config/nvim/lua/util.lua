@@ -97,4 +97,20 @@ function Util.highlight(group, group_or_highlight)
 	end
 end
 
+--- Run a command then center cursor on screen.
+---@param func function
+---@return unknown
+function Util.run_then_center_cursor(func)
+	local res = func()
+	vim.cmd 'normal! zz'
+	return res
+end
+
+--- Function to run a command then center cursor on screen.
+---@param func function
+---@return function
+function Util.run_then_center_cursor_func(func)
+	return function() Util.run_then_center_cursor(func) end
+end
+
 return Util

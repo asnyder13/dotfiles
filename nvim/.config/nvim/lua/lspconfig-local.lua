@@ -1,4 +1,5 @@
 local map = require 'util'.map_keys_table
+local center = require 'util'.run_then_center_cursor_func
 
 ---- DAP
 -- local dap_on_attach = require 'dap-local'
@@ -10,12 +11,6 @@ on_attach.base = function(client, bufnr)
 	-- Mappings
 	local opts = { noremap = true, buffer = bufnr, desc = nil }
 	local o = function(desc) return vim.tbl_extend('force', opts, { desc = desc }) end
-	local center = function(func)
-		return function()
-			func()
-			vim.cmd 'normal! zz'
-		end
-	end
 
 	if dap_on_attach then dap_on_attach(bufnr) end
 
