@@ -97,10 +97,9 @@ local lspPackages = {
 	'HiPhish/rainbow-delimiters.nvim',
 	'JoosepAlviste/nvim-ts-context-commentstring',
 	'ray-x/lsp_signature.nvim',
-	-- 'sontungexpt/better-diagnostic-virtual-text',
 	{ url = 'https://git.sr.ht/~whynothugo/lsp_lines.nvim' },
 	'b0o/schemastore.nvim',
-	{ 'ray-x/guihua.lua', build = 'make -C lua/fzy' },
+	{ 'ray-x/guihua.lua',                                  build = 'make -C lua/fzy' },
 	'ray-x/navigator.lua',
 	-- 'folke/neodev.nvim',
 }
@@ -181,14 +180,9 @@ vim.filetype.add {
 		['%.zsh_history.*'] = 'zsh',
 	}
 }
-vim.api.nvim_create_autocmd({ 'BufEnter', 'BufNewFile' }, {
-	pattern = '*syslog*',
-	command = 'set ft=messages'
-})
-vim.api.nvim_create_autocmd({ 'BufEnter', 'BufNewFile' }, {
-	pattern = '*.md',
-	command = 'set linebreak'
-})
+-- vim.filetype.add seems to just be broken for detecting certain file types.
+Util.ftset('*syslog*', 'messages')
+Util.ftset('*.zsh_history*', 'zsh')
 
 -- Search for visual selection
 -- https://vim.fandom.com/wiki/Search_for_visually_selected_text
@@ -219,8 +213,7 @@ local indent_size = 2
 opt.tabstop       = indent_size
 opt.shiftwidth    = indent_size
 opt.expandtab     = false
-vim.cmd 'au FileType cs setlocal shiftwidth=4 softtabstop=4 expandtab'
-vim.cmd 'au FileType make setlocal shiftwidth=0 softtabstop=0 noexpandtab'
+
 
 opt.mouse      = 'cnv'
 opt.autoindent = true
@@ -456,6 +449,15 @@ require 'fix-auto-scroll'.setup()
 require 'marks'.setup {
 	default_mappings = true,
 	builtin_marks = { ".", "<", ">", "^" },
+	excluded_filetypes = {
+		'fugitive',
+		'neo-tree',
+		'man',
+		'guihua',
+	},
+	excluded_buftyles = {
+		'nofile',
+	},
 }
 
 ---- LSP Plugins ----

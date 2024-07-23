@@ -113,4 +113,16 @@ function Util.run_then_center_cursor_func(func)
 	return function() Util.run_then_center_cursor(func) end
 end
 
+local ftset_augroup = vim.api.nvim_create_augroup('FTSet', { clear = true })
+--- Create autocmd to set ft on files that filetype.add doesn't work for.
+---@param pattern string
+---@param ft string
+function Util.ftset(pattern, ft)
+	vim.api.nvim_create_autocmd({ 'BufEnter', 'BufNewFile' }, {
+		group = ftset_augroup,
+		pattern = pattern,
+		command = 'set ft=' .. ft,
+	})
+end
+
 return Util

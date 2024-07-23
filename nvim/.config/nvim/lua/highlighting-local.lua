@@ -86,7 +86,7 @@ require 'illuminate'.configure {
 		'dirbuf',
 		'dirvish',
 		'fugitive',
-		'NvimTree',
+		'neo-tree',
 		'man',
 		'guihua',
 	},

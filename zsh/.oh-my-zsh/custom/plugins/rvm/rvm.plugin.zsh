@@ -1,9 +1,4 @@
 # Completion
-fpath+=("${rvm_path}/scripts/zsh/Completion")
-
-# Don't try to load rvm if command already available
-# Note: rvm is a function so we need to use `which`
-which rvm &>/dev/null && return
 
 # See https://github.com/rvm-sh/rvm#installation-and-update
 if [[ -z "$RVM_DIR" ]]; then
@@ -14,9 +9,11 @@ if [[ -z "$RVM_DIR" ]]; then
   fi
 fi
 
-if [[ -z "$RVM_DIR" ]] || [[ ! -f "$RVM_DIR/scripts" ]]; then
+if [[ -z "$RVM_DIR" ]] || [[ ! -f "$RVM_DIR/scripts/rvm" ]]; then
   return
 fi
+
+fpath+=("$RVM_DIR/scripts/zsh/Completion")
 
 if zstyle -t ':omz:plugins:rvm' lazy; then
   # Call rvm when first using rvm, node, npm, pnpm, yarn or other commands in lazy-cmd
