@@ -455,8 +455,16 @@ require 'marks'.setup {
 		'man',
 		'guihua',
 	},
-	excluded_buftyles = {
+	excluded_buftypes = {
 		'nofile',
+	},
+}
+
+require 'diffview'.setup {
+	view = {
+		merge_tool = {
+			layout = 'diff3_mixed',
+		},
 	},
 }
 
