@@ -281,6 +281,10 @@ map('n', '<leader>zC', ':%foldo<CR>',      { desc = 'Open all folds' })
 map('n', 'gbn',  ':bn<CR>',     { desc = 'Buffer next' })
 map('n', 'gbN',  ':bN<CR>',     { desc = 'Buffer prev' })
 map('n', 'gbd',  ':b#|bd#<CR>', { desc = 'Buffer delete, keep window' })
+vim.api.nvim_create_user_command('BufCloseOthers',
+	'%bd|e#|bd#',
+	{ desc = 'Close all other buffers' }
+)
 map('n', '<BS>', '<C-^>',       { desc = 'Last buffer' })
 vim.cmd [[
 	nnoremap <expr> j v:count ? (v:count > 5 ? "m'" . v:count : '') . 'j' : 'gj'

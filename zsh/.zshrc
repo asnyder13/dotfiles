@@ -76,12 +76,10 @@ plugins=(
 	dnf
 	dotnet
 	extract
-	fd
 	git
 	ng
 	npm
 	nvm
-	ripgrep
 	rvm
 	safe-paste
 	sudo
