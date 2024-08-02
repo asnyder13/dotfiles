@@ -56,6 +56,7 @@ local nonLspPackages = {
 	'BranimirE/fix-auto-scroll.nvim',
 	'chentoast/marks.nvim',
 	'sindrets/diffview.nvim',
+	'mei28/qfc.nvim',
 }
 
 local lspPackages = {
@@ -354,7 +355,8 @@ require 'barbar'.setup {
 		buffer_number = true,
 	}
 }
-map('n', '<M-b>', ':BufferPick<CR>', { desc = 'Buffer pick' })
+map('n', '<M-b>',   ':BufferPick<CR>',       { desc = 'Buffer pick' })
+map('n', '<C-M-b>', ':BufferPickDelete<CR>', { desc = 'Buffer pick delete' })
 
 -- Hop
 require 'hop'.setup { keys = 'hklyuiopnm,qwertzxcvbasdgjf;' }
@@ -456,21 +458,19 @@ require 'marks'.setup {
 	excluded_filetypes = {
 		'fugitive',
 		'neo-tree',
+		'neo-tree-popup',
 		'man',
 		'guihua',
 	},
 	excluded_buftypes = {
 		'nofile',
+		'prompt',
 	},
 }
 
-require 'diffview'.setup {
-	view = {
-		merge_tool = {
-			layout = 'diff3_mixed',
-		},
-	},
-}
+require 'diffview'.setup { view = { merge_tool = { layout = 'diff3_mixed', }, }, }
+
+require 'qfc'.setup { enabled = true, timeout = 1000, }
 
 ---- LSP Plugins ----
 -- VIM_USE_LSP needs to have a value, not just existing.
