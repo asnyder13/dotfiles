@@ -62,13 +62,31 @@ local function angular_ngrx_switcher_mappings()
 	maps(leader, 'c',  'store.ts')
 	maps(leader, 'jc', 'store.spec.ts')
 	maps(leader, 'cm', 'store.mock.ts')
-	map('n', '<leader>ndt', function()
-		nvim_quick_switcher.find_by_fn(function(p)
-			local path = p.path
-			local file_name = p.prefix
-			return path .. '/data-access' .. '/' .. file_name .. '*.store.ts'
-		end, qs_opts)
-	end, qs_map_opts('switcher: data-access/*.store.ts'))
+
+	local da_map = function(file, switcher_opts)
+		return function()
+			nvim_quick_switcher.find_by_fn(function(p)
+				local path = p.path
+				local file_name = p.prefix
+				return path .. '/data-access' .. '/' .. file_name .. '*.' .. file
+			end, switcher_opts)
+		end
+	end
+	local qs_maps_factory_custom_fn = function(label, fn)
+		return function(lhs1, lhs2, file)
+			map('n', lhs1 .. lhs2, fn(file, qs_opts), qs_map_opts('switcher ' .. label .. ': ' .. file))
+			map('n', lhs1 .. 'v' .. lhs2, fn(file, qs_opts_vs), qs_map_opts('switcher ' .. label .. ': ' .. file))
+			map('n', lhs1 .. 'x' .. lhs2, fn(file, qs_opts_hs), qs_map_opts('switcher ' .. label .. ': ' .. file))
+		end
+	end
+	-- data-access dir
+	local da_leader = '<leader>nd'
+	qs_maps_factory_custom_fn('ngrx data-access', da_map)(da_leader, 'a', 'actions.ts')
+	qs_maps_factory_custom_fn('ngrx data-access', da_map)(da_leader, 'e', 'effects.ts')
+	qs_maps_factory_custom_fn('ngrx data-access', da_map)(da_leader, 'r', 'reducer.ts')
+	qs_maps_factory_custom_fn('ngrx data-access', da_map)(da_leader, 's', 'selector.ts')
+	qs_maps_factory_custom_fn('ngrx data-access', da_map)(da_leader, 't', 'state.ts')
+	qs_maps_factory_custom_fn('ngrx data-access', da_map)(da_leader, 'c', 'store.ts')
 end
 
 local angular_au_group = api.nvim_create_augroup('AngularQuickSwitcher', { clear = true })
@@ -89,6 +107,7 @@ local function angular_switcher_autocmd(prefix, callback)
 end
 angular_switcher_autocmd('*', angular_ngrx_switcher_mappings)
 angular_switcher_autocmd('*.component', angular_component_switcher_mappings('component'))
+angular_switcher_autocmd('*.module', angular_component_switcher_mappings('component'))
 angular_switcher_autocmd('*.view', angular_component_switcher_mappings('view'))
 
 -- C# Saga dir patterns

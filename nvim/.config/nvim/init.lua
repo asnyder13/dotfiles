@@ -465,6 +465,7 @@ require 'marks'.setup {
 	excluded_buftypes = {
 		'nofile',
 		'prompt',
+		'terminal',
 	},
 }
 
