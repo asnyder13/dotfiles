@@ -23,11 +23,14 @@ end
 local qs_opts    = { only_existing = true, only_existing_notify = true, }
 local qs_opts_vs = vim.tbl_extend('force', qs_opts, { split = 'vertical' })
 local qs_opts_hs = vim.tbl_extend('force', qs_opts, { split = 'horizontal' })
-local qs_maps_factory = function(label)
+---@param label string
+---@param custom_fn function|nil
+local qs_maps_factory = function(label, custom_fn)
+	local fn = custom_fn or q_switch
 	return function(lhs1, lhs2, file)
-		map('n', lhs1 .. lhs2,        q_switch(file, qs_opts),    qs_map_opts('switcher ' .. label .. ': ' .. file))
-		map('n', lhs1 .. 'v' .. lhs2, q_switch(file, qs_opts_vs), qs_map_opts('switcher ' .. label .. ': ' .. file))
-		map('n', lhs1 .. 'x' .. lhs2, q_switch(file, qs_opts_hs), qs_map_opts('switcher ' .. label .. ': ' .. file))
+		map('n', lhs1 .. lhs2,        fn(file, qs_opts),    qs_map_opts('switcher ' .. label .. ': ' .. file))
+		map('n', lhs1 .. 'v' .. lhs2, fn(file, qs_opts_vs), qs_map_opts('switcher ' .. label .. ': ' .. file))
+		map('n', lhs1 .. 'x' .. lhs2, fn(file, qs_opts_hs), qs_map_opts('switcher ' .. label .. ': ' .. file))
 	end
 end
 
@@ -72,21 +75,15 @@ local function angular_ngrx_switcher_mappings()
 			end, switcher_opts)
 		end
 	end
-	local qs_maps_factory_custom_fn = function(label, fn)
-		return function(lhs1, lhs2, file)
-			map('n', lhs1 .. lhs2, fn(file, qs_opts), qs_map_opts('switcher ' .. label .. ': ' .. file))
-			map('n', lhs1 .. 'v' .. lhs2, fn(file, qs_opts_vs), qs_map_opts('switcher ' .. label .. ': ' .. file))
-			map('n', lhs1 .. 'x' .. lhs2, fn(file, qs_opts_hs), qs_map_opts('switcher ' .. label .. ': ' .. file))
-		end
-	end
 	-- data-access dir
+	local maps_da = qs_maps_factory('ngrx data-access', da_map)
 	local da_leader = '<leader>nd'
-	qs_maps_factory_custom_fn('ngrx data-access', da_map)(da_leader, 'a', 'actions.ts')
-	qs_maps_factory_custom_fn('ngrx data-access', da_map)(da_leader, 'e', 'effects.ts')
-	qs_maps_factory_custom_fn('ngrx data-access', da_map)(da_leader, 'r', 'reducer.ts')
-	qs_maps_factory_custom_fn('ngrx data-access', da_map)(da_leader, 's', 'selector.ts')
-	qs_maps_factory_custom_fn('ngrx data-access', da_map)(da_leader, 't', 'state.ts')
-	qs_maps_factory_custom_fn('ngrx data-access', da_map)(da_leader, 'c', 'store.ts')
+	maps_da(da_leader, 'a', 'actions.ts')
+	maps_da(da_leader, 'e', 'effects.ts')
+	maps_da(da_leader, 'r', 'reducer.ts')
+	maps_da(da_leader, 's', 'selector.ts')
+	maps_da(da_leader, 't', 'state.ts')
+	maps_da(da_leader, 'c', 'store.ts')
 end
 
 local angular_au_group = api.nvim_create_augroup('AngularQuickSwitcher', { clear = true })
