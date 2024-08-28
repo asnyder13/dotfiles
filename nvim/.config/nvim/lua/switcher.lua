@@ -71,7 +71,9 @@ local function angular_ngrx_switcher_mappings()
 			nvim_quick_switcher.find_by_fn(function(p)
 				local path = p.path
 				local file_name = p.prefix
-				return path .. '/data-access' .. '/' .. file_name .. '*.' .. file
+				local dir = vim.fn.isdirectory(path .. '/state') == 1 and '/state' or '/data-access'
+
+				return path .. dir .. '/' .. file_name .. '*.' .. file
 			end, switcher_opts)
 		end
 	end
