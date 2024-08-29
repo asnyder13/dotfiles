@@ -263,6 +263,10 @@ require 'neo-tree-local'
 
 Util.create_text_object('|')
 
+g.user_emmet_install_global = 0
+g.user_emmet_leader_key = '<C-t>'
+api.nvim_create_autocmd('FileType', { pattern = { 'html', 'css' }, command = 'EmmetInstall' })
+
 -- Persistent Undo/Redo
 if vim.fn.has('persistent_undo') == 1 then
 	local target_path = Util.create_expand_path('~/.local/share/nvim/nvim-persisted-undo/')
@@ -271,7 +275,7 @@ if vim.fn.has('persistent_undo') == 1 then
 end
 
 ---- General Mappings ----
-map('n', 'ZZ', '')
+map('n', 'ZZ', '<NOP>')
 -- Reload this config
 map('n', '<leader>sv', ':source $MYVIMRC<CR>', { desc = 'Source vimrc/init' })
 

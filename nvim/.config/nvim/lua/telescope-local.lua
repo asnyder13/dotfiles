@@ -7,8 +7,8 @@ require 'telescope'.setup {
 		layout_strategy = 'vertical',
 		mappings = {
 			i = {
-				["<C-Down>"] = require('telescope.actions').cycle_history_next,
-				["<C-Up>"]   = require('telescope.actions').cycle_history_prev,
+				['<C-Down>'] = require('telescope.actions').cycle_history_next,
+				['<C-Up>']   = require('telescope.actions').cycle_history_prev,
 			},
 		}
 	},
