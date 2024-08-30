@@ -57,6 +57,7 @@ local nonLspPackages = {
 	'chentoast/marks.nvim',
 	'sindrets/diffview.nvim',
 	'mei28/qfc.nvim',
+	'chrisgrieser/nvim-spider',
 }
 
 local lspPackages = {
@@ -317,6 +318,24 @@ map('n', 'J', function() return 'mz' .. vim.v.count1 .. 'J`zdmz' end, { expr = t
 map('n', 'n', 'nzzzv')
 map('n', 'N', 'Nzzzv')
 
+map(
+	{ 'n', 'o', 'x' },
+	'w',
+	"<cmd>lua require('spider').motion('w')<CR>",
+	{ desc = 'Spider-w' }
+)
+map(
+	{ 'n', 'o', 'x' },
+	'e',
+	"<cmd>lua require('spider').motion('e')<CR>",
+	{ desc = 'Spider-e' }
+)
+map(
+	{ 'n', 'o', 'x' },
+	'b',
+	"<cmd>lua require('spider').motion('b')<CR>",
+	{ desc = 'Spider-b' }
+)
 ---- Plugin Settings ----
 -- Vim plugins
 g['sneak#use_ic_scs'] = 1
