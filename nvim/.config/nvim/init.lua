@@ -397,7 +397,7 @@ require 'ibl'.setup {
 		remove_blankline_trail = false,
 	},
 }
-map('n', '<leader>tn', ':IBLToggle<CR>:set number!<CR>')
+map('n', '<leader>tn', ':IBLToggle<CR>:set number!<CR>:MarksToggleSigns<CR>')
 
 require 'Comment'.setup {
 	pre_hook = require 'ts_context_commentstring.integrations.comment_nvim'.create_pre_hook(),
