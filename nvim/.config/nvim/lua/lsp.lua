@@ -79,7 +79,7 @@ require 'mason-lspconfig'.setup_handlers {
 
 require 'guihua.maps'.setup { maps = { close_view = '<C-c>', }, }
 require 'navigator'.setup {
-	on_attach = function(...) on_attach.base(...) end,
+	on_attach = function(...) default_cfg.on_attach(...) end,
 	default_mapping = false,
 	icons = { icons = false },
 	mason = true,
@@ -150,11 +150,7 @@ cmp.setup {
 		{ name = 'buffer', group_index = 4,
 			option = {
 				get_bufnrs = function()
-					local bufs = {}
-					for _, win in ipairs(vim.api.nvim_list_wins()) do
-						bufs[vim.api.nvim_win_get_buf(win)] = true
-					end
-					return vim.tbl_keys(bufs)
+					return vim.api.nvim_list_bufs()
 				end
 			}
 		},

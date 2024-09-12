@@ -468,7 +468,7 @@ vim.api.nvim_create_autocmd('TabLeave', { callback = function() vim.g.lasttab = 
 map('n', '<C-BS>', function() vim.api.nvim_set_current_tabpage(vim.g.lasttab) end, { desc = 'Last tab' })
 
 require 'which-key'.setup {
-	delay = function(ctx) return ctx.plugin and 0 or 1000 end,
+	delay = function(ctx) return ctx.plugin and 0 or 400 end,
 }
 
 require 'mini.align'.setup {}

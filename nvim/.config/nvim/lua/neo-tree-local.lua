@@ -25,7 +25,7 @@ map('n', { '<C-w><C-e>', '<C-w>e' }, openWindowPicker, { desc = 'Window picker' 
 
 require 'neo-tree'.setup {
 	filesystem = {
-		hijack_netrw_behavior = 'open_default',
+		hijack_netrw_behavior = 'open_current',
 		follow_current_file = {
 			enabled = true,
 			leave_dirs_open = true,
@@ -42,7 +42,7 @@ require 'neo-tree'.setup {
 			['<C-c>'] = 'clear_filter',
 			['<C-k>'] = 'navigate_up',
 		},
-		width = 40
+		width = 30
 	},
 	event_handlers = { {
 		event = 'neo_tree_buffer_enter',
@@ -74,6 +74,15 @@ require 'neo-tree'.setup {
 			pattern = '^appsettings%.json$',
 			files = { 'appsettings.*.json' },
 		},
+		['environment'] = {
+			pattern = '^environment%.ts$',
+			files = { 'environment.*.ts' },
+		},
+		["docker"] = {
+			pattern = "^dockerfile$",
+			ignore_case = true,
+			files = { ".dockerignore", "docker-compose.*", "dockerfile*" },
+		}
 	}
 }
 map('n', '<M-->', ':Neotree toggle<CR>', { desc = 'Toggle Neotree' })
