@@ -151,3 +151,11 @@ function alert () {
 function vman () {
 	nvim -c "Man $1|only"
 }
+
+unalias rd
+rd() {
+	eval " $@ & ; disown"
+}
+re() {
+	rd "$@" ; sleep 0.5 ; exit
+}

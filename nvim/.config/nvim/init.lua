@@ -42,7 +42,6 @@ local nonLspPackages = {
 	'Everduin94/nvim-quick-switcher',
 	'kylechui/nvim-surround',
 	'RRethy/vim-illuminate',
-	'numToStr/Comment.nvim',
 	'm-demare/hlargs.nvim',
 	'nvim-neo-tree/neo-tree.nvim',
 	'MunifTanjim/nui.nvim',
@@ -97,7 +96,6 @@ local lspPackages = {
 
 	-- misc
 	'HiPhish/rainbow-delimiters.nvim',
-	'JoosepAlviste/nvim-ts-context-commentstring',
 	'ray-x/lsp_signature.nvim',
 	{ url = 'https://git.sr.ht/~whynothugo/lsp_lines.nvim' },
 	'b0o/schemastore.nvim',
@@ -398,10 +396,6 @@ require 'ibl'.setup {
 	},
 }
 map('n', '<leader>tn', ':IBLToggle<CR>:set number!<CR>:MarksToggleSigns<CR>')
-
-require 'Comment'.setup {
-	pre_hook = require 'ts_context_commentstring.integrations.comment_nvim'.create_pre_hook(),
-}
 
 require 'nvim-surround'.setup { move_cursor = false }
 
