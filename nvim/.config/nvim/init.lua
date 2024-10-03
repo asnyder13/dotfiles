@@ -226,6 +226,7 @@ opt.wildignore:append { '*/node_modules/*', '*/.git/*', '*/tmp/*', '*.swp', '*/.
 opt.sidescrolloff  = 5
 opt.splitright     = true
 opt.splitbelow     = true
+opt.listchars      = { tab = '»-', extends = '›', precedes = '‹', nbsp = '·', trail = '·', }
 
 opt.confirm        = true
 opt.backup         = false
@@ -275,6 +276,7 @@ end
 
 ---- General Mappings ----
 map('n', 'ZZ', '<NOP>')
+map('n', { '<C-t><C-c>', '<C-t>c' }, ':tabclose<CR>', { desc = 'Close tab' })
 -- Reload this config
 map('n', '<leader>sv', ':source $MYVIMRC<CR>', { desc = 'Source vimrc/init' })
 

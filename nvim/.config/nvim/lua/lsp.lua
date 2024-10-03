@@ -142,9 +142,9 @@ cmp.setup {
 		['<C-u>']     = cmp.mapping.scroll_docs(-4),
 	},
 	sources = cmp.config.sources({
-		{ name = 'nvim_lsp',   group_index = 1 },
-		{ name = 'treesitter', group_index = 2 },
-		{ name = 'luasnip',    group_index = 3 },
+		{ name = 'luasnip',    group_index = 1 },
+		{ name = 'nvim_lsp',   group_index = 2 },
+		{ name = 'treesitter', group_index = 3 },
 		{ name = 'buffer', group_index = 4,
 			option = {
 				get_bufnrs = function()
