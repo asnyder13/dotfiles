@@ -215,7 +215,8 @@ opt.shiftwidth    = indent_size
 opt.expandtab     = false
 
 
-opt.mouse      = 'cnv'
+local mouse    = 'cnv'
+opt.mouse      = mouse
 opt.autoindent = true
 opt.showmatch  = true
 opt.visualbell = true
@@ -301,7 +302,19 @@ map('n', 'gj', 'j')
 map('n', 'gk', 'k')
 map('n', '<leader><C-i>', ':Inspect<CR>', { desc = ':Inspect' })
 map('n', '<C-w><C-w>', '<C-w><C-p>', { desc = 'Last window' })
-map('n', '<leader>tw', ':set wrap!<CR>')
+
+-- Toggle mappings
+map('n', '<leader>tw', ':set wrap!<CR>', { desc = 'Toggle wrap' })
+map('n', '<leader>tm', function()
+	if vim.tbl_isempty(vim.opt_local.mouse:get()) then
+		vim.opt_local.mouse = mouse
+	else
+		vim.opt_local.mouse = ''
+	end
+end, { desc = 'Toggle mouse' })
+map('n', '<leader>tn',
+	':IBLToggle<CR>:set number!<CR>:MarksToggleSigns<CR>:Gitsigns toggle_signs<CR>:lua vim.diagnostic.enable(not vim.diagnostic.is_enabled())<CR>',
+	{ desc = 'Toggle line numbers' })
 
 vim.api.nvim_create_user_command('Hitest',
 	'execute "ReactiveStop" | so $VIMRUNTIME/syntax/hitest.vim',
@@ -397,7 +410,6 @@ require 'ibl'.setup {
 		remove_blankline_trail = false,
 	},
 }
-map('n', '<leader>tn', ':IBLToggle<CR>:set number!<CR>:MarksToggleSigns<CR>')
 
 require 'nvim-surround'.setup { move_cursor = false }
 
