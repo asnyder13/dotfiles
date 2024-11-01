@@ -138,6 +138,12 @@ bootstrap_paq(my_packages)
 vim.cmd.packadd 'matchit'
 
 ---- General Settings ----
+-- Unmap defaults
+vim.keymap.del('n', 'grn')
+vim.keymap.del({ 'n', 'x', }, 'gra')
+vim.keymap.del('n', 'grr')
+vim.keymap.del('n', 'gri')
+vim.keymap.del('n', 'gO')
 
 -- Auto commands
 vim.cmd([[
