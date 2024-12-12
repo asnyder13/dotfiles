@@ -113,7 +113,7 @@ else
 	zbell_use_paplay=true
 fi
 
-zstyle ':omz:plugins:nvm' lazy yes
+zstyle ':omz:plugins:nvm' lazy no
 zstyle ':omz:plugins:nvm' lazy-cmd vim nvim ng make
 zstyle ':omz:plugins:rvm' lazy yes
 zstyle ':omz:plugins:rvm' lazy-cmd vim nvim ng make

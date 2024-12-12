@@ -57,6 +57,7 @@ local nonLspPackages = {
 	'sindrets/diffview.nvim',
 	'mei28/qfc.nvim',
 	'chrisgrieser/nvim-spider',
+	'aaronik/treewalker.nvim',
 }
 
 local lspPackages = {
@@ -249,7 +250,7 @@ opt.ignorecase     = true
 opt.smartcase      = true
 
 opt.foldmethod     = 'indent'
-opt.foldlevelstart = 99
+opt.foldlevelstart = 10
 map('n', 'zM', function() opt.foldlevel = 1 end)
 
 
@@ -510,6 +511,11 @@ require 'marks'.setup {
 require 'diffview'.setup { view = { merge_tool = { layout = 'diff3_mixed', }, }, }
 
 require 'qfc'.setup { enabled = true, timeout = 1000, }
+
+map('n', '<C-h>', ':Treewalker Left<CR>')
+map('n', '<C-j>', ':Treewalker Down<CR>')
+map('n', '<C-k>', ':Treewalker Up<CR>')
+map('n', '<C-l>', ':Treewalker Right<CR>')
 
 ---- LSP Plugins ----
 -- VIM_USE_LSP needs to have a value, not just existing.

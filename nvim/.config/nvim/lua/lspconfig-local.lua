@@ -17,7 +17,7 @@ on_attach.base = function(client, bufnr)
 	map('n', '<leader>h',  vim.diagnostic.open_float,                           o('lsp_open_float'))
 	map('n', 'gh',         vim.lsp.buf.hover,                                   o('lsp_hover'))
 	map('i', '<M-K>',      vim.lsp.buf.signature_help,                          o('signature_help'))
-	map('n', '<C-k>',      vim.lsp.buf.signature_help,                          o('signature_help'))
+	-- map('n', '<C-k>',      vim.lsp.buf.signature_help,                          o('signature_help'))
 	map('n', 'gW',         require 'navigator.workspace'.workspace_symbol_live, o('workspace_symbol_live'))
 	map('n', '<leader>gT', require 'navigator.treesitter'.bufs_ts,              o('bufs_ts'))
 

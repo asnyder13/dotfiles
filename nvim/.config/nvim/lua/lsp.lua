@@ -95,6 +95,11 @@ require 'navigator'.setup {
 			update_in_insert = true,
 		},
 	},
+	lsp_signature_help = true,
+	signature_help_cfg = {
+		hint_enable = false,
+		hi_parameter = 'CursorLine',
+	},
 }
 
 -- cmp
