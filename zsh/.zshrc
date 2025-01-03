@@ -116,7 +116,7 @@ fi
 zstyle ':omz:plugins:nvm' lazy no
 zstyle ':omz:plugins:nvm' lazy-cmd vim nvim ng make
 zstyle ':omz:plugins:rvm' lazy yes
-zstyle ':omz:plugins:rvm' lazy-cmd vim nvim ng make
+zstyle ':omz:plugins:rvm' lazy-cmd vim nvim ng make gem irb
 
 if [[ -e $ZSH/oh-my-zsh.sh ]]; then
 	source $ZSH/oh-my-zsh.sh

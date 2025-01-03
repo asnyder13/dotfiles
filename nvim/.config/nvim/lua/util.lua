@@ -12,28 +12,6 @@ function Util.create_expand_path(path)
 	return target_path
 end
 
--- https://thevaluable.dev/vim-create-text-objects/
----@param char string
-function Util.create_text_object(char)
-	vim.validate {
-		char = { char, { 'string', } },
-	}
-	for _, mode in ipairs { 'x', 'o' } do
-		vim.api.nvim_set_keymap(
-			mode,
-			'i' .. char,
-			string.format(':<C-u>silent! normal! f%sF%slvt%s<CR>', char, char, char),
-			{ noremap = true, silent = true }
-		)
-		vim.api.nvim_set_keymap(
-			mode,
-			'a' .. char,
-			string.format(':<C-u>silent! normal! f%sF%svf%s<CR>', char, char, char),
-			{ noremap = true, silent = true }
-		)
-	end
-end
-
 ---@param mode string|table    Mode short-name, see |nvim_set_keymap()|.
 ---                            Can also be list of modes to create mapping on multiple modes.
 ---@param lhs string|table     Left-hand side |{lhs}| of the mapping.

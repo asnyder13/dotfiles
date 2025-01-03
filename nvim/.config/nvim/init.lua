@@ -23,7 +23,6 @@ local nonLspPackages = {
 	'vim-scripts/ReplaceWithRegister',
 	'tpope/vim-sleuth',
 	'justinmk/vim-sneak',
-	'AndrewRadev/splitjoin.vim',
 	'jlcrochet/vim-razor',
 	'tpope/vim-abolish',
 	'mattn/emmet-vim',
@@ -51,13 +50,17 @@ local nonLspPackages = {
 	'LunarVim/bigfile.nvim',
 	'rasulomaroff/reactive.nvim',
 	'folke/which-key.nvim',
-	'echasnovski/mini.align',
 	'BranimirE/fix-auto-scroll.nvim',
 	'chentoast/marks.nvim',
 	'sindrets/diffview.nvim',
 	'mei28/qfc.nvim',
 	'chrisgrieser/nvim-spider',
 	'aaronik/treewalker.nvim',
+
+	-- mini.nvim
+	'echasnovski/mini.ai',
+	'echasnovski/mini.align',
+	'echasnovski/mini.move',
 }
 
 local lspPackages = {
@@ -67,6 +70,7 @@ local lspPackages = {
 	'atusy/treemonkey.nvim',
 	'windwp/nvim-ts-autotag',
 	'RRethy/nvim-treesitter-endwise',
+	'Wansmer/treesj',
 
 	-- LSP
 	'neovim/nvim-lspconfig',
@@ -235,6 +239,7 @@ opt.sidescrolloff  = 5
 opt.splitright     = true
 opt.splitbelow     = true
 opt.listchars      = { tab = '»-', extends = '›', precedes = '‹', nbsp = '·', trail = '·', }
+opt.winblend       = 10
 
 opt.confirm        = true
 opt.backup         = false
@@ -268,8 +273,6 @@ require 'highlighting-local'
 require 'telescope-local'
 require 'switcher'
 require 'neo-tree-local'
-
-Util.create_text_object('|')
 
 g.user_emmet_install_global = 0
 g.user_emmet_leader_key = '<C-t>'
@@ -329,9 +332,6 @@ vim.api.nvim_create_user_command('Hitest',
 )
 
 -- Stolen from primeagen
--- Move selected lines
-map('v', 'J', ":m '>+1<CR>gv=gv")
-map('v', 'K', ":m '<-2<CR>gv=gv")
 -- Keep cursor in same position after line join
 map('n', 'J', function() return 'mz' .. vim.v.count1 .. 'J`zdmz' end, { expr = true })
 -- Center window at cursor on search
@@ -488,12 +488,18 @@ require 'which-key'.setup {
 }
 
 require 'mini.align'.setup {}
+require 'mini.ai'.setup { n_lines = 10000, }
+require 'mini.move'.setup {}
+
+require 'treesj'.setup { max_join_length = 240, }
+map('n', 'gS', require'treesj'.split)
+map('n', 'gJ', require'treesj'.join)
 
 require 'fix-auto-scroll'.setup()
 
 require 'marks'.setup {
 	default_mappings = true,
-	builtin_marks = { ".", "<", ">", "^" },
+	builtin_marks = { '.', '<', '>', '^' },
 	excluded_filetypes = {
 		'fugitive',
 		'neo-tree',
