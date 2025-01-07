@@ -193,3 +193,12 @@ map({ 'n', 'x', 'o' }, '<leader>v', function()
 		vim.print('TS not active for this ft (' .. vim.cmd 'set ft?' .. ')')
 	end
 end, { desc = 'Treemonkey' })
+
+require 'treewalker'.setup {
+	highlight_group = 'VisualNOS',
+}
+map('n', '<C-h>', ':Treewalker Left<CR>')
+map('n', '<C-j>', ':Treewalker Down<CR>')
+map('n', '<C-k>', ':Treewalker Up<CR>')
+map('n', '<C-l>', ':Treewalker Right<CR>')
+

@@ -55,7 +55,6 @@ local nonLspPackages = {
 	'sindrets/diffview.nvim',
 	'mei28/qfc.nvim',
 	'chrisgrieser/nvim-spider',
-	'aaronik/treewalker.nvim',
 
 	-- mini.nvim
 	'echasnovski/mini.ai',
@@ -70,6 +69,7 @@ local lspPackages = {
 	'atusy/treemonkey.nvim',
 	'windwp/nvim-ts-autotag',
 	'RRethy/nvim-treesitter-endwise',
+	'aaronik/treewalker.nvim',
 	'Wansmer/treesj',
 
 	-- LSP
@@ -489,7 +489,21 @@ require 'which-key'.setup {
 
 require 'mini.align'.setup {}
 require 'mini.ai'.setup { n_lines = 10000, }
-require 'mini.move'.setup {}
+require 'mini.move'.setup {
+	mappings = {
+		-- Move visual selection in Visual mode.
+		left = '<C-S-h>',
+		right = '<C-S-l>',
+		down = '<C-S-j>',
+		up = '<C-S-k>',
+
+		-- Move current line in Normal mode
+		line_left = '<C-S-h>',
+		line_right = '<C-S-l>',
+		line_down = '<C-S-j>',
+		line_up = '<C-S-k>',
+	},
+}
 
 require 'treesj'.setup { max_join_length = 240, }
 map('n', 'gS', require'treesj'.split)
@@ -517,11 +531,6 @@ require 'marks'.setup {
 require 'diffview'.setup { view = { merge_tool = { layout = 'diff3_mixed', }, }, }
 
 require 'qfc'.setup { enabled = true, timeout = 1000, }
-
-map('n', '<C-h>', ':Treewalker Left<CR>')
-map('n', '<C-j>', ':Treewalker Down<CR>')
-map('n', '<C-k>', ':Treewalker Up<CR>')
-map('n', '<C-l>', ':Treewalker Right<CR>')
 
 ---- LSP Plugins ----
 -- VIM_USE_LSP needs to have a value, not just existing.
