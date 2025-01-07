@@ -51,17 +51,14 @@ require 'mason-lspconfig'.setup {}
 
 require 'fidget'.setup {}
 
-local virt_lines = {
-	virtual_lines = { only_current_line = true, },
-}
-local virt_on  = vim.tbl_extend('error', virt_lines, { virtual_text = true })
-local virt_off = vim.tbl_extend('error', virt_lines, { virtual_text = false })
-
 require 'lsp_lines'.setup()
-vim.diagnostic.config(virt_on)
-local virt_group = vim.api.nvim_create_augroup('ToggleVirtualDiagText', { clear = true })
-vim.api.nvim_create_autocmd('InsertEnter', { group = virt_group, callback = function() vim.diagnostic.config(virt_off) end })
-vim.api.nvim_create_autocmd('InsertLeave', { group = virt_group, callback = function() vim.diagnostic.config(virt_on) end })
+vim.diagnostic.config({ virtual_text = false })
+map('n', '<leader>tl', require 'lsp_lines'.toggle, { desc = 'Toggle lsp_lines' })
+map('n', '<leader>td', function ()
+	local curr_virt_text = vim.diagnostic.config().virtual_text
+	vim.diagnostic.config({ virtual_text = not curr_virt_text })
+	require 'lsp_lines'.toggle()
+end, { desc = 'Toggle diagnostics' })
 
 local default_cfg, custom_cfg = require 'lspconfig-local' ()
 -- Setup installed servers.
@@ -91,7 +88,7 @@ require 'navigator'.setup {
 		diagnostic_scrollbar_sign = false,
 		diagnostic = {
 			underline = true,
-			virtual_text = true,
+			virtual_text = false,
 			update_in_insert = true,
 		},
 	},
