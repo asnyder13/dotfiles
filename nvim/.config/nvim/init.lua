@@ -505,10 +505,6 @@ require 'mini.move'.setup {
 	},
 }
 
-require 'treesj'.setup { max_join_length = 240, }
-map('n', 'gS', require'treesj'.split)
-map('n', 'gJ', require'treesj'.join)
-
 require 'fix-auto-scroll'.setup()
 
 require 'marks'.setup {

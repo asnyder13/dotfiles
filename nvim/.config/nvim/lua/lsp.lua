@@ -202,3 +202,7 @@ map('n', '<C-j>', ':Treewalker Down<CR>')
 map('n', '<C-k>', ':Treewalker Up<CR>')
 map('n', '<C-l>', ':Treewalker Right<CR>')
 
+require 'treesj'.setup { max_join_length = 240, }
+map('n', 'gS', require'treesj'.split)
+map('n', 'gJ', require'treesj'.join)
+
