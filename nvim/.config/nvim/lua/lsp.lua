@@ -52,7 +52,7 @@ require 'mason-lspconfig'.setup {}
 require 'fidget'.setup {}
 
 require 'lsp_lines'.setup()
-vim.diagnostic.config({ virtual_text = false })
+vim.diagnostic.config({ virtual_lines = true })
 map('n', '<leader>tl', require 'lsp_lines'.toggle, { desc = 'Toggle lsp_lines' })
 map('n', '<leader>td', function ()
 	local curr_virt_text = vim.diagnostic.config().virtual_text
@@ -202,7 +202,10 @@ map('n', '<C-j>', ':Treewalker Down<CR>')
 map('n', '<C-k>', ':Treewalker Up<CR>')
 map('n', '<C-l>', ':Treewalker Right<CR>')
 
-require 'treesj'.setup { max_join_length = 240, }
+require 'treesj'.setup {
+	max_join_length = 240,
+	use_default_ekymaps = false,
+}
 map('n', 'gS', require'treesj'.split)
 map('n', 'gJ', require'treesj'.join)
 
