@@ -232,14 +232,15 @@ opt.autoindent = true
 opt.showmatch  = true
 opt.visualbell = true
 opt.showmode   = true
-opt.wildmode   = { 'list:longest' }
+opt.wildmode   = { 'list:longest', }
 opt.scrolloff  = 1
-opt.wildignore:append { '*/node_modules/*', '*/.git/*', '*/tmp/*', '*.swp', '*/.angular/*' }
-opt.sidescrolloff  = 5
-opt.splitright     = true
-opt.splitbelow     = true
-opt.listchars      = { tab = '»-', extends = '›', precedes = '‹', nbsp = '·', trail = '·', }
-opt.winblend       = 10
+opt.wildignore:append { '*/node_modules/*', '*/.git/*', '*/tmp/*', '*.swp', '*/.angular/*', }
+opt.sidescrolloff = 5
+opt.splitright    = true
+opt.splitbelow    = true
+opt.listchars     = { tab = '»-', extends = '›', precedes = '‹', nbsp = '·', trail = '·', }
+opt.winblend      = 10
+opt.diffopt:append { 'iwhiteall', }
 
 opt.confirm        = true
 opt.backup         = false
