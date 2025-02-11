@@ -54,7 +54,7 @@ require 'fidget'.setup {}
 require 'lsp_lines'.setup()
 vim.diagnostic.config({ virtual_lines = true })
 map('n', '<leader>tl', require 'lsp_lines'.toggle, { desc = 'Toggle lsp_lines' })
-map('n', '<leader>td', function ()
+map('n', '<leader>td', function()
 	local curr_virt_text = vim.diagnostic.config().virtual_text
 	vim.diagnostic.config({ virtual_text = not curr_virt_text })
 	require 'lsp_lines'.toggle()
@@ -130,22 +130,13 @@ cmp.setup {
 		['<C-e>']     = cmp.mapping.close(),
 		['<C-c>']     = cmp.mapping.close(),
 		['<CR>']      = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Replace, select = true, },
-		-- nvim_lsp_signature_help fixes, still doesn't work great.
-		-- ['<CR>']      = function(fallback)
-		-- 	-- Don't replace with the signature help param name when <CR> is hit.
-		-- 	local entries = cmp.get_entries()
-		-- 	if entries and entries[1] and entries[1].source and entries[1].source.source and entries[1].source.source['signature_help'] == nil then
-		-- 		cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Replace, select = true, } ()
-		-- 	else
-		-- 		fallback()
-		-- 	end
-		-- end,
 		['<C-d>']     = cmp.mapping.scroll_docs(4),
 		['<C-u>']     = cmp.mapping.scroll_docs(-4),
 	},
 	sources = cmp.config.sources({
 		{ name = 'luasnip',    group_index = 1 },
 		{ name = 'nvim_lsp',   group_index = 2 },
+		{ name = 'nvim_lua',   group_index = 2 },
 		{ name = 'treesitter', group_index = 3 },
 		{ name = 'buffer', group_index = 4,
 			option = {
@@ -154,8 +145,7 @@ cmp.setup {
 				end
 			}
 		},
-		{ name = 'path', group_index = 5 },
-		-- { name = 'nvim_lsp_signature_help' },
+		{ name = 'async_path', group_index = 5 },
 	}),
 	window = {
 		completion = cmp.config.window.bordered(),
@@ -171,6 +161,24 @@ cmp.setup {
 		end,
 	},
 }
+
+cmp.setup.cmdline({ '/', '?' }, {
+	mapping = cmp.mapping.preset.cmdline(),
+	sources = {
+		{ name = 'buffer' }
+	}
+})
+
+-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline(':', {
+	mapping = cmp.mapping.preset.cmdline(),
+	sources = cmp.config.sources({
+		{ name = 'path' }
+	}, {
+		{ name = 'cmdline' }
+	}),
+	matching = { disallow_symbol_nonprefix_matching = false }
+})
 
 -- If you want insert `(` after select function or method item
 local cmp_autopairs = require 'nvim-autopairs.completion.cmp'
@@ -206,6 +214,5 @@ require 'treesj'.setup {
 	max_join_length = 240,
 	use_default_ekymaps = false,
 }
-map('n', 'gS', require'treesj'.split)
-map('n', 'gJ', require'treesj'.join)
-
+map('n', 'gS', require 'treesj'.split)
+map('n', 'gJ', require 'treesj'.join)

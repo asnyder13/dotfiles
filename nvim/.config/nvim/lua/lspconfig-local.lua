@@ -181,6 +181,23 @@ local custom_cfg = {
 			handlers = { ['textDocument/definition'] = require 'omnisharp_extended'.handler }
 		}
 	end,
+	lua_ls = function()
+		return {
+			on_init = function(client)
+				client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
+					runtime = { version = 'LuaJIT' },
+					-- Make the server aware of Neovim runtime files
+					workspace = {
+						checkThirdParty = false,
+						library = { vim.env.VIMRUNTIME }
+					}
+				})
+			end,
+			settings = {
+				Lua = {}
+			}
+		}
+	end,
 }
 
 return function()

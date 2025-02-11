@@ -64,7 +64,7 @@ local nonLspPackages = {
 
 local lspPackages = {
 	-- Treesitter
-	{ 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
+	{ 'nvim-treesitter/nvim-treesitter',                     build = ':TSUpdate' },
 	'nvim-treesitter/nvim-treesitter-refactor',
 	'atusy/treemonkey.nvim',
 	'windwp/nvim-ts-autotag',
@@ -81,15 +81,16 @@ local lspPackages = {
 	'Hoffs/omnisharp-extended-lsp.nvim',
 
 	-- cmp for LSP
-	'hrsh7th/nvim-cmp',
-	'hrsh7th/cmp-nvim-lsp',
-	'hrsh7th/cmp-buffer',
-	'hrsh7th/cmp-path',
+	{ 'iguanacucumber/magazine.nvim',                        as = 'nvim-cmp', },
+	{ 'iguanacucumber/mag-nvim-lsp',                         as = 'cmp-nvim-lsp', },
+	{ 'iguanacucumber/mag-nvim-lua',                         as = 'cmp-nvim-lua', },
+	{ 'iguanacucumber/mag-buffer',                           as = 'cmp-buffer', },
+	{ 'iguanacucumber/mag-cmdline',                          as = 'cmp-cmdline', },
+	{ url = 'https://codeberg.org/FelipeLema/cmp-async-path' },
 	'ray-x/cmp-treesitter',
-	-- 'hrsh7th/cmp-nvim-lsp-signature-help',
 
 	-- Snippets
-	{ 'L3MON4D3/LuaSnip',                build = 'make install_jsregexp' },
+	{ 'L3MON4D3/LuaSnip',                                  build = 'make install_jsregexp' },
 	'rafamadriz/friendly-snippets',
 	'honza/vim-snippets',
 
@@ -104,7 +105,7 @@ local lspPackages = {
 	'ray-x/lsp_signature.nvim',
 	{ url = 'https://git.sr.ht/~whynothugo/lsp_lines.nvim' },
 	'b0o/schemastore.nvim',
-	{ 'ray-x/guihua.lua',                                  build = 'make -C lua/fzy' },
+	{ 'ray-x/guihua.lua', build = 'make -C lua/fzy' },
 	'ray-x/navigator.lua',
 	-- 'folke/neodev.nvim',
 }
@@ -240,6 +241,7 @@ opt.splitright    = true
 opt.splitbelow    = true
 opt.listchars     = { tab = '»-', extends = '›', precedes = '‹', nbsp = '·', trail = '·', }
 opt.winblend      = 10
+opt.pumblend      = 10
 opt.diffopt:append { 'iwhiteall', }
 
 opt.confirm        = true
