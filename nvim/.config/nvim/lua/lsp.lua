@@ -216,3 +216,25 @@ require 'treesj'.setup {
 }
 map('n', 'gS', require 'treesj'.split)
 map('n', 'gJ', require 'treesj'.join)
+
+require 'timber'.setup {
+	log_templates = {
+		default = {
+			javascript = [[console.info("%log_target", %log_target)]],
+			typescript = [[console.info("%log_target", %log_target)]],
+			ruby = [[ap %log_target]],
+		},
+		plain = {
+			javascript = [[console.info("%insert_cursor")]],
+			typescript = [[console.info("%insert_cursor")]],
+			ruby = [[ap %insert_cursor]],
+		}
+	},
+	batch_log_templates = {
+		default = {
+			javascript = [[console.dir({ %repeat<"%log_target": %log_target><, > })]],
+			typescript = [[console.dir({ %repeat<"%log_target": %log_target><, > })]],
+			ruby = [[ap %repeat<%log_target><, >)]],
+		}
+	}
+}

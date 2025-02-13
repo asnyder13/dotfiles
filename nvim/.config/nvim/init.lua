@@ -71,6 +71,7 @@ local lspPackages = {
 	'RRethy/nvim-treesitter-endwise',
 	'aaronik/treewalker.nvim',
 	'Wansmer/treesj',
+	'Goose97/timber.nvim',
 
 	-- LSP
 	'neovim/nvim-lspconfig',
