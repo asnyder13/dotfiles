@@ -30,6 +30,7 @@ require 'nvim-treesitter.configs'.setup {
 	},
 	endwise = { enable = true, },
 }
+vim.treesitter.language.register('bash', 'zsh')
 
 -- Temp fix for missing htmlangular interactions.
 vim.api.nvim_create_autocmd('FileType', {
