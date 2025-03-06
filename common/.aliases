@@ -2,6 +2,7 @@
 
 alias list='ls -g --human-readable --no-group --almost-all --classify --time-style=long-iso --color' ;
 alias list2='ls -g --human-readable --no-group --classify --time-style=long-iso --color' ;
+alias lst='ls -g --human-readable --no-group --classify --time-style=long-iso --color' ;
 alias ll='ls -l --human-readable --almost-all --classify --time-style=long-iso --color' ;
 
 # Old shortcuts from yum
@@ -44,7 +45,7 @@ alias lssz='du -sh *' ;
 alias tmat='tmux attach || tmux' ;
 alias df='df -h' ;
 alias wttr='curl --compressed "wttr.in/Charlotte?F&q"' ;
-alias rsync='rsync --archive --info=progress2 --human-readable --stats --partial' ;
+alias rsync='\rsync --archive --info=progress2 --human-readable --stats --partial' ;
 
 # Git aliases.
 alias g='git'

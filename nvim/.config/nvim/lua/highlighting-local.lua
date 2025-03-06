@@ -100,6 +100,12 @@ local au_group_illuminate_hold = function(lang) api.nvim_create_augroup('Illumin
 ---@return function
 local function create_illuminate_toggle(in_sublanguage_fn, lang, query)
 	local function toggle_illuminate_on_cursor()
+		if vim.b.ill_toggle_is_setup then
+			return
+		else
+			vim.b.ill_toggle_is_setup = true
+		end
+
 		local cursor_node = require 'nvim-treesitter.ts_utils'.get_node_at_cursor()
 		if cursor_node ~= nil then
 			local root = cursor_node:tree():root()
@@ -156,7 +162,7 @@ local ill_cfgs = {
 
 local au_group_illuminate = function(lang) api.nvim_create_augroup('IlluminateToggle_' .. lang, { clear = true }) end
 for lang, cfg in pairs(ill_cfgs) do
-	api.nvim_create_autocmd({ 'BufReadPost' }, {
+	api.nvim_create_autocmd({ 'CursorHold' }, {
 		group = au_group_illuminate(lang),
 		pattern = cfg.pattern,
 		callback = create_illuminate_toggle(

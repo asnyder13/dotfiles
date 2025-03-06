@@ -212,8 +212,8 @@ map('n', '<C-k>', ':Treewalker Up<CR>')
 map('n', '<C-l>', ':Treewalker Right<CR>')
 
 require 'treesj'.setup {
-	max_join_length = 240,
-	use_default_ekymaps = false,
+	max_join_length = 480,
+	use_default_keymaps = false,
 }
 map('n', 'gS', require 'treesj'.split)
 map('n', 'gJ', require 'treesj'.join)
@@ -233,9 +233,8 @@ require 'timber'.setup {
 	},
 	batch_log_templates = {
 		default = {
-			javascript = [[console.dir({ %repeat<"%log_target": %log_target><, > })]],
-			typescript = [[console.dir({ %repeat<"%log_target": %log_target><, > })]],
-			ruby = [[ap %repeat<%log_target><, >)]],
+			javascript = [[console.dir({ %repeat<%log_target><, > })]],
+			typescript = [[console.dir({ %repeat<%log_target><, > })]],
 		}
 	}
 }
