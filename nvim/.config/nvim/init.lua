@@ -145,13 +145,6 @@ bootstrap_paq(my_packages)
 vim.cmd.packadd 'matchit'
 
 ---- General Settings ----
--- Unmap defaults
-vim.keymap.del('n', 'grn')
-vim.keymap.del({ 'n', 'x', }, 'gra')
-vim.keymap.del('n', 'grr')
-vim.keymap.del('n', 'gri')
-vim.keymap.del('n', 'gO')
-
 -- Auto commands
 vim.cmd([[
 	" https://github.com/jeffkreeftmeijer/vim-numbertoggle
@@ -290,6 +283,13 @@ if vim.fn.has('persistent_undo') == 1 then
 end
 
 ---- General Mappings ----
+-- Unmap defaults
+vim.keymap.del('n', 'grn')
+vim.keymap.del({ 'n', 'x', }, 'gra')
+vim.keymap.del('n', 'grr')
+vim.keymap.del('n', 'gri')
+vim.keymap.del('n', 'gO')
+
 map('n', 'ZZ', '<NOP>')
 map('n', { '<C-t><C-c>', '<C-t>c' }, ':tabclose<CR>', { desc = 'Close tab' })
 -- Reload this config
@@ -298,9 +298,6 @@ map('n', '<leader>sv', ':source $MYVIMRC<CR>', { desc = 'Source vimrc/init' })
 map('n', '<leader>zc', ':%foldc!<CR>',     { desc = 'Close all folds' })
 map('x', '<leader>zc', ":'<,'>foldc!<CR>", { desc = 'Close all folds' })
 map('n', '<leader>zC', ':%foldo<CR>',      { desc = 'Open all folds' })
--- Quick buffer switch (for tabline)
-map('n', 'gbn',  ':bn<CR>',     { desc = 'Buffer next' })
-map('n', 'gbN',  ':bN<CR>',     { desc = 'Buffer prev' })
 map('n', 'gbd',  ':b#|bd#<CR>', { desc = 'Buffer delete, keep window' })
 vim.api.nvim_create_user_command('BufCloseOthers',
 	'%bd|e#|bd#',

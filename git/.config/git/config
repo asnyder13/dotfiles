@@ -14,6 +14,9 @@
 	lmerge = log --merges -n1 --pretty="%h"
 [core]
 	autocrlf = input
+[init]
+	defaultBranch = master
+
 [includeIf "gitdir:/mnt/c/Users/Snyder/Documents/Work/"]
 	path = /mnt/c/Users/Snyder/Documents/Work/.gitconfig_include
 [includeIf "gitdir:/home/snyder/src/"]
@@ -22,8 +25,7 @@
 	path = /mnt/c/Users/A.Snyder/Documents/src-win/.gitconfig_include
 [includeIf "gitdir:/home/snyder/src-win/"]
 	path = /home/snyder/src-win/.gitconfig_include
-[init]
-	defaultBranch = master
+
 [http]
 	postBuffer = 524288000
 [ssh]
@@ -41,14 +43,32 @@
 
 [rerere]
 	enabled = true
-	; autoUpdate = true
 [branch]
 	sort = -committerdate
 [url "git@github.com:"]
-		pushInsteadOf = "https://github.com/"
+	pushInsteadOf = "https://github.com/"
+
 [transfer]
 	fsckobjects = true
 [fetch]
 	fsckobjects = true
 [receive]
 	fsckobjects = true
+
+; https://blog.gitbutler.com/how-git-core-devs-configure-git/
+[column]
+	ui = auto
+[tag]
+	sort = version:refname
+[diff]
+	mnemonicPrefix = true
+	renames = true
+	colorMoved = plain
+[help]
+	autocorrect = prompt
+[commit]
+	verbose = true
+[core]
+	fsmonitor = true
+[grep]
+	patternType = perl
