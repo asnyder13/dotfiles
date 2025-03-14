@@ -39,3 +39,5 @@ Metrics/CyclomaticComplexity:
   Enabled: false
 Metrics/PerceivedComplexity:
   Enabled: false
+Lint/ItWithoutArgumentsInBlock:
+  Enabled: false
