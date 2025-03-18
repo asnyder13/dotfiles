@@ -98,7 +98,7 @@ local function angular_switcher_autocmd(prefix, callback)
 	}
 	local patterns = { '.ts', '.html', '.scss', '.sass', }
 	local computed_patterns = vim.iter(patterns):map(function(p) return prefix .. p end):totable()
-	api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter', }, {
+	api.nvim_create_autocmd({ 'BufReadPost', }, {
 		group = angular_au_group,
 		pattern = computed_patterns,
 		callback = callback,
@@ -108,6 +108,24 @@ angular_switcher_autocmd('*', angular_ngrx_switcher_mappings)
 angular_switcher_autocmd('*.component', angular_component_switcher_mappings('component'))
 angular_switcher_autocmd('*.module', angular_component_switcher_mappings('component'))
 angular_switcher_autocmd('*.view', angular_component_switcher_mappings('view'))
+
+api.nvim_create_autocmd({ 'BufReadPost', }, {
+	group = angular_au_group,
+	pattern = { 'appsettings*.json', },
+	callback = function()
+		map('n', '<leader>o', function()
+			nvim_quick_switcher.find_by_fn(function(p)
+				local file_name = ''
+				if string.find(p.file_name, 'local') then
+					file_name = p.file_name:gsub('.local', '')
+				else
+					file_name = p.file_name:gsub('.json', '.local.json')
+				end
+				return p.path .. '/' .. file_name
+			end, qs_opts)
+		end, qs_map_opts('switcher: appsettings.json'))
+	end,
+})
 
 -- C# Saga dir patterns
 local function command_to_handler(path, filename)
@@ -130,14 +148,14 @@ local function q_find_handler_or_command()
 end
 
 local cs_au_group = api.nvim_create_augroup('CsQuickSwitcher', { clear = true })
-api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter', }, {
+api.nvim_create_autocmd({ 'BufReadPost', }, {
 	group = cs_au_group,
 	pattern = { '*.cs' },
 	callback = function() map('n', '<leader>ch', q_find_handler_or_command(), qs_map_opts()) end,
 })
 
 local rb_au_group = api.nvim_create_augroup('RbQuickSwitcher', { clear = true })
-api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter', }, {
+api.nvim_create_autocmd({ 'BufReadPost', }, {
 	group = rb_au_group,
 	pattern = { '*.rb' },
 	callback = function()
