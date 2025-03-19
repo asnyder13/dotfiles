@@ -1,3 +1,4 @@
+---@diagnostic disable: missing-fields
 local map = require 'util'.map_keys_table
 
 local opt = vim.opt
@@ -53,7 +54,6 @@ require 'mason-lspconfig'.setup {}
 require 'fidget'.setup {}
 
 require 'lsp_lines'.setup()
-vim.diagnostic.config({ virtual_lines = true })
 map('n', '<leader>tl', require 'lsp_lines'.toggle, { desc = 'Toggle lsp_lines' })
 map('n', '<leader>td', function()
 	local curr_virt_text = vim.diagnostic.config().virtual_text
@@ -65,8 +65,10 @@ local default_cfg, custom_cfg = require 'lspconfig-local' ()
 -- Setup installed servers.
 require 'mason-lspconfig'.setup_handlers {
 	function(server_name)
-		local cfg = custom_cfg[server_name] and vim.tbl_deep_extend('force', default_cfg, custom_cfg[server_name]()) or
-				default_cfg
+		local cfg = default_cfg
+		if custom_cfg[server_name] then
+			cfg = vim.tbl_deep_extend('force', default_cfg, custom_cfg[server_name]())
+		end
 		require 'lspconfig'[server_name].setup(cfg)
 	end,
 	-- Ignore RuboCop for LSP stuff, but we want it installed for formatting
@@ -89,7 +91,7 @@ require 'navigator'.setup {
 		diagnostic_scrollbar_sign = false,
 		diagnostic = {
 			underline = true,
-			virtual_text = false,
+			virtual_text = true,
 			update_in_insert = true,
 		},
 	},
@@ -154,7 +156,7 @@ cmp.setup {
 	},
 	completion = {
 		completeopt = 'menu,noinsert,noselect',
-		autocomplete = false,
+		-- autocomplete = false,
 	},
 	snippet = {
 		expand = function(args)

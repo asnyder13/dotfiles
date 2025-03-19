@@ -54,7 +54,7 @@ on_attach.base = function(client, bufnr)
 	end, o('toggle inlay hints'))
 
 	if client and client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
-		vim.lsp.inlay_hint.enable(false, { bufnr = bufnr })
+		vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
 	end
 
 	-- require 'navigator.lspclient.mapping'.setup({ bufnr = bufnr, client = client })
@@ -145,31 +145,31 @@ local custom_cfg = {
 			},
 		}
 	end,
-	tsserver = function()
+	ts_ls = function()
 		return {
 			settings = {
 				typescript = {
 					inlayHints = {
-						includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all'
-						includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-						includeInlayVariableTypeHints = true,
-						includeInlayFunctionParameterTypeHints = true,
-						includeInlayVariableTypeHintsWhenTypeMatchesName = true,
-						includeInlayPropertyDeclarationTypeHints = true,
-						includeInlayFunctionLikeReturnTypeHints = true,
+						includeInlayParameterNameHints = 'literals', -- 'none' | 'literals' | 'all'
+						includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+						includeInlayVariableTypeHints = false,
+						includeInlayFunctionParameterTypeHints = false,
+						includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+						includeInlayPropertyDeclarationTypeHints = false,
+						includeInlayFunctionLikeReturnTypeHints = false,
 						includeInlayEnumMemberValueHints = true,
 					},
 				},
 				javascript = {
 					inlayHints = {
-						includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all'
-						includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-						includeInlayVariableTypeHints = true,
+						includeInlayParameterNameHints = 'literals', -- 'none' | 'literals' | 'all'
+						includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+						includeInlayVariableTypeHints = false,
 
-						includeInlayFunctionParameterTypeHints = true,
-						includeInlayVariableTypeHintsWhenTypeMatchesName = true,
-						includeInlayPropertyDeclarationTypeHints = true,
-						includeInlayFunctionLikeReturnTypeHints = true,
+						includeInlayFunctionParameterTypeHints = false,
+						includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+						includeInlayPropertyDeclarationTypeHints = false,
+						includeInlayFunctionLikeReturnTypeHints = false,
 						includeInlayEnumMemberValueHints = true,
 					},
 				},
@@ -194,7 +194,7 @@ local custom_cfg = {
 				})
 			end,
 			settings = {
-				Lua = {}
+				Lua = { hint = { enable = true, } }
 			}
 		}
 	end,
