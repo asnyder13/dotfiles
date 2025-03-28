@@ -104,11 +104,9 @@ local lspPackages = {
 	-- misc
 	'HiPhish/rainbow-delimiters.nvim',
 	'ray-x/lsp_signature.nvim',
-	{ url = 'https://git.sr.ht/~whynothugo/lsp_lines.nvim' },
 	'b0o/schemastore.nvim',
 	{ 'ray-x/guihua.lua', build = 'make -C lua/fzy' },
 	'ray-x/navigator.lua',
-	-- 'folke/neodev.nvim',
 }
 
 
@@ -234,8 +232,8 @@ opt.sidescrolloff = 5
 opt.splitright    = true
 opt.splitbelow    = true
 opt.listchars     = { tab = '»-', extends = '›', precedes = '‹', nbsp = '·', trail = '·', }
-opt.winblend      = 10
-opt.pumblend      = 10
+opt.winblend      = 5
+opt.pumblend      = 5
 opt.diffopt:append { 'iwhiteall', }
 
 opt.confirm        = true
@@ -284,11 +282,13 @@ end
 
 ---- General Mappings ----
 -- Unmap defaults
-vim.keymap.del('n', 'grn')
-vim.keymap.del({ 'n', 'x', }, 'gra')
-vim.keymap.del('n', 'grr')
-vim.keymap.del('n', 'gri')
-vim.keymap.del('n', 'gO')
+pcall(function()
+	vim.keymap.del('n', 'grn')
+	vim.keymap.del('n', 'grr')
+	vim.keymap.del('n', 'gri')
+	vim.keymap.del('n', 'gO')
+	vim.keymap.del({ 'n', 'x', }, 'gra')
+end)
 
 map('n', 'ZZ', '<NOP>')
 map('n', { '<C-t><C-c>', '<C-t>c' }, ':tabclose<CR>', { desc = 'Close tab' })

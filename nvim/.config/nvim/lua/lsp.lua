@@ -53,12 +53,10 @@ require 'mason-lspconfig'.setup {}
 
 require 'fidget'.setup {}
 
-require 'lsp_lines'.setup()
-map('n', '<leader>tl', require 'lsp_lines'.toggle, { desc = 'Toggle lsp_lines' })
 map('n', '<leader>td', function()
 	local curr_virt_text = vim.diagnostic.config().virtual_text
-	vim.diagnostic.config({ virtual_text = not curr_virt_text })
-	require 'lsp_lines'.toggle()
+	local curr_virt_lines = vim.diagnostic.config().virtual_lines
+	vim.diagnostic.config({ virtual_text = not curr_virt_text, virtual_lines = not curr_virt_lines })
 end, { desc = 'Toggle diagnostics' })
 
 local default_cfg, custom_cfg = require 'lspconfig-local' ()
