@@ -40,8 +40,8 @@ on_attach.base = function(client, bufnr)
 	map('n', ']d',         center(require 'navigator.diagnostics'.goto_next),          o('next_diagnostics'))
 	map('n', '[d',         center(require 'navigator.diagnostics'.goto_prev),          o('prev_diagnostics'))
 	map('n', ']O',         vim.diagnostic.set_loclist,                                 o('diagnostics_set_loclist'))
-	map('n', ']r',         center(require 'navigator.treesitter'.goto_next_usage),     o('goto_next_usage'))
-	map('n', '[r',         center(require 'navigator.treesitter'.goto_previous_usage), o('goto_previous_usage'))
+	map('n', ']r',         require 'navigator.treesitter'.goto_next_usage,             o('goto_next_usage'))
+	map('n', '[r',         require 'navigator.treesitter'.goto_previous_usage,         o('goto_previous_usage'))
 	map('n', '<leader>k',  require 'navigator.dochighlight'.hi_symbol,  o('hi_symbol'))
 	map('v', '<leader>gm', require 'navigator.formatting'.range_format, o('rangeformatoperatore.ggmip'))
 	-- map('n', '<leader>wa', require 'navigator.workspace'.add_workspace_folder,    o('add_workspace_folder'))
@@ -178,7 +178,17 @@ local custom_cfg = {
 	end,
 	omnisharp = function()
 		return {
-			handlers = { ['textDocument/definition'] = require 'omnisharp_extended'.handler }
+			handlers = { ['textDocument/definition'] = require 'omnisharp_extended'.handler },
+			settings = {
+				csharp = {
+					inlayHints = {
+						enableInlayHintsForImplicitObjectCreation = true,
+						enableInlayHintsForImplicitVariableTypes = true,
+						enableInlayHintsForLambdaParameterTypes = true,
+						enableInlayHintsForTypes = true,
+					}
+				}
+			},
 		}
 	end,
 	lua_ls = function()

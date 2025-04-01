@@ -21,7 +21,6 @@ local nonLspPackages = {
 	'ntpeters/vim-better-whitespace',
 	'tpope/vim-fugitive',
 	'vim-scripts/ReplaceWithRegister',
-	'tpope/vim-sleuth',
 	'justinmk/vim-sneak',
 	'jlcrochet/vim-razor',
 	'tpope/vim-abolish',
@@ -41,7 +40,6 @@ local nonLspPackages = {
 	'Everduin94/nvim-quick-switcher',
 	'kylechui/nvim-surround',
 	'RRethy/vim-illuminate',
-	'm-demare/hlargs.nvim',
 	'nvim-neo-tree/neo-tree.nvim',
 	'MunifTanjim/nui.nvim',
 	's1n7ax/nvim-window-picker',
@@ -55,6 +53,7 @@ local nonLspPackages = {
 	'sindrets/diffview.nvim',
 	'mei28/qfc.nvim',
 	'chrisgrieser/nvim-spider',
+	'mcauley-penney/visual-whitespace.nvim',
 
 	-- mini.nvim
 	'echasnovski/mini.ai',
@@ -307,7 +306,6 @@ map('n', '<BS>', '<C-^>',       { desc = 'Last buffer' })
 vim.cmd [[
 	nnoremap <expr> j v:count ? (v:count > 5 ? "m'" . v:count : '') . 'j' : 'gj'
 	nnoremap <expr> k v:count ? (v:count > 5 ? "m'" . v:count : '') . 'k' : 'gk'
-	command! TrimLineEnds %s/\v\s+$// | normal `'
 ]]
 map('n', 'gj', 'j')
 map('n', 'gk', 'k')
@@ -528,6 +526,8 @@ require 'marks'.setup {
 require 'diffview'.setup { view = { merge_tool = { layout = 'diff3_mixed', }, }, }
 
 require 'qfc'.setup { enabled = true, timeout = 1000, }
+
+require 'visual-whitespace'.setup {}
 
 ---- LSP Plugins ----
 -- VIM_USE_LSP needs to have a value, not just existing.
