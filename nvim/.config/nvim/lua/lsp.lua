@@ -53,10 +53,16 @@ require 'mason-lspconfig'.setup {}
 
 require 'fidget'.setup {}
 
+-- Only show errors as diag lines
+local virt_text_cfg  = { severity = { max = vim.diagnostic.severity.WARN, }, }
+local virt_lines_cfg = { severity = { min = vim.diagnostic.severity.ERROR, }, }
+-- Toggle between errors as diag lines and text
 map('n', '<leader>td', function()
-	local curr_virt_text = vim.diagnostic.config().virtual_text
 	local curr_virt_lines = vim.diagnostic.config().virtual_lines
-	vim.diagnostic.config({ virtual_text = not curr_virt_text, virtual_lines = not curr_virt_lines })
+	vim.diagnostic.config({
+		virtual_text = not curr_virt_lines and virt_text_cfg or true,
+		virtual_lines = not curr_virt_lines and virt_lines_cfg or false,
+	})
 end, { desc = 'Toggle diagnostics' })
 
 local default_cfg, custom_cfg = require 'lspconfig-local' ()
@@ -89,7 +95,8 @@ require 'navigator'.setup {
 		diagnostic_scrollbar_sign = false,
 		diagnostic = {
 			underline = true,
-			virtual_text = true,
+			virtual_text = virt_text_cfg,
+			virtual_lines = virt_lines_cfg,
 			update_in_insert = true,
 		},
 	},

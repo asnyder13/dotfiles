@@ -119,6 +119,9 @@ bindsym {
     $mod+Up focus up
     $mod+Right focus right
 
+    Alt+Tab focus next
+    Alt+Shift+Tab focus prev
+
     $mod+Ctrl+Right workspace next
     $mod+Ctrl+Left  workspace prev
 
