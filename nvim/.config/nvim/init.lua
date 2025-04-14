@@ -21,7 +21,6 @@ local nonLspPackages = {
 	'ntpeters/vim-better-whitespace',
 	'tpope/vim-fugitive',
 	'vim-scripts/ReplaceWithRegister',
-	'justinmk/vim-sneak',
 	'jlcrochet/vim-razor',
 	'tpope/vim-abolish',
 	'mattn/emmet-vim',
@@ -55,6 +54,7 @@ local nonLspPackages = {
 	'chrisgrieser/nvim-spider',
 	'mcauley-penney/visual-whitespace.nvim',
 	'emmanueltouzery/decisive.nvim',
+	'ggandor/leap.nvim',
 
 	-- mini.nvim
 	'echasnovski/mini.ai',
@@ -357,8 +357,6 @@ map(
 	{ desc = 'Spider-b' }
 )
 ---- Plugin Settings ----
--- Vim plugins
-g['sneak#use_ic_scs'] = 1
 -- Highlighted yank
 g.highlightedyank_highlight_duration = 500
 
@@ -536,13 +534,27 @@ api.nvim_create_autocmd('FileType', {
 		require 'decisive'.setup {}
 		require 'decisive'.align_csv {}
 		vim.api.nvim_create_user_command('AlignCsv',
-			function () require 'decisive'.align_csv {} end,
+			function() require 'decisive'.align_csv {} end,
 			{ desc = 'Align CSV columns' }
 		)
-		map('n', '[v', function () require('decisive').align_csv_prev_col() end)
-		map('n', ']v', function () require('decisive').align_csv_next_col() end)
+		map('n', '[v', function() require('decisive').align_csv_prev_col() end)
+		map('n', ']v', function() require('decisive').align_csv_next_col() end)
 	end
 })
+
+local leap = require 'leap'
+leap.set_default_mappings()
+vim.keymap.set({ 'n', 'x', 'o' }, 's', '<Plug>(leap-forward)')
+vim.keymap.set({ 'n', 'x', 'o' }, 'S', '<Plug>(leap-backward)')
+vim.keymap.set({ 'n', 'x', 'o' }, 'gs', '<Plug>(leap-from-window)')
+require 'leap.user'.set_repeat_keys(';', ',')
+leap.opts.preview_filter =
+		function(ch0, ch1, ch2)
+			return not (
+				ch1:match('%s') or
+				ch0:match('%a') and ch1:match('%a') and ch2:match('%a')
+			)
+		end
 
 ---- LSP Plugins ----
 -- VIM_USE_LSP needs to have a value, not just existing.
