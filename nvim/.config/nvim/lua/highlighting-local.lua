@@ -36,6 +36,7 @@ local hls = {
 	['DiffText']        = { bold = true, fg = 'NONE', bg = '#393939', },
 	['diffAdded']       = 'Function',
 	['diffRemoved']     = 'Operator',
+	['LeapBackdrop']    = 'Comment',
 	'MarkSignNumHL',
 
 

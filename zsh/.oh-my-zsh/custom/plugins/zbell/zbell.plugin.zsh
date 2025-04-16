@@ -32,7 +32,7 @@ autoload -Uz regexp-replace || return
 # initialize zbell_use_notify_send if not set
 (( ${+zbell_use_notify_send} )) || zbell_use_notify_send=false
 
-# initialize zzbell_use_paplay if not set
+# initialize zbell_use_paplay if not set
 (( ${+zbell_use_paplay} )) || zbell_use_paplay=false
 
 # initialize it because otherwise we compare a date and an empty string

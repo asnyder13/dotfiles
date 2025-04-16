@@ -27,6 +27,9 @@ set $rofi_cmd rofi \
 # Shows a combined list of the applications with desktop files and
 # executables from PATH.
 set $menu $rofi_cmd -show combi -combi-modes drun#run -modes combi
+set $menu_cliphist cliphist list | $rofi_cmd -dmenu | cliphist decode | wl-copy
+
+exec wl-paste --watch cliphist store
 
 ### Output configuration
 #
@@ -92,6 +95,9 @@ bindsym $mod+Shift+q kill
 
 # Start your launcher
 bindsym $mod+d exec $menu
+bindsym $mod+Ctrl+v exec $menu_cliphist
+
+# Launch
 
 # Switch audio output
 bindsym Shift+F11 exec $HOME/.config/sway/switch-sink.sh
