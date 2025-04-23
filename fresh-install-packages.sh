@@ -14,7 +14,9 @@ PACKAGES=(
 	clang
 	cmake
 	curl
+	difftastic
 	fd-find
+	fortune-mod
 	fzf
 	gcc
 	gcc-c++
@@ -22,6 +24,7 @@ PACKAGES=(
 	git
 	highlight
 	iotop
+	java-latest-openjdk
 	keepassxc
 	libtool
 	make
@@ -32,11 +35,14 @@ PACKAGES=(
 	nload
 	p7zip
 	pv
+	qalculate
+	qrencode
 	ripgrep
 	rsync
 	stow
 	syncthing
 	tig
+	tldr
 	tmux
 	unzip
 	watchman
@@ -45,12 +51,17 @@ PACKAGES=(
 )
 
 DESKTOP_STUFF=(
+	# kmod-nvidia
+	ImageMagick
 	adb
+	alacritty
+	bat
 	chromium
 	easyeffects
 	flatpak
 	gimp
 	gitk
+	go
 	krita
 	libreoffice
 	mozilla-openh264
@@ -65,15 +76,19 @@ DESKTOP_STUFF=(
 	vlc
 	xclip
 	xev
+	zathura
+	zathura-plugins-all
+	zathura-zsh-completion
 	zeal
 )
 
 DEV_STUFF=(
-	dotnet-sdk-6.0
 	dotnet-sdk-7.0
 	dotnet-sdk-8.0
+	dotnet-sdk-9.0
 	python3
 	python3-pip
+	ImageMagick-devel
 )
 
 I3_STUFF=(
@@ -185,3 +200,6 @@ esac
 # youtube-dlp
 sudo wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O /usr/local/bin/yt-dlp
 sudo chmod a+rx /usr/local/bin/yt-dlp
+
+# go packages: cliphist
+go install go.senan.xyz/cliphist@latest
