@@ -209,8 +209,6 @@ if [[ -e $HOME/.fzf.zsh ]]; then
 		# WSL
 		HAS_FZF=1
 		export PATH=$PATH:/usr/lib/cargo/bin
-		# The version of `fd` on wsl (8.3.1) has leading './'
-		FZF_COMMAND_SUFFIX=" | cut -b3-"
 	fi
 fi
 
