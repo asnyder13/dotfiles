@@ -55,6 +55,7 @@ local nonLspPackages = {
 	'mcauley-penney/visual-whitespace.nvim',
 	'emmanueltouzery/decisive.nvim',
 	'ggandor/leap.nvim',
+	'kwkarlwang/bufresize.nvim',
 
 	-- mini.nvim
 	'echasnovski/mini.ai',
@@ -338,24 +339,21 @@ map('n', 'J', function() return 'mz' .. vim.v.count1 .. 'J`zdmz' end, { expr = t
 map('n', 'n', 'nzzzv')
 map('n', 'N', 'Nzzzv')
 
-map(
-	{ 'n', 'o', 'x' },
-	'w',
-	"<cmd>lua require('spider').motion('w')<CR>",
-	{ desc = 'Spider-w' }
-)
-map(
-	{ 'n', 'o', 'x' },
-	'e',
-	"<cmd>lua require('spider').motion('e')<CR>",
-	{ desc = 'Spider-e' }
-)
-map(
-	{ 'n', 'o', 'x' },
-	'b',
-	"<cmd>lua require('spider').motion('b')<CR>",
-	{ desc = 'Spider-b' }
-)
+local spider_map = function(key)
+	map(
+		{ 'n', 'o', 'x' },
+		key,
+		function() require('spider').motion(key) end,
+		{ desc = 'Spider-' .. key }
+	)
+end
+spider_map('w')
+spider_map('e')
+spider_map('b')
+
+-- https://old.reddit.com/r/neovim/comments/1k4efz8/share_your_proudest_config_oneliners/
+map('n', 'ycc', function() return 'yy' .. vim.v.count1 .. "gcc']p" end, { remap = true, expr = true })
+
 ---- Plugin Settings ----
 -- Highlighted yank
 g.highlightedyank_highlight_duration = 500
@@ -606,6 +604,7 @@ api.nvim_create_autocmd('FileType', {
 	end
 })
 
+require 'bufresize'.setup()
 
 ---- LSP Plugins ----
 -- VIM_USE_LSP needs to have a value, not just existing.
