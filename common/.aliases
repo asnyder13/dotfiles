@@ -72,8 +72,12 @@ alias grbst='git rebase --autostash'
 alias gdt='git difftool'
 alias gdtc='git difftool --cached'
 
-if command -v highlight >/dev/null 2>&1; then
+if command -v bat >/dev/null 2>&1; then
+	alias cats='bat'
+elif command -v highlight >/dev/null 2>&1; then
 	alias cats='highlight -O ansi --force --line-numbers'
+else
+	alias cats='cat'
 fi
 
 # Random functions

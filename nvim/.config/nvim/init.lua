@@ -354,6 +354,13 @@ spider_map('b')
 -- https://old.reddit.com/r/neovim/comments/1k4efz8/share_your_proudest_config_oneliners/
 map('n', 'ycc', function() return 'yy' .. vim.v.count1 .. "gcc']p" end, { remap = true, expr = true })
 
+local map_quick_postfix = function(key)
+	map('n', '<C-' .. key .. '>', 'mz<ESC>A' .. key .. '<ESC>`z')
+	map('i', '<C-' .. key .. '>', '<ESC>mz<ESC>A' .. key .. '<ESC>`za')
+end
+map_quick_postfix(',')
+map_quick_postfix(';')
+
 ---- Plugin Settings ----
 -- Highlighted yank
 g.highlightedyank_highlight_duration = 500
