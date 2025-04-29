@@ -177,8 +177,21 @@ local custom_cfg = {
 		}
 	end,
 	omnisharp = function()
+		local omnisharp_extended = require 'omnisharp_extended'
 		return {
-			handlers = { ['textDocument/definition'] = require 'omnisharp_extended'.handler },
+			on_attach = function(client, bufnr)
+				on_attach.base(client, bufnr)
+
+				local o = function(desc)
+					return vim.tbl_extend('force', { noremap = true, buffer = bufnr, desc = nil },
+						{ desc = desc })
+				end
+				map('n', '<C-]>',     omnisharp_extended.lsp_definitions,     o('omnisharp_extended definition'))
+				map('n', 'gi',        omnisharp_extended.lsp_implementation,  o('omnisharp_extended implementation'))
+				map('n', '<leader>D', omnisharp_extended.lsp_type_definition, o('omnisharp_extended type definition'))
+				-- map('n', '<leader>r', omnisharp_extended.lsp_references,      o('omnisharp_extended references'))
+			end,
+			handlers = { ['textDocument/definition'] = omnisharp_extended.handler },
 			settings = {
 				csharp = {
 					inlayHints = {
