@@ -115,19 +115,19 @@ local luasnip = require 'luasnip'
 cmp.setup {
 	mapping = {
 		['<Tab>']     = function(fallback)
-			if cmp.visible() then
+			if luasnip.in_snippet() and luasnip.jumpable(1) then
+				luasnip.jump(1)
+			elseif cmp.visible() then
 				cmp.mapping.select_next_item()()
-			elseif luasnip.expand_or_locally_jumpable() then
-				luasnip.expand_or_jump()
 			else
 				fallback()
 			end
 		end,
 		['<S-Tab>']   = function(fallback)
-			if cmp.visible() then
-				cmp.mapping.select_prev_item()()
-			elseif luasnip.jumpable(-1) then
+			if luasnip.jumpable(-1) then
 				luasnip.jump(-1)
+			elseif cmp.visible() then
+				cmp.mapping.select_prev_item()()
 			else
 				fallback()
 			end
@@ -142,10 +142,10 @@ cmp.setup {
 		['<C-u>']     = cmp.mapping.scroll_docs(-4),
 	},
 	sources = cmp.config.sources({
-		{ name = 'luasnip',    group_index = 1 },
-		{ name = 'nvim_lsp',   group_index = 2 },
-		{ name = 'nvim_lua',   group_index = 2 },
-		{ name = 'treesitter', group_index = 3 },
+		{ name = 'nvim_lsp',   group_index = 1 },
+		{ name = 'nvim_lua',   group_index = 1 },
+		{ name = 'treesitter', group_index = 2 },
+		{ name = 'luasnip',    group_index = 3 },
 		{ name = 'buffer', group_index = 4,
 			option = {
 				get_bufnrs = function()

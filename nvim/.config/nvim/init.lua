@@ -94,6 +94,7 @@ local lspPackages = {
 	{ 'L3MON4D3/LuaSnip',                                  build = 'make install_jsregexp' },
 	'rafamadriz/friendly-snippets',
 	'honza/vim-snippets',
+	'saadparwaiz1/cmp_luasnip',
 
 	-- DAP
 	'mfussenegger/nvim-dap',
