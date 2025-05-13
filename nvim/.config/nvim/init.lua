@@ -95,6 +95,7 @@ local lspPackages = {
 	'rafamadriz/friendly-snippets',
 	'honza/vim-snippets',
 	'saadparwaiz1/cmp_luasnip',
+	'benfowler/telescope-luasnip.nvim',
 
 	-- DAP
 	'mfussenegger/nvim-dap',
@@ -250,7 +251,7 @@ opt.smartcase      = true
 
 opt.foldmethod     = 'indent'
 opt.foldlevelstart = 10
-map('n', 'zM', function() opt.foldlevel = 1 end)
+map('n', 'zM', function() opt.foldlevel = 2 end)
 
 
 g.loaded_python3_provider = false
@@ -418,7 +419,9 @@ autopairs.add_rules {
 	Rule('<', '>')
 			:with_pair(cond.not_filetypes({ 'cs', }))
 			:with_pair(cond.before_regex('%a+'))
-			:with_move(cond.after_text('>'))
+			:with_move(cond.after_text('>')),
+	Rule('|', '|', 'ruby')
+			:with_move(cond.after_text('|')),
 }
 
 require 'bigfile'.setup {
@@ -517,4 +520,3 @@ map('n', '[c', function()
 		gitsigns.nav_hunk('prev')
 	end
 end, { desc = 'Git hunk prev' })
-
