@@ -1,5 +1,5 @@
-local Util     = require 'util'
-local map      = Util.map_keys_table
+local Util = require 'util'
+local map  = Util.map_keys_table
 
 
 local g   = vim.g
@@ -75,8 +75,8 @@ local lspPackages = {
 
 	-- LSP
 	'neovim/nvim-lspconfig',
-	'williamboman/mason.nvim',
-	'williamboman/mason-lspconfig.nvim',
+	'mason-org/mason.nvim',
+	'mason-org/mason-lspconfig.nvim',
 	'mhartington/formatter.nvim',
 	'j-hui/fidget.nvim',
 	'Hoffs/omnisharp-extended-lsp.nvim',
@@ -91,7 +91,7 @@ local lspPackages = {
 	'ray-x/cmp-treesitter',
 
 	-- Snippets
-	{ 'L3MON4D3/LuaSnip',                                  build = 'make install_jsregexp' },
+	{ 'L3MON4D3/LuaSnip', build = 'make install_jsregexp' },
 	'rafamadriz/friendly-snippets',
 	'honza/vim-snippets',
 	'saadparwaiz1/cmp_luasnip',
@@ -270,8 +270,14 @@ require 'switcher'
 require 'neo-tree-local'
 require 'movement'
 
-require 'lsp'
-require 'format'
+local lsp_success, lsp_error = pcall(function()
+	require 'lsp'
+	require 'format'
+end)
+if not lsp_success then
+	vim.print('Error setting up LSPs')
+	vim.print(lsp_error)
+end
 
 g.user_emmet_install_global = 0
 g.user_emmet_leader_key = '<C-t>'

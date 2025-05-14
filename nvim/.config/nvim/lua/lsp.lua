@@ -47,12 +47,6 @@ require 'nvim-ts-autotag'.setup {
 	}
 }
 
----- Language Servers
-require 'mason'.setup {}
-require 'mason-lspconfig'.setup {}
-
-require 'fidget'.setup {}
-
 -- Only show errors as diag lines
 local virt_text_cfg  = { severity = { max = vim.diagnostic.severity.WARN, }, }
 local virt_lines_cfg = { severity = { min = vim.diagnostic.severity.ERROR, }, }
@@ -65,23 +59,26 @@ map('n', '<leader>td', function()
 	})
 end, { desc = 'Toggle diagnostics' })
 
-local default_cfg, custom_cfg = require 'lspconfig-local' ()
--- Setup installed servers.
-require 'mason-lspconfig'.setup_handlers {
-	function(server_name)
-		local cfg = default_cfg
-		if custom_cfg[server_name] then
-			cfg = vim.tbl_deep_extend('force', default_cfg, custom_cfg[server_name]())
-		end
-		require 'lspconfig'[server_name].setup(cfg)
-	end,
-	-- Ignore RuboCop for LSP stuff, but we want it installed for formatting
-	rubocop = function() end,
+---- Language Servers
+local on_attach = require 'lspconfig-local'
+vim.lsp.config('*', {
+	on_attach = on_attach,
+	capabilities = vim.lsp.protocol.make_client_capabilities(),
+	inlay_hints = { enabled = true },
+})
+require 'mason'.setup {}
+require 'mason-lspconfig'.setup {
+	automatic_enable = { exclude = {
+		'rubocop',
+	}, },
 }
+
+
+require 'fidget'.setup {}
 
 require 'guihua.maps'.setup { maps = { close_view = '<C-c>', }, }
 require 'navigator'.setup {
-	on_attach = function(...) default_cfg.on_attach(...) end,
+	on_attach = on_attach,
 	default_mapping = false,
 	icons = { icons = false },
 	mason = true,
