@@ -124,10 +124,10 @@ cmp.setup {
 			end
 		end,
 		['<S-Tab>']   = function(fallback)
-			if luasnip.jumpable(-1) then
-				luasnip.jump(-1)
-			elseif cmp.visible() then
+			if cmp.visible() then
 				cmp.mapping.select_prev_item()()
+			elseif luasnip.jumpable(-1) then
+				luasnip.jump(-1)
 			else
 				fallback()
 			end
