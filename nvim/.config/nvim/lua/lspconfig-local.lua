@@ -62,6 +62,14 @@ local on_attach = function(client, bufnr)
 	require 'lsp_signature'.on_attach({
 		hint_enable = false,
 		hi_parameter = 'CursorLine',
+		ignore_error = function(err, ctx, config)
+			if ctx and ctx.client_id then
+				local client = vim.lsp.get_client_by_id(ctx.client_id)
+				if client and vim.tbl_contains({ 'rust_analyer', 'clangd', 'omnisharp' }, client.name) then
+					return true
+				end
+			end
+		end
 	}, bufnr)
 end
 

@@ -104,6 +104,7 @@ zbell_ignore=(
 	vimg
 	gd
 	gdt
+	man
 )
 if [[ -n $SSH_CONNECTION || -n $SSH_CLIENT || -e /proc/sys/fs/binfmt_misc/WSLInterop ]]; then
 	zbell_use_notify_send=false
