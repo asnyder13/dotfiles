@@ -13,10 +13,8 @@ local nvim_quick_switcher = require 'nvim-quick-switcher'
 ---@param file string
 ---@param opts table
 local function q_switch(file, opts)
-	vim.validate {
-		file = { file, 'string' },
-		opts = { opts, 'table', true },
-	}
+	vim.validate('file', file, 'string')
+	vim.validate('opts', opts, 'table', true)
 	return function() nvim_quick_switcher.switch(file, opts) end
 end
 
@@ -37,7 +35,7 @@ end
 -- Angular
 ---@param file_type string
 local function angular_component_switcher_mappings(file_type)
-	vim.validate { file_type = { file_type, 'string' } }
+	vim.validate('file_type', file_type, 'string')
 	return function()
 		local maps = qs_maps_factory('ng')
 		local leader = '<leader>'
@@ -92,10 +90,9 @@ local angular_au_group = api.nvim_create_augroup('AngularQuickSwitcher', { clear
 ---@param prefix string
 ---@param callback function
 local function angular_switcher_autocmd(prefix, callback)
-	vim.validate {
-		prefix = { prefix, 'string' },
-		callback = { callback, 'function' },
-	}
+	vim.validate('prefix', prefix, 'string')
+	vim.validate('callback', callback, 'function')
+
 	local patterns = { '.ts', '.html', '.scss', '.sass', }
 	local computed_patterns = vim.iter(patterns):map(function(p) return prefix .. p end):totable()
 	api.nvim_create_autocmd({ 'BufReadPost', }, {

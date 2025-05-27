@@ -30,9 +30,6 @@ case "$1" in
 	general)
 		stow -vR -t "$HOME" "${GENERAL_SOURCES[@]}"
 		;;
-	i3)
-		stow -vR -t "$HOME" "${I3_SOURCES[@]}"
-		;;
 	sway)
 		stow -vR -t "$HOME" "${SWAY_SOURCES[@]}"
 		;;

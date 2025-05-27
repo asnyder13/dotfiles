@@ -14,10 +14,15 @@ require 'nvim-treesitter.configs'.setup {
 		'javascript',
 		'json',
 		'json5',
+		'jsonc',
 		'lua',
+		'make',
+		'markdown',
+		'markdown_inline',
 		'ruby',
 		'scss',
 		'typescript',
+		'xml',
 		'yaml',
 	}, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
 	-- If TS highlights are not enabled at all, or disabled via `disable` prop, highlighting will fallback to default Vim syntax highlighting

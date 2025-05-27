@@ -13,6 +13,5 @@ GENERAL_SOURCES=(
 	tmux
 	vim
 )
-I3_SOURCES=( i3 )
 SWAY_SOURCES=( sway terminal )
-ALL_SOURCES=( "${GENERAL_SOURCES[@]}" "${SHELL_SOURCES[@]}" "${SWAY_SOURCES[@]}" "${I3_SOURCES[@]}" )
+ALL_SOURCES=( "${GENERAL_SOURCES[@]}" "${SHELL_SOURCES[@]}" "${SWAY_SOURCES[@]}" )

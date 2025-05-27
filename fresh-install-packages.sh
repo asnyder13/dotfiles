@@ -56,12 +56,14 @@ DESKTOP_STUFF=(
 	adb
 	alacritty
 	bat
+	btop
 	chromium
 	easyeffects
 	flatpak
 	gimp
 	gitk
 	go
+	htop
 	krita
 	libreoffice
 	mozilla-openh264
@@ -91,10 +93,6 @@ DEV_STUFF=(
 	ImageMagick-devel
 )
 
-I3_STUFF=(
-	feh
-	polybar
-)
 SWAY_STUFF=(
 	slurp
 	sway-config-fedora
@@ -104,14 +102,12 @@ SWAY_STUFF=(
 	xev
 )
 
-# Bad distro detection
+# Naïve distro detection
 if command -v dnf5 >/dev/null 2>&1; then
 	installer='sudo dnf5 install --skip-broken'
 	sudo dnf install -y \
 		"https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm" \
 		"https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm"
-	sudo dnf copr enable atim/bottom -y
-	sudo dnf install -y bottom
 elif command -v apt >/dev/null 2>&1; then
 	installer='sudo apt install'
 else
@@ -121,8 +117,6 @@ fi
 
 read -rp 'Install dev stuff? (rvm/nvm/dotnet/python) [Y/n]' installdevstuff
 installdevstuff=${installdevstuff:-'Y'}
-read -rp 'Using i3? (will also install desktop stuff) [Y/n]' installi3stuff
-installi3stuff=${installi3stuff:-'Y'}
 read -rp 'Using sway? (will also install desktop stuff) [Y/n]' installswaystuff
 installswaystuff=${installswaystuff:-'Y'}
 read -rp 'Compile neovim? [Y/n]' installneovim
@@ -135,20 +129,14 @@ case "$installdevstuff" in
 esac
 
 desktop_stuff=()
-i3_packs=()
 sway_packs=()
-case "$installi3stuff" in
-	y|Y)
-		i3_packs=( "${I3_STUFF[@]}" )
-		desktop_stuff=( "${DESKTOP_STUFF[@]}" )
-esac
 case "$installswaystuff" in
 	y|Y)
 		sway_packs=( "${SWAY_STUFF[@]}" )
 		desktop_stuff=( "${DESKTOP_STUFF[@]}" )
 esac
 
-all_packs=("${PACKAGES[@]}" "${dev_packs[@]}" "${i3_packs[@]}" "${sway_packs[@]}" "${desktop_stuff[@]}")
+all_packs=("${PACKAGES[@]}" "${dev_packs[@]}" "${sway_packs[@]}" "${desktop_stuff[@]}")
 install_cmd="$($installer) ${all_packs[*]}"
 sudo bash -c "$($install_cmd)"
 
