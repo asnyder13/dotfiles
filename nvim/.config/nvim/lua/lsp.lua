@@ -220,9 +220,20 @@ map('n', '<C-j>', ':Treewalker Down<CR>')
 map('n', '<C-k>', ':Treewalker Up<CR>')
 map('n', '<C-l>', ':Treewalker Right<CR>')
 
+local lang_utils = require('treesj.langs.utils')
+local treesj_langs = {
+	c_sharp = {
+		argument_list = lang_utils.set_preset_for_args(),
+		parameter_list = lang_utils.set_preset_for_args(),
+		initializer_expression = lang_utils.set_preset_for_list(),
+		element_binding_expression = lang_utils.set_preset_for_list(),
+		block = lang_utils.set_preset_for_statement(),
+	}
+}
 require 'treesj'.setup {
 	max_join_length = 480,
 	use_default_keymaps = false,
+	langs = treesj_langs,
 }
 map('n', 'gS', require 'treesj'.split)
 map('n', 'gJ', require 'treesj'.join)

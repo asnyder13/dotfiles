@@ -345,12 +345,32 @@ map('n', 'N', 'Nzzzv')
 -- https://old.reddit.com/r/neovim/comments/1k4efz8/share_your_proudest_config_oneliners/
 map('n', 'ycc', function() return 'yy' .. vim.v.count1 .. "gcc']p" end, { remap = true, expr = true })
 
-local map_quick_postfix = function(key)
-	map('n', '<C-' .. key .. '>', 'mz<ESC>A' .. key .. '<ESC>`z')
-	map('i', '<C-' .. key .. '>', '<ESC>mz<ESC>A' .. key .. '<ESC>`za')
+
+---@param value string
+---@param key string|nil
+local map_quick_postfix = function(value, key)
+	if not key then
+		key = value
+	end
+
+	map('n', '<C-' .. key .. '>', 'mz<ESC>A' .. value .. '<ESC>`z')
+	map('i', '<C-' .. key .. '>', '<ESC>mz<ESC>A' .. value .. '<ESC>`za')
 end
 map_quick_postfix(',')
 map_quick_postfix(';')
+
+---@param value string
+---@param key string|nil
+local map_quick_prefix = function(value, key, mod)
+	if not mod then mod = '<C-' end
+	if not key then key = value end
+
+	local move_str = vim.iter(vim.split(value, '')):map(function() return 'l' end):join('')
+	map('n', mod .. key .. '>', 'mz<ESC>^i' .. value .. '<ESC>`z' .. move_str)
+	map('i', mod .. key .. '>', '<ESC>mz<ESC>^i' .. value .. '<ESC>`za' .. move_str)
+end
+map_quick_prefix('await ', 'a', '<C-M-')
+map_quick_prefix('return ', 'r', '<C-M-')
 
 ---- Plugin Settings ----
 -- Highlighted yank
