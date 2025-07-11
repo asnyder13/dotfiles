@@ -105,7 +105,7 @@ local lspPackages = {
 
 	-- misc
 	'HiPhish/rainbow-delimiters.nvim',
-	'ray-x/lsp_signature.nvim',
+	-- 'ray-x/lsp_signature.nvim',
 	'b0o/schemastore.nvim',
 	{ 'ray-x/guihua.lua', build = 'make -C lua/fzy' },
 	'ray-x/navigator.lua',
@@ -235,6 +235,7 @@ opt.listchars     = { tab = '»-', extends = '›', precedes = '‹', nbsp = '·
 opt.winblend      = 5
 opt.pumblend      = 5
 opt.diffopt:append { 'iwhiteall', }
+opt.linebreak     = true
 
 opt.confirm        = true
 opt.backup         = false
@@ -316,6 +317,7 @@ vim.api.nvim_create_user_command('BufCloseOthers',
 map('n', '<BS>', '<C-^>', { desc = 'Last buffer' })
 map('n', '<leader><C-i>', ':Inspect<CR>', { desc = ':Inspect' })
 map('n', '<C-w><C-w>', '<C-w><C-p>', { desc = 'Last window' })
+map('n', '<C-w>,', function() vim.cmd('resize ' .. vim.fn.line('$')) end, { desc = 'Size window to content' })
 
 -- Toggle mappings
 map('n', '<leader>tw', ':set wrap!<CR>', { desc = 'Toggle wrap' })
@@ -362,15 +364,16 @@ map_quick_postfix(';')
 ---@param value string
 ---@param key string|nil
 local map_quick_prefix = function(value, key, mod)
-	if not mod then mod = '<C-' end
+	if not mod then mod = '<C-M-' end
 	if not key then key = value end
 
 	local move_str = vim.iter(vim.split(value, '')):map(function() return 'l' end):join('')
 	map('n', mod .. key .. '>', 'mz<ESC>^i' .. value .. '<ESC>`z' .. move_str)
 	map('i', mod .. key .. '>', '<ESC>mz<ESC>^i' .. value .. '<ESC>`za' .. move_str)
 end
-map_quick_prefix('await ', 'a', '<C-M-')
-map_quick_prefix('return ', 'r', '<C-M-')
+map_quick_prefix('await ', 'a')
+map_quick_prefix('return ', 'r')
+map_quick_prefix('export ', 'e')
 
 ---- Plugin Settings ----
 -- Highlighted yank

@@ -49,7 +49,7 @@ require 'mini.move'.setup {
 require 'fix-auto-scroll'.setup()
 
 -- Hop & Leap
-local sneak_keys = 'hklyuiopnm,qwertzxcvbasdgjf;'
+local sneak_keys = 'hklyuiopnm,qwertzxcvbasdgj;'
 require 'hop'.setup { keys = sneak_keys }
 map('n', '<leader>f', '<Esc> :lua require("hop").hint_char1()<CR>', { desc = 'Hop 1 char' })
 map('n', '<leader>w', '<Esc> :lua require("hop").hint_words()<CR>', { desc = 'Hop words' })
