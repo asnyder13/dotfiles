@@ -235,7 +235,7 @@ opt.listchars     = { tab = '»-', extends = '›', precedes = '‹', nbsp = '·
 opt.winblend      = 5
 opt.pumblend      = 5
 opt.diffopt:append { 'iwhiteall', }
-opt.linebreak     = true
+opt.linebreak      = true
 
 opt.confirm        = true
 opt.backup         = false
@@ -374,6 +374,15 @@ end
 map_quick_prefix('await ', 'a')
 map_quick_prefix('return ', 'r')
 map_quick_prefix('export ', 'e')
+
+-- Paste with prefix
+map('n', '<M-p>', function()
+	local char = vim.fn.input('Separator: ')
+	if char:len() ~= 0 then
+		vim.cmd('norm a' .. char .. ' ')
+		vim.cmd('norm p')
+	end
+end)
 
 ---- Plugin Settings ----
 -- Highlighted yank
