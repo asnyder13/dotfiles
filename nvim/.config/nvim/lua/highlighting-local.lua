@@ -167,17 +167,18 @@ local ill_cfgs = {
 	},
 }
 
-local au_group_illuminate = function(lang) api.nvim_create_augroup('IlluminateToggle_' .. lang, { clear = true }) end
-for lang, cfg in pairs(ill_cfgs) do
-	api.nvim_create_autocmd({ 'CursorHold' }, {
-		group = au_group_illuminate(lang),
-		pattern = cfg.pattern,
-		callback = create_illuminate_toggle(
-			cfg.in_subsection_fn,
-			lang,
-			cfg.query)
-	})
-end
+---- Not working
+-- local au_group_illuminate = function(lang) api.nvim_create_augroup('IlluminateToggle_' .. lang, { clear = true }) end
+-- for lang, cfg in pairs(ill_cfgs) do
+-- 	api.nvim_create_autocmd({ 'CursorHold' }, {
+-- 		group = au_group_illuminate(lang),
+-- 		pattern = cfg.pattern,
+-- 		callback = create_illuminate_toggle(
+-- 			cfg.in_subsection_fn,
+-- 			lang,
+-- 			cfg.query)
+-- 	})
+-- end
 
 
 vim.g.rainbow_delimiters = {

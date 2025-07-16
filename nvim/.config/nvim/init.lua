@@ -345,7 +345,13 @@ map('n', 'n', 'nzzzv')
 map('n', 'N', 'Nzzzv')
 
 -- https://old.reddit.com/r/neovim/comments/1k4efz8/share_your_proudest_config_oneliners/
-map('n', 'ycc', function() return 'yy' .. vim.v.count1 .. "gcc']p" end, { remap = true, expr = true })
+map('n', 'ycc', function()
+	return 'yy' .. vim.v.count1 .. "gcc']p"
+end, { remap = true, expr = true, desc = 'Yank and comment', })
+map('v', 'gycc', function()
+	return "ygvgc`]$p"
+end, { remap = true, expr = true, desc = 'Yank and comment', })
+
 
 
 ---@param value string
