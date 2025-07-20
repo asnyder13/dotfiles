@@ -113,10 +113,10 @@ api.nvim_create_autocmd({ 'BufReadPost', }, {
 		map('n', '<leader>o', function()
 			nvim_quick_switcher.find_by_fn(function(p)
 				local file_name = ''
-				if string.find(p.file_name, 'local') then
-					file_name = p.file_name:gsub('.local', '')
+				if string.find(p.file_name, '%.local') then
+					file_name = p.file_name:gsub('%.local', '')
 				else
-					file_name = p.file_name:gsub('.json', '.local.json')
+					file_name = p.file_name:gsub('%.json$', '.local.json')
 				end
 				return p.path .. '/' .. file_name
 			end, qs_opts)

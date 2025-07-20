@@ -82,11 +82,11 @@ local lspPackages = {
 	'Hoffs/omnisharp-extended-lsp.nvim',
 
 	-- cmp for LSP
-	{ 'iguanacucumber/magazine.nvim',                        as = 'nvim-cmp', },
-	{ 'iguanacucumber/mag-nvim-lsp',                         as = 'cmp-nvim-lsp', },
-	{ 'iguanacucumber/mag-nvim-lua',                         as = 'cmp-nvim-lua', },
-	{ 'iguanacucumber/mag-buffer',                           as = 'cmp-buffer', },
-	{ 'iguanacucumber/mag-cmdline',                          as = 'cmp-cmdline', },
+	'hrsh7th/nvim-cmp',
+	'hrsh7th/cmp-nvim-lsp',
+	'hrsh7th/cmp-nvim-lua',
+	'hrsh7th/cmp-buffer',
+	'hrsh7th/cmp-cmdline',
 	{ url = 'https://codeberg.org/FelipeLema/cmp-async-path' },
 	'ray-x/cmp-treesitter',
 
