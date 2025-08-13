@@ -10,6 +10,7 @@ PACKAGES=(
 	ShellCheck
 	autoconf
 	automake
+	bat
 	cc
 	clang
 	cmake
@@ -22,7 +23,6 @@ PACKAGES=(
 	gcc-c++
 	gettext
 	git
-	highlight
 	iotop
 	java-latest-openjdk
 	keepassxc
@@ -55,7 +55,6 @@ DESKTOP_STUFF=(
 	ImageMagick
 	adb
 	alacritty
-	bat
 	btop
 	chromium
 	easyeffects

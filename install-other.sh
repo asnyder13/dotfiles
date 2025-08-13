@@ -104,14 +104,35 @@ if command -v zsh >/dev/null 2>&1; then
 	fi
 
 	### Extra plugins
-	zsh_highlight_loc="${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting"
+	# zsh_highlight_loc="${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting"
+	# if [[ ! -d $zsh_highlight_loc ]]; then
+	# 	echo 'Fetching zsh-syntax-highlighting'
+	# 	git clone \
+	# 		https://github.com/zsh-users/zsh-syntax-highlighting.git \
+	# 		"$zsh_highlight_loc"
+	# else
+	# 	echo 'zsh-syntax-highlighting already present'
+	# fi
+
+	# git clone https://github.com/zdharma-continuum/fast-syntax-highlighting.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting
+	zsh_highlight_loc="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting"
 	if [[ ! -d $zsh_highlight_loc ]]; then
-		echo 'Fetching zsh-syntax-highlighting'
+		echo 'Fetching fast-syntax-highlighting'
 		git clone \
-			https://github.com/zsh-users/zsh-syntax-highlighting.git \
+			https://github.com/zdharma-continuum/fast-syntax-highlighting.git \
 			"$zsh_highlight_loc"
 	else
-		echo 'zsh-syntax-highlighting already present'
+		echo 'fast-syntax-highlighting already present'
+	fi
+
+	zsh_autosuggest_loc="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"
+	if [[ ! -d $zsh_autosuggest_loc ]]; then
+		echo 'Fetching zsh-autosuggestions'
+		git clone \
+			https://github.com/zsh-users/zsh-autosuggestions.git \
+			"$zsh_autosuggest_loc"
+	else
+		echo 'zsh-autosuggestions already present'
 	fi
 else
 	echo 'zsh not installed'

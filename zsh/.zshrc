@@ -1,5 +1,14 @@
 # zmodload zsh/zprof
 
+# Smarter completion initialization
+autoload -Uz compinit
+DISABLE_COMPFIX="true"
+if [ "$(date +'%j')" != "$(stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)" ]; then
+    compinit
+else
+    compinit -C
+fi
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -26,7 +35,7 @@ ZSH_THEME="agnoster"
 HYPHEN_INSENSITIVE="true"
 
 # Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
+DISABLE_AUTO_UPDATE="true"
 
 # Uncomment the following line to automatically update without prompting.
 # DISABLE_UPDATE_PROMPT="true"
@@ -35,7 +44,7 @@ HYPHEN_INSENSITIVE="true"
 # export UPDATE_ZSH_DAYS=13
 
 # Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS="true"
+DISABLE_MAGIC_FUNCTIONS="true"
 
 # Uncomment the following line to disable colors in ls.
 # DISABLE_LS_COLORS="true"
@@ -67,6 +76,11 @@ HYPHEN_INSENSITIVE="true"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
+
+ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE="20"
+ZSH_AUTOSUGGEST_USE_ASYNC=1
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#628262"
+
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
@@ -84,8 +98,11 @@ plugins=(
 	sudo
 	vi-mode
 	zbell
+	zsh-autosuggestions
 	# git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-	zsh-syntax-highlighting
+	# zsh-syntax-highlighting
+	# git clone https://github.com/zdharma-continuum/fast-syntax-highlighting.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting
+	fast-syntax-highlighting
 )
 zbell_ignore=(
 	$EDITOR
@@ -115,8 +132,8 @@ else
 	zbell_use_paplay=true
 fi
 
-zstyle ':omz:plugins:nvm' lazy no
-zstyle ':omz:plugins:nvm' lazy-cmd vim nvim ng make
+zstyle ':omz:plugins:nvm' lazy yes
+# zstyle ':omz:plugins:nvm' lazy-cmd vim nvim ng make
 zstyle ':omz:plugins:rvm' lazy no
 zstyle ':omz:plugins:rvm' lazy-cmd vim nvim ng make gem irb
 
@@ -166,6 +183,8 @@ bindkey '^x^e' edit-command-line
 # Vi style
 bindkey -M vicmd '^xe' edit-command-line
 bindkey -M vicmd '^x^e' edit-command-line
+
+bindkey '^ ' autosuggest-accept
 
 # https://sheerun.net/2014/03/21/how-to-boost-your-vim-productivity/
 fancy-ctrl-z () {
@@ -230,6 +249,23 @@ if [[ ! -z "$HAS_FZF" ]]; then
 	export FZF_CTRL_T_COMMAND="command fd --follow --hidden $ignore_string --min-depth 1 -tf -td -tl . $FZF_COMMAND_SUFFIX"
 	export FZF_ALT_C_COMMAND="command fd --follow --hidden $ignore_string --min-depth 1 -td . $FZF_COMMAND_SUFFIX"
 	source $HOME/.fzf.zsh
+fi
+
+if [[ -z "$NVM_DIR" ]]; then
+  if [[ -d "$HOME/.nvm" ]]; then
+    export NVM_DIR="$HOME/.nvm"
+  elif [[ -d "${XDG_CONFIG_HOME:-$HOME/.config}/nvm" ]]; then
+    export NVM_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/nvm"
+  elif (( $+commands[brew] )); then
+    NVM_HOMEBREW="${NVM_HOMEBREW:-${HOMEBREW_PREFIX:-$(brew --prefix)}/opt/nvm}"
+    if [[ -d "$NVM_HOMEBREW" ]]; then
+      export NVM_DIR="$NVM_HOMEBREW"
+    fi
+  fi
+fi
+if [[ -n "$NVM_DIR" ]]; then
+	local ver_dir=$(fd -d1 -HI . "$NVM_DIR/versions/node" | sort -nr | head -1)
+	PATH="$PATH:$ver_dir/bin"
 fi
 
 # zprof
