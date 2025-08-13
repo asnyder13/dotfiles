@@ -80,6 +80,7 @@ local lspPackages = {
 	'mhartington/formatter.nvim',
 	'j-hui/fidget.nvim',
 	'Hoffs/omnisharp-extended-lsp.nvim',
+	'dmmulroy/ts-error-translator.nvim',
 
 	-- cmp for LSP
 	'hrsh7th/nvim-cmp',

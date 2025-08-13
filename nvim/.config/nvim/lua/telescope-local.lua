@@ -32,7 +32,7 @@ map('n', '<C-M-p>',    function() builtin.find_files({ hidden = true }) end,  { 
 map('n', '<M-g>',      builtin.git_files,                                     { desc = 'Telescope git files' })
 map('n', '<leader>b',  function() builtin.buffers({ sort_mru = true}) end,    { desc = 'Telescope buffers' })
 map('n', '<M-;>',      builtin.treesitter,                                    { desc = 'Telescope treesitter' })
-map('n', '<C-g>',      builtin.live_grep,                                     { desc = 'Telescope live grep' })
+map('n', '<C-g>',      function () builtin.live_grep({ glob_pattern = { '!package-lock.json' } }) end, { desc = 'Telescope live grep' })
 map('n', 'q/',         builtin.command_history,                               { desc = 'Telescope command history' })
 map('n', '<leader>z=', builtin.spell_suggest,                                 { desc = 'Telescope spell suggest' })
 map('n', '<leader>/',  builtin.current_buffer_fuzzy_find,                     { desc = 'Telescope buffer fuzzy find' })
