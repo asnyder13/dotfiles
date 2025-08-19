@@ -104,18 +104,8 @@ if command -v zsh >/dev/null 2>&1; then
 	fi
 
 	### Extra plugins
-	# zsh_highlight_loc="${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting"
-	# if [[ ! -d $zsh_highlight_loc ]]; then
-	# 	echo 'Fetching zsh-syntax-highlighting'
-	# 	git clone \
-	# 		https://github.com/zsh-users/zsh-syntax-highlighting.git \
-	# 		"$zsh_highlight_loc"
-	# else
-	# 	echo 'zsh-syntax-highlighting already present'
-	# fi
-
-	# git clone https://github.com/zdharma-continuum/fast-syntax-highlighting.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting
-	zsh_highlight_loc="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting"
+	ZSH_LOC=${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}
+	zsh_highlight_loc="$ZSH_LOC/plugins/fast-syntax-highlighting"
 	if [[ ! -d $zsh_highlight_loc ]]; then
 		echo 'Fetching fast-syntax-highlighting'
 		git clone \
@@ -125,7 +115,7 @@ if command -v zsh >/dev/null 2>&1; then
 		echo 'fast-syntax-highlighting already present'
 	fi
 
-	zsh_autosuggest_loc="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"
+	zsh_autosuggest_loc="$ZSH_LOC/plugins/zsh-autosuggestions"
 	if [[ ! -d $zsh_autosuggest_loc ]]; then
 		echo 'Fetching zsh-autosuggestions'
 		git clone \
@@ -134,6 +124,17 @@ if command -v zsh >/dev/null 2>&1; then
 	else
 		echo 'zsh-autosuggestions already present'
 	fi
+
+	spaceship_loc="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/spaceship-prompt"
+	if [[ ! -d $spaceship_loc ]]; then
+		echo 'Fetching spaceship-prompt'
+		git clone \
+			https://github.com/spaceship-prompt/spaceship-prompt.git \
+			"$spaceship_loc"
+	else
+		echo 'spaceship-prompt already present'
+	fi
+	ln -vfs "$spaceship_loc/spaceship.zsh-theme" "$ZSH_LOC/themes/spaceship.zsh-theme"
 else
 	echo 'zsh not installed'
 fi
