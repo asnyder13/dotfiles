@@ -26,6 +26,8 @@ SPACESHIP_PROMPT_ORDER=(
 SPACESHIP_RPROMPT_ORDER=(time)
 SPACESHIP_TIME_SHOW=true
 SPACESHIP_TIME_FORMAT='%@'
+SPACESHIP_CHAR_SYMBOL='≫'
+SPACESHIP_CHAR_SUFFIX='  '
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -128,6 +130,7 @@ zbell_ignore=(
 	gd
 	gdt
 	man
+	sl
 )
 if [[ -n $SSH_CONNECTION || -n $SSH_CLIENT || -e /proc/sys/fs/binfmt_misc/WSLInterop ]]; then
 	zbell_use_notify_send=false

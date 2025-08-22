@@ -142,8 +142,8 @@ function timer () {
 	sleep "$1"
 	print -n '\a'
 	if command -v notify-send >/dev/null 2>&1; then
-		if [ -z "$2" ]; then notify-send -i terminal 'Terminal timer' "Command completed in ${1}"
-		else notify-send -i terminal 'Terminal timer' "$2"
+		if [ -z "$2" ]; then notify-send -i terminal "Terminal timer: ${1}"
+		else notify-send -i terminal "Terminal timer: ${1}" "$2"
 		fi
 	fi
 	if command -v paplay >/dev/null 2>&1; then
