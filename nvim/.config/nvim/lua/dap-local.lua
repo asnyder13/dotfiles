@@ -7,7 +7,7 @@ local dap = require 'dap'
 -- dap mappings
 -- local dap_opts = { desc = 'DAP' }
 
-dap_on_attach = function(bufnr)
+local dap_on_attach = function(bufnr)
 	local opts = { noremap = true, buffer = bufnr, desc = nil }
 	local o = function(desc) return vim.tbl_extend('force', opts, { desc = 'DAP ' .. desc }) end
 
@@ -19,7 +19,7 @@ dap_on_attach = function(bufnr)
 	map('n', { '<Leader>db', '<F9>' }, dap.toggle_breakpoint, o('toggle_breakpoint'))
 	map('n', '<Leader>dB', function() dap.set_breakpoint(vim.fn.input('Breakpoint condition: ')) end,
 		o('conditional breakpoint'))
-	map('n', '<Leader>lp', function() dap.set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) end,
+	map('n', '<Leader>lp', function() dap.set_breakpoint(nil, nil, vim.fn.input('Log print message: ')) end,
 		o('log breakpoint'))
 	map('n', '<Leader>dr', dap.repl.open, o('repl open'))
 	map('n', '<Leader>dl', dap.run_last, o('run_last'))

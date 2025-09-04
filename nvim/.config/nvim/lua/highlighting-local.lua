@@ -87,6 +87,9 @@ local hls = {
 }
 vim.iter(hls):each(Util.highlight)
 
+-- Unset LSP highlighting
+vim.api.nvim_set_hl(0, '@lsp.type.keyword.cs', {})
+
 ---- Illuminate
 require 'illuminate'.configure {
 	filetypes_denylist = {
