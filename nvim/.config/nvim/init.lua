@@ -243,7 +243,7 @@ opt.backup         = false
 opt.hidden         = true
 opt.history        = 1000
 opt.termguicolors  = true
-opt.signcolumn     = 'auto:3'
+opt.signcolumn     = 'auto:1-3'
 opt.updatetime     = 250
 
 -- Searching
@@ -300,6 +300,7 @@ pcall(function()
 	vim.keymap.del('n', 'gri')
 	vim.keymap.del('n', 'gO')
 	vim.keymap.del({ 'n', 'x', }, 'gra')
+	vim.keymap.del('n', 'gr')
 end)
 
 map('n', 'ZZ', '<NOP>')

@@ -22,8 +22,11 @@ local on_attach = function(client, bufnr)
 	map('n', '<leader>gT', require 'navigator.treesitter'.bufs_ts,              o('bufs_ts'))
 
 	map('n', 'gD',        center(vim.lsp.buf.definition),                                      o('declaration'))
-	map('n', '<C-]>',     center(vim.lsp.buf.definition),                                      o('definition'))
-	map('n', 'gd',        require 'navigator.definition'.definition or vim.lsp.buf.definition, o('definition'))
+	map('n', '<C-]>',     center(function() vim.lsp.buf.definition({ reuse_win = true }) end), o('definition'))
+	map('n', 'gd',        function ()
+		local definition = require 'navigator.definition'.definition or vim.lsp.buf.definition
+		definition({ reuse_win = true })
+	end, o('definition'))
 	map('n', '<leader>d', require 'navigator.definition'.definition_preview,                   o('definition preview'))
 	map('n', '<leader>r', require 'navigator.reference'.async_ref,                             o('async_ref'))
 
