@@ -161,3 +161,7 @@ rd() {
 re() {
 	rd "$@" ; sleep 0.5 ; exit
 }
+
+qrencode-utf() {
+	qrencode -t ANSIUTF8 "$@"
+}
