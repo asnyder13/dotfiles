@@ -300,6 +300,7 @@ pcall(function()
 	vim.keymap.del('n', 'gri')
 	vim.keymap.del('n', 'gO')
 	vim.keymap.del({ 'n', 'x', }, 'gra')
+	vim.keymap.del('n', 'grt')
 	vim.keymap.del('n', 'gr')
 end)
 

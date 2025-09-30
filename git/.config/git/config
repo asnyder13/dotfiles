@@ -73,6 +73,8 @@
 [grep]
 	patternType = perl
 
+[merge]
+	conflictStyle = diff3
 ; Mergiraf https://mergiraf.org/usage.html#registration-as-a-git-merge-driver
 [merge "mergiraf"]
 	name = mergiraf

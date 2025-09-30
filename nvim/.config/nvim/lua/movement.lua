@@ -68,6 +68,6 @@ leap.opts.preview_filter =
 				ch0:match('%a') and ch1:match('%a') and ch2:match('%a')
 			)
 		end
-leap.opts.safe_labels = 'snut/SNLHMUGTZ?'
+leap.opts.safe_labels = 'uopnm,qwertzvbs;HKLYUIOPNMQWERTZXCVBASDGJ'
 leap.opts.labels = hop_keys .. hop_keys:upper()
 

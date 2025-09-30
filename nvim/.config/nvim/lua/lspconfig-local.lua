@@ -36,7 +36,7 @@ local on_attach = function(client, bufnr)
 
 	map('n', '<leader>gi', vim.lsp.buf.incoming_calls,                                 o('incoming_calls'))
 	map('n', '<leader>go', vim.lsp.buf.outgoing_calls,                                 o('outgoing_calls'))
-	map('n', 'gi',         center(vim.lsp.buf.implementation),                         o('implementation'))
+	map('n', 'gi',         center(function() vim.lsp.buf.implementation({ reuse_win = true }) end), o('implementation'))
 	map('n', '<leader>D',  center(vim.lsp.buf.type_definition),                        o('type_definition'))
 	map('n', 'gL',         require 'navigator.diagnostics'.show_diagnostics,           o('show_diagnostics'))
 	map('n', 'gG',         require 'navigator.diagnostics'.show_buf_diagnostics,       o('show_buf_diagnostics'))
