@@ -31,6 +31,7 @@ local hls = {
 	['SignColumn']      = { bg = 'NONE' },
 	-- Use bg from 'ReactiveVisual@preset.cursorline.@mode.V', just linking would make text white
 	['VisualNonText']   = { fg = '#5D5F71', bg = '#3b0764' },
+	['StatusLine']      = { fg = '#dddddd', bg = '#560707' },
 
 	['TelescopeBorder'] = { fg = '#eeeeee', bg = 'NONE' },
 	['DiffText']        = { bold = true, fg = 'NONE', bg = '#393939', },
@@ -102,7 +103,9 @@ require 'illuminate'.configure {
 	},
 }
 
-local au_group_illuminate_hold = function(lang) api.nvim_create_augroup('IlluminateToggleCursor_' .. lang, { clear = false }) end
+local au_group_illuminate_hold = function(lang)
+	api.nvim_create_augroup('IlluminateToggleCursor_' .. lang, { clear = false })
+end
 --- Create toggle for Illuminate in certain languages' nested Treesitter languages.
 ---@param in_sublanguage_fn fun(root: TSNode): boolean
 ---@param lang string
