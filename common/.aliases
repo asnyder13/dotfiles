@@ -165,3 +165,13 @@ re() {
 qrencode-utf() {
 	qrencode -t ANSIUTF8 "$@"
 }
+
+# Use difftastic to view a single ref
+# $1 git ref
+function gdtref () {
+	git difftool "$1~1..$1"
+}
+
+function gdtlast () {
+	gdtref HEAD
+}
