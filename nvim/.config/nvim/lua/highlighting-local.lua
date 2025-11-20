@@ -188,6 +188,13 @@ local ill_cfgs = {
 
 
 vim.g.rainbow_delimiters = {
+	strategy = {
+		[''] = 'rainbow-delimiters.strategy.global',
+	},
+	priority = {
+		[''] = 110,
+		-- lua = 210,
+	},
 	highlight = {
 		'RainbowDelimiterYellow',
 		'RainbowDelimiterViolet',
@@ -202,6 +209,7 @@ vim.g.rainbow_delimiters = {
 		query = 'rainbow-blocks',
 	},
 }
+
 -- Colors from VSCode's rainbow highlight which work well w/ monokai.
 local delimColors = {
 	RainbowDelimiterYellow = '#FFFF40',

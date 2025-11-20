@@ -277,3 +277,5 @@ require 'timber'.setup {
 		}
 	}
 }
+
+require 'ts-error-translator'.setup { auto_attach = true, }
