@@ -56,7 +56,6 @@ map('n', '<leader>f', '<Esc> :lua require("hop").hint_char1()<CR>', { desc = 'Ho
 map('n', '<leader>w', '<Esc> :lua require("hop").hint_words()<CR>', { desc = 'Hop words' })
 
 local leap = require 'leap'
-leap.set_default_mappings()
 map({ 'n', 'o', }, 's', '<Plug>(leap-forward)')
 map({ 'x', }, 's', '<Plug>(leap)')
 map({ 'n', 'o', }, 'S', '<Plug>(leap-backward)')

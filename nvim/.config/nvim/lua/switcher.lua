@@ -26,6 +26,10 @@ local qs_opts_hs = vim.tbl_extend('force', qs_opts, { split = 'horizontal' })
 local qs_maps_factory = function(label, custom_fn)
 	local fn = custom_fn or q_switch
 	return function(lhs1, lhs2, file)
+		if file:match('^%.') then
+			file = file:sub(2)
+		end
+
 		map('n', lhs1 .. lhs2,        fn(file, qs_opts),    qs_map_opts('switcher ' .. label .. ': ' .. file))
 		map('n', lhs1 .. 'v' .. lhs2, fn(file, qs_opts_vs), qs_map_opts('switcher ' .. label .. ': ' .. file))
 		map('n', lhs1 .. 'x' .. lhs2, fn(file, qs_opts_hs), qs_map_opts('switcher ' .. label .. ': ' .. file))
@@ -103,6 +107,7 @@ local function angular_switcher_autocmd(prefix, callback)
 end
 angular_switcher_autocmd('*', angular_ngrx_switcher_mappings)
 angular_switcher_autocmd('*.component', angular_component_switcher_mappings('component'))
+angular_switcher_autocmd('*', angular_component_switcher_mappings(''))
 angular_switcher_autocmd('*.module', angular_component_switcher_mappings('component'))
 angular_switcher_autocmd('*.view', angular_component_switcher_mappings('view'))
 
