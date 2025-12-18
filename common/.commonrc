@@ -33,6 +33,10 @@ if [[ -f ~/.aliases_local ]]; then
 	source ~/.aliases_local
 fi
 
+if [[ -f $HOME/.dotnet/dotnet ]]; then
+	export DOTNET_ROOT=$HOME/.dotnet
+	export PATH="$PATH:$DOTNET_ROOT"
+fi
 if [[ -d $HOME/.dotnet/tools ]]; then
 	export PATH="$PATH:$HOME/.dotnet/tools"
 fi

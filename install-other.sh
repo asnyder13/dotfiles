@@ -6,7 +6,7 @@ if ! command -v git >/dev/null 2>&1; then
 fi
 
 if command -v wget >/dev/null 2>&1;   then fetcher='wget -O'
-elif command -v curl >/dev/null 2>&1; then fetcher='curl -o'
+elif command -v curl >/dev/null 2>&1; then fetcher='curl -fsSLo'
 else
 	echo 'FAILURE: wget nor curl are installed.'
 	exit 1
@@ -96,7 +96,7 @@ if command -v zsh >/dev/null 2>&1; then
 
 	### oh-my-zsh
 	if [[ ! -f "$HOME/.oh-my-zsh" ]]; then
-		omz_get="$fetcher https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh"
+		omz_get="$fetcher- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh"
 		export CHSH=yes
 		export RUNZSH=no
 		export KEEP_ZSHRC=yes
