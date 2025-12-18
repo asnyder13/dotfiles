@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 SHELL_SOURCES=(
-	bash
+	# bash
 	common
 	zsh
 )
@@ -11,7 +11,7 @@ GENERAL_SOURCES=(
 	git
 	ruby
 	tmux
-	vim
+	# vim
 )
 SWAY_SOURCES=( sway terminal )
 ALL_SOURCES=( "${GENERAL_SOURCES[@]}" "${SHELL_SOURCES[@]}" "${SWAY_SOURCES[@]}" )
