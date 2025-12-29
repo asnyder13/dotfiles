@@ -27,3 +27,5 @@ tags
 # End of https://www.gitignore.io/api/vim
 
 config.d/
+**/common/zshrc_local
+**/common/aliases_local
