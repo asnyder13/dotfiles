@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+source ./common/.xdg_fixes
+
 if ! command -v git >/dev/null 2>&1; then
 	echo 'FAILURE: You need git.'
 	exit 1
@@ -95,17 +97,20 @@ if command -v zsh >/dev/null 2>&1; then
 	echo 'zsh is installed'
 
 	### oh-my-zsh
-	if [[ ! -f "$HOME/.oh-my-zsh" ]]; then
+	export ZSH=$XDG_DATA_HOME/oh-my-zsh
+	ZSH_CUSTOM=${ZSH_CUSTOM:-$XDG_DATA_HOME/oh-my-zsh/custom}
+	if [[ ! -d $ZSH ]]; then
 		omz_get="$fetcher- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh"
 		export CHSH=yes
 		export RUNZSH=no
 		export KEEP_ZSHRC=yes
 		sh -c "$($omz_get)"
+	else
+		echo "ohmyzsh present at $ZSH"
 	fi
 
 	### Extra plugins
-	ZSH_LOC=${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}
-	zsh_highlight_loc="$ZSH_LOC/plugins/fast-syntax-highlighting"
+	zsh_highlight_loc="$ZSH_CUSTOM/plugins/fast-syntax-highlighting"
 	if [[ ! -d $zsh_highlight_loc ]]; then
 		echo 'Fetching fast-syntax-highlighting'
 		git clone \
@@ -115,7 +120,7 @@ if command -v zsh >/dev/null 2>&1; then
 		echo 'fast-syntax-highlighting already present'
 	fi
 
-	zsh_autosuggest_loc="$ZSH_LOC/plugins/zsh-autosuggestions"
+	zsh_autosuggest_loc="$ZSH_CUSTOM/plugins/zsh-autosuggestions"
 	if [[ ! -d $zsh_autosuggest_loc ]]; then
 		echo 'Fetching zsh-autosuggestions'
 		git clone \
@@ -125,7 +130,7 @@ if command -v zsh >/dev/null 2>&1; then
 		echo 'zsh-autosuggestions already present'
 	fi
 
-	spaceship_loc="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/spaceship-prompt"
+	spaceship_loc="$ZSH_CUSTOM/themes/spaceship-prompt"
 	if [[ ! -d $spaceship_loc ]]; then
 		echo 'Fetching spaceship-prompt'
 		git clone \
@@ -134,7 +139,7 @@ if command -v zsh >/dev/null 2>&1; then
 	else
 		echo 'spaceship-prompt already present'
 	fi
-	ln -vfs "$spaceship_loc/spaceship.zsh-theme" "$ZSH_LOC/themes/spaceship.zsh-theme"
+	ln -vfs "$spaceship_loc/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
 else
 	echo 'zsh not installed'
 fi

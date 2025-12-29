@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
 # .bashrc
 
+commonrc=${XDG_CONFIG_HOME:-$HOME/.config}/common/commonrc
+if [[ -e $commonrc ]]; then
+	source $commonrc
+elif [[ -e $HOME/.commonrc ]]; then
+	source $HOME/.commonrc
+fi
+
 # Source global definitions
 if [[ -f /etc/bashrc ]]; then
 	source /etc/bashrc
@@ -27,17 +34,23 @@ if [[ ! $(grep 'set completion-ignore-case On' ~/.inputrc) ]]; then
 	echo 'set completion-ignore-case On' >> ~/.inputrc
 fi
 
-if [[ -d "$HOME/.nvm" ]]; then
-	export NVM_DIR="$HOME/.nvm"
-	if [[ -f "$NVM_DIR/nvm.sh" ]]; then
-		source "$NVM_DIR/nvm.sh"  # This loads nvm
-	fi
-	if [[ -f "$NVM_DIR/bash_completion"  ]]; then
-		source "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+if [[ -z "$NVM_DIR" ]]; then
+	if [[ -d "${XDG_DATA_HOME:-$HOME/.local/share}/nvm" ]]; then
+		export NVM_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/nvm"
+	elif [[ -d "$HOME/.nvm" ]]; then
+		export NVM_DIR="$HOME/.nvm"
+	elif (( $+commands[brew] )); then
+		NVM_HOMEBREW="${NVM_HOMEBREW:-${HOMEBREW_PREFIX:-$(brew --prefix)}/opt/nvm}"
+		if [[ -d "$NVM_HOMEBREW" ]]; then
+			export NVM_DIR="$NVM_HOMEBREW"
+		fi
 	fi
 fi
+if [[ -n "$NVM_DIR" ]]; then
+	ver_dir=$(fd -d1 -HI . "$NVM_DIR/versions/node" | sort -nr | head -1)
+	PATH="$PATH:$ver_dir/bin"
+fi
 
+export HISTFILE="${XDG_STATE_HOME}"/bash/history
 export HISTCONTROL=ignoredups
 shopt -s histverify
-
-source ~/.commonrc

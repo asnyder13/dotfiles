@@ -6,6 +6,8 @@ if [[ -z "$RVM_DIR" ]]; then
     export RVM_DIR="$HOME/.rvm"
   elif [[ -d "${XDG_CONFIG_HOME:-$HOME/.config}/rvm" ]]; then
     export RVM_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/rvm"
+  elif [[ -d "${XDG_DATA_HOME:-$HOME/.local/share}/rvm" ]]; then
+    export RVM_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/rvm"
   fi
 fi
 

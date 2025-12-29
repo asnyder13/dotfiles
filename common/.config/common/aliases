@@ -154,7 +154,9 @@ function alert () {
 	timer 0s "Alert fired"
 }
 
-unalias rd
+if grep -q alias <(type rd) >/dev/null 2>&1; then
+	unalias rd
+fi
 rd() {
 	eval " $@ & ; disown"
 }

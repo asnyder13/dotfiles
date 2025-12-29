@@ -1,19 +1,24 @@
 # zmodload zsh/zprof
 
-# Smarter completion initialization
-autoload -Uz compinit
-DISABLE_COMPFIX="true"
-if [ "$(date +'%j')" != "$(stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)" ]; then
-    compinit
-else
-    compinit -C
+commonrc=${XDG_CONFIG_HOME:-$HOME/.config}/common/commonrc
+if [[ -e $commonrc ]]; then
+	source $commonrc
+elif [[ -e $HOME/.commonrc ]]; then
+	source $HOME/.commonrc
 fi
+
+if [[ ! -d "$XDG_CACHE_HOME"/zsh ]]; then
+	mkdir -p "$XDG_CACHE_HOME"/zsh
+fi
+
+autoload -Uz compinit
+export ZSH_COMPDUMP=$XDG_CACHE_HOME/zsh/zcompdump-$HOST
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH=$HOME/.oh-my-zsh
+export ZSH=$XDG_DATA_HOME/oh-my-zsh
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -107,9 +112,9 @@ plugins=(
 	vi-mode
 	zbell
 	zsh-autosuggestions
-	# git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+	# git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-$XDG_DATA_HOME/oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 	# zsh-syntax-highlighting
-	# git clone https://github.com/zdharma-continuum/fast-syntax-highlighting.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting
+	# git clone https://github.com/zdharma-continuum/fast-syntax-highlighting.git ${ZSH_CUSTOM:-$XDG_DATA_HOME/oh-my-zsh/custom}/plugins/fast-syntax-highlighting
 	fast-syntax-highlighting
 )
 zbell_ignore=(
@@ -158,6 +163,7 @@ setopt HIST_FIND_NO_DUPS
 setopt HIST_EXPIRE_DUPS_FIRST
 setopt HIST_SAVE_NO_DUPS
 setopt cshnullglob
+export HISTFILE="$XDG_STATE_HOME"/zsh/history
 
 # export MANPATH="/usr/local/man:$MANPATH"
 export DEFAULT_USER='snyder'
@@ -227,10 +233,9 @@ bindkey '^x^a' _expand_alias
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
 
-if [[ -e $HOME/.commonrc ]]; then
-	source $HOME/.commonrc
-fi
-if [[ -e $HOME/.zshrc_local ]]; then
+if [[ -e $XDG_CONFIG_HOME/zsh/zshrc_local ]]; then
+	source $XDG_CONFIG_HOME/zsh/zshrc_local
+elif [[ -e $HOME/.zshrc_local ]]; then
 	source $HOME/.zshrc_local
 fi
 
@@ -262,20 +267,27 @@ if [[ ! -z "$HAS_FZF" ]]; then
 fi
 
 if [[ -z "$NVM_DIR" ]]; then
-  if [[ -d "$HOME/.nvm" ]]; then
-    export NVM_DIR="$HOME/.nvm"
-  elif [[ -d "${XDG_CONFIG_HOME:-$HOME/.config}/nvm" ]]; then
-    export NVM_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/nvm"
-  elif (( $+commands[brew] )); then
-    NVM_HOMEBREW="${NVM_HOMEBREW:-${HOMEBREW_PREFIX:-$(brew --prefix)}/opt/nvm}"
-    if [[ -d "$NVM_HOMEBREW" ]]; then
-      export NVM_DIR="$NVM_HOMEBREW"
-    fi
-  fi
+	if [[ -d "${XDG_DATA_HOME:-$HOME/.local/share}/nvm" ]]; then
+		export NVM_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/nvm"
+	elif [[ -d "$HOME/.nvm" ]]; then
+		export NVM_DIR="$HOME/.nvm"
+	elif (( $+commands[brew] )); then
+		NVM_HOMEBREW="${NVM_HOMEBREW:-${HOMEBREW_PREFIX:-$(brew --prefix)}/opt/nvm}"
+		if [[ -d "$NVM_HOMEBREW" ]]; then
+			export NVM_DIR="$NVM_HOMEBREW"
+		fi
+	fi
 fi
 if [[ -n "$NVM_DIR" ]]; then
 	local ver_dir=$(fd -d1 -HI . "$NVM_DIR/versions/node" | sort -nr | head -1)
 	PATH="$PATH:$ver_dir/bin"
+fi
+
+commonrc=${XDG_CONFIG_HOME:-$HOME/.config}/common/commonrc
+if [[ -e $commonrc ]]; then
+	source $commonrc
+elif [[ -e $HOME/.commonrc ]]; then
+	source $HOME/.commonrc
 fi
 
 # zprof

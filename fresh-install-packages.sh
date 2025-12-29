@@ -169,14 +169,14 @@ esac
 # RVM/Ruby
 case "$installdevstuff" in
 	y|Y)
-		if [[ ! -d "$HOME/.rvm" ]]; then
+		if [[ ! -d "$XDG_DATA_HOME/rvm" ]]; then
 			\curl -sSL https://rvm.io/mpapis.asc | gpg --import -
 			\curl -sSL https://rvm.io/pkuczynski.asc | gpg --import -
-			\curl -sSL https://get.rvm.io | bash -s stable
-			export PATH="$PATH:$HOME/.rvm/bin"
-			source "$HOME/.rvm/scripts/rvm"
+			\curl -sSL https://get.rvm.io | bash -s stable --path "$XDG_DATA_HOME/rvm"
+			export PATH="$PATH:$XDG_DATA_HOME/rvm/bin"
+			source "$XDG_DATA_HOME/rvm/scripts/rvm"
 			read -rp 'What version of Ruby do you want to install? ex:: 3.3.0' rubyversion
-			rvm install "$rubyversion"
+			rvm install "ruby-$rubyversion"
 		fi
 esac
 
