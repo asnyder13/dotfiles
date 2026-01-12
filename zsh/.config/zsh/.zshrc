@@ -280,7 +280,7 @@ if [[ -z "$NVM_DIR" ]]; then
 fi
 if [[ -n "$NVM_DIR" ]]; then
 	local ver_dir=$(fd -d1 -HI . "$NVM_DIR/versions/node" | sort -nr | head -1)
-	PATH="$PATH:$ver_dir/bin"
+	PATH="$PATH:$ver_dir"bin
 fi
 
 commonrc=${XDG_CONFIG_HOME:-$HOME/.config}/common/commonrc

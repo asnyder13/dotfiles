@@ -140,6 +140,24 @@ if command -v zsh >/dev/null 2>&1; then
 		echo 'spaceship-prompt already present'
 	fi
 	ln -vfs "$spaceship_loc/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
+
+	if ! grep --quiet --no-messages ZDOTDIR /etc/zshenv; then
+		echo '/ect/zshenv is missing the ZDOTDIR export (reproduced in this script)'
+
+		# export XDG_DATA_HOME="$HOME/.local/share"
+		# export XDG_CONFIG_HOME="$HOME/.config"
+		# export XDG_STATE_HOME="$HOME/.local/state"
+		# export XDG_CACHE_HOME="$HOME/.cache"
+		#
+		# if [[ ! -d "$XDG_CONFIG_HOME"/zsh ]]; then
+		# 	mkdir -p "$XDG_CONFIG_HOME"/zsh
+		# fi
+		# if [[ ! -d "$XDG_CACHE_HOME"/zsh ]]; then
+		# 	mkdir -p "$XDG_CACHE_HOME"/zsh
+		# fi
+		#
+		# export ZDOTDIR="$XDG_CONFIG_HOME"/zsh
+	fi
 else
 	echo 'zsh not installed'
 fi

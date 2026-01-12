@@ -263,8 +263,7 @@ require 'timber'.setup {
 		default = {
 			javascript = [[console.dir({ %repeat<%log_target><, > })]],
 			typescript = [[console.dir({ %repeat<%log_target><, > })]],
-			-- ruby = [[ap "%repeat<%log_target: #{%log_target}><, >"]]
-			ruby = [[ap ({ %repeat<'%log_target' => %log_target><, > })]]
+			ruby = [[ap ({ %repeat<%log_target:><, > })]]
 		}
 	}
 }
