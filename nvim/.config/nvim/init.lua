@@ -245,6 +245,7 @@ opt.history        = 1000
 opt.termguicolors  = true
 opt.signcolumn     = 'auto:1-3'
 opt.updatetime     = 250
+opt.winborder      = 'rounded'
 
 -- Searching
 opt.hlsearch       = true
