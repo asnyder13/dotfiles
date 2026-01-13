@@ -52,9 +52,9 @@ local nonLspPackages = {
 	'mei28/qfc.nvim',
 	'chrisgrieser/nvim-spider',
 	'mcauley-penney/visual-whitespace.nvim',
-	'emmanueltouzery/decisive.nvim',
 	'ggandor/leap.nvim',
 	'kwkarlwang/bufresize.nvim',
+	'hat0uma/csvview.nvim',
 
 	-- mini.nvim
 	'echasnovski/mini.ai',
@@ -64,7 +64,7 @@ local nonLspPackages = {
 
 local lspPackages = {
 	-- Treesitter
-	{ 'nvim-treesitter/nvim-treesitter',                     build = ':TSUpdate' },
+	{ 'nvim-treesitter/nvim-treesitter',                     build = ':TSUpdate', branch = 'master', pin = true },
 	'nvim-treesitter/nvim-treesitter-refactor',
 	'atusy/treemonkey.nvim',
 	'windwp/nvim-ts-autotag',
@@ -81,6 +81,7 @@ local lspPackages = {
 	'j-hui/fidget.nvim',
 	'Hoffs/omnisharp-extended-lsp.nvim',
 	'dmmulroy/ts-error-translator.nvim',
+	'rachartier/tiny-inline-diagnostic.nvim',
 
 	-- cmp for LSP
 	'hrsh7th/nvim-cmp',
@@ -536,19 +537,7 @@ require 'qfc'.setup { enabled = true, timeout = 1000, }
 
 require 'visual-whitespace'.setup {}
 
-api.nvim_create_autocmd('FileType', {
-	pattern = { 'csv', 'tsv', },
-	callback = function()
-		require 'decisive'.setup {}
-		require 'decisive'.align_csv {}
-		vim.api.nvim_create_user_command('AlignCsv',
-			function() require 'decisive'.align_csv {} end,
-			{ desc = 'Align CSV columns' }
-		)
-		map('n', '[v', function() require('decisive').align_csv_prev_col() end)
-		map('n', ']v', function() require('decisive').align_csv_next_col() end)
-	end
-})
+require 'csvview'.setup()
 
 require 'bufresize'.setup()
 

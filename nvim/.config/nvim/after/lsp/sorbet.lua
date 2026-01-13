@@ -1,4 +1,5 @@
 local target_path = require 'util'.create_expand_path '~/.cache/sorbet'
+
 ---@type vim.lsp.Config
 return {
 	cmd = {
@@ -6,6 +7,6 @@ return {
 		'tc',
 		'--lsp',
 		'--disable-watchman',
-		target_path,
+		-- target_path,
 	},
 }
