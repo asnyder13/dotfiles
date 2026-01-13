@@ -18,31 +18,49 @@ local function q_switch(file, opts)
 	return function() nvim_quick_switcher.switch(file, opts) end
 end
 
-local qs_opts    = { only_existing = true, only_existing_notify = true, }
-local qs_opts_vs = vim.tbl_extend('force', qs_opts, { split = 'vertical' })
-local qs_opts_hs = vim.tbl_extend('force', qs_opts, { split = 'horizontal' })
+local qs_opts = { only_existing = true, only_existing_notify = true, }
 ---@param label string
 ---@param custom_fn function|nil
-local qs_maps_factory = function(label, custom_fn)
+---@param custom_qs_opts table|nil
+local qs_maps_factory = function(label, custom_fn, custom_qs_opts)
 	local fn = custom_fn or q_switch
 	return function(lhs1, lhs2, file)
 		if file:match('^%.') then
 			file = file:sub(2)
 		end
 
-		map('n', lhs1 .. lhs2,        fn(file, qs_opts),    qs_map_opts('switcher ' .. label .. ': ' .. file))
+		local qs_opts_ = qs_opts
+		if custom_qs_opts ~= nil then
+			qs_opts_ = vim.tbl_extend('force', qs_opts_, custom_qs_opts)
+		end
+		local qs_opts_vs = vim.tbl_extend('force', qs_opts_, { split = 'vertical' })
+		local qs_opts_hs = vim.tbl_extend('force', qs_opts_, { split = 'horizontal' })
+		map('n', lhs1 .. lhs2, fn(file, qs_opts_), qs_map_opts('switcher ' .. label .. ': ' .. file))
 		map('n', lhs1 .. 'v' .. lhs2, fn(file, qs_opts_vs), qs_map_opts('switcher ' .. label .. ': ' .. file))
 		map('n', lhs1 .. 'x' .. lhs2, fn(file, qs_opts_hs), qs_map_opts('switcher ' .. label .. ': ' .. file))
 	end
 end
 
--- Angular
----@param file_type string
-local function angular_component_switcher_mappings(file_type)
-	vim.validate('file_type', file_type, 'string')
+-- file_types is checked in order, first match wins
+---@param file_types string|table
+local function angular_component_switcher_mappings(file_types)
+	vim.validate('file_types', file_types, { 'string', 'table' })
 	return function()
-		local maps = qs_maps_factory('ng')
+		local maps = qs_maps_factory('ng', nil, { only_existing_notify = true, temp = true })
 		local leader = '<leader>'
+
+		local file_type = '';
+		if type(file_types) == 'string' then
+			file_type = file_types
+		else
+			-- Determine which FT matches this file.
+			local filename = vim.fn.expand('%')
+			file_type = vim.iter(file_types):find(function(ft) return filename:find(ft) ~= nil end)
+
+			if file_type == nil then
+				error('Could not find a matching file type for ' .. filename)
+			end
+		end
 
 		maps(leader, 'u', file_type .. '.ts')
 		maps(leader, 'o', file_type .. '.html')
@@ -106,8 +124,7 @@ local function angular_switcher_autocmd(prefix, callback)
 	})
 end
 angular_switcher_autocmd('*', angular_ngrx_switcher_mappings)
-angular_switcher_autocmd('*.component', angular_component_switcher_mappings('component'))
-angular_switcher_autocmd('*', angular_component_switcher_mappings(''))
+angular_switcher_autocmd('*', angular_component_switcher_mappings({ 'component', '', }))
 angular_switcher_autocmd('*.module', angular_component_switcher_mappings('component'))
 angular_switcher_autocmd('*.view', angular_component_switcher_mappings('view'))
 

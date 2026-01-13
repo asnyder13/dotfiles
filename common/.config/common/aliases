@@ -28,8 +28,9 @@ if [[ -d "$HOME/.dotfiles" ]]; then
 		done
 	done
 	if [[ -f "$HOME/.aliases_local" ]]; then DOTFILES+=("$HOME/.aliases_local"); fi
-	if [[ -f "$HOME/.bashrc_local" ]]; then DOTFILES+=("$HOME/.bashrc_local"); fi
 	if [[ -f "$HOME/.zshrc_local" ]]; then DOTFILES+=("$HOME/.zshrc_local"); fi
+	if [[ -f "$XDG_CONFIG_HOME/common/aliases_local" ]]; then DOTFILES+=("$XDG_CONFIG_HOME/common/aliases_local"); fi
+	if [[ -f "$XDG_CONFIG_HOME/zsh/zshrc_local" ]]; then DOTFILES+=("$XDG_CONFIG_HOME/zsh/zshrc_local"); fi
 	CONFIGFILES=(
 		stow-sources
 	)
