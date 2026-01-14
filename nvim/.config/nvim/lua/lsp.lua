@@ -66,7 +66,12 @@ vim.lsp.config('*', {
 	capabilities = vim.lsp.protocol.make_client_capabilities(),
 	inlay_hints = { enabled = true },
 })
-require 'mason'.setup {}
+require("mason").setup({
+	registries = {
+		"github:mason-org/mason-registry",
+		"github:Crashdummyy/mason-registry",
+	},
+})
 require 'mason-lspconfig'.setup {
 	automatic_enable = { exclude = {
 		'rubocop',

@@ -79,9 +79,9 @@ local lspPackages = {
 	'mason-org/mason-lspconfig.nvim',
 	'mhartington/formatter.nvim',
 	'j-hui/fidget.nvim',
-	'Hoffs/omnisharp-extended-lsp.nvim',
 	'dmmulroy/ts-error-translator.nvim',
 	'rachartier/tiny-inline-diagnostic.nvim',
+	'seblyng/roslyn.nvim',
 
 	-- cmp for LSP
 	'hrsh7th/nvim-cmp',
