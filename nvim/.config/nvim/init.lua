@@ -109,8 +109,8 @@ local lspPackages = {
 	'HiPhish/rainbow-delimiters.nvim',
 	-- 'ray-x/lsp_signature.nvim',
 	'b0o/schemastore.nvim',
-	{ 'ray-x/guihua.lua', build = 'make -C lua/fzy' },
-	'ray-x/navigator.lua',
+	{ 'ray-x/guihua.lua',    build = 'make -C lua/fzy' },
+	{ 'ray-x/navigator.lua', branch = 'treesitter-main' },
 }
 
 
