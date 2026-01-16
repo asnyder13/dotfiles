@@ -283,11 +283,4 @@ if [[ -n "$NVM_DIR" ]]; then
 	PATH="$PATH:$ver_dir"bin
 fi
 
-commonrc=${XDG_CONFIG_HOME:-$HOME/.config}/common/commonrc
-if [[ -e $commonrc ]]; then
-	source $commonrc
-elif [[ -e $HOME/.commonrc ]]; then
-	source $HOME/.commonrc
-fi
-
 # zprof
