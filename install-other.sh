@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source ./common/.xdg_fixes
+source ./common/.config/common/xdg_fixes
 
 if ! command -v git >/dev/null 2>&1; then
 	echo 'FAILURE: You need git.'
