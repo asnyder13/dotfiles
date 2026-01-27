@@ -72,6 +72,7 @@ local lspPackages = {
 	'aaronik/treewalker.nvim',
 	'Wansmer/treesj',
 	'Goose97/timber.nvim',
+	'MeanderingProgrammer/render-markdown.nvim',
 
 	-- LSP
 	'neovim/nvim-lspconfig',
@@ -321,7 +322,6 @@ vim.api.nvim_create_user_command('BufCloseOthers',
 )
 map('n', '<BS>', '<C-^>', { desc = 'Last buffer' })
 map('n', '<leader><C-i>', ':Inspect<CR>', { desc = ':Inspect' })
-map('n', '<C-w><C-w>', '<C-w><C-p>', { desc = 'Last window' })
 map('n', '<C-w>,', function() vim.cmd('resize ' .. vim.fn.line('$')) end, { desc = 'Size window to content' })
 
 -- Toggle mappings

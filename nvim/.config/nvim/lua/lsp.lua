@@ -254,13 +254,13 @@ map('n', 'gJ', require 'treesj'.join)
 require 'timber'.setup {
 	log_templates = {
 		default = {
-			javascript = [[console.info("%log_target", %log_target)]],
-			typescript = [[console.info("%log_target", %log_target)]],
+			javascript = [[console.dir("%log_target", %log_target)]],
+			typescript = [[console.dir("%log_target", %log_target)]],
 			ruby = [[ap %log_target]],
 		},
 		plain = {
-			javascript = [[console.info("%insert_cursor")]],
-			typescript = [[console.info("%insert_cursor")]],
+			javascript = [[console.dir("%insert_cursor")]],
+			typescript = [[console.dir("%insert_cursor")]],
 			ruby = [[ap %insert_cursor]],
 		}
 	},
