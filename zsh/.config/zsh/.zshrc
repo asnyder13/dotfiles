@@ -232,6 +232,7 @@ bindkey '^x^a' _expand_alias
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
+load_aliases
 
 if [[ -e $XDG_CONFIG_HOME/zsh/zshrc_local ]]; then
 	source $XDG_CONFIG_HOME/zsh/zshrc_local

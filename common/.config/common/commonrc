@@ -32,17 +32,20 @@ export DISABLE_OPENCOLLECTIVE=true
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
 export ASPNETCORE_ENVIRONMENT=Local
 
-# Aliases/Local Aliases
-if [[ -f "$XDG_CONFIG_HOME/common/aliases" ]]; then
-	source "$XDG_CONFIG_HOME/common/aliases"
-elif [[ -f "$HOME/.aliases" ]]; then
-	source "$HOME/.aliases"
-fi
-if [[ -f "$XDG_CONFIG_HOME/common/aliases_local" ]]; then
-	source "$XDG_CONFIG_HOME/common/aliases_local"
-elif [[ -f "$HOME/.aliases_local" ]]; then
-	source "$HOME/.aliases_local"
-fi
+function load_aliases() {
+	# Aliases/Local Aliases
+	if [[ -f "$XDG_CONFIG_HOME/common/aliases" ]]; then
+		source "$XDG_CONFIG_HOME/common/aliases"
+	elif [[ -f "$HOME/.aliases" ]]; then
+		source "$HOME/.aliases"
+	fi
+	if [[ -f "$XDG_CONFIG_HOME/common/aliases_local" ]]; then
+		source "$XDG_CONFIG_HOME/common/aliases_local"
+	elif [[ -f "$HOME/.aliases_local" ]]; then
+		source "$HOME/.aliases_local"
+	fi
+}
+load_aliases
 
 if [[ -f $XDG_DATA_HOME/dotnet/dotnet ]]; then
 	export DOTNET_ROOT=$XDG_DATA_HOME/dotnet
