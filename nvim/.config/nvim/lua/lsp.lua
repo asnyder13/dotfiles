@@ -244,7 +244,7 @@ local treesj_langs = {
 	}
 }
 require 'treesj'.setup {
-	max_join_length = 480,
+	max_join_length = 14720,
 	use_default_keymaps = false,
 	langs = treesj_langs,
 }

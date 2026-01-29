@@ -102,15 +102,15 @@ SWAY_STUFF=(
 )
 
 # Naïve distro detection
-if command -v dnf5 >/dev/null 2>&1; then
-	installer='sudo dnf5 install --skip-broken'
+if command -v dnf >/dev/null 2>&1; then
+	installer='sudo dnf install --skip-broken'
 	sudo dnf install -y \
 		"https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm" \
 		"https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm"
 elif command -v apt >/dev/null 2>&1; then
 	installer='sudo apt install'
 else
-	echo "ERROR: Don't have dnf5 nor apt installed?"
+	echo "ERROR: Don't have dnf nor apt installed?"
 	exit 1
 fi
 
@@ -139,6 +139,10 @@ all_packs=("${PACKAGES[@]}" "${dev_packs[@]}" "${sway_packs[@]}" "${desktop_stuf
 install_cmd="$($installer) ${all_packs[*]}"
 sudo bash -c "$($install_cmd)"
 
+if command -v dnf >/dev/null 2>&1; then
+	sudo dnf swap ffmpeg-free ffmpeg --allowerasing
+	sudo dnf update @multimedia --setopt="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin
+fi
 
 install_neovim() {
 	if [[ -d "$HOME/Downloads" ]]; then

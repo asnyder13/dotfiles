@@ -542,7 +542,11 @@ require 'csvview'.setup()
 require 'bufresize'.setup()
 
 local gitsigns = require 'gitsigns'
-gitsigns.setup { sign_priority = 99, }
+gitsigns.setup {
+	sign_priority = 99,
+	signcolumn = false,
+	numhl = true,
+}
 map('n', ']c', function()
 	if vim.wo.diff then
 		vim.cmd.normal({ ']c', bang = true })
