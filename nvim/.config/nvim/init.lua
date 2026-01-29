@@ -357,6 +357,8 @@ map('v', 'gycc', function()
 	return "ygvgc`]$p"
 end, { remap = true, expr = true, desc = 'Yank and comment', })
 
+map('n', '<leader>p', 'p`[')
+map('n', '<leader>P', 'P`[')
 
 
 ---@param value string

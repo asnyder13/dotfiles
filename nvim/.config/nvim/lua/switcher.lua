@@ -69,9 +69,6 @@ local function angular_component_switcher_mappings(file_types)
 	end
 end
 local function angular_ngrx_switcher_mappings()
-	-- Components
-	map('n', '<leader>p', q_switch('module.ts', qs_opts), qs_map_opts('switcher: module'))
-
 	-- NgRx
 	local maps = qs_maps_factory('ngrx')
 	local leader = '<leader>n'
@@ -125,7 +122,6 @@ local function angular_switcher_autocmd(prefix, callback)
 end
 angular_switcher_autocmd('*', angular_ngrx_switcher_mappings)
 angular_switcher_autocmd('*', angular_component_switcher_mappings({ 'component', '', }))
-angular_switcher_autocmd('*.module', angular_component_switcher_mappings('component'))
 angular_switcher_autocmd('*.view', angular_component_switcher_mappings('view'))
 
 api.nvim_create_autocmd({ 'BufReadPost', }, {
