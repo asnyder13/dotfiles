@@ -52,7 +52,7 @@ local hls = {
 	['GitSignsAdd']          = { bg = 'NONE' },
 	['GitSignsChange']       = { bg = 'NONE' },
 	['GitSignsDelete']       = { bg = 'NONE' },
-	['LineflyNormal']        = 'GitSignsStagedAddLn',
+	['LineflyNormal']        = 'RedrawDebugComposed',
 	['LineflyInsert']        = 'SignColumn',
 	['LineflyVisual']        = 'IncSearch',
 	['LineflyReplace']       = 'ExtraWhitespace',

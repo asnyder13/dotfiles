@@ -33,7 +33,6 @@ local nonLspPackages = {
 	'nvim-lua/popup.nvim',
 	'nvim-telescope/telescope.nvim',
 	{ 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
-	'lewis6991/gitsigns.nvim',
 	'romgrk/barbar.nvim',
 	'Everduin94/nvim-quick-switcher',
 	'kylechui/nvim-surround',
@@ -52,14 +51,16 @@ local nonLspPackages = {
 	'mei28/qfc.nvim',
 	'chrisgrieser/nvim-spider',
 	'mcauley-penney/visual-whitespace.nvim',
-	'ggandor/leap.nvim',
+	{ url = 'https://codeberg.org/andyg/leap.nvim' },
 	'kwkarlwang/bufresize.nvim',
 	'hat0uma/csvview.nvim',
 
 	-- mini.nvim
-	'echasnovski/mini.ai',
-	'echasnovski/mini.align',
-	'echasnovski/mini.move',
+	'nvim-mini/mini.ai',
+	'nvim-mini/mini.align',
+	'nvim-mini/mini.move',
+	'asnyder13/mini.diff',
+	'nvim-mini/mini.bufremove',
 }
 
 local lspPackages = {
@@ -315,11 +316,7 @@ map('n', '<leader>sv', ':source $MYVIMRC<CR>', { desc = 'Source vimrc/init' })
 map('n', '<leader>zc', ':%foldc!<CR>',     { desc = 'Close all folds' })
 map('x', '<leader>zc', ":'<,'>foldc!<CR>", { desc = 'Close all folds' })
 map('n', '<leader>zC', ':%foldo<CR>',      { desc = 'Open all folds' })
-map('n', 'gbd',  ':b#|bd#<CR>', { desc = 'Buffer delete, keep window' })
-vim.api.nvim_create_user_command('BufCloseOthers',
-	'%bd|e#|bd#',
-	{ desc = 'Close all other buffers' }
-)
+map('n', 'gbd', function() require 'mini.bufremove'.wipeout() end, { desc = 'Buffer delete, keep window' })
 map('n', '<BS>', '<C-^>', { desc = 'Last buffer' })
 map('n', '<leader><C-i>', ':Inspect<CR>', { desc = ':Inspect' })
 map('n', '<C-w>,', function() vim.cmd('resize ' .. vim.fn.line('$')) end, { desc = 'Size window to content' })
@@ -389,13 +386,13 @@ map_quick_prefix('return ', 'r')
 map_quick_prefix('export ', 'e')
 
 -- Paste with prefix
-map('n', '<M-p>', function()
-	local char = vim.fn.input('Separator: ')
-	if char:len() ~= 0 then
-		vim.cmd('norm a' .. char .. ' ')
-		vim.cmd('norm p')
-	end
-end)
+-- map('n', '<M-p>', function()
+-- 	local char = vim.fn.input('Separator: ')
+-- 	if char:len() ~= 0 then
+-- 		vim.cmd('norm a' .. char .. ' ')
+-- 		vim.cmd('norm p')
+-- 	end
+-- end)
 
 ---- Plugin Settings ----
 -- Highlighted yank
@@ -543,23 +540,12 @@ require 'csvview'.setup()
 
 require 'bufresize'.setup()
 
-local gitsigns = require 'gitsigns'
-gitsigns.setup {
-	sign_priority = 99,
-	signcolumn = false,
-	numhl = true,
+require 'mini.diff'.setup {
+	view = {
+		style = 'number'
+	},
+	mappings = {
+		apply = '',
+		reset = '',
+	},
 }
-map('n', ']c', function()
-	if vim.wo.diff then
-		vim.cmd.normal({ ']c', bang = true })
-	else
-		gitsigns.nav_hunk('next')
-	end
-end, { desc = 'Git hunk next' })
-map('n', '[c', function()
-	if vim.wo.diff then
-		vim.cmd.normal({ '[c', bang = true })
-	else
-		gitsigns.nav_hunk('prev')
-	end
-end, { desc = 'Git hunk prev' })
