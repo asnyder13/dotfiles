@@ -100,6 +100,7 @@ require 'illuminate'.configure {
 		'neo-tree',
 		'man',
 		'guihua',
+		'html',
 	},
 }
 
@@ -220,3 +221,11 @@ local delimColors = {
 for k, v in pairs(delimColors) do
 	api.nvim_set_hl(0, k, { fg = v })
 end
+
+-- Indent Blankline
+require 'ibl'.setup {
+	exclude = { filetypes = { '' } },
+	whitespace = {
+		remove_blankline_trail = false,
+	},
+}

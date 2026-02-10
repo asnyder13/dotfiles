@@ -354,8 +354,8 @@ map('v', 'gycc', function()
 	return "ygvgc`]$p"
 end, { remap = true, expr = true, desc = 'Yank and comment', })
 
-map('n', '<leader>p', 'p`[')
-map('n', '<leader>P', 'P`[')
+map('n', '<leader>p', 'p`[', { desc = 'paste keep cursor', })
+map('n', '<leader>P', 'P`[', { desc = 'Paste keep curosr', })
 
 
 ---@param value string
@@ -384,6 +384,8 @@ end
 map_quick_prefix('await ', 'a')
 map_quick_prefix('return ', 'r')
 map_quick_prefix('export ', 'e')
+map_quick_prefix('const ', 'c')
+map_quick_prefix('let ', 'l')
 
 -- Paste with prefix
 -- map('n', '<M-p>', function()
@@ -436,18 +438,6 @@ require 'barbar'.setup {
 }
 map('n', '<M-b>',   ':BufferPick<CR>',       { desc = 'Buffer pick' })
 map('n', '<C-M-b>', ':BufferPickDelete<CR>', { desc = 'Buffer pick delete' })
-
--- Indent Blankline
-require 'ibl'.setup {
-	scope = {
-		include = {
-			-- node_type = { ["*"] = { "*" } },
-		},
-	},
-	whitespace = {
-		remove_blankline_trail = false,
-	},
-}
 
 require 'nvim-surround'.setup { move_cursor = false }
 
