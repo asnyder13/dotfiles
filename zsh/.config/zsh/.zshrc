@@ -261,9 +261,9 @@ for ig in $IGNORED_DIRS; do
 	ignore_string="$ignore_string -E '$ig'"
 done
 if [[ ! -z "$HAS_FZF" ]]; then
-	export FZF_DEFAULT_COMMAND="command fd --follow --hidden $ignore_string -tf . $FZF_COMMAND_SUFFIX"
-	export FZF_CTRL_T_COMMAND="command fd --follow --hidden $ignore_string --min-depth 1 -tf -td -tl . $FZF_COMMAND_SUFFIX"
-	export FZF_ALT_C_COMMAND="command fd --follow --hidden $ignore_string --min-depth 1 -td . $FZF_COMMAND_SUFFIX"
+	export FZF_DEFAULT_COMMAND="command fd --follow --hidden $ignore_string -tf . "
+	export FZF_CTRL_T_COMMAND="command fd --follow --hidden $ignore_string --min-depth 1 -tf -td -tl . "
+	export FZF_ALT_C_COMMAND="command fd --follow --hidden $ignore_string --min-depth 1 -td . "
 	source $HOME/.fzf.zsh
 fi
 

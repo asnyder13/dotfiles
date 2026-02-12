@@ -1,9 +1,9 @@
 # vim: ft=bash
 
-alias list='ls -g --human-readable --no-group --almost-all --classify --time-style=long-iso --color' ;
-alias list2='ls -g --human-readable --no-group --classify --time-style=long-iso --color' ;
-alias lst='ls -g --human-readable --no-group --classify --time-style=long-iso --color' ;
-alias ll='ls -l --human-readable --almost-all --classify --time-style=long-iso --color' ;
+alias list='ls -g --human-readable --no-group --almost-all --classify --time-style=long-iso --color --dereference' ;
+alias list2='ls -g --human-readable --no-group --classify --time-style=long-iso --color --dereference' ;
+alias lst='ls -g --human-readable --no-group --classify --time-style=long-iso --color --dereference' ;
+alias ll='ls -l --human-readable --almost-all --classify --time-style=long-iso --color --dereference' ;
 
 # Old shortcuts from yum
 alias dnfs='sudo dnf search' ;
@@ -72,6 +72,7 @@ alias vimg='vim -c ":G|only"'
 alias grbst='git rebase --autostash'
 alias gdt='git difftool'
 alias gdtc='git difftool --cached'
+alias grbmaster='git rebase --interactive --autostash origin/master'
 
 if command -v bat >/dev/null 2>&1; then
 	alias cats='bat'

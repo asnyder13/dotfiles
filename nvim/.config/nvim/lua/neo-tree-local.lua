@@ -42,7 +42,7 @@ require 'neo-tree'.setup {
 			['<C-c>'] = 'clear_filter',
 			['<C-k>'] = 'navigate_up',
 		},
-		width = 30
+		width = 36
 	},
 	event_handlers = { {
 		event = 'neo_tree_buffer_enter',

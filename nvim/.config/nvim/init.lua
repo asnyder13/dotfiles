@@ -54,6 +54,7 @@ local nonLspPackages = {
 	{ url = 'https://codeberg.org/andyg/leap.nvim' },
 	'kwkarlwang/bufresize.nvim',
 	'hat0uma/csvview.nvim',
+	'monaqa/dial.nvim',
 
 	-- mini.nvim
 	'nvim-mini/mini.ai',
@@ -539,3 +540,5 @@ require 'mini.diff'.setup {
 		reset = '',
 	},
 }
+
+require 'dial'
