@@ -55,6 +55,8 @@ local nonLspPackages = {
 	'kwkarlwang/bufresize.nvim',
 	'hat0uma/csvview.nvim',
 	'monaqa/dial.nvim',
+	'm4xshen/hardtime.nvim',
+	'rcarriga/nvim-notify',
 
 	-- mini.nvim
 	'nvim-mini/mini.ai',
@@ -210,7 +212,7 @@ vim.cmd([[
 ]])
 
 ---- General
-api.nvim_create_autocmd('TextYankPost', { callback = function() vim.highlight.on_yank { timeout = 350 } end, })
+api.nvim_create_autocmd('TextYankPost', { callback = function() vim.hl.on_yank { timeout = 350 } end, })
 -- Don't auto-comment on a new line
 api.nvim_create_autocmd('FileType', { callback = function() opt.formatoptions:remove { 'r', 'o' } end, })
 
@@ -542,3 +544,14 @@ require 'mini.diff'.setup {
 }
 
 require 'dial'
+
+local notify = require 'notify'
+notify.setup {
+	merge_duplicates = true,
+	render = 'wrapped-compact',
+	stages = 'static',
+}
+vim.notify = notify
+require 'hardtime'.setup {
+	disabled_keys = {},
+}
