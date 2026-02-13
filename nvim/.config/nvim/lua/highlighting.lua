@@ -209,6 +209,14 @@ vim.g.rainbow_delimiters = {
 		latex = 'rainbow-blocks',
 		query = 'rainbow-blocks',
 	},
+	condition = function()
+		local filesize = vim.fn.getfsize(vim.fn.expand('%'))
+		if filesize > 250000 then
+			return false
+		else
+			return true
+		end
+	end
 }
 
 -- Colors from VSCode's rainbow highlight which work well w/ monokai.
@@ -229,4 +237,3 @@ require 'ibl'.setup {
 		remove_blankline_trail = false,
 	},
 }
-
