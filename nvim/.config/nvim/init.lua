@@ -271,7 +271,7 @@ opt.syntax                = 'on'
 
 ---- Configs from dedicated files.
 -- Colorscheme and highlight overwrites.
-require 'highlighting-local'
+require 'highlighting'
 require 'telescope-local'
 require 'switcher'
 require 'neo-tree-local'
