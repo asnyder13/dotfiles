@@ -1,7 +1,7 @@
 local api = vim.api
 local Util = require 'util'
 
-local colors = require "ronny.colors"
+local colors = require 'ronny.colors'
 -- autocmd to overwrite other highlight groups.  Setup before :colorscheme
 api.nvim_create_autocmd('ColorScheme', {
 	pattern = '*',

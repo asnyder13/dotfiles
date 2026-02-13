@@ -7,145 +7,127 @@ local api = vim.api
 local opt = vim.opt
 
 
-local nonLspPackages = {
-	{
-		'savq/paq-nvim',
-		opt = true
-	},
-
+local gh = function(x) return 'https://github.com/' .. x end
+local cb = function(x) return 'https://codeberg.org/' .. x end
+vim.pack.add {
 	-- Colorscheme, Neovim specific
-	'judaew/ronny.nvim',
+	gh('judaew/ronny.nvim'),
 
 	-- Regular vim
-	'ntpeters/vim-better-whitespace',
-	'tpope/vim-fugitive',
-	'vim-scripts/ReplaceWithRegister',
-	'jlcrochet/vim-razor',
-	'tpope/vim-abolish',
-	'mattn/emmet-vim',
+	gh('ntpeters/vim-better-whitespace'),
+	gh('tpope/vim-fugitive'),
+	-- gh('vim-scripts/ReplaceWithRegister'),
+	gh('jlcrochet/vim-razor'),
+	gh('tpope/vim-abolish'),
+	gh('mattn/emmet-vim'),
 
 	-- Neovim specific
-	'nvim-tree/nvim-web-devicons',
-	'NvChad/nvim-colorizer.lua',
-	'smoka7/hop.nvim',
-	'lukas-reineke/indent-blankline.nvim',
-	'nvim-lua/plenary.nvim',
-	'nvim-lua/popup.nvim',
-	'nvim-telescope/telescope.nvim',
-	{ 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
-	'romgrk/barbar.nvim',
-	'Everduin94/nvim-quick-switcher',
-	'kylechui/nvim-surround',
-	'RRethy/vim-illuminate',
-	'nvim-neo-tree/neo-tree.nvim',
-	'MunifTanjim/nui.nvim',
-	's1n7ax/nvim-window-picker',
-	'bluz71/nvim-linefly',
-	'windwp/nvim-autopairs',
-	'LunarVim/bigfile.nvim',
-	'rasulomaroff/reactive.nvim',
-	'folke/which-key.nvim',
-	'BranimirE/fix-auto-scroll.nvim',
-	'chentoast/marks.nvim',
-	'sindrets/diffview.nvim',
-	'mei28/qfc.nvim',
-	'chrisgrieser/nvim-spider',
-	'mcauley-penney/visual-whitespace.nvim',
-	{ url = 'https://codeberg.org/andyg/leap.nvim' },
-	'kwkarlwang/bufresize.nvim',
-	'hat0uma/csvview.nvim',
-	'monaqa/dial.nvim',
-	'm4xshen/hardtime.nvim',
-	'rcarriga/nvim-notify',
+	gh('nvim-tree/nvim-web-devicons'),
+	gh('NvChad/nvim-colorizer.lua'),
+	gh('smoka7/hop.nvim'),
+	gh('lukas-reineke/indent-blankline.nvim'),
+	gh('nvim-lua/plenary.nvim'),
+	gh('nvim-lua/popup.nvim'),
+	gh('nvim-telescope/telescope.nvim'),
+	{ src = gh('nvim-telescope/telescope-fzf-native.nvim'), data = { build = 'make' } },
+	gh('romgrk/barbar.nvim'),
+	gh('Everduin94/nvim-quick-switcher'),
+	gh('kylechui/nvim-surround'),
+	gh('RRethy/vim-illuminate'),
+	gh('nvim-neo-tree/neo-tree.nvim'),
+	gh('MunifTanjim/nui.nvim'),
+	gh('s1n7ax/nvim-window-picker'),
+	gh('bluz71/nvim-linefly'),
+	gh('windwp/nvim-autopairs'),
+	gh('LunarVim/bigfile.nvim'),
+	gh('rasulomaroff/reactive.nvim'),
+	gh('folke/which-key.nvim'),
+	gh('BranimirE/fix-auto-scroll.nvim'),
+	gh('chentoast/marks.nvim'),
+	gh('sindrets/diffview.nvim'),
+	gh('mei28/qfc.nvim'),
+	gh('chrisgrieser/nvim-spider'),
+	gh('mcauley-penney/visual-whitespace.nvim'),
+	cb('andyg/leap.nvim'),
+	gh('kwkarlwang/bufresize.nvim'),
+	gh('hat0uma/csvview.nvim'),
+	gh('monaqa/dial.nvim'),
+	gh('m4xshen/hardtime.nvim'),
+	gh('rcarriga/nvim-notify'),
 
 	-- mini.nvim
-	'nvim-mini/mini.ai',
-	'nvim-mini/mini.align',
-	'nvim-mini/mini.move',
-	'asnyder13/mini.diff',
-	'nvim-mini/mini.bufremove',
-}
+	gh('nvim-mini/mini.ai'),
+	gh('nvim-mini/mini.align'),
+	gh('nvim-mini/mini.move'),
+	gh('asnyder13/mini.diff'),
+	gh('nvim-mini/mini.bufremove'),
+	gh('nvim-mini/mini.operators'),
 
-local lspPackages = {
+
 	-- Treesitter
-	{ 'nvim-treesitter/nvim-treesitter',                     build = ':TSUpdate', branch = 'master', pin = true },
-	'nvim-treesitter/nvim-treesitter-refactor',
-	'atusy/treemonkey.nvim',
-	'windwp/nvim-ts-autotag',
-	'RRethy/nvim-treesitter-endwise',
-	'aaronik/treewalker.nvim',
-	'Wansmer/treesj',
-	'Goose97/timber.nvim',
-	'MeanderingProgrammer/render-markdown.nvim',
+	{ src = gh('nvim-treesitter/nvim-treesitter'),          version = 'master',       data = { cmd = 'TSUpdate' }, },
+	gh('nvim-treesitter/nvim-treesitter-refactor'),
+	gh('atusy/treemonkey.nvim'),
+	gh('windwp/nvim-ts-autotag'),
+	gh('RRethy/nvim-treesitter-endwise'),
+	gh('aaronik/treewalker.nvim'),
+	gh('Wansmer/treesj'),
+	gh('Goose97/timber.nvim'),
+	gh('MeanderingProgrammer/render-markdown.nvim'),
 
 	-- LSP
-	'neovim/nvim-lspconfig',
-	'mason-org/mason.nvim',
-	'mason-org/mason-lspconfig.nvim',
-	'mhartington/formatter.nvim',
-	'j-hui/fidget.nvim',
-	'dmmulroy/ts-error-translator.nvim',
-	'rachartier/tiny-inline-diagnostic.nvim',
-	'seblyng/roslyn.nvim',
+	gh('neovim/nvim-lspconfig'),
+	gh('mason-org/mason.nvim'),
+	gh('mason-org/mason-lspconfig.nvim'),
+	gh('mhartington/formatter.nvim'),
+	gh('j-hui/fidget.nvim'),
+	gh('dmmulroy/ts-error-translator.nvim'),
+	gh('rachartier/tiny-inline-diagnostic.nvim'),
+	gh('seblyng/roslyn.nvim'),
 
 	-- cmp for LSP
-	'hrsh7th/nvim-cmp',
-	'hrsh7th/cmp-nvim-lsp',
-	'hrsh7th/cmp-nvim-lua',
-	'hrsh7th/cmp-buffer',
-	'hrsh7th/cmp-cmdline',
-	{ url = 'https://codeberg.org/FelipeLema/cmp-async-path' },
-	'ray-x/cmp-treesitter',
+	gh('hrsh7th/nvim-cmp'),
+	gh('hrsh7th/cmp-nvim-lsp'),
+	gh('hrsh7th/cmp-nvim-lua'),
+	gh('hrsh7th/cmp-buffer'),
+	gh('hrsh7th/cmp-cmdline'),
+	{ src = cb('FelipeLema/cmp-async-path') },
+	gh('ray-x/cmp-treesitter'),
 
 	-- Snippets
-	{ 'L3MON4D3/LuaSnip', build = 'make install_jsregexp' },
-	'rafamadriz/friendly-snippets',
-	'honza/vim-snippets',
-	'saadparwaiz1/cmp_luasnip',
-	'benfowler/telescope-luasnip.nvim',
+	{ src = gh('L3MON4D3/LuaSnip'),         data = { build = 'make install_jsregexp' } },
+	gh('rafamadriz/friendly-snippets'),
+	gh('honza/vim-snippets'),
+	gh('saadparwaiz1/cmp_luasnip'),
+	gh('benfowler/telescope-luasnip.nvim'),
 
 	-- DAP
-	'mfussenegger/nvim-dap',
-	'jay-babu/mason-nvim-dap.nvim',
-	'theHamsta/nvim-dap-virtual-text',
-	'suketa/nvim-dap-ruby',
+	gh('mfussenegger/nvim-dap'),
+	gh('jay-babu/mason-nvim-dap.nvim'),
+	gh('theHamsta/nvim-dap-virtual-text'),
+	gh('suketa/nvim-dap-ruby'),
 
 	-- misc
-	'HiPhish/rainbow-delimiters.nvim',
-	-- 'ray-x/lsp_signature.nvim',
-	'b0o/schemastore.nvim',
-	{ 'ray-x/guihua.lua',    build = 'make -C lua/fzy' },
-	{ 'ray-x/navigator.lua', branch = 'treesitter-main' },
+	gh('HiPhish/rainbow-delimiters.nvim'),
+	gh('b0o/schemastore.nvim'),
+	{ src = gh('ray-x/guihua.lua'),    data = { build = 'make -C lua/fzy' } },
+	{ src = gh('ray-x/navigator.lua'), version = 'treesitter-main' },
 }
 
+-- Run build commands if required
+vim.api.nvim_create_autocmd('PackChanged', {
+	callback = function(ev)
+		local build = ev.data.spec.data.build
+		if build ~= nil then
+			vim.system({ build }, { cdw = ev.data.path }):wait()
+		end
 
-local my_packages = nonLspPackages
-vim.list_extend(my_packages, lspPackages)
-
--- :h paq-bootstrapping
-local function clone_paq()
-	local path = vim.fn.stdpath('data') .. '/site/pack/paqs/start/paq-nvim'
-	local is_installed = vim.fn.empty(vim.fn.glob(path)) == 0
-	if not is_installed then
-		vim.fn.system { 'git', 'clone', '--depth=1', 'https://github.com/savq/paq-nvim.git', path }
-		return true
+		local cmd = ev.data.spec.data.cmd --[[@as string]]
+		if cmd ~= nil and cmd:len() > 0 then
+			vim.cmd(cmd)
+		end
 	end
-end
-
-local function bootstrap_paq(packages)
-	local first_install = clone_paq()
-	vim.cmd.packadd 'paq-nvim'
-	local paq = require 'paq'
-	if first_install then
-		vim.notify('Installing plugins... If prompted, hit Enter to continue.')
-	end
-
-	-- Read and install packages
-	paq(packages)
-end
-
--- Call helper function
-bootstrap_paq(my_packages)
+})
 
 vim.cmd.packadd 'matchit'
 
@@ -272,7 +254,6 @@ g.loaded_perl_provider    = false
 opt.syntax                = 'on'
 
 ---- Configs from dedicated files.
--- Colorscheme and highlight overwrites.
 require 'highlighting'
 require 'telescope-local'
 require 'switcher'
@@ -300,25 +281,14 @@ if vim.fn.has('persistent_undo') == 1 then
 end
 
 ---- General Mappings ----
--- Unmap defaults
-pcall(function()
-	vim.keymap.del('n', 'grn')
-	vim.keymap.del('n', 'grr')
-	vim.keymap.del('n', 'gri')
-	vim.keymap.del('n', 'gO')
-	vim.keymap.del({ 'n', 'x', }, 'gra')
-	vim.keymap.del('n', 'grt')
-	vim.keymap.del('n', 'gr')
-end)
-
 map('n', 'ZZ', '<NOP>')
 map('n', { '<C-t><C-c>', '<C-t>c' }, ':tabclose<CR>', { desc = 'Close tab' })
 -- Reload this config
 map('n', '<leader>sv', ':source $MYVIMRC<CR>', { desc = 'Source vimrc/init' })
 
-map('n', '<leader>zc', ':%foldc!<CR>',     { desc = 'Close all folds' })
+map('n', '<leader>zc', ':%foldc!<CR>', { desc = 'Close all folds' })
 map('x', '<leader>zc', ":'<,'>foldc!<CR>", { desc = 'Close all folds' })
-map('n', '<leader>zC', ':%foldo<CR>',      { desc = 'Open all folds' })
+map('n', '<leader>zC', ':%foldo<CR>', { desc = 'Open all folds' })
 map('n', 'gbd', function() require 'mini.bufremove'.wipeout() end, { desc = 'Buffer delete, keep window' })
 map('n', '<BS>', '<C-^>', { desc = 'Last buffer' })
 map('n', '<leader><C-i>', ':Inspect<CR>', { desc = ':Inspect' })
@@ -439,7 +409,7 @@ require 'barbar'.setup {
 		buffer_number = true,
 	}
 }
-map('n', '<M-b>',   ':BufferPick<CR>',       { desc = 'Buffer pick' })
+map('n', '<M-b>', ':BufferPick<CR>', { desc = 'Buffer pick' })
 map('n', '<C-M-b>', ':BufferPickDelete<CR>', { desc = 'Buffer pick delete' })
 
 require 'nvim-surround'.setup { move_cursor = false }
@@ -555,3 +525,5 @@ vim.notify = notify
 require 'hardtime'.setup {
 	disabled_keys = {},
 }
+
+require 'mini.operators'.setup {}
