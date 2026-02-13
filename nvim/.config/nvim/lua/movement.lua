@@ -22,7 +22,7 @@ local spider_map = function(key)
 	map(
 		{ 'n', 'o', 'x' },
 		key,
-		function() require('spider').motion(key) end,
+		function() require 'spider'.motion(key) end,
 		{ desc = 'Spider-' .. key }
 	)
 end
@@ -69,4 +69,3 @@ leap.opts.preview_filter =
 		end
 leap.opts.safe_labels = 'uopnm,qwertzvbs;HKLYUIOPNMQWERTZXCVBASDGJ'
 leap.opts.labels = hop_keys .. hop_keys:upper()
-

@@ -530,7 +530,6 @@ require 'mini.diff'.setup {
 		style = 'number'
 	},
 	mappings = {
-		apply = '',
 		reset = '',
 	},
 }
@@ -541,6 +540,8 @@ require 'hardtime'.setup {
 	disabled_keys = {
 		['<Left>'] = false,
 		['<Right>'] = false,
+		['<Up>'] = false,
+		['<Down>'] = false,
 	},
 }
 

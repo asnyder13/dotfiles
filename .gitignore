@@ -29,3 +29,4 @@ tags
 config.d/
 **/common/aliases_local
 **/zsh/zshrc_local
+**/nvim-pack-lock.json

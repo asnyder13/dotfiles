@@ -24,7 +24,7 @@ require 'nvim-treesitter.configs'.setup {
 		'typescript',
 		'xml',
 		'yaml',
-	}, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+	}, -- one of 'all', 'maintained' (parsers with maintainers), or a list of languages
 	-- If TS highlights are not enabled at all, or disabled via `disable` prop, highlighting will fallback to default Vim syntax highlighting
 	highlight = { enable = true },
 	incremental_selection = { enable = true },
@@ -52,12 +52,11 @@ require 'nvim-ts-autotag'.setup {
 	}
 }
 
-local inline_diag = require 'tiny-inline-diagnostic'
-inline_diag.setup {
+require 'tiny-inline-diagnostic'.setup {
 	preset = 'powerline',
 	options = { multilines = { enabled = true, }, },
 }
-vim.diagnostic.open_float = require("tiny-inline-diagnostic.override").open_float
+vim.diagnostic.open_float = require 'tiny-inline-diagnostic.override'.open_float
 
 ---- Language Servers
 local on_attach = require 'lspconfig'
@@ -66,10 +65,10 @@ vim.lsp.config('*', {
 	capabilities = vim.lsp.protocol.make_client_capabilities(),
 	inlay_hints = { enabled = true },
 })
-require("mason").setup({
+require 'mason'.setup({
 	registries = {
-		"github:mason-org/mason-registry",
-		"github:Crashdummyy/mason-registry",
+		'github:mason-org/mason-registry',
+		'github:Crashdummyy/mason-registry',
 	},
 })
 require 'mason-lspconfig'.setup {
@@ -107,11 +106,10 @@ require 'navigator'.setup {
 -- cmp
 opt.completeopt = { 'menu', 'noselect', 'noinsert' }
 local cmp = require 'cmp'
-local luasnip = require 'luasnip'
 
 cmp.setup {
 	mapping = {
-		["<CR>"]      = cmp.mapping({
+		['<CR>']      = cmp.mapping({
 			i = function(fallback)
 				if cmp.visible() and cmp.get_active_entry() then
 					cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
@@ -123,6 +121,7 @@ cmp.setup {
 			-- c = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
 		}),
 		['<Tab>']     = function(fallback)
+			local luasnip = require 'luasnip'
 			if luasnip.in_snippet() and luasnip.jumpable(1) then
 				luasnip.jump(1)
 			elseif cmp.visible() then
@@ -132,6 +131,7 @@ cmp.setup {
 			end
 		end,
 		['<S-Tab>']   = function(fallback)
+			local luasnip = require 'luasnip'
 			if cmp.visible() then
 				cmp.mapping.select_prev_item()()
 			elseif luasnip.jumpable(-1) then
@@ -172,7 +172,7 @@ cmp.setup {
 	},
 	snippet = {
 		expand = function(args)
-			luasnip.lsp_expand(args.body)
+			require 'luasnip'.lsp_expand(args.body)
 		end,
 	},
 	enabled = function()
@@ -180,7 +180,7 @@ cmp.setup {
 		disabled = disabled or (vim.api.nvim_get_option_value('buftype', { buf = 0 }) == 'prompt')
 		disabled = disabled or (vim.fn.reg_recording() ~= '')
 		disabled = disabled or (vim.fn.reg_executing() ~= '')
-		disabled = disabled or require('cmp.config.context').in_treesitter_capture('comment')
+		disabled = disabled or require 'cmp.config.context'.in_treesitter_capture('comment')
 		return not disabled
 	end,
 }
@@ -233,7 +233,7 @@ map('n', '<C-j>', ':Treewalker Down<CR>')
 map('n', '<C-k>', ':Treewalker Up<CR>')
 map('n', '<C-l>', ':Treewalker Right<CR>')
 
-local lang_utils = require('treesj.langs.utils')
+local lang_utils = require 'treesj.langs.utils'
 local treesj_langs = {
 	c_sharp = {
 		argument_list = lang_utils.set_preset_for_args(),
@@ -254,14 +254,14 @@ map('n', 'gJ', require 'treesj'.join)
 require 'timber'.setup {
 	log_templates = {
 		default = {
-			javascript = [[console.dir("%log_target", %log_target)]],
-			typescript = [[console.dir("%log_target", %log_target)]],
+			javascript = [[console.dir('%log_target', %log_target)]],
+			typescript = [[console.dir('%log_target', %log_target)]],
 			ruby = [[ap %log_target]],
 			lua = [[vim.print(%log_target)]],
 		},
 		plain = {
-			javascript = [[console.dir("%insert_cursor")]],
-			typescript = [[console.dir("%insert_cursor")]],
+			javascript = [[console.dir('%insert_cursor')]],
+			typescript = [[console.dir('%insert_cursor')]],
 			ruby = [[ap %insert_cursor]],
 			lua = [[vim.print(%log_target)]],
 		}

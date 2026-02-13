@@ -38,7 +38,7 @@ if [[ -d "$HOME/.dotfiles" ]]; then
 		DOTFILES+=("$DOTFILES_DIR/$CONFIG")
 	done
 
-	alias editrcs="vim +'set autochdir' ${DOTFILES[*]}"
+	alias editrcs="vim +'set autochdir' '$HOME/.dotfiles/nvim/.config/nvim/init.lua' ${DOTFILES[*]}"
 fi
 
 # General aliases.
