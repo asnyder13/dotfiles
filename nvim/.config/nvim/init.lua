@@ -280,9 +280,9 @@ opt.syntax                = 'on'
 
 ---- Configs from dedicated files.
 require 'highlighting'
-require 'telescope-local'
+require '_telescope'
 require 'switcher'
-require 'neo-tree-local'
+require '_neo-tree'
 require 'movement'
 
 local lsp_success, lsp_error = pcall(function()

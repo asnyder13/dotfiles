@@ -60,7 +60,7 @@ inline_diag.setup {
 vim.diagnostic.open_float = require("tiny-inline-diagnostic.override").open_float
 
 ---- Language Servers
-local on_attach = require 'lspconfig-local'
+local on_attach = require 'lspconfig'
 vim.lsp.config('*', {
 	on_attach = on_attach,
 	capabilities = vim.lsp.protocol.make_client_capabilities(),
