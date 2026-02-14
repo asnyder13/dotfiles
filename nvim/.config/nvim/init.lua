@@ -7,6 +7,38 @@ local api = vim.api
 local opt = vim.opt
 
 
+local build_configs = {
+	['telescope-fzf-native.nvim'] = { build = 'make', },
+	['nvim-treesitter'] = { cmd = 'TSUpdate', },
+	['LuaSnip'] = { build = 'make install_jsregexp', },
+	['guihua.lua'] = { build = 'make -C lua/fzy', },
+}
+
+-- Run build commands if required
+vim.api.nvim_create_autocmd('PackChanged', {
+	callback = function(ev)
+		local name = ev.data.spec.name
+		local build_config = build_configs[name]
+		if build_config == nil then return end
+
+		local build, cmd = build_config.build, build_config.cmd
+		if build ~= nil then
+			local buildtbl = vim.iter(build:gmatch([[([^%s]+)]])):totable()
+			local result = vim.system(buildtbl, { cwd = ev.data.path }):wait()
+			if result.code ~= 0 then
+				vim.notify(string.format('Build for %s failed with code %s', name, result.code))
+			end
+		end
+
+		if cmd ~= nil and cmd:len() > 0 then
+			if not ev.data.active then
+				vim.cmd.packadd(name)
+			end
+			vim.cmd(cmd)
+		end
+	end
+})
+
 local gh = function(x) return 'https://github.com/' .. x end
 local cb = function(x) return 'https://codeberg.org/' .. x end
 vim.pack.add {
@@ -16,7 +48,6 @@ vim.pack.add {
 	-- Regular vim
 	gh('ntpeters/vim-better-whitespace'),
 	gh('tpope/vim-fugitive'),
-	-- gh('vim-scripts/ReplaceWithRegister'),
 	gh('jlcrochet/vim-razor'),
 	gh('tpope/vim-abolish'),
 	gh('mattn/emmet-vim'),
@@ -29,7 +60,7 @@ vim.pack.add {
 	gh('nvim-lua/plenary.nvim'),
 	gh('nvim-lua/popup.nvim'),
 	gh('nvim-telescope/telescope.nvim'),
-	{ src = gh('nvim-telescope/telescope-fzf-native.nvim'), data = { build = 'make' } },
+	{ src = gh('nvim-telescope/telescope-fzf-native.nvim') },
 	gh('romgrk/barbar.nvim'),
 	gh('Everduin94/nvim-quick-switcher'),
 	gh('kylechui/nvim-surround'),
@@ -65,7 +96,7 @@ vim.pack.add {
 
 
 	-- Treesitter
-	{ src = gh('nvim-treesitter/nvim-treesitter'),          version = 'master',       data = { cmd = 'TSUpdate' }, },
+	{ src = gh('nvim-treesitter/nvim-treesitter'),         version = 'master', },
 	gh('nvim-treesitter/nvim-treesitter-refactor'),
 	gh('atusy/treemonkey.nvim'),
 	gh('windwp/nvim-ts-autotag'),
@@ -95,7 +126,7 @@ vim.pack.add {
 	gh('ray-x/cmp-treesitter'),
 
 	-- Snippets
-	{ src = gh('L3MON4D3/LuaSnip'),         data = { build = 'make install_jsregexp' } },
+	{ src = gh('L3MON4D3/LuaSnip') },
 	gh('rafamadriz/friendly-snippets'),
 	gh('honza/vim-snippets'),
 	gh('saadparwaiz1/cmp_luasnip'),
@@ -110,24 +141,9 @@ vim.pack.add {
 	-- misc
 	gh('HiPhish/rainbow-delimiters.nvim'),
 	gh('b0o/schemastore.nvim'),
-	{ src = gh('ray-x/guihua.lua'),    data = { build = 'make -C lua/fzy' } },
+	{ src = gh('ray-x/guihua.lua') },
 	{ src = gh('ray-x/navigator.lua'), version = 'treesitter-main' },
 }
-
--- Run build commands if required
-vim.api.nvim_create_autocmd('PackChanged', {
-	callback = function(ev)
-		local build = ev.data.spec.data.build
-		if build ~= nil then
-			vim.system({ build }, { cdw = ev.data.path }):wait()
-		end
-
-		local cmd = ev.data.spec.data.cmd --[[@as string]]
-		if cmd ~= nil and cmd:len() > 0 then
-			vim.cmd(cmd)
-		end
-	end
-})
 
 vim.cmd.packadd 'matchit'
 
@@ -523,7 +539,10 @@ notify.setup {
 }
 vim.notify = notify
 require 'hardtime'.setup {
-	disabled_keys = {},
+	disabled_keys = {
+		['<Left>'] = false,
+		['<Right>'] = false,
+	},
 }
 
 require 'mini.operators'.setup {}
