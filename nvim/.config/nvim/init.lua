@@ -39,8 +39,8 @@ vim.api.nvim_create_autocmd('PackChanged', {
 	end
 })
 
-local gh = function(x) return 'https://github.com/' .. x end
-local cb = function(x) return 'https://codeberg.org/' .. x end
+local gh = function(path) return 'https://github.com/' .. path end
+local cb = function(path) return 'https://codeberg.org/' .. path end
 vim.pack.add {
 	-- Colorscheme, Neovim specific
 	gh 'judaew/ronny.nvim',
@@ -144,6 +144,14 @@ vim.pack.add {
 	{ src = gh 'ray-x/guihua.lua' },
 	{ src = gh 'ray-x/navigator.lua', version = 'treesitter-main' },
 }
+
+local notify = require 'notify'
+notify.setup {
+	merge_duplicates = true,
+	render = 'wrapped-compact',
+	stages = 'static',
+}
+vim.notify = notify
 
 vim.cmd.packadd 'matchit'
 
@@ -531,13 +539,6 @@ require 'mini.diff'.setup {
 
 require 'dial'
 
-local notify = require 'notify'
-notify.setup {
-	merge_duplicates = true,
-	render = 'wrapped-compact',
-	stages = 'static',
-}
-vim.notify = notify
 require 'hardtime'.setup {
 	disabled_keys = {
 		['<Left>'] = false,
