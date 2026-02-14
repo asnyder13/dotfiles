@@ -59,8 +59,6 @@ vim.pack.add {
 	gh 'lukas-reineke/indent-blankline.nvim',
 	gh 'nvim-lua/plenary.nvim',
 	gh 'nvim-lua/popup.nvim',
-	gh 'nvim-telescope/telescope.nvim',
-	{ src = gh 'nvim-telescope/telescope-fzf-native.nvim' },
 	gh 'romgrk/barbar.nvim',
 	gh 'Everduin94/nvim-quick-switcher',
 	gh 'kylechui/nvim-surround',
@@ -94,6 +92,10 @@ vim.pack.add {
 	gh 'nvim-mini/mini.bufremove',
 	gh 'nvim-mini/mini.operators',
 
+	-- telescope
+	gh 'nvim-telescope/telescope.nvim',
+	{ src = gh 'nvim-telescope/telescope-fzf-native.nvim' },
+	gh 'benfowler/telescope-luasnip.nvim',
 
 	-- Treesitter
 	{ src = gh 'nvim-treesitter/nvim-treesitter',         version = 'master', },
@@ -130,7 +132,6 @@ vim.pack.add {
 	gh 'rafamadriz/friendly-snippets',
 	gh 'honza/vim-snippets',
 	gh 'saadparwaiz1/cmp_luasnip',
-	gh 'benfowler/telescope-luasnip.nvim',
 
 	-- DAP
 	gh 'mfussenegger/nvim-dap',
@@ -295,11 +296,14 @@ end
 
 g.user_emmet_install_global = 0
 g.user_emmet_leader_key = '<C-t>'
-api.nvim_create_autocmd('FileType', { pattern = { 'html', 'css' }, command = 'EmmetInstall' })
+api.nvim_create_autocmd('FileType', { pattern = { 'html', 'css', 'cshtml', 'razor', }, command = 'EmmetInstall' })
 
 -- Persistent Undo/Redo
 if vim.fn.has 'persistent_undo' == 1 then
-	local target_path = Util.create_expand_path('~/.local/share/nvim/nvim-persisted-undo/')
+	local basepath = vim.fn.expand('$XDG_DATA_HOME')
+	if basepath == '$XDG_DATA_HOME' then basepath = '~/.local/share' end
+
+	local target_path = Util.create_expand_path(basepath .. '/nvim/nvim-persisted-undo/')
 	opt.undodir = target_path
 	opt.undofile = true
 end
@@ -315,18 +319,12 @@ map('x', '<leader>zc', ":'<,'>foldc!<CR>", { desc = 'Close all folds' })
 map('n', '<leader>zC', ':%foldo<CR>', { desc = 'Open all folds' })
 map('n', 'gbd', function() require 'mini.bufremove'.wipeout() end, { desc = 'Buffer delete, keep window' })
 map('n', '<BS>', '<C-^>', { desc = 'Last buffer' })
-map('n', '<leader><C-i>', ':Inspect<CR>', { desc = ':Inspect' })
 map('n', '<C-w>,', function() vim.cmd('resize ' .. vim.fn.line('$')) end, { desc = 'Size window to content' })
 
 -- Toggle mappings
 map('n', '<leader>tw', ':set wrap!<CR>', { desc = 'Toggle wrap' })
-map('n', '<leader>tm', function()
-	if vim.tbl_isempty(vim.opt_local.mouse:get()) then
-		vim.opt_local.mouse = mouse
-	else
-		vim.opt_local.mouse = ''
-	end
-end, { desc = 'Toggle mouse' })
+map('n', '<leader>tm', function() vim.opt_local.mouse = vim.tbl_isempty(vim.opt_local.mouse:get()) and mouse or '' end,
+	{ desc = 'Toggle mouse' })
 map('n', '<leader>tn',
 	':IBLToggle<CR>:set number!<CR>:MarksToggleSigns<CR>:Gitsigns toggle_signs<CR>:lua vim.diagnostic.enable(not vim.diagnostic.is_enabled())<CR>',
 	{ desc = 'Toggle line numbers' })
