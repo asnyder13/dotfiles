@@ -26,7 +26,7 @@ vim.api.nvim_create_autocmd('PackChanged', {
 			local buildtbl = vim.iter(build:gmatch([[([^%s]+)]])):totable()
 			local result = vim.system(buildtbl, { cwd = ev.data.path }):wait()
 			if result.code ~= 0 then
-				vim.notify(string.format('Build for %s failed with code %s', name, result.code))
+				vim.notify(string.format('Build for %s failed with code %s: %s', name, result.code, result.stderr))
 			end
 		end
 

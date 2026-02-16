@@ -40,6 +40,7 @@ local function cycle(keys, word)
 		elements = keys,
 		word = word, -- if false, 'sand' is incremented into 'sor', 'doctor' into 'doctand', etc.
 		cyclic = true, -- 'or' is incremented into 'and'.
+		preserve_case = true,
 	}
 end
 
@@ -62,6 +63,7 @@ local default = {
 	cycle({ '==', '!=' }, false),
 	cycle({ '+=', '-=' }, false),
 	cycle({ '++', '--' }, false),
+	cycle({ 'on', 'off' }, true),
 }
 dial_config.augends:register_group { default = default, }
 
