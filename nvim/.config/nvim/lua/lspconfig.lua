@@ -2,7 +2,7 @@ local map = require 'util'.map_keys_table
 local center = require 'util'.run_then_center_cursor_func
 
 ---- DAP
--- local dap_on_attach = require 'dap-local'
+-- local dap_on_attach = require '_dap'
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
