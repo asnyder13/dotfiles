@@ -155,6 +155,7 @@ notify.setup {
 vim.notify = notify
 
 vim.cmd.packadd 'matchit'
+require 'vim._extui'.enable {}
 
 ---- General Settings ----
 -- Auto commands
@@ -455,6 +456,7 @@ autopairs.add_rules {
 			:with_move(cond.after_text('>')),
 	Rule('|', '|', 'ruby')
 			:with_move(cond.after_text('|')),
+	Rule('#if', ' #endif', 'cs'),
 }
 
 require 'bigfile'.setup {
@@ -543,6 +545,7 @@ require 'hardtime'.setup {
 		['<Up>'] = false,
 		['<Down>'] = false,
 	},
+	disable_mouse = false,
 }
 
 require 'mini.operators'.setup {}
