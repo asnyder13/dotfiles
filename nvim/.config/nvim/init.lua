@@ -531,9 +531,6 @@ require 'mini.diff'.setup {
 	view = {
 		style = 'number'
 	},
-	mappings = {
-		reset = '',
-	},
 }
 
 require 'dial'
@@ -546,6 +543,9 @@ require 'hardtime'.setup {
 		['<Down>'] = false,
 	},
 	disable_mouse = false,
+	disabled_filetypes = {
+		'fugitive*',
+	},
 }
 
 require 'mini.operators'.setup {}

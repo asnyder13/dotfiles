@@ -72,7 +72,8 @@ alias vimg='vim -c ":G|only"'
 alias grbst='git rebase --autostash'
 alias gdt='git difftool'
 alias gdtc='git difftool --cached'
-alias grbmaster='git rebase --interactive --autostash origin/master'
+alias grbiamaster='git rebase --interactive --autostash origin/master'
+alias grbiacurr='git rebase --interactive --autostash origin/$(git_current_branch)'
 
 if command -v bat >/dev/null 2>&1; then
 	alias cats='bat'
