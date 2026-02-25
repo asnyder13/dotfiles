@@ -49,6 +49,13 @@ local on_attach = function(client, bufnr)
 	if client and client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
 		vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
 	end
+
+	map('', '<leader>td', function()
+		vim.diagnostic.enable(not vim.diagnostic.is_enabled())
+	end, o('toggle diagnostics'))
+	map('', '<leader>tbd', function()
+		vim.diagnostic.enable(not vim.diagnostic.is_enabled({ bufnr = 0 }), { bufnr = 0 })
+	end, o('toggle buffer diagnostics'))
 end
 
 return on_attach

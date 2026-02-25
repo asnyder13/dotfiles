@@ -1,9 +1,9 @@
 # vim: ft=bash
 
-alias list='ls -g --human-readable --no-group --almost-all --classify --time-style=long-iso --color --dereference' ;
-alias list2='ls -g --human-readable --no-group --classify --time-style=long-iso --color --dereference' ;
-alias lst='ls -g --human-readable --no-group --classify --time-style=long-iso --color --dereference' ;
-alias ll='ls -l --human-readable --almost-all --classify --time-style=long-iso --color --dereference' ;
+alias list='ls -g --human-readable --no-group --almost-all --classify --time-style=long-iso --color ' ;
+alias list2='ls -g --human-readable --no-group --classify --time-style=long-iso --color ' ;
+alias lst='ls -g --human-readable --no-group --classify --time-style=long-iso --color ' ;
+alias ll='ls -l --human-readable --almost-all --classify --time-style=long-iso --color ' ;
 
 # Old shortcuts from yum
 alias dnfs='sudo dnf search' ;
@@ -77,6 +77,8 @@ alias grbiacurr='git rebase --interactive --autostash origin/$(git_current_branc
 
 if command -v bat >/dev/null 2>&1; then
 	alias cats='bat'
+elif command -v batcat >/dev/null 2>&1; then
+	alias cats='batcat'
 elif command -v highlight >/dev/null 2>&1; then
 	alias cats='highlight -O ansi --force --line-numbers'
 else
