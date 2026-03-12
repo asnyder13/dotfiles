@@ -4,6 +4,7 @@ alias list='ls -g --human-readable --no-group --almost-all --classify --time-sty
 alias list2='ls -g --human-readable --no-group --classify --time-style=long-iso --color ' ;
 alias lst='ls -g --human-readable --no-group --classify --time-style=long-iso --color ' ;
 alias ll='ls -l --human-readable --almost-all --classify --time-style=long-iso --color ' ;
+alias listt='ls -g --human-readable --no-group --almost-all --classify --time-style=long-iso --color -t' ;
 
 # Old shortcuts from yum
 alias dnfs='sudo dnf search' ;

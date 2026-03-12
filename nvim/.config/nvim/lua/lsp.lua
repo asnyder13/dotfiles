@@ -43,6 +43,20 @@ vim.api.nvim_create_autocmd('FileType', {
 	pattern = 'htmlangular',
 	command = 'set ft=html'
 })
+vim.api.nvim_create_autocmd('LspAttach', {
+	desc = 'Prevent ruby_lsp from loading twice',
+	callback = function(event)
+		local client = vim.lsp.get_client_by_id(event.data.client_id)
+		if client and client.name == 'ruby_lsp' then
+			local clients = vim.lsp.get_clients({ bufnr = event.buf, name = 'ruby_lsp' })
+			if #clients > 1 then
+				vim.defer_fn(function ()
+					vim.lsp.buf_detach_client(event.buf, client.id)
+				end, 0)
+			end
+		end
+	end
+})
 
 require 'nvim-ts-autotag'.setup {
 	opts = {
@@ -72,9 +86,7 @@ require 'mason'.setup({
 	},
 })
 require 'mason-lspconfig'.setup {
-	automatic_enable = { exclude = {
-		'rubocop',
-	}, },
+	automatic_enable = { exclude = { 'rubocop', }, },
 }
 
 
@@ -85,7 +97,6 @@ require 'navigator'.setup {
 	on_attach = on_attach,
 	default_mapping = false,
 	icons = { icons = false },
-	mason = true,
 	lsp = {
 		enable = true,
 		disable_lsp = 'all',
