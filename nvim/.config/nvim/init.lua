@@ -92,6 +92,7 @@ vim.pack.add {
 	gh 'asnyder13/mini.diff',
 	gh 'nvim-mini/mini.bufremove',
 	gh 'nvim-mini/mini.operators',
+	gh 'nvim-mini/mini.animate',
 
 	-- telescope
 	gh 'nvim-telescope/telescope.nvim',
@@ -287,6 +288,7 @@ require '_telescope'
 require 'switcher'
 require '_neo-tree'
 require 'movement'
+require 'mini'
 
 local lsp_success, lsp_error = pcall(function()
 	require 'lsp'
@@ -320,7 +322,6 @@ map('n', '<leader>sv', ':source $MYVIMRC<CR>', { desc = 'Source vimrc/init' })
 map('n', '<leader>zc', ':%foldc!<CR>', { desc = 'Close all folds' })
 map('x', '<leader>zc', ":'<,'>foldc!<CR>", { desc = 'Close all folds' })
 map('n', '<leader>zC', ':%foldo<CR>', { desc = 'Open all folds' })
-map('n', 'gbd', function() require 'mini.bufremove'.wipeout() end, { desc = 'Buffer delete, keep window' })
 map('n', '<BS>', '<C-^>', { desc = 'Last buffer' })
 map('n', '<C-w>,', function() vim.cmd('resize ' .. vim.fn.line('$')) end, { desc = 'Size window to content' })
 
@@ -329,7 +330,7 @@ map('n', '<leader>tw', ':set wrap!<CR>', { desc = 'Toggle wrap' })
 map('n', '<leader>tm', function() vim.opt_local.mouse = vim.tbl_isempty(vim.opt_local.mouse:get()) and mouse or '' end,
 	{ desc = 'Toggle mouse' })
 map('n', '<leader>tn',
-	function ()
+	function()
 		vim.cmd 'set number!'
 		vim.cmd 'IBLToggle'
 		vim.diagnostic.enable(not vim.diagnostic.is_enabled())
@@ -504,9 +505,6 @@ require 'which-key'.setup {
 	delay = function(ctx) return ctx.plugin and 0 or 400 end,
 }
 
-require 'mini.align'.setup {}
-require 'mini.ai'.setup { n_lines = 10000, }
-
 require 'marks'.setup {
 	default_mappings = true,
 	builtin_marks = { '.', '<', '>', '^' },
@@ -534,12 +532,6 @@ require 'csvview'.setup()
 
 require 'bufresize'.setup()
 
-require 'mini.diff'.setup {
-	view = {
-		style = 'number'
-	},
-}
-
 require 'dial'
 
 require 'hardtime'.setup {
@@ -554,7 +546,5 @@ require 'hardtime'.setup {
 		'fugitive*',
 	},
 }
-
-require 'mini.operators'.setup {}
 
 require '_persistence'
