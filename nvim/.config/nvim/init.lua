@@ -258,7 +258,8 @@ opt.backup         = false
 opt.hidden         = true
 opt.history        = 1000
 opt.termguicolors  = true
-opt.signcolumn     = 'auto:1-3'
+local signcolumn   = 'auto:1-3'
+opt.signcolumn     = signcolumn
 opt.updatetime     = 250
 opt.winborder      = 'rounded'
 
@@ -328,7 +329,12 @@ map('n', '<leader>tw', ':set wrap!<CR>', { desc = 'Toggle wrap' })
 map('n', '<leader>tm', function() vim.opt_local.mouse = vim.tbl_isempty(vim.opt_local.mouse:get()) and mouse or '' end,
 	{ desc = 'Toggle mouse' })
 map('n', '<leader>tn',
-	':IBLToggle<CR>:set number!<CR>:MarksToggleSigns<CR>:Gitsigns toggle_signs<CR>:lua vim.diagnostic.enable(not vim.diagnostic.is_enabled())<CR>',
+	function ()
+		vim.cmd 'set number!'
+		vim.cmd 'IBLToggle'
+		vim.diagnostic.enable(not vim.diagnostic.is_enabled())
+		vim.o.signcolumn = vim.o.signcolumn == signcolumn and 'no' or signcolumn
+	end,
 	{ desc = 'Toggle line numbers' })
 
 vim.api.nvim_create_user_command('Hitest',
