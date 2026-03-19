@@ -83,6 +83,7 @@ vim.pack.add {
 	gh 'monaqa/dial.nvim',
 	gh 'm4xshen/hardtime.nvim',
 	gh 'rcarriga/nvim-notify',
+	gh 'folke/persistence.nvim',
 
 	-- mini.nvim
 	gh 'nvim-mini/mini.ai',
@@ -549,3 +550,5 @@ require 'hardtime'.setup {
 }
 
 require 'mini.operators'.setup {}
+
+require '_persistence'
