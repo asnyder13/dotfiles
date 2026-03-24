@@ -534,17 +534,6 @@ require 'bufresize'.setup()
 
 require 'dial'
 
-require 'hardtime'.setup {
-	disabled_keys = {
-		['<Left>'] = false,
-		['<Right>'] = false,
-		['<Up>'] = false,
-		['<Down>'] = false,
-	},
-	disable_mouse = false,
-	disabled_filetypes = {
-		'fugitive*',
-	},
-}
+require '_hardtime'
 
 require '_persistence'
