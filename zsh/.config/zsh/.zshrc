@@ -33,6 +33,7 @@ SPACESHIP_TIME_SHOW=true
 SPACESHIP_TIME_FORMAT='%@'
 SPACESHIP_CHAR_SYMBOL='≫'
 SPACESHIP_CHAR_SUFFIX='  '
+SPACESHIP_GIT_STATUS_STASHED=''
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load

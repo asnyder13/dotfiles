@@ -92,7 +92,6 @@ vim.pack.add {
 	gh 'asnyder13/mini.diff',
 	gh 'nvim-mini/mini.bufremove',
 	gh 'nvim-mini/mini.operators',
-	gh 'nvim-mini/mini.animate',
 
 	-- telescope
 	gh 'nvim-telescope/telescope.nvim',
