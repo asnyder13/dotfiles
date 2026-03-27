@@ -2,39 +2,32 @@
 local map = require 'util'.map_keys_table
 
 -- Treesitter
-require 'nvim-treesitter.configs'.setup {
-	ensure_installed = {
-		'angular',
-		'bash',
-		'c_sharp',
-		'css',
-		'html',
-		'javascript',
-		'json',
-		'json5',
-		'jsonc',
-		'lua',
-		'make',
-		'markdown',
-		'markdown_inline',
-		'ruby',
-		'scss',
-		'typescript',
-		'xml',
-		'yaml',
-	}, -- one of 'all', 'maintained' (parsers with maintainers), or a list of languages
-	-- If TS highlights are not enabled at all, or disabled via `disable` prop, highlighting will fallback to default Vim syntax highlighting
-	highlight = { enable = true },
-	incremental_selection = { enable = true },
-	textobjects = { enable = true },
-	indent = { enable = true, disable = { 'ruby', 'markdown', } },
-	context_commentstring = {
-		enable = true,
-		enable_autocmd = false,
-	},
-	endwise = { enable = true, },
+require 'nvim-treesitter'.install {
+	'angular',
+	'bash',
+	'c_sharp',
+	'css',
+	'html',
+	'javascript',
+	'json',
+	'json5',
+	'lua',
+	'make',
+	'markdown',
+	'markdown_inline',
+	'ruby',
+	'scss',
+	'typescript',
+	'xml',
+	'yaml',
 }
 vim.treesitter.language.register('bash', 'zsh')
+vim.api.nvim_create_autocmd('FileType', {
+	pattern = { '*' },
+	callback = function()
+		pcall(function() vim.treesitter.start() end)
+	end
+})
 
 -- Temp fix for missing htmlangular interactions.
 vim.api.nvim_create_autocmd('FileType', {

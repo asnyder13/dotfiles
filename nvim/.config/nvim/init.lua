@@ -99,8 +99,7 @@ vim.pack.add {
 	gh 'benfowler/telescope-luasnip.nvim',
 
 	-- Treesitter
-	{ src = gh 'nvim-treesitter/nvim-treesitter',         version = 'master', },
-	gh 'nvim-treesitter/nvim-treesitter-refactor',
+	{ src = gh 'nvim-treesitter/nvim-treesitter',         version = 'main', },
 	gh 'atusy/treemonkey.nvim',
 	gh 'windwp/nvim-ts-autotag',
 	gh 'RRethy/nvim-treesitter-endwise',
