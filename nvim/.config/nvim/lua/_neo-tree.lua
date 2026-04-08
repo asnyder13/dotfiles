@@ -29,7 +29,8 @@ require 'neo-tree'.setup {
 		follow_current_file = {
 			enabled = true,
 			leave_dirs_open = true,
-		}
+		},
+		use_libuv_file_watcher = true,
 	},
 	add_blank_line_at_top = false,
 	window = {

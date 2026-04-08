@@ -1,29 +1,13 @@
 local map = require 'util'.map_keys_table
 
-map('n', '<C-a>', function()
-	require('dial.map').manipulate('increment', 'normal')
-end)
-map('n', '<C-x>', function()
-	require('dial.map').manipulate('decrement', 'normal')
-end)
-map('n', 'g<C-a>', function()
-	require('dial.map').manipulate('increment', 'gnormal')
-end)
-map('n', 'g<C-x>', function()
-	require('dial.map').manipulate('decrement', 'gnormal')
-end)
-map('x', '<C-a>', function()
-	require('dial.map').manipulate('increment', 'visual')
-end)
-map('x', '<C-x>', function()
-	require('dial.map').manipulate('decrement', 'visual')
-end)
-map('x', 'g<C-a>', function()
-	require('dial.map').manipulate('increment', 'gvisual')
-end)
-map('x', 'g<C-x>', function()
-	require('dial.map').manipulate('decrement', 'gvisual')
-end)
+map('n', '<C-a>', function() require('dial.map').manipulate('increment', 'normal') end)
+map('n', '<C-x>', function() require('dial.map').manipulate('decrement', 'normal') end)
+map('n', 'g<C-a>', function() require('dial.map').manipulate('increment', 'gnormal') end)
+map('n', 'g<C-x>', function() require('dial.map').manipulate('decrement', 'gnormal') end)
+map('x', '<C-a>', function() require('dial.map').manipulate('increment', 'visual') end)
+map('x', '<C-x>', function() require('dial.map').manipulate('decrement', 'visual') end)
+map('x', 'g<C-a>', function() require('dial.map').manipulate('increment', 'gvisual') end)
+map('x', 'g<C-x>', function() require('dial.map').manipulate('decrement', 'gvisual') end)
 
 local dial_config = require('dial.config')
 local augend = require('dial.augend')
@@ -80,5 +64,13 @@ dial_config.augends:on_filetype {
 	},
 	html = default_and {
 		cycle({ 'start', 'end', 'center', 'baseline', 'between', 'around', }),
+		cycle({ 'row', 'column', }),
+		cycle({ 'justify-content', 'align-items', }),
+	},
+	javascript = default_and {
+		cycle({ 'let', 'const' }, true),
+	},
+	typescript = default_and {
+		cycle({ 'let', 'const' }, true),
 	},
 }

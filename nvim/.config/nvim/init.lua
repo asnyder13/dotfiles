@@ -24,6 +24,7 @@ vim.api.nvim_create_autocmd('PackChanged', {
 		local build, cmd = build_config.build, build_config.cmd
 		if build ~= nil then
 			local buildtbl = vim.iter(build:gmatch([[([^%s]+)]])):totable()
+			vim.notify(string.format('Running build command for %s', name))
 			local result = vim.system(buildtbl, { cwd = ev.data.path }):wait()
 			if result.code ~= 0 then
 				vim.notify(string.format('Build for %s failed with code %s: %s', name, result.code, result.stderr))
@@ -130,7 +131,7 @@ vim.pack.add {
 	-- Snippets
 	{ src = gh 'L3MON4D3/LuaSnip' },
 	gh 'rafamadriz/friendly-snippets',
-	gh 'honza/vim-snippets',
+	-- gh 'honza/vim-snippets',
 	gh 'saadparwaiz1/cmp_luasnip',
 
 	-- DAP
@@ -234,14 +235,15 @@ opt.shiftwidth    = indent_size
 opt.expandtab     = false
 
 
-local mouse    = 'cnv'
-opt.mouse      = mouse
-opt.autoindent = true
-opt.showmatch  = true
-opt.visualbell = true
-opt.showmode   = true
-opt.wildmode   = { 'list:longest', }
-opt.scrolloff  = 1
+local mouse     = 'cnv'
+opt.mouse       = mouse
+opt.autoindent  = true
+opt.smartindent = true
+opt.showmatch   = true
+opt.visualbell  = true
+opt.showmode    = true
+opt.wildmode    = { 'list:longest', }
+opt.scrolloff   = 1
 opt.wildignore:append { '*/node_modules/*', '*/.git/*', '*/tmp/*', '*.swp', '*/.angular/*', }
 opt.sidescrolloff = 5
 opt.splitright    = true

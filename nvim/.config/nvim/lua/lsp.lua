@@ -2,7 +2,7 @@
 local map = require 'util'.map_keys_table
 
 -- Treesitter
-require 'nvim-treesitter'.install {
+local langs = {
 	'angular',
 	'bash',
 	'c_sharp',
@@ -21,11 +21,15 @@ require 'nvim-treesitter'.install {
 	'xml',
 	'yaml',
 }
+require 'nvim-treesitter'.install(langs)
 vim.treesitter.language.register('bash', 'zsh')
 vim.api.nvim_create_autocmd('FileType', {
-	pattern = { '*' },
-	callback = function()
-		pcall(function() vim.treesitter.start() end)
+	pattern = vim.tbl_extend('force', langs, { 'cs' }),
+	callback = function(args)
+		vim.treesitter.start(args.buf)
+		if not args.match == 'yaml' then
+			vim.bo[args.buf].indentexpr = "v:lua.require 'nvim-treesitter'.indentexpr()"
+		end
 	end
 })
 
