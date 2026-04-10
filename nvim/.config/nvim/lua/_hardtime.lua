@@ -8,7 +8,8 @@ require 'hardtime'.setup {
 	},
 	disable_mouse = false,
 	disabled_filetypes = {
-		'fugitive*',
+		['fugitive*'] = true,
+		['nvim-undotree'] = true,
 	},
 	hints = {
 		['yyp'] = {

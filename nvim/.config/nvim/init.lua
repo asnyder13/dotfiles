@@ -155,7 +155,9 @@ notify.setup {
 }
 vim.notify = notify
 
-vim.cmd.packadd 'matchit'
+vim.cmd.packadd 'nvim.undotree'
+vim.cmd.packadd 'nohlsearch'
+
 require 'vim._extui'.enable {}
 
 ---- General Settings ----
@@ -261,7 +263,7 @@ opt.history        = 1000
 opt.termguicolors  = true
 local signcolumn   = 'auto:1-3'
 opt.signcolumn     = signcolumn
-opt.updatetime     = 250
+opt.updatetime     = 1000
 opt.winborder      = 'rounded'
 
 -- Searching
