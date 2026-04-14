@@ -6,3 +6,8 @@ require 'mini.align'.setup {}
 require 'mini.ai'.setup { n_lines = 10000, }
 require 'mini.diff'.setup { view = { style = 'number' }, }
 require 'mini.operators'.setup { sort = { prefix = '', }, }
+require 'mini.cmdline'.setup {
+	autocomplete = { enable = false, },
+	autocorrect = { enalbe = false, },
+	autopeek = { enable = true, },
+}

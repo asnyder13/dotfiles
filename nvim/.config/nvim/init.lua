@@ -1,3 +1,5 @@
+vim.loader.enable()
+
 local Util = require 'util'
 local map  = Util.map_keys_table
 
@@ -18,8 +20,7 @@ local build_configs = {
 vim.api.nvim_create_autocmd('PackChanged', {
 	callback = function(ev)
 		local name = ev.data.spec.name
-		local build_config = build_configs[name]
-		if build_config == nil then return end
+		local build_config = build_configs[name] or {}
 
 		local build, cmd = build_config.build, build_config.cmd
 		if build ~= nil then
@@ -93,6 +94,7 @@ vim.pack.add {
 	gh 'asnyder13/mini.diff',
 	gh 'nvim-mini/mini.bufremove',
 	gh 'nvim-mini/mini.operators',
+	gh 'nvim-mini/mini.cmdline',
 
 	-- telescope
 	gh 'nvim-telescope/telescope.nvim',

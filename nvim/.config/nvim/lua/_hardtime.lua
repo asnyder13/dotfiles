@@ -1,5 +1,5 @@
 require 'hardtime'.setup {
-	restriction_mode = 'hint',
+	-- restriction_mode = 'hint',
 	disabled_keys = {
 		['<Left>'] = false,
 		['<Right>'] = false,
