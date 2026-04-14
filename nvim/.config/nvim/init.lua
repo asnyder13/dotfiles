@@ -286,14 +286,6 @@ g.loaded_perl_provider    = false
 -- Syntax hl/colors
 opt.syntax                = 'on'
 
----- Configs from dedicated files.
-require 'highlighting'
-require '_telescope'
-require 'switcher'
-require '_neo-tree'
-require 'movement'
-require 'mini'
-
 local lsp_success, lsp_error = pcall(function()
 	require 'lsp'
 	require 'format'
@@ -535,9 +527,3 @@ require 'visual-whitespace'.setup {}
 require 'csvview'.setup()
 
 require 'bufresize'.setup()
-
-require 'dial'
-
-require '_hardtime'
-
-require '_persistence'
