@@ -120,6 +120,8 @@ vim.pack.add {
 	gh 'dmmulroy/ts-error-translator.nvim',
 	gh 'rachartier/tiny-inline-diagnostic.nvim',
 	gh 'seblyng/roslyn.nvim',
+	{ src = gh 'ray-x/guihua.lua' },
+	{ src = gh 'ray-x/navigator.lua', version = 'treesitter-main' },
 
 	-- cmp for LSP
 	gh 'hrsh7th/nvim-cmp',
@@ -145,8 +147,6 @@ vim.pack.add {
 	-- misc
 	gh 'HiPhish/rainbow-delimiters.nvim',
 	gh 'b0o/schemastore.nvim',
-	{ src = gh 'ray-x/guihua.lua' },
-	{ src = gh 'ray-x/navigator.lua', version = 'treesitter-main' },
 }
 
 local notify = require 'notify'
@@ -522,7 +522,7 @@ require 'diffview'.setup { view = { merge_tool = { layout = 'diff3_mixed', }, },
 
 require 'qfc'.setup { enabled = true, timeout = 1000, }
 
-require 'visual-whitespace'.setup {}
+require 'visual-whitespace'.setup { highlight = { link = 'VisualNonText', default = true }, }
 
 require 'csvview'.setup()
 
