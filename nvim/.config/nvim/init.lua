@@ -134,8 +134,8 @@ vim.pack.add {
 
 	-- Snippets
 	{ src = gh 'L3MON4D3/LuaSnip' },
-	gh 'rafamadriz/friendly-snippets',
-	-- gh 'honza/vim-snippets',
+	-- gh 'rafamadriz/friendly-snippets',
+	gh 'honza/vim-snippets',
 	gh 'saadparwaiz1/cmp_luasnip',
 
 	-- DAP

@@ -1,2 +1,12 @@
 IRB.conf[:SAVE_HISTORY] ||= 1000
 IRB.conf[:HISTORY_FILE] ||= File.join(ENV["XDG_DATA_HOME"], "irb", "history")
+
+require 'matrix'
+require 'yaml'
+require 'date'
+require 'amazing_print'
+AmazingPrint.defaults = {
+	indent: 2,
+	multiline: false
+}
+AmazingPrint.irb!
