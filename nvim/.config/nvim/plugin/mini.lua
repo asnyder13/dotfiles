@@ -8,6 +8,6 @@ require 'mini.diff'.setup { view = { style = 'number' }, }
 require 'mini.operators'.setup { sort = { prefix = '<leader>gs', }, }
 require 'mini.cmdline'.setup {
 	autocomplete = { enable = false, },
-	autocorrect = { enalbe = false, },
+	autocorrect = { enable = false, },
 	autopeek = { enable = true, },
 }

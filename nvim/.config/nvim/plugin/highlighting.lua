@@ -25,6 +25,7 @@ vim.cmd.colorscheme 'ronny'
 --   it ends up coloring literally everything and floods the brain.
 
 local illuminateColor = { bg = '#434343' }
+local illuminateUnderline = { underdotted = true }
 local hls = {
 	---- General
 	['Interface']       = { fg = '#B8D7A3' }, -- Interface color from Visual Studio
@@ -41,14 +42,14 @@ local hls = {
 	'MarkSignNumHL',
 
 
-	['IlluminatedWord']      = illuminateColor,
-	['IlluminatedCurWord']   = illuminateColor,
-	['IlluminatedWordText']  = illuminateColor,
-	['IlluminatedWordRead']  = illuminateColor,
-	['IlluminatedWordWrite'] = illuminateColor,
-	['LspReferenceRead']     = illuminateColor,
-	['LspReferenceWrite']    = illuminateColor,
-	['LspReferenceText']     = illuminateColor,
+	['IlluminatedWord']      = illuminateUnderline,
+	['IlluminatedCurWord']   = illuminateUnderline,
+	['IlluminatedWordText']  = illuminateUnderline,
+	['IlluminatedWordRead']  = illuminateUnderline,
+	['IlluminatedWordWrite'] = illuminateUnderline,
+	['LspReferenceRead']     = illuminateUnderline,
+	['LspReferenceWrite']    = illuminateUnderline,
+	['LspReferenceText']     = illuminateUnderline,
 	['GitSignsAdd']          = { bg = 'NONE' },
 	['GitSignsChange']       = { bg = 'NONE' },
 	['GitSignsDelete']       = { bg = 'NONE' },
@@ -102,6 +103,7 @@ require 'illuminate'.configure {
 		'guihua',
 		'html',
 	},
+	delay = 250,
 }
 
 local au_group_illuminate_hold = function(lang)
