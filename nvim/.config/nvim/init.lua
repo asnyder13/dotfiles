@@ -96,6 +96,7 @@ vim.pack.add {
 	gh 'nvim-mini/mini.cursorword',
 	gh 'nvim-mini/mini.trailspace',
 	gh 'nvim-mini/mini.indentscope',
+	gh 'nvim-mini/mini.bracketed',
 
 	-- telescope
 	gh 'nvim-telescope/telescope.nvim',

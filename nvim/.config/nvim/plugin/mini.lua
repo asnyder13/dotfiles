@@ -69,3 +69,5 @@ require 'mini.indentscope'.setup {
 		})
 	}
 }
+
+require 'mini.bracketed'.setup {}
