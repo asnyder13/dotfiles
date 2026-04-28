@@ -52,6 +52,8 @@ local hls = {
 	['LineflyVisual']     = 'IncSearch',
 	['LineflyReplace']    = 'ExtraWhitespace',
 
+	['MiniTrailspace']    = 'RedrawDebugRecompose',
+
 	---- Languages
 	-- C#
 	'@punctuation.bracket.c_sharp',

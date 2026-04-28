@@ -48,7 +48,6 @@ vim.pack.add {
 	gh 'judaew/ronny.nvim',
 
 	-- Regular vim
-	gh 'ntpeters/vim-better-whitespace',
 	gh 'tpope/vim-fugitive',
 	gh 'jlcrochet/vim-razor',
 	gh 'tpope/vim-abolish',
@@ -95,6 +94,7 @@ vim.pack.add {
 	gh 'nvim-mini/mini.operators',
 	gh 'nvim-mini/mini.cmdline',
 	gh 'nvim-mini/mini.cursorword',
+	gh 'nvim-mini/mini.trailspace',
 
 	-- telescope
 	gh 'nvim-telescope/telescope.nvim',

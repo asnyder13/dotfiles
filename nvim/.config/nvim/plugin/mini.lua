@@ -11,6 +11,7 @@ require 'mini.cmdline'.setup {
 	autocorrect = { enable = false, },
 	autopeek = { enable = true, },
 }
+
 vim.api.nvim_create_autocmd({ 'CursorMoved' }, {
 	callback = function()
 		local curword = vim.fn.expand('<cword>')
@@ -45,4 +46,10 @@ vim.api.nvim_create_autocmd({ 'CursorMoved' }, {
 		vim.b.minicursorword_disable = vim.tbl_contains(block_hash[filetype] or {}, curword)
 	end
 })
-require 'mini.cursorword'.setup { delay = 250, }
+require 'mini.cursorword'.setup {}
+
+require 'mini.trailspace'.setup {}
+vim.api.nvim_create_user_command('StripWhitespace', function() require 'mini.trailspace'.trim() end,
+	{ desc = 'Trim trailing whitespace', })
+vim.api.nvim_create_user_command('StripEmptyLastLines', function() require 'mini.trailspace'.trim_last_lines() end,
+	{ desc = 'Trim trailing empty lines', })
