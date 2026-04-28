@@ -141,8 +141,10 @@ if command -v zsh >/dev/null 2>&1; then
 	fi
 	ln -vfs "$spaceship_loc/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
 
+	mkdir -p "$HOME/.local/state/zsh"
+	touch "$HOME/.local/state/zsh/history"
 	if ! grep --quiet --no-messages ZDOTDIR /etc/zshenv; then
-		echo '/ect/zshenv is missing the ZDOTDIR export (reproduced in this script)'
+		echo '/etc/zshenv is missing the ZDOTDIR export (reproduced in this script)'
 
 		# export XDG_DATA_HOME="$HOME/.local/share"
 		# export XDG_CONFIG_HOME="$HOME/.config"

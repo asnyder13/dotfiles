@@ -64,7 +64,6 @@ vim.pack.add {
 	gh 'romgrk/barbar.nvim',
 	gh 'Everduin94/nvim-quick-switcher',
 	gh 'kylechui/nvim-surround',
-	gh 'RRethy/vim-illuminate',
 	gh 'nvim-neo-tree/neo-tree.nvim',
 	gh 'MunifTanjim/nui.nvim',
 	gh 's1n7ax/nvim-window-picker',
@@ -95,6 +94,7 @@ vim.pack.add {
 	gh 'nvim-mini/mini.bufremove',
 	gh 'nvim-mini/mini.operators',
 	gh 'nvim-mini/mini.cmdline',
+	gh 'nvim-mini/mini.cursorword',
 
 	-- telescope
 	gh 'nvim-telescope/telescope.nvim',
@@ -160,7 +160,7 @@ vim.notify = notify
 vim.cmd.packadd 'nvim.undotree'
 vim.cmd.packadd 'nohlsearch'
 
-require 'vim._extui'.enable {}
+require 'vim._core.ui2'.enable {}
 
 ---- General Settings ----
 -- Auto commands
@@ -468,15 +468,13 @@ require 'bigfile'.setup {
 	filesize = 1,
 	features = {
 		"indent_blankline",
-		"illuminate",
 		"lsp",
 		"treesitter",
 		"syntax",
 		"matchparen",
 		"vimopts",
 		"filetype",
-		{
-			name = 'reactive',
+		{ name = 'reactive',
 			opts = { defer = false },
 			disable = function() vim.cmd 'ReactiveStop' end,
 		},
@@ -487,6 +485,10 @@ require 'bigfile'.setup {
 		{ name = 'rainbow',
 			opts = { defer = false },
 			disable = function(bufnr) require 'rainbow-delimiters'.disable(bufnr) end,
+		},
+		{ name = 'mini.cursorword',
+			opts = { defer = false },
+			disable = function(bufnr) vim.b[bufnr].minicursorword_disable = true end,
 		},
 	}
 }
