@@ -12,21 +12,21 @@ require 'mini.cmdline'.setup {
 	autopeek = { enable = true, },
 }
 
+local block_fts = {
+	'dirbuf',
+	'dirvish',
+	'fugitive',
+	'neo-tree',
+	'man',
+	'guihua',
+	'html',
+	'pager',
+}
 vim.api.nvim_create_autocmd({ 'CursorMoved' }, {
 	callback = function()
 		local curword = vim.fn.expand('<cword>')
 		local filetype = vim.bo.filetype
 
-		local block_fts = {
-			'dirbuf',
-			'dirvish',
-			'fugitive',
-			'neo-tree',
-			'man',
-			'guihua',
-			'html',
-			'pager',
-		}
 		if (vim.tbl_contains(block_fts, filetype)) then
 			vim.b.minicursorword_disable = true
 			return
@@ -43,7 +43,7 @@ vim.api.nvim_create_autocmd({ 'CursorMoved' }, {
 			typescript = js_words,
 		}
 
-		vim.b.minicursorword_disable = vim.tbl_contains(block_hash[filetype] or {}, curword)
+		vim.b.minicursorword_disable = vim.tbl_contains(block_hash[filetype] or {}, curword) or not curword:match('%w')
 	end
 })
 require 'mini.cursorword'.setup {}
@@ -53,3 +53,19 @@ vim.api.nvim_create_user_command('StripWhitespace', function() require 'mini.tra
 	{ desc = 'Trim trailing whitespace', })
 vim.api.nvim_create_user_command('StripEmptyLastLines', function() require 'mini.trailspace'.trim_last_lines() end,
 	{ desc = 'Trim trailing empty lines', })
+
+vim.api.nvim_create_autocmd({ 'FileType' }, {
+	pattern = block_fts,
+	callback = function() vim.b.miniindentscope_disable = true end
+})
+require 'mini.indentscope'.setup {
+	symbol = '│',
+	n_lines = math.huge,
+	draw = {
+		animation = require 'mini.indentscope'.gen_animation.cubic({
+			easing = 'in',
+			duration = 75,
+			unit = 'total'
+		})
+	}
+}

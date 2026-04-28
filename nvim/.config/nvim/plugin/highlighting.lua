@@ -53,6 +53,7 @@ local hls = {
 	['LineflyReplace']    = 'ExtraWhitespace',
 
 	['MiniTrailspace']    = 'RedrawDebugRecompose',
+	['IblScope']          = 'MiniIndentscopeSymbol',
 
 	---- Languages
 	-- C#
@@ -132,8 +133,10 @@ end
 
 -- Indent Blankline
 require 'ibl'.setup {
-	exclude = { filetypes = { '' } },
-	whitespace = {
-		remove_blankline_trail = false,
+	whitespace = { remove_blankline_trail = false, },
+	indent = { char = '│', },
+	scope = {
+		enabled = false,
+		priority = 0,
 	},
 }
