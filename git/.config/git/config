@@ -13,6 +13,12 @@
 	lba = !git reflog show --pretty=format:'%gs ~ %gd' --date=relative | grep 'checkout:' | grep -oE '[^ ]+ ~ .*' | awk -F~ '!seen[$1]++' | awk -F' ~ HEAD@{' '{printf(\"  \\033[33m%s: \\033[37m %s\\033[0m\\n\", substr($2, 1, length($2)-1), $1)}' | column -s: -t
 	lmerge = log --merges -n1 --pretty="%h"
 	root = rev-parse --show-toplevel
+	# https://piechowski.io/post/git-commands-before-reading-code/
+	whatchangedmost = git log --format=format: --name-only --since="1 year ago" | sort | uniq -c | sort -nr | head -20
+	whobuilt = git shortlog -sn --no-merges
+	wherearebugs = git log -i -E --grep="fix|bug|broken" --name-only --format= | sort | uniq -c | sort -nr | head -20
+	accordec = git log --format="%ad" --date=format:"%Y-%m" | sort | uniq -c
+	firefights = git log --oneline --since="1 year ago" | grep -iE "revert|hotfix|emergency|rollback"
 [core]
 	autocrlf = input
 [init]
