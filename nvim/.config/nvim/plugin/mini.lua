@@ -11,6 +11,21 @@ require 'mini.cmdline'.setup {
 	autocorrect = { enable = false, },
 	autopeek = { enable = true, },
 }
+require 'mini.move'.setup {
+	mappings = {
+		-- Move visual selection in Visual mode.
+		left = '<C-S-h>',
+		right = '<C-S-l>',
+		down = '<C-S-j>',
+		up = '<C-S-k>',
+
+		-- Move current line in Normal mode
+		line_left = '<C-S-h>',
+		line_right = '<C-S-l>',
+		line_down = '<C-S-j>',
+		line_up = '<C-S-k>',
+	},
+}
 
 local block_fts = {
 	'dirbuf',
@@ -71,3 +86,6 @@ require 'mini.indentscope'.setup {
 }
 
 require 'mini.bracketed'.setup {}
+require 'mini.jump'.setup {
+	delay = { idle_stop = 3000, },
+}

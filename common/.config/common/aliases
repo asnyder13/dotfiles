@@ -160,14 +160,11 @@ function alert () {
 	timer 0s "Alert fired"
 }
 
-if grep -q alias <(type rd) >/dev/null 2>&1; then
-	unalias rd
-fi
-rd() {
+rundisown() {
 	eval " $@ & ; disown"
 }
-re() {
-	rd "$@" ; sleep 0.5 ; exit
+runexit() {
+	rundisown "$@" ; sleep 0.5 ; exit
 }
 
 qrencode-utf() {

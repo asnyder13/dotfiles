@@ -97,6 +97,7 @@ vim.pack.add {
 	gh 'nvim-mini/mini.trailspace',
 	gh 'nvim-mini/mini.indentscope',
 	gh 'nvim-mini/mini.bracketed',
+	gh 'nvim-mini/mini.jump',
 
 	-- telescope
 	gh 'nvim-telescope/telescope.nvim',
@@ -255,7 +256,7 @@ opt.sidescrolloff = 5
 opt.splitright    = true
 opt.splitbelow    = true
 opt.listchars     = { tab = '»-', extends = '›', precedes = '‹', nbsp = '·', trail = '·', }
-opt.winblend      = 5
+opt.winblend      = 10
 opt.pumblend      = 5
 opt.diffopt:append { 'iwhiteall', }
 opt.linebreak      = true

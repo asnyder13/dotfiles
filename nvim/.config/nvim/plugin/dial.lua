@@ -48,6 +48,7 @@ local default = {
 	cycle({ '++', '--' }, false),
 	cycle({ 'on', 'off' }, true),
 	cycle({ 'yes', 'no' }, true),
+	cycle({ 'enable', 'disable' }, true),
 }
 dial_config.augends:register_group { default = default, }
 
