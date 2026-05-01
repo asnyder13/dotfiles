@@ -1,0 +1,17 @@
+#!/usr/bin/env -S ruby -w
+# frozen_string_literal: true
+# typed: false
+
+path = ARGV[0]
+fail 'specify filename to create' unless path
+
+File.open(path, "w") {
+  it.puts <<~HERE
+	#!/usr/bin/env -S ruby -w
+	# frozen_string_literal: true
+	# typed: false
+
+  HERE
+}
+File.chmod(0755, path)
+system (ENV['EDITOR'] || 'vim'), path

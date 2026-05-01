@@ -270,6 +270,7 @@ local signcolumn   = 'auto:1-3'
 opt.signcolumn     = signcolumn
 opt.updatetime     = 1000
 opt.winborder      = 'rounded'
+opt.switchbuf      = 'usetab'
 
 -- Searching
 opt.hlsearch       = true

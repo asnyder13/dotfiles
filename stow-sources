@@ -3,6 +3,7 @@
 SHELL_SOURCES=(
 	common
 	zsh
+	scripts
 )
 GENERAL_SOURCES=(
 	nvim
