@@ -29,13 +29,16 @@ end
 
 local default = {
 	-- Defaults
+	augend.integer.alias.binary,
+	augend.integer.alias.octal,
+	augend.integer.alias.decimal_int,
 	augend.integer.alias.hex,
+	augend.hexcolor.new { case = 'prefer_lower' },
 	augend.date.alias['%Y/%m/%d'],
 	augend.date.alias['%Y-%m-%d'],
 	augend.date.alias['%m/%d'],
 	augend.date.alias['%H:%M'],
 
-	augend.integer.alias.decimal_int,
 	augend.constant.alias.en_weekday,
 	augend.constant.alias.en_weekday_full,
 	augend.constant.alias.bool,
@@ -54,6 +57,7 @@ dial_config.augends:register_group { default = default, }
 
 ---@param custom Augend[]
 local function default_and(custom) return vim.tbl_extend('force', default, custom) end
+
 dial_config.augends:on_filetype {
 	ruby = default_and {
 		cycle({ 'if', 'unless' }),
@@ -67,6 +71,15 @@ dial_config.augends:on_filetype {
 		cycle({ 'start', 'end', 'center', 'baseline', 'between', 'around', }),
 		cycle({ 'row', 'column', }),
 		cycle({ 'justify-content', 'align-items', }),
+		augend.paren.new {
+			patterns = {
+				{ '[(', ')]' },
+				{ '[',  ']' },
+				{ '(',  ')' },
+			},
+			nested = false,
+			cyclic = false,
+		},
 	},
 	javascript = default_and {
 		cycle({ 'let', 'const' }, true),
@@ -74,4 +87,7 @@ dial_config.augends:on_filetype {
 	typescript = default_and {
 		cycle({ 'let', 'const' }, true),
 	},
+	yaml = default_and {
+		augend.semver.alias.semver,
+	}
 }

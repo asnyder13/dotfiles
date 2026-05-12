@@ -15,7 +15,7 @@ local on_attach = function(client, bufnr)
 	-- if dap_on_attach then dap_on_attach(bufnr) end
 
 	map('n', '<leader>h',  vim.diagnostic.open_float,  o('lsp_open_float'))
-	map('n', 'gh',         vim.lsp.buf.hover,          o('lsp_hover'))
+	map('n', '<C-s>',      vim.lsp.buf.hover,          o('lsp_hover'))
 	map('n', 'gW',         require 'navigator.workspace'.workspace_symbol_live, o('workspace_symbol_live'))
 	map('n', '<leader>gT', require 'navigator.treesitter'.bufs_ts,              o('bufs_ts'))
 

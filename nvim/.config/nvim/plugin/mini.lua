@@ -31,10 +31,11 @@ local block_fts = {
 	'dirbuf',
 	'dirvish',
 	'fugitive',
-	'neo-tree',
-	'man',
 	'guihua',
+	'help',
 	'html',
+	'man',
+	'neo-tree',
 	'pager',
 }
 vim.api.nvim_create_autocmd({ 'CursorMoved' }, {
