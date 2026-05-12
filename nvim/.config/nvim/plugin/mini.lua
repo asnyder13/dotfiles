@@ -33,33 +33,28 @@ local block_fts = {
 	'fugitive',
 	'guihua',
 	'help',
-	'html',
 	'man',
 	'neo-tree',
 	'pager',
+	'mason',
 }
 vim.api.nvim_create_autocmd({ 'CursorMoved' }, {
 	callback = function()
-		local curword = vim.fn.expand('<cword>')
 		local filetype = vim.bo.filetype
-
 		if (vim.tbl_contains(block_fts, filetype)) then
 			vim.b.minicursorword_disable = true
 			return
 		end
 
-		local js_words = {
-			'import',
-			'let',
-			'const',
-		}
+		local js_words = { 'import', 'let', 'const', 'await', }
 		local block_hash = {
 			lua = { 'local', 'require' },
 			javascript = js_words,
 			typescript = js_words,
 		}
 
-		vim.b.minicursorword_disable = vim.tbl_contains(block_hash[filetype] or {}, curword) or not curword:match('%w')
+		local curword = vim.fn.expand('<cword>')
+		vim.b.minicursorword_disable = not curword:match('%w') or vim.tbl_contains(block_hash[filetype] or {}, curword)
 	end
 })
 require 'mini.cursorword'.setup {}

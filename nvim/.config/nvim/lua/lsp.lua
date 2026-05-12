@@ -15,6 +15,7 @@ local langs = {
 	'make',
 	'markdown',
 	'markdown_inline',
+	'perl',
 	'ruby',
 	'scss',
 	'typescript',

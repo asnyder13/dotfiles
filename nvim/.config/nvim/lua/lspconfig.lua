@@ -2,7 +2,7 @@ local map = require 'util'.map_keys_table
 local center = require 'util'.run_then_center_cursor_func
 
 ---- DAP
--- local dap_on_attach = require '_dap'
+local dap_on_attach = require '_dap'
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
@@ -12,7 +12,7 @@ local on_attach = function(client, bufnr)
 	local opts = { noremap = true, buffer = bufnr, desc = nil }
 	local o = function(desc) return vim.tbl_extend('force', opts, { desc = desc }) end
 
-	-- if dap_on_attach then dap_on_attach(bufnr) end
+	if dap_on_attach then dap_on_attach(bufnr) end
 
 	map('n', '<leader>h',  vim.diagnostic.open_float,  o('lsp_open_float'))
 	map('n', '<C-s>',      vim.lsp.buf.hover,          o('lsp_hover'))

@@ -38,24 +38,26 @@ end
 
 ---- Ruby
 require 'dap-ruby'.setup()
--- re-set configs, only want one.
 dap.configurations.ruby = {
 	{
 		type = 'ruby',
 		name = 'debug current file',
-		bundle = '',
 		request = 'attach',
-		command = 'ruby',
 		script = '${file}',
-		port = 38698,
-		server = '127.0.0.1',
-		options = {
-			source_filetype = 'ruby',
-		},
 		localfs = true,
-		waiting = 1000,
 	},
 }
+dap.adapters.ruby = function(on_config, config)
+	on_config {
+		type = 'server',
+		host = '127.0.0.1',
+		port = '${port}',
+		executable = {
+			command = 'rdbg',
+			args = { '-n', '--open', '--port', '${port}', '-c', '--', 'ruby', config.script },
+		},
+	}
+end
 
 ---- dotnet
 dap.adapters.coreclr = {
