@@ -1,0 +1,12 @@
+#!/usr/bin/env -S ruby -w
+# frozen_string_literal: true
+# typed: false
+
+# Grep File Name
+
+filenames = Set.new
+until ARGV.empty? && ARGF.eof?
+	match = ARGF.readline.match %r{([\w\.\-/]+/?+\.\w+):\d+(?::\d+)}
+	filenames << Regexp.last_match(1) if match
+end
+puts filenames.join "\n"

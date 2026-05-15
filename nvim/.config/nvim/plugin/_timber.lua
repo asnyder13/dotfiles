@@ -3,23 +3,23 @@ require 'timber'.setup {
 		default = {
 			javascript = [[console.dir('%log_target', %log_target)]],
 			typescript = [[console.dir('%log_target', %log_target)]],
-			ruby = [[ap %log_target]],
+			ruby = [[ap({ %log_target: })]],
 			lua = [[vim.print(%log_target)]],
 			c_sharp = [[%cs_log_format($"%log_target: {%log_target}");]],
 		},
 		plain = {
 			javascript = [[console.dir('%insert_cursor')]],
 			typescript = [[console.dir('%insert_cursor')]],
-			ruby = [[ap %insert_cursor]],
-			lua = [[vim.print(%log_target)]],
-			c_sharp = [[%cs_log_format($"%log_target: {%log_target}");]],
+			ruby = [[ap{ %log_target })]],
+			lua = [[vim.print(%insert_cursor)]],
+			c_sharp = [[%cs_log_format($"{%insert_cursor}");]],
 		}
 	},
 	batch_log_templates = {
 		default = {
 			javascript = [[console.dir({ %repeat<%log_target><, > })]],
 			typescript = [[console.dir({ %repeat<%log_target><, > })]],
-			ruby = [[ap ({ %repeat<%log_target:><, > })]],
+			ruby = [[ap({ %repeat<%log_target:><, > })]],
 			c_sharp = [[%cs_log_format($"%repeat<%log_target: {%log_target}><, >");]],
 		}
 	},
@@ -42,6 +42,6 @@ require 'timber'.setup {
 			end
 
 			return memo
-		end
+		end,
 	},
 }

@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+# SSH Clear Known Hosts
+# Test the ssh connection and clear existing known_hosts if there are any.
+
+address=$1
+output=$(ssh "$address" exit 2>&1)
+ssh_exit_code=$?
+
+if [[ "$ssh_exit_code" -ne 0 && "$output" =~ "WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!" ]]; then
+	readarray -t line_nums <<< "$(rg --line-number --only-matching --replace '' "^${address#*@}" ~/.ssh/known_hosts | cut --delimiter=: --fields=1 | sort --reverse)"
+	for num in "${line_nums[@]}"; do
+		sed -i "${num}d" "$HOME/.ssh/known_hosts"
+	done
+else
+	echo "sshckh: No remote host identification error found."
+fi
