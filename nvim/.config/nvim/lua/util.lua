@@ -99,4 +99,34 @@ function Util.ftset(pattern, ft)
 	})
 end
 
+--- Get the first ancestor node of certain type.
+---@param type string
+---@param node? TSNode
+---@return nil|TSNode
+function Util.get_node_type_ancestor(type, node)
+	node = node or vim.treesitter.get_node()
+
+	while node ~= nil and node:type() ~= type do
+		node = node:parent()
+	end
+	return node
+end
+
+--- Get a field from the first ancestor node of certain type.
+---@param type string
+---@param field_name string
+---@param node? TSNode
+---@return nil|string
+function Util.get_ancestor_field(type, field_name, node)
+	node = node or vim.treesitter.get_node()
+
+	local node = Util.get_node_type_ancestor(type, node)
+	if node == nil then return nil end
+
+	local name_nodes = node:field(field_name)
+	if name_nodes and #name_nodes > 0 then
+		return vim.treesitter.get_node_text(name_nodes[1], 0)
+	end
+end
+
 return Util
