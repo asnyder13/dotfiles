@@ -24,7 +24,7 @@ local on_attach = function(client, bufnr)
 	map('n', '<leader>D', require 'navigator.definition'.type_definition_preview,      o('definition preview'))
 	map('n', '<leader>r', require 'navigator.reference'.async_ref,                     o('async_ref'))
 
-	map({ 'n', 'v' }, { '<C-Space>', '<C-.>' }, require 'navigator.codeAction'.code_action, o('code_action'))
+	map({ 'n', 'v' }, { '<C-Space>', '<C-.>' }, vim.lsp.buf.code_action, o('code_action'))
 	map('n', { '<M-r>', '<M-e>' },              vim.lsp.buf.rename,                         o('rename'))
 
 	map('n', '<leader>gi', vim.lsp.buf.incoming_calls, o('incoming_calls'))

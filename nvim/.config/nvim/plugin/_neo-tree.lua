@@ -42,6 +42,7 @@ require 'neo-tree'.setup {
 			['<C-x>'] = 'cut_to_clipboard',
 			['<C-c>'] = 'clear_filter',
 			['<C-k>'] = 'navigate_up',
+			['d'] = 'trash',
 		},
 		width = 36
 	},
