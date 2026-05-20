@@ -151,7 +151,7 @@ require 'treesj'.setup {
 	langs = treesj_langs,
 }
 map('n', 'gS', require 'treesj'.split)
-map('n', 'gJ', require 'treesj'.join)
+map('n', 'gJ', function() vim.defer_fn(function() require 'treesj'.join() end, 0) end)
 
 require 'ts-error-translator'.setup { auto_attach = true, }
 
