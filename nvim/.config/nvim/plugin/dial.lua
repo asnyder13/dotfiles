@@ -49,20 +49,26 @@ local default = {
 	cycle({ '==', '!=' }, false),
 	cycle({ '+=', '-=' }, false),
 	cycle({ '++', '--' }, false),
-	cycle({ 'on', 'off' }, true),
-	cycle({ 'yes', 'no' }, true),
-	cycle({ 'enable', 'disable' }, true),
+	cycle({ 'on', 'off' }),
+	cycle({ 'yes', 'no' }),
+	cycle({ 'enable', 'disable' }),
 }
 dial_config.augends:register_group { default = default, }
 
 ---@param custom Augend[]
-local function default_and(custom) return vim.tbl_extend('force', default, custom) end
+local function default_and(custom)
+	for _, v in ipairs(default) do
+		table.insert(custom, v)
+	end
+	return custom
+end
 
 dial_config.augends:on_filetype {
 	ruby = default_and {
 		cycle({ 'if', 'unless' }),
 		cycle({ 'while', 'until' }),
 		cycle({ '..', '...' }, false),
+		cycle({ 'when', 'in' }),
 	},
 	lua = default_and {
 		cycle({ '==', '~=' }, false)
