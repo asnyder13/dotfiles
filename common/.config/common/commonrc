@@ -1,10 +1,16 @@
 # vim: ft=bash
 
-if [[ -f ${XDG_CONFIG_HOME:-$HOME/.config}/common/xdg_fixes ]]; then
-	source "${XDG_CONFIG_HOME:-$HOME/.config}/common/xdg_fixes"
-elif [[ -f "$HOME/.dotfiles/common/.xdg_fixes" ]]; then
-	source "$HOME/.dotfiles/common/.xdg_fixes"
-fi
+function source_first_found() {
+	for file in "${1[@]}"; do
+		if [[ -f "$file" ]]; then
+			source "$file"
+			break
+		fi
+	done
+}
+
+xdg_fixes=("${XDG_CONFIG_HOME:-$HOME/.config}/common/xdg_fixes" "$HOME/.dotfiles/common/.xdg_fixes")
+source_first_found "${xdg_fixes[@]}"
 
 set -o vi
 
@@ -16,7 +22,7 @@ else
 	export EDITOR=vi
 fi
 export VISUAL=$EDITOR
-export SYSTEMD_EDITOR=vim
+export SYSTEMD_EDITOR=$EDITOR
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 export LESS='--quit-if-one-screen -R'
 export HISTSIZE=100000
@@ -33,17 +39,10 @@ export DOTNET_CLI_TELEMETRY_OPTOUT=1
 export ASPNETCORE_ENVIRONMENT=Local
 
 function load_aliases() {
-	# Aliases/Local Aliases
-	if [[ -f "$XDG_CONFIG_HOME/common/aliases" ]]; then
-		source "$XDG_CONFIG_HOME/common/aliases"
-	elif [[ -f "$HOME/.aliases" ]]; then
-		source "$HOME/.aliases"
-	fi
-	if [[ -f "$XDG_CONFIG_HOME/common/aliases_local" ]]; then
-		source "$XDG_CONFIG_HOME/common/aliases_local"
-	elif [[ -f "$HOME/.aliases_local" ]]; then
-		source "$HOME/.aliases_local"
-	fi
+	local aliases=("$XDG_CONFIG_HOME/common/aliases" "$HOME/.aliases")
+	source_first_found "${aliases[@]}"
+	local aliases_local=("$XDG_CONFIG_HOME/common/aliases_local" "$HOME/.aliases_local")
+	source_first_found "${aliases_local[@]}"
 }
 load_aliases
 
@@ -74,3 +73,9 @@ if [[ -x "$(command -v fortune)" && ! $fortune_run ]]; then
 	fortune
 	echo
 fi
+
+DNT_DIR="$XDG_DATA_HOME/do-not-track-cli"
+if [[ ! -d "$DNT_DIR" ]]; then
+	git clone https://github.com/alloydwhitlock/do-not-track-cli "$DNT_DIR"
+fi
+set -a && source "$DNT_DIR/do_not_track.env" && set +a

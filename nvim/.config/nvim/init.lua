@@ -228,7 +228,9 @@ vim.cmd([[
 ]])
 
 ---- General
-api.nvim_create_autocmd('TextYankPost', { callback = function() vim.hl.on_yank { timeout = 350 } end, })
+local yank_hl = function() vim.hl.hl_op { timeout = 350 } end
+api.nvim_create_autocmd('TextYankPost', { callback = yank_hl, })
+api.nvim_create_autocmd('TextPutPost', { callback = yank_hl, })
 -- Don't auto-comment on a new line
 api.nvim_create_autocmd('FileType', { callback = function() opt.formatoptions:remove { 'r', 'o' } end, })
 

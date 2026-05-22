@@ -1,0 +1,20 @@
+#!/usr/bin/env -S ruby -w
+# frozen_string_literal: true
+# typed: false
+
+Scan = Struct.new(:state, :ip, :addr) { def to_s = sprintf "ip= %-16s addr= %s", ip + ',', addr }
+reports = []
+
+`nmap -T5 -p22 192.168.1.1/24`.each_line do
+  case it
+  when %r{Nmap scan report for ([\d\.]+)$}
+    reports << Scan.new(ip: $1)
+  when %r{Nmap scan report for ([\w\.]+) \((.+)\)$}
+    reports << Scan.new(ip: $2, addr: $1)
+  when %r{22/tcp\s+(\w+)\s+ssh}
+    reports.last.state = $1.to_sym
+  else
+  end
+end
+
+puts reports.filter { it.state == :open }
