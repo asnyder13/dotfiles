@@ -46,13 +46,21 @@ require 'neo-tree'.setup {
 		},
 		width = 36
 	},
-	event_handlers = { {
-		event = 'neo_tree_buffer_enter',
-		handler = function()
-			vim.opt_local.number = true
-			vim.opt_local.relativenumber = true
-		end,
-	} },
+	event_handlers = {
+		{
+			event = 'neo_tree_buffer_enter',
+			handler = function()
+				vim.opt_local.number = true
+				vim.opt_local.relativenumber = true
+			end,
+		},
+		{
+			event = 'file_opened',
+			handler = function()
+				vim.cmd ':Neotree close'
+			end,
+		},
+	},
 	nesting_rules = {
 		['package.json'] = {
 			pattern = '^package%.json$',
@@ -85,7 +93,7 @@ require 'neo-tree'.setup {
 			ignore_case = true,
 			files = { ".dockerignore", "docker-compose.*", "dockerfile*" },
 		}
-	}
+	},
 }
-map('n', '<M-->', ':Neotree toggle<CR>', { desc = 'Toggle Neotree' })
-map('n', '-',     ':Neotree<CR>',        { desc = 'Open Neotree' })
+map('n', '-', ':Neotree toggle<CR>', { desc = 'Toggle Neotree' })
+map('n', '<M-->', ':Neotree<CR>', { desc = 'Open Neotree' })

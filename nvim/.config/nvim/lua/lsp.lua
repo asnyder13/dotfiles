@@ -24,14 +24,26 @@ local langs = {
 }
 require 'nvim-treesitter'.install(langs)
 vim.treesitter.language.register('bash', 'zsh')
+local start_ts = function(args)
+	args = args or {}
+	vim.treesitter.start(args.buf)
+	if not args.match == 'yaml' then
+		vim.bo[args.buf].indentexpr = "v:lua.require 'nvim-treesitter'.indentexpr()"
+	end
+end
+
+map('n', '<leader>tt', function()
+	local bufnr = vim.api.nvim_get_current_buf()
+	local is_active = vim.treesitter.highlighter.active[bufnr]
+	if is_active then
+		vim.treesitter.stop(bufnr)
+	else
+		start_ts()
+	end
+end, { desc = 'toggle Treesitter' })
 vim.api.nvim_create_autocmd('FileType', {
 	pattern = vim.tbl_extend('force', langs, { 'cs' }),
-	callback = function(args)
-		vim.treesitter.start(args.buf)
-		if not args.match == 'yaml' then
-			vim.bo[args.buf].indentexpr = "v:lua.require 'nvim-treesitter'.indentexpr()"
-		end
-	end
+	callback = start_ts,
 })
 
 -- Temp fix for missing htmlangular interactions.
@@ -156,7 +168,6 @@ map('n', 'gJ', function() vim.defer_fn(function() require 'treesj'.join() end, 0
 require 'ts-error-translator'.setup { auto_attach = true, }
 
 require 'roslyn'.setup {
-	extensions = { razor = { enabled = false }, },
 	choose_target = function(target)
 		return vim.iter(target):find(function(item)
 			if string.match(item, 'WCM.sln') then
