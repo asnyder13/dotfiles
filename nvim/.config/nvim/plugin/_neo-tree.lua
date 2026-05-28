@@ -96,4 +96,3 @@ require 'neo-tree'.setup {
 	},
 }
 map('n', '-', ':Neotree toggle<CR>', { desc = 'Toggle Neotree' })
-map('n', '<M-->', ':Neotree<CR>', { desc = 'Open Neotree' })

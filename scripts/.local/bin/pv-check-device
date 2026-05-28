@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+
+set -eo pipefail
+
+device=
+imagefile=
+
+usage() { printf "Use like:\n\t %s [device] [imagefile]\n\t %s -d [device] -i [imagefile]\n" "$0" "$0" 1>&2; exit 1; }
+while getopts "d:i:h" o; do
+	case "${o}" in
+		d)
+			device=${OPTARG}
+			;;
+		i)
+			imagefile=${OPTARG}
+			;;
+		h|*)
+			usage
+			;;
+	esac
+done
+shift $((OPTIND-1))
+
+if [[ -z "$device" ]]; then
+	device=$1
+	shift
+fi
+
+if [[ -z "$imagefile" ]]; then
+	imagefile=$1
+	shift
+fi
+
+if [[ -z "$device" || -z "$imagefile" ]]; then
+	usage
+fi
+
+device_info=$(udevadm info --query=property --path="/sys/block/${device##*/}")
+device_bus=$(echo "$device_info" | perl -ne 'print "$1" if /^ID_BUS=(.*)/')
+
+if [[ ! -f "$imagefile" ]]; then
+	echo "Image file '$imagefile' does not exist"
+	exit 2
+fi
+
+set -x
+if [[ "$device_bus" == "usb" ]]; then
+	sudo pv --sync --output "$device" "$imagefile"
+else
+	echo "Device $device_bus is not a usb device?"
+	exit 2
+fi

@@ -325,7 +325,8 @@ map('n', '<leader>zc', ':%foldc!<CR>', { desc = 'Close all folds' })
 map('x', '<leader>zc', ":'<,'>foldc!<CR>", { desc = 'Close all folds' })
 map('n', '<leader>zC', ':%foldo<CR>', { desc = 'Open all folds' })
 map('n', '<BS>', '<C-^>', { desc = 'Last buffer' })
-map('n', '<C-w>,', function() vim.cmd('resize ' .. vim.fn.line('$')) end, { desc = 'Size window to content' })
+map('n', '<C-w>,', function() vim.cmd('resize ' .. (vim.fn.line('$') + vim.o.scrolloff)) end,
+	{ desc = 'Size window to content' })
 
 -- Toggle mappings
 map('n', '<leader>tw', ':set wrap!<CR>', { desc = 'Toggle wrap' })
