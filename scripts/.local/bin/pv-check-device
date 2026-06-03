@@ -35,18 +35,25 @@ if [[ -z "$device" || -z "$imagefile" ]]; then
 	usage
 fi
 
-device_info=$(udevadm info --query=property --path="/sys/block/${device##*/}")
-device_bus=$(echo "$device_info" | perl -ne 'print "$1" if /^ID_BUS=(.*)/')
-
 if [[ ! -f "$imagefile" ]]; then
 	echo "Image file '$imagefile' does not exist"
 	exit 2
 fi
 
+device_info=$(udevadm info --query=property --path="/sys/block/${device##*/}")
+device_bus=$(echo "$device_info" | perl -ne 'print "$1" if /^ID_BUS=(.*)/')
+device_size_suffixed=$(lsblk -o SIZE "$device" | head -2 | tail -1)
+device_size=$(echo "$device_size_suffixed" | perl -ne 'print $1 if /\s*([\d\.]+)G/')
 set -x
-if [[ "$device_bus" == "usb" ]]; then
-	sudo pv --sync --output "$device" "$imagefile"
-else
-	echo "Device $device_bus is not a usb device?"
+if [[ "$device_bus" != "usb" ]]; then
+	echo "Device $device is not a usb device?"
+	exit 2
+elif [[ "$(echo "$device_size < 8" | bc)" -eq 1 ]]; then
+	echo "Device $device seems to be too small? $device_size_suffixed"
+	exit 2
+elif mount | grep -qF "$device"; then
+	echo "Device $device is mounted"
 	exit 2
 fi
+
+sudo pv --sync --output "$device" "$imagefile"
