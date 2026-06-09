@@ -1,11 +1,9 @@
 # zmodload zsh/zprof
 
-commonrc=${XDG_CONFIG_HOME:-$HOME/.config}/common/commonrc
-if [[ -e $commonrc ]]; then
-	source $commonrc
-elif [[ -e $HOME/.commonrc ]]; then
-	source $HOME/.commonrc
-fi
+source "${XDG_CONFIG_HOME:-$HOME/.config}/common/common_funcs"
+
+commonrc_locs=("${XDG_CONFIG_HOME:-$HOME/.config}/common/commonrc" "$HOME/.commonrc")
+source_first_found "${commonrc_locs[@]}"
 
 if [[ ! -d "$XDG_CACHE_HOME"/zsh ]]; then
 	mkdir -p "$XDG_CACHE_HOME"/zsh
@@ -13,9 +11,6 @@ fi
 
 autoload -Uz compinit
 export ZSH_COMPDUMP=$XDG_CACHE_HOME/zsh/zcompdump-$HOST
-
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH=$XDG_DATA_HOME/oh-my-zsh
@@ -235,11 +230,8 @@ bindkey '^x^a' _expand_alias
 # For a full list of active aliases, run `alias`.
 load_aliases
 
-if [[ -e $XDG_CONFIG_HOME/zsh/zshrc_local ]]; then
-	source $XDG_CONFIG_HOME/zsh/zshrc_local
-elif [[ -e $HOME/.zshrc_local ]]; then
-	source $HOME/.zshrc_local
-fi
+local zshrc_local_locs=("$XDG_CONFIG_HOME/zsh/zshrc_local" "$HOME/.zshrc_local")
+source_first_found "${zshrc_local_locs[@]}"
 
 HAS_FZF=
 if [[ -e $HOME/.fzf.zsh ]]; then
@@ -248,7 +240,7 @@ if [[ -e $HOME/.fzf.zsh ]]; then
 	elif [[ -d $HOME/.fzf/bin ]]; then
 		# WSL
 		HAS_FZF=1
-		export PATH=$PATH:/usr/lib/cargo/bin
+		pathmunge /usr/lib/cargo/bin after
 	fi
 fi
 
@@ -282,7 +274,9 @@ if [[ -z "$NVM_DIR" ]]; then
 fi
 if [[ -n "$NVM_DIR" ]]; then
 	local ver_dir=$(fd -d1 -HI . "$NVM_DIR/versions/node" | sort -nr | head -1)
-	PATH="$PATH:$ver_dir"bin
+	pathmunge "${ver_dir}/bin" after
 fi
+export PNPM_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/pnpm"
+pathmunge "$PNPM_HOME/bin"
 
 # zprof

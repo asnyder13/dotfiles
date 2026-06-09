@@ -1,13 +1,6 @@
 # vim: ft=bash
 
-function source_first_found() {
-	for file in "${1[@]}"; do
-		if [[ -f "$file" ]]; then
-			source "$file"
-			break
-		fi
-	done
-}
+source "${XDG_CONFIG_HOME:-$HOME/.config}/common/common_funcs"
 
 xdg_fixes=("${XDG_CONFIG_HOME:-$HOME/.config}/common/xdg_fixes" "$HOME/.dotfiles/common/.xdg_fixes")
 source_first_found "${xdg_fixes[@]}"
@@ -38,12 +31,6 @@ export DISABLE_OPENCOLLECTIVE=true
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
 export ASPNETCORE_ENVIRONMENT=Local
 
-function load_aliases() {
-	local aliases=("$XDG_CONFIG_HOME/common/aliases" "$HOME/.aliases")
-	source_first_found "${aliases[@]}"
-	local aliases_local=("$XDG_CONFIG_HOME/common/aliases_local" "$HOME/.aliases_local")
-	source_first_found "${aliases_local[@]}"
-}
 load_aliases
 
 if [[ -f $XDG_DATA_HOME/dotnet/dotnet ]]; then

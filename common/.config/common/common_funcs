@@ -1,0 +1,33 @@
+# vim: ft=bash
+
+function pathmunge() {
+	# If the path is a compat symlink, do nothing.
+	[ -h "$1" ] && return
+
+	case ":${PATH}:" in
+		*:"$1":*)
+			;;
+		*)
+			if [ "$2" = "after" ] ; then
+				PATH=$PATH:$1
+			else
+				PATH=$1:$PATH
+			fi
+	esac
+}
+
+function source_first_found() {
+	for file in "$@"; do
+		if [[ -f "$file" ]]; then
+			source "$file"
+			break
+		fi
+	done
+}
+
+function load_aliases() {
+	local aliases=("$XDG_CONFIG_HOME/common/aliases" "$HOME/.aliases")
+	source_first_found "${aliases[@]}"
+	local aliases_local=("$XDG_CONFIG_HOME/common/aliases_local" "$HOME/.aliases_local")
+	source_first_found "${aliases_local[@]}"
+}
