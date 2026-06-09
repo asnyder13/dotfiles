@@ -1,0 +1,9 @@
+#!/usr/bin/env -S ruby -w
+# frozen_string_literal: true
+# typed: false
+
+require 'date'
+
+hours = ARGV[0]&.to_i
+fail 'Need to provide a time' unless hours
+puts (Time.now - 60 * 60 * hours).to_datetime.rfc2822

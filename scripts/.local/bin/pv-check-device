@@ -44,16 +44,35 @@ device_info=$(udevadm info --query=property --path="/sys/block/${device##*/}")
 device_bus=$(echo "$device_info" | perl -ne 'print "$1" if /^ID_BUS=(.*)/')
 device_size_suffixed=$(lsblk -o SIZE "$device" | head -2 | tail -1)
 device_size=$(echo "$device_size_suffixed" | perl -ne 'print $1 if /\s*([\d\.]+)G/')
+
+ext=${imagefile##*.}
+is_compressed=
+case "${ext}" in
+	zip|7zip)
+		is_compressed=1
+		;;
+	iso)
+		;;
+	*)
+		echo "Unknown file extension: $ext"
+		exit 1
+		;;
+esac
+
 set -x
 if [[ "$device_bus" != "usb" ]]; then
 	echo "Device $device is not a usb device?"
 	exit 2
-elif [[ "$(echo "$device_size < 8" | bc)" -eq 1 ]]; then
+elif [[ "$(echo "${device_size:-0} < 8" | bc)" -eq 1 ]]; then
 	echo "Device $device seems to be too small? $device_size_suffixed"
-	exit 2
+	exit 1
 elif mount | grep -qF "$device"; then
 	echo "Device $device is mounted"
-	exit 2
+	exit 1
 fi
 
-sudo pv --sync --output "$device" "$imagefile"
+if [[ -n "$is_compressed" ]]; then
+	sudo bash -c "7z x -bd -so $imagefile | pv --size $(7z l "$imagefile" | tail -1 | awk '{print $3}') --sync --output $device"
+else
+	sudo pv --sync --output "$device" "$imagefile"
+fi
