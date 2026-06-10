@@ -41,9 +41,9 @@ if [[ ! -f "$imagefile" ]]; then
 fi
 
 device_info=$(udevadm info --query=property --path="/sys/block/${device##*/}")
-device_bus=$(echo "$device_info" | perl -ne 'print "$1" if /^ID_BUS=(.*)/')
+device_bus=$(echo "$device_info" | perl -ne '/^ID_BUS=(.*)/ && print $1')
 device_size_suffixed=$(lsblk -o SIZE "$device" | head -2 | tail -1)
-device_size=$(echo "$device_size_suffixed" | perl -ne 'print $1 if /\s*([\d\.]+)G/')
+device_size=$(echo "$device_size_suffixed" | perl -ne '/\s*([\d\.]+)G/ && print $1')
 
 ext=${imagefile##*.}
 is_compressed=

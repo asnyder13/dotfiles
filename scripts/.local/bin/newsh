@@ -4,13 +4,14 @@
 
 path = ARGV[0]
 fail 'specify filename to create' unless path
-fail 'file already exists' if File.exist? path
 
-File.open(path, "w") {
-  it.puts <<~HERE
-	#!/usr/bin/env bash
+unless File.exist? path
+  File.open(path, "w") {
+    it.puts <<~HERE
+      #!/usr/bin/env bash
 
-  HERE
-}
-File.chmod(0755, path)
+    HERE
+  }
+  File.chmod(0755, path)
+end
 system (ENV['EDITOR'] || 'vim'), path
