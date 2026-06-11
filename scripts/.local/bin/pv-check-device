@@ -5,18 +5,12 @@ set -eo pipefail
 device=
 imagefile=
 
-usage() { printf "Use like:\n\t %s [device] [imagefile]\n\t %s -d [device] -i [imagefile]\n" "$0" "$0" 1>&2; exit 1; }
+usage() { printf "Use like:\n\t %s    [device]    [imagefile]\n\t %s -d [device] -i [imagefile]\n" "$0" "$0" 1>&2; exit 1; }
 while getopts "d:i:h" o; do
 	case "${o}" in
-		d)
-			device=${OPTARG}
-			;;
-		i)
-			imagefile=${OPTARG}
-			;;
-		h|*)
-			usage
-			;;
+		d)   device=${OPTARG}    ;;
+		i)   imagefile=${OPTARG} ;;
+		h|*) usage               ;;
 	esac
 done
 shift $((OPTIND-1))
@@ -33,46 +27,46 @@ fi
 
 if [[ -z "$device" || -z "$imagefile" ]]; then
 	usage
-fi
-
-if [[ ! -f "$imagefile" ]]; then
+elif [[ ! -f "$imagefile" ]]; then
 	echo "Image file '$imagefile' does not exist"
-	exit 2
+	usage
 fi
 
 device_info=$(udevadm info --query=property --path="/sys/block/${device##*/}")
-device_bus=$(echo "$device_info" | perl -ne '/^ID_BUS=(.*)/ && print $1')
+device_bus=$(<<<"$device_info" perl -ne '/^ID_BUS=(.*)/ && print $1')
 device_size_suffixed=$(lsblk -o SIZE "$device" | head -2 | tail -1)
-device_size=$(echo "$device_size_suffixed" | perl -ne '/\s*([\d\.]+)G/ && print $1')
+device_size=$(<<<"$device_size_suffixed" perl -ne '/\s*([\d\.]+)G/ && print $1')
+
+set -x
+if [[ "$device_bus" != "usb" ]]; then
+	echo "Device $device is not a usb device?"
+	exit 2
+elif [[ "$(bc <<<"${device_size:-0} < 8")" -eq 1 ]]; then
+	echo "Device $device seems to be too small? $device_size_suffixed"
+	exit 1
+elif [[ "$(bc <<<"${device_size} > 512")" -eq 1 ]]; then
+	read -rp "Device is size $device_size_suffixed, seems a bit large, are you sure? [y/N] " res
+	case "$res" in
+		[yY]|[yY][eE][sS]) ;;
+		*)
+			echo 'Exiting'
+			exit 1
+	esac
+elif mount | grep -qF "$device"; then
+	echo "Device $device is mounted"
+	exit 1
+fi
 
 ext=${imagefile##*.}
-is_compressed=
-case "${ext}" in
+case "$ext" in
 	zip|7zip)
-		is_compressed=1
+		sudo bash -c "7z x -bd -so $imagefile | pv --size $(7z l "$imagefile" | tail -1 | awk '{print $3}') --sync --output $device"
 		;;
 	iso)
+		sudo pv --sync --output "$device" "$imagefile"
 		;;
 	*)
 		echo "Unknown file extension: $ext"
 		exit 1
 		;;
 esac
-
-set -x
-if [[ "$device_bus" != "usb" ]]; then
-	echo "Device $device is not a usb device?"
-	exit 2
-elif [[ "$(echo "${device_size:-0} < 8" | bc)" -eq 1 ]]; then
-	echo "Device $device seems to be too small? $device_size_suffixed"
-	exit 1
-elif mount | grep -qF "$device"; then
-	echo "Device $device is mounted"
-	exit 1
-fi
-
-if [[ -n "$is_compressed" ]]; then
-	sudo bash -c "7z x -bd -so $imagefile | pv --size $(7z l "$imagefile" | tail -1 | awk '{print $3}') --sync --output $device"
-else
-	sudo pv --sync --output "$device" "$imagefile"
-fi
