@@ -2,19 +2,34 @@
 # frozen_string_literal: true
 # typed: false
 
-Scan = Struct.new(:state, :ip, :addr) { def to_s = sprintf "ip= %-16s addr= %s", ip + ',', addr }
-reports = []
+Signal.trap('INT') { exit }
 
-`nmap -T5 -p22 192.168.1.1/24`.each_line do
-  case it
-  when %r{Nmap scan report for ([\d\.]+)$}
-    reports << Scan.new(ip: $1)
-  when %r{Nmap scan report for ([\w\.]+) \((.+)\)$}
-    reports << Scan.new(ip: $2, addr: $1)
-  when %r{22/tcp\s+(\w+)\s+ssh}
-    reports.last.state = $1.to_sym
-  else
-  end
+Scan = Struct.new(:state, :ip, :addr) do
+  def to_s = sprintf "ip= %-16s addr= %s", ip + ',', addr
+  def hash = [ip, addr].hash
+  def eql?(other) = hash == other.hash
 end
 
-puts reports.filter { it.state == :open }
+reports = Set.new
+open_count = 0
+loop do
+  last = nil
+  `nmap -T5 -p22 192.168.1.1/24`.each_line do
+    case it
+    when %r{Nmap scan report for ([\d\.]+)$}
+      reports << last = Scan.new(ip: $1)
+    when %r{Nmap scan report for ([\w\.]+) \((.+)\)$}
+      reports << last = Scan.new(ip: $2, addr: $1)
+    when %r{22/tcp\s+(\w+)\s+ssh}
+      last.state = $1.to_sym
+    else
+    end
+  end
+
+  print "\e[A" * open_count
+  is_open = reports.filter { it.state == :open }
+  puts is_open
+
+  open_count = is_open.length
+  sleep 1
+end
