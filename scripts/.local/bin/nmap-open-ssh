@@ -31,5 +31,7 @@ loop do
   puts is_open
 
   open_count = is_open.length
+
+  break if ARGV.first == 'once'
   sleep 1
 end

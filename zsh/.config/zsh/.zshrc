@@ -112,6 +112,7 @@ plugins=(
 	# zsh-syntax-highlighting
 	# git clone https://github.com/zdharma-continuum/fast-syntax-highlighting.git ${ZSH_CUSTOM:-$XDG_DATA_HOME/oh-my-zsh/custom}/plugins/fast-syntax-highlighting
 	fast-syntax-highlighting
+	docker
 )
 zbell_ignore=(
 	$EDITOR
@@ -133,6 +134,7 @@ zbell_ignore=(
 	man
 	sl
 	gc
+	agy
 )
 if [[ -n $SSH_CONNECTION || -n $SSH_CLIENT || -e /proc/sys/fs/binfmt_misc/WSLInterop ]]; then
 	zbell_use_notify_send=false
