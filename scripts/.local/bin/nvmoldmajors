@@ -1,0 +1,15 @@
+#!/usr/bin/env -S ruby -w
+# frozen_string_literal: true
+# typed: false
+
+NVM_DIR = ENV['NVM_DIR']
+raise 'NVM_DIR not set' unless NVM_DIR
+
+versions = `ls #{NVM_DIR}/versions/node`.split("\n")
+raise 'No versions found' if versions.empty?
+
+/v(?<curr_major>\d+)/ =~ versions.last
+old_versions = versions.filter { it.match(/v#{curr_major}/) && !it.match(versions.last) }
+raise 'No old versions' if old_versions.empty?
+
+puts old_versions.join ' '
