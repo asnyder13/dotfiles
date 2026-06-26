@@ -33,16 +33,12 @@ local builtin = require 'telescope.builtin'
 map('n', '<C-p>', builtin.find_files, { desc = 'Telescope find files' })
 map('n', '<C-M-p>', function() builtin.find_files({ hidden = true }) end, { desc = 'Telescope find files (hidden)' })
 map('n', '<M-g>', builtin.git_files, { desc = 'Telescope git files' })
-map('n', '<leader>b', function() builtin.buffers({ sort_mru = true }) end, { desc = 'Telescope buffers' })
 map('n', '<M-;>', builtin.treesitter, { desc = 'Telescope treesitter' })
-map('n', '<C-g>', function() builtin.live_grep({ glob_pattern = { '!package-lock.json' } }) end,
-	{ desc = 'Telescope live grep' })
-map('n', 'q/', builtin.command_history, { desc = 'Telescope command history' })
-map('n', '<leader>/', builtin.current_buffer_fuzzy_find, { desc = 'Telescope buffer fuzzy find' })
 
+map('n', '<leader>sh', builtin.command_history, { desc = '[S]earch command [H]istory' })
+map('n', '<leader>sb', builtin.current_buffer_fuzzy_find, { desc = '[S]earch [B]uffer' })
 map('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
 map('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
-map('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
 map('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
 map({ 'n', 'v' }, '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
 map('n', '<leader>sg', function() builtin.live_grep({ glob_pattern = { '!package-lock.json' } }) end,
@@ -51,7 +47,7 @@ map('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
 map('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
 map('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
 map('n', '<leader>sc', builtin.commands, { desc = '[S]earch [C]ommands' })
-map('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
+map('n', '<leader><leader>', function() builtin.buffers({ sort_mru = true }) end, { desc = 'Find existing buffers' })
 
 -- Add Telescope-based LSP pickers when an LSP attaches to a buffer.
 -- If you later switch picker plugins, this is where to update these mappings.

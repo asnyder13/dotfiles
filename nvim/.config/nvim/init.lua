@@ -318,8 +318,6 @@ end
 ---- General Mappings ----
 map('n', 'ZZ', '<NOP>')
 map('n', { '<C-t><C-c>', '<C-t>c' }, ':tabclose<CR>', { desc = 'Close tab' })
--- Reload this config
-map('n', '<leader>sv', ':source $MYVIMRC<CR>', { desc = 'Source vimrc/init' })
 
 map('n', '<leader>zc', ':%foldc!<CR>', { desc = 'Close all folds' })
 map('x', '<leader>zc', ":'<,'>foldc!<CR>", { desc = 'Close all folds' })

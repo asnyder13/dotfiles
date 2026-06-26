@@ -10,6 +10,8 @@ unless File.exist? path
     it.puts <<~HERE
       #!/usr/bin/env bash
 
+      set -euo pipefail
+
     HERE
   }
   File.chmod(0755, path)

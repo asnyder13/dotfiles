@@ -11,6 +11,7 @@ GENERAL_SOURCES=(
 	git
 	ruby
 	sqlite3
+	ncdu
 )
 SWAY_SOURCES=( sway terminal )
 ALL_SOURCES=( "${GENERAL_SOURCES[@]}" "${SHELL_SOURCES[@]}" "${SWAY_SOURCES[@]}" )

@@ -20,13 +20,17 @@ require 'hardtime'.setup {
 			message = function(keys) return 'Use :%y+ instead of ' .. keys end,
 			length = 4,
 		},
-		["[dcyvV][ia][%(%)]"] = {
-			message = function(keys) return "Use " .. keys:sub(1, 2) .. "b instead of " .. keys end,
+		['[dcyvV][ia][%(%)]'] = {
+			message = function(keys) return 'Use ' .. keys:sub(1, 2) .. 'b instead of ' .. keys end,
 			length = 3,
 		},
-		["[dcyvV][ia][%{%}]"] = {
-			message = function(keys) return "Use " .. keys:sub(1, 2) .. "B instead of " .. keys end,
+		['[dcyvV][ia][{}]'] = {
+			message = function(keys) return 'Use ' .. keys:sub(1, 2) .. 'B instead of ' .. keys end,
 			length = 3,
 		},
+		['j0'] = {
+			message = function(keys) return 'Use <CR> instead of ' .. keys end,
+			length = 2,
+		}
 	},
 }
