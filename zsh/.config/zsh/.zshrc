@@ -146,7 +146,7 @@ else
 fi
 
 zstyle ':omz:plugins:nvm' lazy yes
-# zstyle ':omz:plugins:nvm' lazy-cmd vim nvim ng make
+zstyle ':omz:plugins:nvm' lazy-cmd vim nvim ng make
 zstyle ':omz:plugins:rvm' lazy no
 zstyle ':omz:plugins:rvm' lazy-cmd vim nvim ng make gem irb
 

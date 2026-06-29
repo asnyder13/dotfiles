@@ -89,12 +89,16 @@ dial_config.augends:on_filetype {
 		},
 	},
 	javascript = default_and {
-		cycle({ 'let', 'const' }, true),
+		cycle({ 'let', 'const', }, true),
 	},
 	typescript = default_and {
-		cycle({ 'let', 'const' }, true),
+		cycle({ 'let', 'const', }, true),
 	},
 	yaml = default_and {
 		augend.semver.alias.semver,
-	}
+	},
+	gitrebase = default_and {
+		cycle({ 'pick', 'drop', 'edit', 'reword', 'fixup', }, true),
+		cycle({ 'p', 'd', 'e', 'r', 'f', }, true),
+	},
 }

@@ -2,6 +2,10 @@
 # frozen_string_literal: true
 # typed: false
 
+CURSOR_UP = "\e[A"
+CURSOR_CLEAR_LINE = "\r\e[K"
+CURSOR_UP_AND_CLEAR = CURSOR_UP + CURSOR_CLEAR_LINE
+
 Signal.trap('INT') { exit }
 
 Scan = Struct.new(:state, :ip, :addr) do
@@ -10,11 +14,13 @@ Scan = Struct.new(:state, :ip, :addr) do
   def eql?(other) = hash == other.hash
 end
 
+run_once = ARGV.first == 'once'
 reports = Set.new
+run_count = 0
 open_count = 0
 loop do
   last = nil
-  `nmap -T5 -p22 192.168.1.1/24`.each_line do
+  `nmap -p22 192.168.1.1/24`.each_line do
     case it
     when %r{Nmap scan report for ([\d\.]+)$}
       reports << last = Scan.new(ip: $1)
@@ -26,12 +32,13 @@ loop do
     end
   end
 
-  print "\e[A" * open_count
+  print CURSOR_UP_AND_CLEAR * (open_count + run_count.clamp(0..1))
   is_open = reports.filter { it.state == :open }
+  puts "Run #: #{run_count + 1}" unless run_once
   puts is_open
+  break if run_once
 
   open_count = is_open.length
-
-  break if ARGV.first == 'once'
+  run_count += 1
   sleep 1
 end
