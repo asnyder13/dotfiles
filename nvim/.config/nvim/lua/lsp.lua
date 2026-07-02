@@ -32,7 +32,7 @@ local start_ts = function(args)
 	end
 end
 
-map('n', '<leader>tt', function()
+map('n', '<leader>Tt', function()
 	local bufnr = vim.api.nvim_get_current_buf()
 	local is_active = vim.treesitter.highlighter.active[bufnr]
 	if is_active then

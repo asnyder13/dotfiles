@@ -150,6 +150,7 @@ vim.pack.add {
 	-- misc
 	gh 'HiPhish/rainbow-delimiters.nvim',
 	gh 'b0o/schemastore.nvim',
+	gh 'bngarren/checkmate.nvim',
 }
 
 local notify = require 'notify'
@@ -327,10 +328,10 @@ map('n', '<C-w>,', function() vim.cmd('resize ' .. (vim.fn.line('$') + vim.o.scr
 	{ desc = 'Size window to content' })
 
 -- Toggle mappings
-map('n', '<leader>tw', ':set wrap!<CR>', { desc = 'Toggle wrap' })
-map('n', '<leader>tm', function() vim.opt_local.mouse = vim.tbl_isempty(vim.opt_local.mouse:get()) and mouse or '' end,
+map('n', '<leader>Tw', ':set wrap!<CR>', { desc = 'Toggle wrap' })
+map('n', '<leader>Tm', function() vim.opt_local.mouse = vim.tbl_isempty(vim.opt_local.mouse:get()) and mouse or '' end,
 	{ desc = 'Toggle mouse' })
-map('n', '<leader>tn',
+map('n', '<leader>Tn',
 	function()
 		vim.cmd 'set number!'
 		vim.cmd 'IBLToggle'
@@ -344,6 +345,7 @@ vim.api.nvim_create_user_command('Hitest',
 	{ desc = 'Open up the pretty hilight display, disable Reactive to prevent slowdown.' }
 )
 
+map('n', '<M-i>', 'hi<Space>')
 -- Stolen from primeagen
 -- Keep cursor in same position after line join
 map('n', 'J', function() return 'mz' .. vim.v.count1 .. 'J`zdmz' end, { expr = true })
