@@ -35,7 +35,7 @@ map('n', '<C-M-p>', function() builtin.find_files({ hidden = true }) end, { desc
 map('n', '<M-g>', builtin.git_files, { desc = 'Telescope git files' })
 map('n', '<M-;>', builtin.treesitter, { desc = 'Telescope treesitter' })
 
-map('n', '<leader>sh', builtin.command_history, { desc = '[S]earch command [H]istory' })
+map('n', '<leader>s:', builtin.command_history, { desc = '[S]earch [:] command history' })
 map('n', '<leader>sb', builtin.current_buffer_fuzzy_find, { desc = '[S]earch [B]uffer' })
 map('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
 map('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })

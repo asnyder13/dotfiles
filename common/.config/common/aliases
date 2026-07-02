@@ -181,3 +181,8 @@ function gdtref () {
 function gdtlast () {
 	gdtref HEAD
 }
+
+# Make temp dir
+function mtd() {
+	mktemp -d
+}
