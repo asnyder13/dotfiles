@@ -1,0 +1,56 @@
+#!/usr/bin/env -S ruby -w
+# frozen_string_literal: true
+# typed: false
+
+require 'optparse'
+
+FILE_RUBY = <<~HERE
+  #!/usr/bin/env -S ruby -w
+  # frozen_string_literal: true
+  # typed: false
+
+HERE
+
+FILE_BASH = <<~HERE
+  #!/usr/bin/env bash
+
+  set -euo pipefail
+
+HERE
+
+CONTENTS = {
+	rb: FILE_RUBY,
+	sh: FILE_BASH,
+}.freeze
+
+ARGV << '-h' if ARGV.empty?
+opts = Hash.new { false }
+OptionParser.new do |parser|
+	parser.banner = "Usage: newfile <#{CONTENTS.keys.map(&:to_s).sort.join(',')}> <filename>"
+
+	parser.on('-d', '--dotfile', 'Create file in ~/.dotfiles/scripts/.local/bin/')
+	parser.on('-h', '--help',    'Prints this help') { puts parser; exit }
+end.parse!(into: opts)
+
+def mkfile(argv, opts)
+	type = argv.shift
+	raise 'No filetype given' if type.nil?
+
+	contents = CONTENTS[type.to_sym]
+	raise "Called with wrong filetype? #{type}" if contents.nil?
+
+	path = argv[0]
+	fail 'specify filename to create' unless path
+
+	if opts[:dotfile]
+		path = File.join ENV['HOME'], '.dotfiles', 'scripts', '.local', 'bin', path
+	end
+
+	unless File.exist? path
+		File.open(path, 'w') { it.puts contents }
+		File.chmod(0755, path)
+	end
+	system (ENV['EDITOR'] || 'vim'), path
+end
+
+mkfile ARGV, opts
