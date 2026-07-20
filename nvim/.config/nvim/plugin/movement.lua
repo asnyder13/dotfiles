@@ -52,4 +52,4 @@ leap.opts.preview_filter =
 			)
 		end
 leap.opts.safe_labels = 'uopnm,qwertzvbs;HKLYUIOPNMQWERTZXCVBASDGJ'
-leap.opts.labels = hop_keys .. hop_keys:upper()
+leap.opts.preview = false

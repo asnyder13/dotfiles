@@ -194,6 +194,7 @@ vim.cmd([[
 vim.filetype.add {
 	extension = {
 		conf = 'confini',
+		var = 'dosini',
 	},
 	filename = {
 		syslog = 'messages',
@@ -363,7 +364,7 @@ end, { remap = true, expr = true, desc = 'Yank and comment', })
 
 map('n', '<leader>p', 'p`[', { desc = 'paste keep cursor', })
 map('n', '<leader>P', 'P`[', { desc = 'Paste keep curosr', })
-
+map('n', '<leader><M-p>', 'i<CR><CR><Esc>kpa<Esc>', { desc = 'Paste paragraph', })
 
 ---@param value string
 ---@param key string|nil
