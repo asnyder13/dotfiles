@@ -327,6 +327,9 @@ map('n', '<leader>zC', ':%foldo<CR>', { desc = 'Open all folds' })
 map('n', '<BS>', '<C-^>', { desc = 'Last buffer' })
 map('n', '<C-w>,', function() vim.cmd('resize ' .. (vim.fn.line('$') + vim.o.scrolloff)) end,
 	{ desc = 'Size window to content' })
+-- Insert a UUID at cursor
+map('n', '<leader>gu', "a<C-r>=trim(system('uuidgen'))<CR><ESC>")
+map('i', '<C-g>u', "<C-r>=trim(system('uuidgen'))<CR>")
 
 -- Toggle mappings
 map('n', '<leader>Tw', ':set wrap!<CR>', { desc = 'Toggle wrap' })

@@ -4,9 +4,17 @@
 
 # Grep File Name
 
+FILEPATH = %r{[\w\.\-/]+/?+\.[a-zA-Z_\-]+}
+OUTPUT_TYPES = {
+	general:     %r{(#{FILEPATH}):\d+},
+	general_col: %r{(#{FILEPATH}):\d+:\d+},
+	dotnet_run:  %r{(#{FILEPATH}):line\s+\d+},
+}.freeze
+
 filenames = Set.new
 until ARGV.empty? && ARGF.eof?
-	match = ARGF.readline.match %r{([\w\.\-/]+/?+\.\w+):\d+(?::\d+)}
+	match = nil
+	OUTPUT_TYPES.values.each_with_object(ARGF.readline) { |line, regex| break if match = line.match(regex) }
 	filenames << Regexp.last_match(1) if match
 end
 puts filenames.join "\n"
