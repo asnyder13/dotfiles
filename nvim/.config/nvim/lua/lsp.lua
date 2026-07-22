@@ -169,10 +169,12 @@ require 'ts-error-translator'.setup { auto_attach = true, }
 
 require 'roslyn'.setup {
 	choose_target = function(target)
-		return vim.iter(target):find(function(item)
-			if string.match(item, 'WCM.sln') then
-				return item
-			end
-		end)
+		target = vim.iter(target)
+			:filter(function(x) return not x:match('[aA][sS][pP][iI][rR][eE]') end)
+			:totable()
+
+		local count = vim.iter(target):count()
+		if count == 1 then return target[1] end
+		vim.iter(target):find(function(x) if x:match('WCM%.sln') then return x end end)
 	end,
 }
