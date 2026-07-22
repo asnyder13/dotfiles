@@ -325,8 +325,21 @@ map('n', '<leader>zc', ':%foldc!<CR>', { desc = 'Close all folds' })
 map('x', '<leader>zc', ":'<,'>foldc!<CR>", { desc = 'Close all folds' })
 map('n', '<leader>zC', ':%foldo<CR>', { desc = 'Open all folds' })
 map('n', '<BS>', '<C-^>', { desc = 'Last buffer' })
-map('n', '<C-w>,', function() vim.cmd('resize ' .. (vim.fn.line('$') + vim.o.scrolloff)) end,
-	{ desc = 'Size window to content' })
+map('n', '<C-w>,', function() vim.api.nvim_win_resize(0, -1, vim.fn.line('$') + vim.o.scrolloff) end,
+	{ desc = 'Size win to content+↲' })
+
+vim.keymap.set('n', '<C-w>p', function()
+	local start_line = vim.fn.line("'{") + 1
+	local end_line = vim.fn.line("'}") - 1
+
+	local scrolloff = vim.o.scrolloff
+	local line_count = math.max(1, end_line - start_line + 1 + scrolloff * 2)
+
+	vim.api.nvim_win_resize(0, -1, line_count)
+	local top_line = start_line - scrolloff
+	vim.fn.winrestview({ topline = math.max(1, top_line) })
+end, { desc = 'Resize win to ¶+scrolloff; center on ¶' })
+
 -- Insert a UUID at cursor
 map('n', '<leader>gu', "a<C-r>=trim(system('uuidgen'))<CR><ESC>")
 map('i', '<C-g>u', "<C-r>=trim(system('uuidgen'))<CR>")
@@ -367,7 +380,7 @@ end, { remap = true, expr = true, desc = 'Yank and comment', })
 
 map('n', '<leader>p', 'p`[', { desc = 'paste keep cursor', })
 map('n', '<leader>P', 'P`[', { desc = 'Paste keep curosr', })
-map('n', '<leader><M-p>', 'i<CR><CR><Esc>kpa<Esc>', { desc = 'Paste paragraph', })
+map('n', { '<M-p>', '<leader><M-p>' }, 'i<CR><CR><Esc>kpa<Esc>', { desc = 'Paste paragraph', })
 
 ---@param value string
 ---@param key string|nil

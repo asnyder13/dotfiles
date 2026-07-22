@@ -1,39 +1,44 @@
+local symbols = {
+	unchecked = '□',
+	checked = '✔',
+	in_progress = '∗',
+	cancelled = '✗',
+	on_hold = '⏸',
+}
+
 require 'render-markdown'.setup {
 	completions = { lsp = { enabled = true }, },
 	checkbox = {
 		enabled = false,
 		custom = {
-			[' in_progress'] = { raw = '[.]', rendered = '◐', },
-			[' cancelled'] = { raw = '[c]', rendered = '✗', },
-			[' on_hold'] = { raw = '[/]', rendered = '⏸', },
+			[' in_progress'] = { raw = '[.]', rendered = symbols.in_progress, },
+			[' cancelled'] = { raw = '[c]', rendered = symbols.cancelled, },
+			[' on_hold'] = { raw = '[/]', rendered = symbols.on_hold, },
 		},
 	},
 }
 
--- local default_config = require 'checkmate.config.defaults'
--- local default_keys = default_config.keys
--- vim.print(default_keys)
 require 'checkmate'.setup {
 	todo_states = {
 		-- Built-in states (cannot change markdown or type)
-		unchecked = { marker = '□' },
-		checked = { marker = '✔' },
+		unchecked = { marker = symbols.unchecked },
+		checked = { marker = symbols.checked },
 
 		-- Custom states
 		in_progress = {
-			marker = '◐',
+			marker = symbols.in_progress,
 			markdown = '.',   -- Saved as `- [.]`
 			type = 'incomplete', -- Counts as 'not done'
 			order = 50,
 		},
 		cancelled = {
-			marker = '✗',
+			marker = symbols.cancelled,
 			markdown = 'c', -- Saved as `- [c]`
 			type = 'complete', -- Counts as 'done'
 			order = 2,
 		},
 		on_hold = {
-			marker = '⏸',
+			marker = symbols.on_hold,
 			markdown = '/', -- Saved as `- [/]`
 			type = 'inactive', -- Ignored in counts
 			order = 100,
