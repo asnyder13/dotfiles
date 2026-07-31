@@ -165,8 +165,6 @@ require 'treesj'.setup {
 map('n', 'gS', require 'treesj'.split)
 map('n', 'gJ', function() vim.defer_fn(function() require 'treesj'.join() end, 0) end)
 
-require 'ts-error-translator'.setup { auto_attach = true, }
-
 require 'roslyn'.setup {
 	choose_target = function(target)
 		target = vim.iter(target)

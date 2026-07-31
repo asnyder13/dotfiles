@@ -97,8 +97,14 @@ dial_config.augends:on_filetype {
 	yaml = default_and {
 		augend.semver.alias.semver,
 	},
+	dosini = default_and {
+		augend.semver.alias.semver,
+	},
 	gitrebase = default_and {
 		cycle({ 'pick', 'drop', 'edit', 'reword', 'fixup', }, true),
 		cycle({ 'p', 'd', 'e', 'r', 'f', }, true),
+	},
+	json = default_and {
+		augend.semver.alias.semver,
 	},
 }

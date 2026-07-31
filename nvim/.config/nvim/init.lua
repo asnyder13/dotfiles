@@ -120,11 +120,10 @@ vim.pack.add {
 	gh 'mason-org/mason-lspconfig.nvim',
 	gh 'mhartington/formatter.nvim',
 	gh 'j-hui/fidget.nvim',
-	gh 'dmmulroy/ts-error-translator.nvim',
 	gh 'rachartier/tiny-inline-diagnostic.nvim',
 	gh 'seblyng/roslyn.nvim',
-	{ src = gh 'ray-x/guihua.lua' },
-	{ src = gh 'ray-x/navigator.lua', version = 'treesitter-main' },
+	gh 'ray-x/guihua.lua' ,
+	gh 'ray-x/navigator.lua' ,
 
 	-- cmp for LSP
 	gh 'hrsh7th/nvim-cmp',
@@ -345,10 +344,10 @@ map('n', '<leader>gu', "a<C-r>=trim(system('uuidgen'))<CR><ESC>")
 map('i', '<C-g>u', "<C-r>=trim(system('uuidgen'))<CR>")
 
 -- Toggle mappings
-map('n', '<leader>Tw', ':set wrap!<CR>', { desc = 'Toggle wrap' })
-map('n', '<leader>Tm', function() vim.opt_local.mouse = vim.tbl_isempty(vim.opt_local.mouse:get()) and mouse or '' end,
+map('n', '<leader>tw', ':set wrap!<CR>', { desc = 'Toggle wrap' })
+map('n', '<leader>tm', function() vim.opt_local.mouse = vim.tbl_isempty(vim.opt_local.mouse:get()) and mouse or '' end,
 	{ desc = 'Toggle mouse' })
-map('n', '<leader>Tn',
+map('n', '<leader>tn',
 	function()
 		vim.cmd 'set number!'
 		vim.cmd 'IBLToggle'

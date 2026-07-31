@@ -58,7 +58,7 @@ require 'checkmate'.setup {
 		},
 		['<leader>ti'] = {
 			rhs = function() require('checkmate').toggle('in_progress') end,
-			desc = 'Set todo item as checked (done)',
+			desc = 'Set todo item as in progress',
 			modes = { 'n', 'v' },
 		},
 		['<leader>tu'] = {

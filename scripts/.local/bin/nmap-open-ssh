@@ -5,8 +5,12 @@
 CURSOR_UP = "\e[A"
 CURSOR_CLEAR_LINE = "\r\e[K"
 CURSOR_UP_AND_CLEAR = CURSOR_UP + CURSOR_CLEAR_LINE
+CURSOR_HIDE = "\e[?25l"
+CURSOR_SHOW = "\e[?25h"
 
 Signal.trap('INT') { exit }
+print CURSOR_HIDE
+at_exit { print CURSOR_SHOW }
 
 Scan = Struct.new(:state, :ip, :addr) do
   def to_s = sprintf "ip= %-16s addr= %s", ip + ',', addr
