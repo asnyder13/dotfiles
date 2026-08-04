@@ -44,9 +44,9 @@ local hls = {
 	['LspReferenceRead']  = illuminateUnderline,
 	['LspReferenceWrite'] = illuminateUnderline,
 	['LspReferenceText']  = illuminateUnderline,
-	['GitSignsAdd']       = { bg = 'NONE' },
-	['GitSignsChange']    = { bg = 'NONE' },
-	['GitSignsDelete']    = { bg = 'NONE' },
+	['GitSignsAdd']       = { bg = 'NONE', },
+	['GitSignsChange']    = { bg = 'NONE', },
+	['GitSignsDelete']    = { bg = 'NONE', },
 	['LineflyNormal']     = 'RedrawDebugComposed',
 	['LineflyInsert']     = 'SignColumn',
 	['LineflyVisual']     = 'IncSearch',
@@ -54,6 +54,11 @@ local hls = {
 
 	['MiniTrailspace']    = 'RedrawDebugRecompose',
 	['IblScope']          = 'MiniIndentscopeSymbol',
+
+	['CheckmateCancelledMainContent']        = 'CheckmateCheckedMainContent',
+	['CheckmateCancelledAdditionalContent']  = 'CheckmateCheckedAdditionalContent',
+	['CheckmateInProgressMainContent']       = { fg = '#62faff', },
+	['CheckmateInProgressAdditionalContent'] = 'CheckmateMeta_started',
 
 	---- Languages
 	-- C#
