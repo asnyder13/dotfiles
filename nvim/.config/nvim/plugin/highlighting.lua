@@ -57,8 +57,10 @@ local hls = {
 
 	['CheckmateCancelledMainContent']        = 'CheckmateCheckedMainContent',
 	['CheckmateCancelledAdditionalContent']  = 'CheckmateCheckedAdditionalContent',
-	['CheckmateInProgressMainContent']       = { fg = '#62faff', },
+	['CheckmateInProgressMainContent']       = { fg = '#62faff', bold = true, },
 	['CheckmateInProgressAdditionalContent'] = 'CheckmateMeta_started',
+	['CheckmateOnHoldMainContent']       = { fg = '#FFE74D', bold = true, },
+	['CheckmateOnHoldAdditionalContent'] = { fg = '#d3af32', },
 
 	---- Languages
 	-- C#

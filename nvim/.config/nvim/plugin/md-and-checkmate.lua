@@ -116,5 +116,15 @@ require 'checkmate'.setup {
 			desc = 'Move cursor to previous metadata tag',
 			modes = { 'n' },
 		},
-	}
+		['<leader>th'] = {
+			rhs = function() require('checkmate').toggle('on_hold') end,
+			desc = 'Set todo item as in on hold',
+			modes = { 'n', 'v' },
+		},
+	},
+	metadata = {
+		priority = { key = '<leader>tp', },
+		started = { key = '<leader>ts', },
+		done = { key = '<leader>td', },
+	},
 }
