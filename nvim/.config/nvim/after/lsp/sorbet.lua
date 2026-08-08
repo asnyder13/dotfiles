@@ -1,9 +1,9 @@
-local basepath = os.getenv('XDG_CACHE_HOME')
-basepath = basepath or '~/.cache'
-local fallback_target_path = require 'util'.create_expand_path(basepath .. '/sorbet')
+-- local basepath = os.getenv('XDG_CACHE_HOME')
+-- basepath = basepath or '~/.cache'
+-- local fallback_target_path = require 'util'.create_expand_path(basepath .. '/sorbet')
 
----@type nil|string
-local sorbet_loc = require 'lspconfig.util'.root_pattern('sorbet/config')(vim.fn.getcwd())
+-- local sorbet_dir = vim.fs.root(0, { 'sorbet/config' })
+local sorbet_root = vim.fs.root(0, { 'sorbet' })
 
 ---@type vim.lsp.Config
 return {
@@ -12,6 +12,10 @@ return {
 		'tc',
 		'--lsp',
 		'--disable-watchman',
-		sorbet_loc or fallback_target_path,
+		'--enable-experimental-lsp-document-highlight',
+		'--enable-experimental-lsp-signature-help',
+		'--enable-experimental-lsp-extract-to-variable',
+		'--enable-all-beta-lsp-features',
 	},
+	cmd_cwd = sorbet_root or nil,
 }

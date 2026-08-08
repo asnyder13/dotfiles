@@ -9,6 +9,7 @@ OUTPUT_TYPES = {
 	general:     %r{(#{FILEPATH}):\d+},
 	general_col: %r{(#{FILEPATH}):\d+:\d+},
 	dotnet_run:  %r{(#{FILEPATH}):line\s+\d+},
+	aspire_run:  %r{(#{FILEPATH})\(\d+,\d+\): error},
 }.freeze
 
 filenames = Set.new

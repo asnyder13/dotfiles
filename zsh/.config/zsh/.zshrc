@@ -113,6 +113,7 @@ plugins=(
 	# git clone https://github.com/zdharma-continuum/fast-syntax-highlighting.git ${ZSH_CUSTOM:-$XDG_DATA_HOME/oh-my-zsh/custom}/plugins/fast-syntax-highlighting
 	fast-syntax-highlighting
 	docker
+	podman
 )
 zbell_ignore=(
 	$EDITOR
