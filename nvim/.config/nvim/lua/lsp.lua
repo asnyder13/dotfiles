@@ -25,11 +25,13 @@ local langs = {
 require 'nvim-treesitter'.install(langs)
 vim.treesitter.language.register('bash', 'zsh')
 local start_ts = function(args)
-	args = args or {}
-	vim.treesitter.start(args.buf)
-	if not args.match == 'yaml' then
-		vim.bo[args.buf].indentexpr = "v:lua.require 'nvim-treesitter'.indentexpr()"
-	end
+	pcall(function()
+		args = args or {}
+		vim.treesitter.start(args.buf)
+		if not args.match == 'yaml' then
+			vim.bo[args.buf].indentexpr = "v:lua.require 'nvim-treesitter'.indentexpr()"
+		end
+	end)
 end
 
 map('n', '<leader>Tt', function()
@@ -42,7 +44,7 @@ map('n', '<leader>Tt', function()
 	end
 end, { desc = 'toggle Treesitter' })
 vim.api.nvim_create_autocmd('FileType', {
-	pattern = vim.tbl_extend('force', langs, { 'cs' }),
+	pattern = { '*' },
 	callback = start_ts,
 })
 
@@ -168,8 +170,8 @@ map('n', 'gJ', function() vim.defer_fn(function() require 'treesj'.join() end, 0
 require 'roslyn'.setup {
 	choose_target = function(target)
 		target = vim.iter(target)
-			:filter(function(x) return not x:match('[aA][sS][pP][iI][rR][eE]') end)
-			:totable()
+				:filter(function(x) return not x:match('[aA][sS][pP][iI][rR][eE]') end)
+				:totable()
 
 		local count = vim.iter(target):count()
 		if count == 1 then return target[1] end

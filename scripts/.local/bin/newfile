@@ -34,13 +34,13 @@ end.parse!(into: opts)
 
 def mkfile(argv, opts)
 	type = argv.shift
-	raise 'No filetype given' if type.nil?
+	abort 'No filetype given' if type.nil?
 
 	contents = CONTENTS[type.to_sym]
-	raise "Called with wrong filetype? #{type}" if contents.nil?
+	abort "Called with wrong filetype? #{type}" if contents.nil?
 
 	path = argv[0]
-	fail 'specify filename to create' unless path
+	abort 'specify filename to create' unless path
 
 	if opts[:dotfile]
 		path = File.join ENV['HOME'], '.dotfiles', 'scripts', '.local', 'bin', path

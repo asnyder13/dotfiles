@@ -50,7 +50,7 @@ require 'timber'.setup {
 			classname = classname and classname .. '::' or ''
 
 			local fnname = Util.get_ancestor_field('method_declaration', 'name')
-			fnname = fnname and fnname .. '() ' or ' '
+			fnname = fnname and fnname .. '() ' or ''
 
 			return string.format('%s($"%s%s', memo_logger, classname, fnname)
 		end,
