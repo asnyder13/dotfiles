@@ -4,6 +4,34 @@ local center = require 'util'.run_then_center_cursor_func
 ---- DAP
 local dap_on_attach = require '_dap'
 
+-- Jump to diagnostic of severity, if present
+---@param bufnr integer
+---@param severity vim.diagnostic.Severity
+local function priority_jump(bufnr, severity, opts)
+	local diags = vim.diagnostic.get(bufnr, { severity = severity })
+	if diags and #diags > 0 then
+		opts.severity = severity
+		return vim.diagnostic.jump(opts)
+	end
+end
+
+local diag_order = {
+	vim.diagnostic.severity.ERROR,
+	vim.diagnostic.severity.WARN,
+	vim.diagnostic.severity.INFO,
+	vim.diagnostic.severity.HINT,
+}
+local function goto_next(opts)
+	opts = vim.tbl_extend('keep', opts or {}, { count = 1 })
+	local bufnr = vim.api.nvim_get_current_buf()
+	return vim.iter(diag_order):find(function(priority) return priority_jump(bufnr, priority, opts) end)
+end
+local function goto_prev(opts)
+	opts = vim.tbl_extend('keep', opts or {}, { count = -1 })
+	local bufnr = vim.api.nvim_get_current_buf()
+	return vim.iter(diag_order):find(function(priority) return priority_jump(bufnr, priority, opts) end)
+end
+
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 ---@type vim.lsp.client.on_attach_cb
@@ -14,26 +42,26 @@ local on_attach = function(client, bufnr)
 
 	if dap_on_attach then dap_on_attach(bufnr) end
 
-	map('n', '<leader>h',  vim.diagnostic.open_float,  o('lsp_open_float'))
-	map('n', '<C-s>',      vim.lsp.buf.hover,          o('lsp_hover'))
+	map('n', '<leader>h',  vim.diagnostic.open_float,                           o('lsp_open_float'))
+	map('n', '<C-s>',      vim.lsp.buf.hover,                                   o('lsp_hover'))
 	map('n', 'gW',         require 'navigator.workspace'.workspace_symbol_live, o('workspace_symbol_live'))
 	map('n', '<leader>gT', require 'navigator.treesitter'.bufs_ts,              o('bufs_ts'))
 
-	map('n', 'gD',        vim.lsp.buf.declaration,                                     o('declaration'))
-	map('n', '<C-]>',     vim.lsp.buf.definition, o('definition'))
-	map('n', '<leader>D', require 'navigator.definition'.type_definition_preview,      o('definition preview'))
-	map('n', '<leader>r', require 'navigator.reference'.async_ref,                     o('async_ref'))
+	map('n', 'gD',        vim.lsp.buf.declaration,                                o('declaration'))
+	map('n', '<C-]>',     vim.lsp.buf.definition,                                 o('definition'))
+	map('n', '<leader>D', require 'navigator.definition'.type_definition_preview, o('definition preview'))
+	map('n', '<leader>r', require 'navigator.reference'.async_ref,                o('async_ref'))
 
 	map({ 'n', 'v' }, { '<C-Space>', '<C-.>' }, vim.lsp.buf.code_action, o('code_action'))
-	map('n', { '<M-r>', '<M-e>' },              vim.lsp.buf.rename,                         o('rename'))
+	map('n', { '<M-r>', '<M-e>' },              vim.lsp.buf.rename,      o('rename'))
 
-	map('n', 'gi',         center(vim.lsp.buf.implementation), o('implementation'))
-	map('n', 'g<C-]>',     vim.lsp.buf.type_definition,                          o('type_definition'))
-	map('n', ']d',         require 'navigator.diagnostics'.goto_next,            o('next_diagnostics'))
-	map('n', '[d',         require 'navigator.diagnostics'.goto_prev,            o('prev_diagnostics'))
-	map('n', ']r',         require 'navigator.treesitter'.goto_next_usage,       o('goto_next_usage'))
-	map('n', '[r',         require 'navigator.treesitter'.goto_previous_usage,   o('goto_previous_usage'))
-	map('n', '<leader>k',  require 'navigator.dochighlight'.hi_symbol,  o('hi_symbol'))
+	map('n', 'gi',        center(vim.lsp.buf.implementation),                 o('implementation'))
+	map('n', 'g<C-]>',    vim.lsp.buf.type_definition,                        o('type_definition'))
+	map('n', ']d',        goto_next,                                          o('next_diagnostics'))
+	map('n', '[d',        goto_prev,                                          o('prev_diagnostics'))
+	map('n', ']r',        require 'navigator.treesitter'.goto_next_usage,     o('goto_next_usage'))
+	map('n', '[r',        require 'navigator.treesitter'.goto_previous_usage, o('goto_previous_usage'))
+	map('n', '<leader>k', require 'navigator.dochighlight'.hi_symbol,         o('hi_symbol'))
 
 	map('n', '<leader>ti', function()
 		local ilh_state = vim.lsp.inlay_hint.is_enabled { bufnr = bufnr }
