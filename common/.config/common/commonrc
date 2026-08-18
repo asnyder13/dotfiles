@@ -64,15 +64,15 @@ fi
 DNT_DIR="$XDG_DATA_HOME/do-not-track-cli"
 if [[ ! -d "$DNT_DIR" ]]; then
 	git clone https://github.com/alloydwhitlock/do-not-track-cli "$DNT_DIR"
-	{
+	(
 		cd "$DNT_DIR" || return
 		git pull
-	}
+	)
 fi
 if [[ -e "$DNT_DIR/.git/FETCH_HEAD" && "$(($(date +"%s") - $(stat -c "%Y" "$DNT_DIR/.git/FETCH_HEAD")))" -gt "604800" ]]; then
-	{
+	(
 		cd "$DNT_DIR" || return
 		git pull
-	}
+	)
 fi
 set -a && source "$DNT_DIR/do_not_track.env" && set +a

@@ -449,6 +449,10 @@ require 'colorizer'.setup {
 		typescript = extra_parsing,
 		javascript = extra_parsing,
 		html = extra_parsing,
+		'!markdown',
+	},
+	buftypes = {
+		'!nofile',
 	},
 }
 

@@ -24,9 +24,10 @@ CONTENTS = {
 }.freeze
 
 ARGV << '-h' if ARGV.empty?
+banner = "Usage: newfile <#{CONTENTS.keys.map(&:to_s).sort.join(',')}> <filename>"
 opts = Hash.new { false }
 OptionParser.new do |parser|
-	parser.banner = "Usage: newfile <#{CONTENTS.keys.map(&:to_s).sort.join(',')}> <filename>"
+	parser.banner = banner
 
 	parser.on('-d', '--dotfile', 'Create file in ~/.dotfiles/scripts/.local/bin/')
 	parser.on('-h', '--help',    'Prints this help') { puts parser; exit }
@@ -37,7 +38,7 @@ def mkfile(argv, opts)
 	abort 'No filetype given' if type.nil?
 
 	contents = CONTENTS[type.to_sym]
-	abort "Called with wrong filetype? #{type}" if contents.nil?
+	abort "Called with wrong filetype? #{type}\n#{banner}" if contents.nil?
 
 	path = argv[0]
 	abort 'specify filename to create' unless path
