@@ -122,8 +122,8 @@ vim.pack.add {
 	gh 'j-hui/fidget.nvim',
 	gh 'rachartier/tiny-inline-diagnostic.nvim',
 	gh 'seblyng/roslyn.nvim',
-	gh 'ray-x/guihua.lua' ,
-	gh 'ray-x/navigator.lua' ,
+	gh 'ray-x/guihua.lua',
+	gh 'ray-x/navigator.lua',
 
 	-- cmp for LSP
 	gh 'hrsh7th/nvim-cmp',
@@ -285,13 +285,13 @@ opt.foldlevelstart = 10
 map('n', 'zM', function() opt.foldlevel = 2 end)
 
 
-g.loaded_python3_provider = false
-g.loaded_ruby_provider    = false
-g.loaded_node_provider    = false
-g.loaded_perl_provider    = false
+g.loaded_python3_provider    = false
+g.loaded_ruby_provider       = false
+g.loaded_node_provider       = false
+g.loaded_perl_provider       = false
 
 -- Syntax hl/colors
-opt.syntax                = 'on'
+opt.syntax                   = 'on'
 
 local lsp_success, lsp_error = pcall(function()
 	require 'lsp'

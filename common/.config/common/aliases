@@ -1,21 +1,21 @@
 # vim: ft=bash
 
-alias list='ls -g --human-readable --no-group --almost-all --classify --time-style=long-iso --color ' ;
-alias list2='ls -g --human-readable --no-group --classify --time-style=long-iso --color ' ;
-alias lst='ls -g --human-readable --no-group --classify --time-style=long-iso --color ' ;
-alias ll='ls -l --human-readable --almost-all --classify --time-style=long-iso --color ' ;
-alias listt='ls -g --human-readable --no-group --almost-all --classify --time-style=long-iso --color -t' ;
-alias listth='ls -g --human-readable --no-group --almost-all --classify --time-style=long-iso --color -t | head' ;
+alias list='ls -g --human-readable --no-group --almost-all --classify --time-style=long-iso --color '
+alias list2='ls -g --human-readable --no-group --classify --time-style=long-iso --color '
+alias lst='ls -g --human-readable --no-group --classify --time-style=long-iso --color '
+alias ll='ls -l --human-readable --almost-all --classify --time-style=long-iso --color '
+alias listt='ls -g --human-readable --no-group --almost-all --classify --time-style=long-iso --color -t'
+alias listth='ls -g --human-readable --no-group --almost-all --classify --time-style=long-iso --color -t | head'
 
 # Old shortcuts from yum
-alias dnfs='sudo dnf search' ;
-alias dnfi='sudo dnf install' ;
-alias dnfu='sudo dnf update' ;
-alias dnfe='sudo dnf remove' ;
-alias yums='sudo dnf search' ;
-alias yumi='sudo dnf install' ;
-alias yumu='sudo dnf update' ;
-alias yume='sudo dnf remove' ;
+alias dnfs='sudo dnf search'
+alias dnfi='sudo dnf install'
+alias dnfu='sudo dnf update'
+alias dnfe='sudo dnf remove'
+alias yums='sudo dnf search'
+alias yumi='sudo dnf install'
+alias yumu='sudo dnf update'
+alias yume='sudo dnf remove'
 
 # Only gonna work if you've installed in ~/.dotfiles
 if [[ -d "$HOME/.dotfiles" ]]; then
@@ -44,11 +44,11 @@ if [[ -d "$HOME/.dotfiles" ]]; then
 fi
 
 # General aliases.
-alias lssz='du -sh *' ;
-alias tmat='tmux attach || tmux' ;
-alias df='df -h' ;
-alias wttr='curl --compressed "wttr.in/Charlotte?F&q"' ;
-alias rsync='\rsync --archive --info=progress2 --human-readable --stats --partial' ;
+alias lssz='du -sh *'
+alias tmat='tmux attach || tmux'
+alias df='df -h'
+alias wttr='curl --compressed "wttr.in/Charlotte?F&q"'
+alias rsync='\rsync --archive --info=progress2 --human-readable --stats --partial'
 
 # Git aliases.
 alias g='git'
@@ -88,26 +88,26 @@ else
 fi
 
 # Random functions
-function mkcd () {
+function mkcd() {
 	mkdir -p "$1"
 	cd "$1" || return 1
 	return 0
 }
-function cdmk () {
+function cdmk() {
 	mkcd "$1"
 }
 
-function vimhelp () {
+function vimhelp() {
 	vim -c "help $1 | only"
 }
-function vimman () {
+function vimman() {
 	vim -c "Man $1 | only"
 }
 alias vimh='vimhelp'
 alias vimm='vimman'
 alias manv='vimman'
 
-function toyaml () {
+function toyaml() {
 	if ! command -v ruby >/dev/null 2>&1; then
 		echo 'You need Ruby to run this function.'
 		return 1
@@ -125,7 +125,7 @@ function toyaml () {
 	fi
 }
 
-function tojson () {
+function tojson() {
 	if ! command -v ruby >/dev/null 2>&1; then
 		echo 'You need Ruby to run this function.'
 		return 1
@@ -145,19 +145,21 @@ function tojson () {
 
 # $1: timespan
 # $2?: custom message
-function timer () {
+function timer() {
 	sleep "$1"
 	print -n '\a'
 	if command -v notify-send >/dev/null 2>&1; then
-		if [ -z "$2" ]; then notify-send -i terminal "Terminal timer: ${1}"
-		else notify-send -i terminal "Terminal timer: ${1}" "$2"
+		if [ -z "$2" ]; then
+			notify-send -i terminal "Terminal timer: ${1}"
+		else
+			notify-send -i terminal "Terminal timer: ${1}" "$2"
 		fi
 	fi
 	if command -v paplay >/dev/null 2>&1; then
 		paplay /usr/share/sounds/freedesktop/stereo/bell.oga
 	fi
 }
-function alert () {
+function alert() {
 	timer 0s "Alert fired"
 }
 
@@ -165,7 +167,9 @@ rundisown() {
 	eval " $@ & ; disown"
 }
 runexit() {
-	rundisown "$@" ; sleep 0.5 ; exit
+	rundisown "$@"
+	sleep 0.5
+	exit
 }
 
 qrencode-utf() {
@@ -174,15 +178,24 @@ qrencode-utf() {
 
 # Use difftastic to view a single ref
 # $1 git ref
-function gdtref () {
+function gdtref() {
 	git difftool "$1~1..$1"
 }
 
-function gdtlast () {
+function gdtlast() {
 	gdtref HEAD
 }
 
 # Make temp dir
 function mtd() {
 	mktemp -d
+}
+
+function todo() {
+	local todo_loc="$HOME/src/todo.md"
+	if [[ -f $todo_loc ]]; then
+		vim "$todo_loc"
+	else
+		echo "No todo file at $todo_loc"
+	fi
 }

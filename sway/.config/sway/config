@@ -15,6 +15,7 @@ set $up k
 set $right l
 set $term alacritty
 set $files thunar
+set $DOTFILES_LOC $XDG_CONFIG_HOME/sway
 
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
@@ -61,10 +62,10 @@ exec wl-paste --watch cliphist store
 ### Logout/shutdown hotkeys
 mode "$mode_system" {
     bindsym {
-        l exec $HOME/.config/sway/swayexit.sh lock, mode "default"
-        e exec $HOME/.config/sway/swayexit.sh logout, mode "default"
-        Shift+r exec $HOME/.config/sway/swayexit.sh reboot, mode "default"
-        Shift+s exec $HOME/.config/sway/swayexit.sh shutdown, mode "default"
+        l exec $DOTFILES_LOC/swayexit.sh lock, mode "default"
+        e exec $DOTFILES_LOC/swayexit.sh logout, mode "default"
+        Shift+r exec $DOTFILES_LOC/swayexit.sh reboot, mode "default"
+        Shift+s exec $DOTFILES_LOC/swayexit.sh shutdown, mode "default"
 
         # back to normal: Enter or Escape
         Return mode "default"
@@ -75,12 +76,13 @@ bindsym $mod+F12 mode "$mode_system"
 focus_follows_mouse no
 mouse_warping none
 seat * hide_cursor when-typing enable
+bindsym $mod+Shift+u exec $DOTFILES_LOC/switch-cursor.sh
 
 xwayland enable
 font pango:SauceCodeProNerdFont 10
 exec wlsunset \
     -l 35.3 -L -80.9 \
-    -T 4500
+    -T 5500
 
 ### Key bindings
 #
@@ -100,7 +102,7 @@ bindsym $mod+Ctrl+v exec $menu_cliphist
 # Launch
 
 # Switch audio output
-bindsym Shift+F11 exec $HOME/.config/sway/switch-sink.sh
+bindsym Shift+F11 exec $DOTFILES_LOC/switch-sink.sh
 
 # Drag floating windows by holding down $mod and left mouse button.
 # Resize them with right mouse button + $mod.
