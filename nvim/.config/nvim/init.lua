@@ -48,7 +48,6 @@ vim.pack.add {
 	gh 'judaew/ronny.nvim',
 
 	-- Regular vim
-	gh 'tpope/vim-fugitive',
 	gh 'jlcrochet/vim-razor',
 	gh 'tpope/vim-abolish',
 	gh 'mattn/emmet-vim',
@@ -73,7 +72,6 @@ vim.pack.add {
 	gh 'folke/which-key.nvim',
 	gh 'BranimirE/fix-auto-scroll.nvim',
 	gh 'chentoast/marks.nvim',
-	gh 'sindrets/diffview.nvim',
 	gh 'mei28/qfc.nvim',
 	gh 'chrisgrieser/nvim-spider',
 	gh 'mcauley-penney/visual-whitespace.nvim',
@@ -85,11 +83,17 @@ vim.pack.add {
 	gh 'rcarriga/nvim-notify',
 	gh 'folke/persistence.nvim',
 
+	-- git
+	gh 'tpope/vim-fugitive',
+	gh 'dlyongemallo/diffview-plus.nvim',
+	gh 'rickhowe/diffchar.vim',
+	gh 'isakbm/gitgraph.nvim',
+	gh 'asnyder13/mini.diff',
+
 	-- mini.nvim
 	gh 'nvim-mini/mini.ai',
 	gh 'nvim-mini/mini.align',
 	gh 'nvim-mini/mini.move',
-	gh 'asnyder13/mini.diff',
 	gh 'nvim-mini/mini.bufremove',
 	gh 'nvim-mini/mini.operators',
 	gh 'nvim-mini/mini.cmdline',
@@ -546,8 +550,6 @@ require 'marks'.setup {
 		'terminal',
 	},
 }
-
-require 'diffview'.setup { view = { merge_tool = { layout = 'diff3_mixed', }, }, }
 
 require 'qfc'.setup { enabled = true, timeout = 1000, }
 
