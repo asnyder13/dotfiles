@@ -11,6 +11,7 @@ local formatter_fts = {
 	css = { prettierd },
 	graphql = { prettierd },
 	html = { prettierd },
+	htmlangular = { prettierd },
 	javascript = { prettierd },
 	javascriptreact = { prettierd },
 	['javascript.jsx'] = { prettierd },

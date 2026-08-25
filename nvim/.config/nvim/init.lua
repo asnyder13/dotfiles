@@ -151,7 +151,7 @@ vim.pack.add {
 	gh 'suketa/nvim-dap-ruby',
 
 	-- misc
-	gh 'HiPhish/rainbow-delimiters.nvim',
+	gh 'asnyder13/rainbow-delimiters.nvim',
 	gh 'b0o/schemastore.nvim',
 	gh 'bngarren/checkmate.nvim',
 }
@@ -333,10 +333,10 @@ map('n', '<C-w>,', function() vim.api.nvim_win_resize(0, -1, vim.fn.line('$') + 
 
 vim.keymap.set('n', '<C-w>p', function()
 	local start_line = vim.fn.line("'{") + 1
-	local end_line = vim.fn.line("'}") - 1
+	local end_line = vim.fn.line("'}")
 
 	local scrolloff = vim.o.scrolloff
-	local line_count = math.max(1, end_line - start_line + 1 + scrolloff * 2)
+	local line_count = math.max(1, end_line - start_line + scrolloff * 2)
 
 	vim.api.nvim_win_resize(0, -1, line_count)
 	local top_line = start_line - scrolloff

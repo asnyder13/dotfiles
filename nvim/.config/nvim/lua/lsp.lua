@@ -48,11 +48,6 @@ vim.api.nvim_create_autocmd('FileType', {
 	callback = start_ts,
 })
 
--- Temp fix for missing htmlangular interactions.
-vim.api.nvim_create_autocmd('FileType', {
-	pattern = 'htmlangular',
-	command = 'set ft=html'
-})
 vim.api.nvim_create_autocmd('LspAttach', {
 	desc = 'Prevent ruby_lsp from loading twice',
 	callback = function(event)
