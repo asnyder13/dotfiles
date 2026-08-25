@@ -4,18 +4,56 @@
 
 # Grep File Name
 
+require 'optparse'
+
 FILEPATH = %r{[\w\.\-/]+/?+\.[a-zA-Z_\-]+}
 OUTPUT_TYPES = {
-	general:     %r{(#{FILEPATH}):\d+},
-	general_col: %r{(#{FILEPATH}):\d+:\d+},
-	dotnet_run:  %r{(#{FILEPATH}):line\s+\d+},
-	aspire_run:  %r{(#{FILEPATH})\(\d+,\d+\): error},
+	general:     %r{(#{FILEPATH}):(\d+)},
+	general_col: %r{(#{FILEPATH}):(\d+):\d+},
+	dotnet_run:  %r{(#{FILEPATH}):line\s+(\d+)},
+	aspire_run:  %r{(#{FILEPATH})\((\d+),\d+\): error},
 }.freeze
+EDITOR = ENV['EDITOR'] || 'vim'
+
+opts = Hash.new { false }
+OptionParser.new do |parser|
+	parser.banner = <<~HERE
+   Usage:
+   	<make build> |& gfn | xargs vim
+   	<make build> |& gfn -[an]
+HERE
+
+	parser.on('-a', '--auto', "Automatically open files in #{EDITOR}") { opts[:auto] = true }
+	parser.on('-n', '--line-numbers', "Goes to line numbers if EDITOR is [n]vim") do
+		opts[:auto] = true
+		opts[:line_numbers] = EDITOR.match?(/n?vim?/) || puts("Warning: line numbers only supported with [n]vim, configured EDITOR: #{EDITOR}")
+	end
+	parser.on('-h', '--help', 'Prints this help') { puts parser; exit }
+end.parse!
 
 filenames = Set.new
+line_numbers = Hash.new { |h, k| h[k] = [] }
 until ARGV.empty? && ARGF.eof?
-	match = nil
-	OUTPUT_TYPES.values.each_with_object(ARGF.readline) { |line, regex| break if match = line.match(regex) }
-	filenames << Regexp.last_match(1) if match
+	match = OUTPUT_TYPES.values.each_with_object(ARGF.readline).find { |line, regex| line.match(regex) }
+	next unless match
+
+	filename = Regexp.last_match(1)
+	filenames << filename
+	line_numbers[filename] << Regexp.last_match(2)
 end
-puts filenames.join "\n"
+
+case opts
+in { line_numbers: true }
+	vim_cmd = "-c " + filenames.reduce('') do |acc, fname|
+		lnum = line_numbers[fname].compact.sort.reverse.first
+		acc += "#{lnum}|" if lnum
+		acc += 'exec "norm! ^" |bn|'
+	end.delete_suffix('|')
+
+	vim_cmd = vim_cmd =~ /\d/ ? vim_cmd : ''
+	system "#{EDITOR} '#{vim_cmd}' #{filenames.join(' ')}"
+in { auto: true }
+	system "#{EDITOR} #{filenames.join(' ')}"
+else
+	puts filenames.join "\n"
+end
