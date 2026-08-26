@@ -30,7 +30,7 @@ check_device() {
 	if [[ "$device_bus" != "usb" ]]; then
 		echo "Device $device is not a usb device?"
 		exit 2
-	elif [[ "$(bc <<<"${device_size:-0} < 8")" -eq 1 ]]; then
+	elif [[ "$(bc <<<"${device_size:-0} < 8")" -eq 1 && -z $ignoresize ]]; then
 		echo "Device $device seems to be too small? $device_size_suffixed"
 		exit 1
 	elif [[ "$(bc <<<"${device_size} > 512")" -eq 1 ]]; then
@@ -74,11 +74,13 @@ flash_image() {
 
 device=
 imagefile=
+ignoresize=
 
-while getopts "d:i:h" o; do
+while getopts "d:i:hs" o; do
 	case "${o}" in
 	d) device=${OPTARG} ;;
 	i) imagefile=${OPTARG} ;;
+	s) ignoresize=1 ;;
 	h | *) usage ;;
 	esac
 done

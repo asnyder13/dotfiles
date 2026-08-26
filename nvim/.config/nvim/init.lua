@@ -287,7 +287,7 @@ opt.smartcase      = true
 
 opt.foldmethod     = 'indent'
 opt.foldlevelstart = 10
-map('n', 'zM', function() opt.foldlevel = 2 end)
+map('n', 'zM', function() opt.foldlevel = (vim.v.count or 2) end)
 
 
 g.loaded_python3_provider    = false
@@ -466,7 +466,10 @@ require 'barbar'.setup {
 	focus_on_close = 'previous',
 	icons = {
 		buffer_number = true,
-	}
+	},
+	sidebar_filetypes = {
+		['neo-tree'] = true,
+	},
 }
 map('n', '<M-b>', ':BufferPick<CR>', { desc = 'Buffer pick' })
 map('n', '<C-M-b>', ':BufferPickDelete<CR>', { desc = 'Buffer pick delete' })
