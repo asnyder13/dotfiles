@@ -12,6 +12,8 @@ OUTPUT_TYPES = {
 	general_col: %r{(#{FILEPATH}):(\d+):\d+},
 	dotnet_run:  %r{(#{FILEPATH}):line\s+(\d+)},
 	aspire_run:  %r{(#{FILEPATH})\((\d+),\d+\): error},
+	# Backup, try to pick filepath
+	filepath:    %r{(#{FILEPATH})},
 }.freeze
 EDITOR = ENV['EDITOR'] || 'vim'
 
@@ -38,20 +40,23 @@ until ARGV.empty? && ARGF.eof?
 	next unless match
 
 	filename = Regexp.last_match(1)
+	filename.sub! %r{^home}, '/home'
+	next unless File.exist? filename
+
 	filenames << filename
 	line_numbers[filename] << Regexp.last_match(2)
 end
 
 case opts
 in { line_numbers: true }
-	vim_cmd = "-c " + filenames.reduce('') do |acc, fname|
+	vim_cmd = "-c '" + filenames.reduce('') do |acc, fname|
 		lnum = line_numbers[fname].compact.sort.reverse.first
 		acc += "#{lnum}|" if lnum
 		acc += 'exec "norm! ^" |bn|'
-	end.delete_suffix('|')
+	end.delete_suffix('|') + "'"
 
 	vim_cmd = vim_cmd =~ /\d/ ? vim_cmd : ''
-	system "#{EDITOR} '#{vim_cmd}' #{filenames.join(' ')}"
+	system "#{EDITOR} #{vim_cmd} #{filenames.join(' ')}"
 in { auto: true }
 	system "#{EDITOR} #{filenames.join(' ')}"
 else
