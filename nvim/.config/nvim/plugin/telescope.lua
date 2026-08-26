@@ -28,6 +28,7 @@ if not pcall(function() require 'telescope'.load_extension('fzf') end) then
 end
 
 require 'telescope'.load_extension('luasnip')
+require 'telescope'.load_extension('scope')
 
 local builtin = require 'telescope.builtin'
 map('n', '<C-p>', builtin.find_files, { desc = 'Telescope find files' })
@@ -48,37 +49,3 @@ map('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
 map('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
 map('n', '<leader>sc', builtin.commands, { desc = '[S]earch [C]ommands' })
 map('n', '<leader><leader>', function() builtin.buffers({ sort_mru = true }) end, { desc = 'Find existing buffers' })
-
--- Add Telescope-based LSP pickers when an LSP attaches to a buffer.
--- If you later switch picker plugins, this is where to update these mappings.
-vim.api.nvim_create_autocmd('LspAttach', {
-	group = vim.api.nvim_create_augroup('telescope-lsp-attach', { clear = true }),
-	callback = function(event)
-		local buf = event.buf
-
-		-- Find references for the word under your cursor.
-		map('n', '<leader>grr', builtin.lsp_references, { buffer = buf, desc = '[G]oto [R]eferences' })
-
-		-- Jump to the implementation of the word under your cursor.
-		-- Useful when your language has ways of declaring types without an actual implementation.
-		map('n', '<leader>gri', builtin.lsp_implementations, { buffer = buf, desc = '[G]oto [I]mplementation' })
-
-		-- Jump to the definition of the word under your cursor.
-		-- This is where a variable was first declared, or where a function is defined, etc.
-		-- To jump back, press <C-t>.
-		map('n', '<leader>grd', builtin.lsp_definitions, { buffer = buf, desc = '[G]oto [D]efinition' })
-
-		-- Fuzzy find all the symbols in your current document.
-		-- Symbols are things like variables, functions, types, etc.
-		map('n', '<leader>gO', builtin.lsp_document_symbols, { buffer = buf, desc = 'Open Document Symbols' })
-
-		-- Fuzzy find all the symbols in your current workspace.
-		-- Similar to document symbols, except searches over your entire project.
-		map('n', '<leader>gW', builtin.lsp_dynamic_workspace_symbols, { buffer = buf, desc = 'Open Workspace Symbols' })
-
-		-- Jump to the type of the word under your cursor.
-		-- Useful when you're not sure what type a variable is and you want to see
-		-- the definition of its *type*, not where it was *defined*.
-		map('n', '<leader>grt', builtin.lsp_type_definitions, { buffer = buf, desc = '[G]oto [T]ype Definition' })
-	end,
-})

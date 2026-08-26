@@ -16,6 +16,7 @@ require 'diffview'.setup {
 		},
 	},
 }
+
 -- Toggle diffview open/close
 map('n', '<leader>dv', '<cmd>DiffviewToggle<cr>', { desc = 'Toggle Diffview' })
 -- Diff working directory

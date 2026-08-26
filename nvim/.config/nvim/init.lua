@@ -82,6 +82,7 @@ vim.pack.add {
 	gh 'm4xshen/hardtime.nvim',
 	gh 'rcarriga/nvim-notify',
 	gh 'folke/persistence.nvim',
+	gh 'tiagovla/scope.nvim',
 
 	-- git
 	gh 'tpope/vim-fugitive',
@@ -558,3 +559,6 @@ require 'visual-whitespace'.setup { highlight = { link = 'VisualNonText', defaul
 require 'csvview'.setup()
 
 require 'bufresize'.setup()
+
+vim.opt.sessionoptions:append { 'globals', }
+require 'scope'.setup {}
