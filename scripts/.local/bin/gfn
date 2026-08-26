@@ -8,10 +8,13 @@ require 'optparse'
 
 FILEPATH = %r{[\w\.\-/]+/?+\.[a-zA-Z_\-]+}
 OUTPUT_TYPES = {
-	general:     %r{(#{FILEPATH}):(\d+)},
 	general_col: %r{(#{FILEPATH}):(\d+):\d+},
+	general:     %r{(#{FILEPATH}):(\d+)},
 	dotnet_run:  %r{(#{FILEPATH}):line\s+(\d+)},
 	aspire_run:  %r{(#{FILEPATH})\((\d+),\d+\): error},
+
+	# Backup, try to pick filepath
+	filepath:    %r{(#{FILEPATH})},
 }.freeze
 EDITOR = ENV['EDITOR'] || 'vim'
 
@@ -34,24 +37,28 @@ end.parse!
 filenames = Set.new
 line_numbers = Hash.new { |h, k| h[k] = [] }
 until ARGV.empty? && ARGF.eof?
-	match = OUTPUT_TYPES.values.each_with_object(ARGF.readline).find { |line, regex| line.match(regex) }
+	match = OUTPUT_TYPES.values.each_with_object(ARGF.readline).find { |regex, line| line.match(regex) }
 	next unless match
 
-	filename = Regexp.last_match(1)
+	filename, line_number = Regexp.last_match(1), Regexp.last_match(2)
+	filename.sub! %r{^home}, '/home'
+	next unless File.exist? filename
+
 	filenames << filename
-	line_numbers[filename] << Regexp.last_match(2)
+	line_numbers[filename] << line_number.to_i
 end
 
 case opts
 in { line_numbers: true }
-	vim_cmd = "-c " + filenames.reduce('') do |acc, fname|
-		lnum = line_numbers[fname].compact.sort.reverse.first
+	vim_cmd = "-c '" + filenames.reduce('') do |acc, fname|
+		# If multiple line numbers, go to the lowest value
+		lnum = line_numbers[fname].compact.min
 		acc += "#{lnum}|" if lnum
 		acc += 'exec "norm! ^" |bn|'
-	end.delete_suffix('|')
+	end.delete_suffix('|') + "'"
 
 	vim_cmd = vim_cmd =~ /\d/ ? vim_cmd : ''
-	system "#{EDITOR} '#{vim_cmd}' #{filenames.join(' ')}"
+	system "#{EDITOR} #{vim_cmd} #{filenames.join(' ')}"
 in { auto: true }
 	system "#{EDITOR} #{filenames.join(' ')}"
 else
