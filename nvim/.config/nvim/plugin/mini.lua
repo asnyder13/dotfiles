@@ -1,4 +1,5 @@
-local map = require 'util'.map_keys_table
+local Util = require 'util'
+local map = Util.map_keys_table
 
 map('n', 'gbd', function() require 'mini.bufremove'.wipeout() end, { desc = 'Buffer delete, keep window' })
 
@@ -37,9 +38,10 @@ local block_fts = {
 	'guihua',
 	'help',
 	'man',
+	'mason',
+	'ministarter',
 	'neo-tree',
 	'pager',
-	'mason',
 }
 vim.api.nvim_create_autocmd({ 'CursorMoved' }, {
 	callback = function()
@@ -87,4 +89,26 @@ require 'mini.indentscope'.setup {
 require 'mini.bracketed'.setup {}
 require 'mini.jump'.setup {
 	delay = { idle_stop = 3000, },
+}
+
+
+require 'mini.sessions'.setup { directory = Util.create_expand_path(vim.fn.stdpath('state') .. '/sessions/') }
+local session_new = 'vim.ui.input({ prompt = "Session name: " }, MiniSessions.write)'
+map('n', '<leader>qn', '<Cmd>lua ' .. session_new .. '<CR>', { desc = 'New' })
+map('n', '<leader>qr', '<Cmd>lua MiniSessions.select("read")<CR>', { desc = 'Read' })
+map('n', '<leader>qd', '<Cmd>lua MiniSessions.select("delete")<CR>', { desc = 'Delete' })
+map('n', '<leader>qR', '<Cmd>lua MiniSessions.restart()<CR>', { desc = 'Restart' })
+map('n', '<leader>qw', '<Cmd>lua MiniSessions.write()<CR>', { desc = 'Write' })
+
+local starter = require 'mini.starter'
+starter.setup {
+	items = {
+		starter.sections.sessions(10, false),
+		starter.sections.recent_files(5, true),
+		starter.sections.recent_files(10, false),
+	},
+	hooks = {
+		pre = { save = function() vim.cmd 'ScopeSaveState' end },
+		post = { load = function() vim.cmd 'ScopeLoadState' end },
+	}
 }
