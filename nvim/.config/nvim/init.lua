@@ -81,7 +81,6 @@ vim.pack.add {
 	gh 'monaqa/dial.nvim',
 	gh 'm4xshen/hardtime.nvim',
 	gh 'rcarriga/nvim-notify',
-	gh 'folke/persistence.nvim',
 	gh 'tiagovla/scope.nvim',
 
 	-- git
@@ -94,15 +93,17 @@ vim.pack.add {
 	-- mini.nvim
 	gh 'nvim-mini/mini.ai',
 	gh 'nvim-mini/mini.align',
-	gh 'nvim-mini/mini.move',
+	gh 'nvim-mini/mini.bracketed',
 	gh 'nvim-mini/mini.bufremove',
-	gh 'nvim-mini/mini.operators',
 	gh 'nvim-mini/mini.cmdline',
 	gh 'nvim-mini/mini.cursorword',
-	gh 'nvim-mini/mini.trailspace',
 	gh 'nvim-mini/mini.indentscope',
-	gh 'nvim-mini/mini.bracketed',
 	gh 'nvim-mini/mini.jump',
+	gh 'nvim-mini/mini.move',
+	gh 'nvim-mini/mini.operators',
+	gh 'nvim-mini/mini.sessions',
+	gh 'nvim-mini/mini.starter',
+	gh 'nvim-mini/mini.trailspace',
 
 	-- telescope
 	gh 'nvim-telescope/telescope.nvim',
@@ -309,7 +310,7 @@ end
 
 g.user_emmet_install_global = 0
 g.user_emmet_leader_key = '<C-t>'
-api.nvim_create_autocmd('FileType', { pattern = { 'html', 'css', 'cshtml', 'razor', }, command = 'EmmetInstall' })
+api.nvim_create_autocmd('FileType', { pattern = { 'html*', 'css', 'cshtml', 'razor', }, command = 'EmmetInstall' })
 
 -- Persistent Undo/Redo
 if vim.fn.has 'persistent_undo' == 1 then
@@ -563,5 +564,5 @@ require 'csvview'.setup()
 
 require 'bufresize'.setup()
 
-vim.opt.sessionoptions:append { 'globals', }
+vim.opt.sessionoptions = { 'buffers', 'curdir', 'folds', 'globals' , 'localoptions', 'tabpages', 'winsize' }
 require 'scope'.setup {}
