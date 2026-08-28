@@ -11,10 +11,10 @@ function Util.create_expand_path(path)
 	return target_path
 end
 
----@param mode string|table    Mode short-name, see |nvim_set_keymap()|.
----                            Can also be list of modes to create mapping on multiple modes.
----@param lhs string|table     Left-hand side |{lhs}| of the mapping.
----@param rhs string|function  Right-hand side |{rhs}| of the mapping, can be a Lua function.
+---@param mode keymap.modes|keymap.modes[] Mode short-name, see |nvim_set_keymap()|.
+---                                        Can also be list of modes to create mapping on multiple modes.
+---@param lhs string|table    Left-hand side |{lhs}| of the mapping.
+---@param rhs string|function Right-hand side |{rhs}| of the mapping, can be a Lua function.
 ---
 ---@param opts vim.keymap.set.Opts|nil Table of |:map-arguments|.
 ---                      - Same as |nvim_set_keymap()| {opts}, except:
@@ -130,3 +130,16 @@ function Util.get_ancestor_field(type, field_name, node)
 end
 
 return Util
+
+
+--- @alias keymap.modes;
+--- |'n'
+--- |'v'
+--- |'x'
+--- |'s'
+--- |'o'
+--- |'ic'
+--- |'i'
+--- |'l'
+--- |'c'
+--- |'t'

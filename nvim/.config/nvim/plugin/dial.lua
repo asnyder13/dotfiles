@@ -64,6 +64,27 @@ local function default_and(custom)
 	return custom
 end
 
+-- Custom augends
+local size_abbr = cycle({ 'xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', })
+
+-- Full sets
+local config_css = default_and { size_abbr, }
+local config_html = default_and {
+	cycle({ 'start', 'end', 'center', 'baseline', 'between', 'around', }),
+	cycle({ 'row', 'column', }),
+	cycle({ 'justify-content', 'align-items', }),
+	augend.paren.new {
+		patterns = {
+			{ '[(', ')]' },
+			{ '[',  ']' },
+			{ '(',  ')' },
+		},
+		nested = false,
+		cyclic = false,
+	},
+	size_abbr,
+}
+
 dial_config.augends:on_filetype {
 	ruby = default_and {
 		cycle({ 'if', 'unless' }),
@@ -74,20 +95,10 @@ dial_config.augends:on_filetype {
 	lua = default_and {
 		cycle({ '==', '~=' }, false)
 	},
-	html = default_and {
-		cycle({ 'start', 'end', 'center', 'baseline', 'between', 'around', }),
-		cycle({ 'row', 'column', }),
-		cycle({ 'justify-content', 'align-items', }),
-		augend.paren.new {
-			patterns = {
-				{ '[(', ')]' },
-				{ '[',  ']' },
-				{ '(',  ')' },
-			},
-			nested = false,
-			cyclic = false,
-		},
-	},
+	html = config_html,
+	htmlangular = config_html,
+	css = config_css,
+	scss = config_css,
 	javascript = default_and {
 		cycle({ 'let', 'const', }, true),
 	},
