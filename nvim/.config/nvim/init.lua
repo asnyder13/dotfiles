@@ -564,5 +564,10 @@ require 'csvview'.setup()
 
 require 'bufresize'.setup()
 
-vim.opt.sessionoptions = { 'buffers', 'curdir', 'folds', 'globals' , 'localoptions', 'tabpages', 'winsize' }
+vim.opt.sessionoptions = {
+	'buffers',
+	'folds',
+	'tabpages',
+	'globals',
+}
 require 'scope'.setup {}
