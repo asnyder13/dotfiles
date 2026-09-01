@@ -93,8 +93,13 @@ require 'mini.jump'.setup {
 
 
 require 'mini.sessions'.setup { directory = Util.create_expand_path(vim.fn.stdpath('state') .. '/sessions/') }
-local session_new = 'vim.ui.input({ prompt = "Session name: " }, MiniSessions.write)'
-map('n', '<leader>qn', '<Cmd>lua ' .. session_new .. '<CR>', { desc = 'New' })
+-- Default to local session if no name given.
+map('n', '<leader>qn', function()
+	vim.ui.input({ prompt = 'Session name (empty for local): ', }, function(input)
+		if input == '' then input = MiniSessions.config.file end
+		MiniSessions.write(input)
+	end)
+end, { desc = 'New: empty for local session' })
 map('n', '<leader>qr', '<Cmd>lua MiniSessions.select("read")<CR>', { desc = 'Read' })
 map('n', '<leader>qd', '<Cmd>lua MiniSessions.select("delete")<CR>', { desc = 'Delete' })
 map('n', '<leader>qR', '<Cmd>lua MiniSessions.restart()<CR>', { desc = 'Restart' })
@@ -103,7 +108,7 @@ map('n', '<leader>qw', '<Cmd>lua MiniSessions.write()<CR>', { desc = 'Write' })
 local starter = require 'mini.starter'
 starter.setup {
 	items = {
-		starter.sections.sessions(10, false),
+		starter.sections.sessions(10, true),
 		starter.sections.recent_files(5, true),
 		starter.sections.recent_files(10, false),
 	},
