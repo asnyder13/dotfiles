@@ -199,3 +199,17 @@ function todo() {
 		echo "No todo file at $todo_loc"
 	fi
 }
+
+function gsts-prettier() {
+	local prettier_config="$1"
+	if [[ ! -r "$prettier_config" ]]; then
+		if [[ ! -r "$(pwd)/.prettierrc" ]]; then
+			echo "The config file does not exist, and is not in working dir"
+			return 1
+		else
+			prettier_config="$(pwd)/.prettierrc"
+		fi
+	fi
+
+	gsts | awk '/^\s*M|A|D|\?\?/ && /(json|ts|html|scss)$/ {print $2}' | rg -v 'api-client|package-lock|swagger' | xargs prettier --config "$prettier_config" --write
+}
