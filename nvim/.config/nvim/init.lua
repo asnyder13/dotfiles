@@ -153,7 +153,7 @@ vim.pack.add {
 	gh 'suketa/nvim-dap-ruby',
 
 	-- misc
-	gh 'asnyder13/rainbow-delimiters.nvim',
+	gh 'Sckab/rainbow-delimiters.nvim',
 	gh 'b0o/schemastore.nvim',
 	gh 'bngarren/checkmate.nvim',
 }
