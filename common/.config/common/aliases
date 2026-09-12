@@ -1,21 +1,22 @@
 # vim: ft=bash
+# shellcheck disable=SC2139
 
 alias list='ls -g --human-readable --no-group --almost-all --classify --time-style=long-iso --color '
 alias list2='ls -g --human-readable --no-group --classify --time-style=long-iso --color '
 alias lst='ls -g --human-readable --no-group --classify --time-style=long-iso --color '
 alias ll='ls -l --human-readable --almost-all --classify --time-style=long-iso --color '
-alias listt='ls -g --human-readable --no-group --almost-all --classify --time-style=long-iso --color -t'
-alias listth='ls -g --human-readable --no-group --almost-all --classify --time-style=long-iso --color -t | head'
+alias listt='ls -g --human-readable --no-group --almost-all --classify --time-style=long-iso --color -t '
+function listth() {
+	local dir=$*
+	if [[ -z $dir ]]; then dir='.'; fi
+	ls -g --human-readable --no-group --almost-all --classify --time-style=long-iso --color -t "$dir" | head
+}
 
 # Old shortcuts from yum
 alias dnfs='sudo dnf search'
 alias dnfi='sudo dnf install'
 alias dnfu='sudo dnf update'
 alias dnfe='sudo dnf remove'
-alias yums='sudo dnf search'
-alias yumi='sudo dnf install'
-alias yumu='sudo dnf update'
-alias yume='sudo dnf remove'
 
 # Only gonna work if you've installed in ~/.dotfiles
 if [[ -d "$HOME/.dotfiles" ]]; then
@@ -74,8 +75,12 @@ alias vimg='vim -c ":G|only"'
 alias grbast='git rebase --autostash'
 alias gdt='git difftool'
 alias gdtc='git difftool --cached'
-alias grbiamaster='git rebase --interactive --autostash origin/master'
-alias grbiacurr='git rebase --interactive --autostash origin/$(git_current_branch)'
+
+rebase_str='git rebase --interactive --autostash --autosquash'
+alias grbi="$rebase_str"
+alias grbiamaster="$rebase_str origin/master"
+alias grbiacurr="$rebase_str origin/\$(git_current_branch)"
+unset rebase_str
 
 if command -v bat >/dev/null 2>&1; then
 	alias cats='bat'
@@ -164,7 +169,7 @@ function alert() {
 }
 
 rundisown() {
-	eval " $@ & ; disown"
+	"$@" & disown
 }
 runexit() {
 	rundisown "$@"

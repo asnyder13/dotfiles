@@ -324,7 +324,8 @@ end
 
 ---- General Mappings ----
 map('n', 'ZZ', '<NOP>')
-map('n', { '<C-t><C-c>', '<C-t>c' }, ':tabclose<CR>', { desc = 'Close tab' })
+map('n', '<C-t>c', ':tabclose<CR>', { desc = 'Close tab' })
+map('n', '<C-t>n', ':tabnew<CR>', { desc = 'New tab' })
 
 map('n', '<leader>zc', ':%foldc!<CR>', { desc = 'Close all folds' })
 map('x', '<leader>zc', ":'<,'>foldc!<CR>", { desc = 'Close all folds' })
