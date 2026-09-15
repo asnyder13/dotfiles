@@ -110,12 +110,30 @@ map('n', '<leader>qR', '<Cmd>lua MiniSessions.restart()<CR>', { desc = 'Restart'
 map('n', '<leader>qw', '<Cmd>lua MiniSessions.write()<CR>', { desc = 'Write' })
 
 local starter = require 'mini.starter'
+local items = {
+	starter.sections.sessions(5, true),
+	starter.sections.recent_files(5, true),
+	starter.sections.recent_files(5, false),
+	function()
+		return vim.iter(vim.fs.dir(vim.fn.getcwd()))
+				:filter(function(filename, type)
+					return type == 'file' and
+							not filename:match('^%.') and
+							filename:match('%.%w')
+				end)
+				:take(15)
+				:map(function(x)
+					return {
+						name = x,
+						action = 'e ' .. x,
+						section = 'Files in this dir',
+					}
+				end)
+				:totable()
+	end
+}
 starter.setup {
-	items = {
-		starter.sections.sessions(10, true),
-		starter.sections.recent_files(5, true),
-		starter.sections.recent_files(10, false),
-	},
+	items = items,
 	hooks = {
 		pre = { save = function() vim.cmd 'ScopeSaveState' end },
 		post = { load = function() vim.cmd 'ScopeLoadState' end },

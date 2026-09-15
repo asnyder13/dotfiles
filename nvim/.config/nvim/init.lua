@@ -137,11 +137,11 @@ vim.pack.add {
 	gh 'hrsh7th/cmp-nvim-lua',
 	gh 'hrsh7th/cmp-buffer',
 	gh 'hrsh7th/cmp-cmdline',
-	{ src = cb 'FelipeLema/cmp-async-path' },
+	cb 'FelipeLema/cmp-async-path',
 	gh 'ray-x/cmp-treesitter',
 
 	-- Snippets
-	{ src = gh 'L3MON4D3/LuaSnip' },
+	gh 'L3MON4D3/LuaSnip',
 	-- gh 'rafamadriz/friendly-snippets',
 	gh 'honza/vim-snippets',
 	gh 'saadparwaiz1/cmp_luasnip',
