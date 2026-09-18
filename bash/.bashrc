@@ -51,6 +51,6 @@ if [[ -n "$NVM_DIR" ]]; then
 	PATH="$PATH:$ver_dir/bin"
 fi
 
-export HISTFILE="${XDG_STATE_HOME}"/bash/history
+HISTFILE="${XDG_STATE_HOME}"/bash/history
 export HISTCONTROL=ignoredups
 shopt -s histverify

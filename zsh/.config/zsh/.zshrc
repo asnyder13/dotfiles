@@ -162,7 +162,15 @@ setopt HIST_FIND_NO_DUPS
 setopt HIST_EXPIRE_DUPS_FIRST
 setopt HIST_SAVE_NO_DUPS
 setopt cshnullglob
-export HISTFILE="$XDG_STATE_HOME"/zsh/history
+# Don't  log commands starting with a space
+setopt HIST_IGNORE_SPACE
+# Replcae bang-command !34 with the actual command in the history
+setopt BANG_HIST
+# Remove extraneous spaces
+setopt HIST_REDUCE_BLANKS
+
+HISTFILE="$XDG_STATE_HOME"/zsh/history
+typeset +x HISTFILE
 
 # export MANPATH="/usr/local/man:$MANPATH"
 export DEFAULT_USER='snyder'
