@@ -114,6 +114,7 @@ plugins=(
 	fast-syntax-highlighting
 	docker
 	podman
+	azure
 )
 zbell_ignore=(
 	$EDITOR

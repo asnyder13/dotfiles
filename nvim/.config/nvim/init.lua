@@ -7,6 +7,7 @@ local map  = Util.map_keys_table
 local g   = vim.g
 local api = vim.api
 local opt = vim.opt
+local o   = vim.o
 
 
 local build_configs = {
@@ -241,54 +242,54 @@ api.nvim_create_autocmd('TextPutPost', { callback = yank_hl, })
 -- Don't auto-comment on a new line
 api.nvim_create_autocmd('FileType', { callback = function() opt.formatoptions:remove { 'r', 'o' } end, })
 
-opt.clipboard     = 'unnamedplus'
-opt.number        = true
-opt.cursorline    = true
+o.clipboard       = 'unnamedplus'
+o.number          = true
+o.cursorline      = true
 
 local indent_size = 2
-opt.tabstop       = indent_size
-opt.shiftwidth    = indent_size
-opt.expandtab     = false
+o.tabstop         = indent_size
+o.shiftwidth      = indent_size
+o.expandtab       = false
 
 
-local mouse     = 'cnv'
-opt.mouse       = mouse
-opt.autoindent  = true
-opt.smartindent = true
-opt.showmatch   = true
-opt.visualbell  = true
-opt.showmode    = true
-opt.wildmode    = { 'list:longest', }
-opt.scrolloff   = 1
+local mouse   = 'cnv'
+o.mouse       = mouse
+o.autoindent  = true
+o.smartindent = true
+o.showmatch   = true
+o.visualbell  = true
+o.showmode    = true
+o.wildmode    = { 'list:longest', }
+o.scrolloff   = 1
 opt.wildignore:append { '*/node_modules/*', '*/.git/*', '*/tmp/*', '*.swp', '*/.angular/*', }
-opt.sidescrolloff = 5
-opt.splitright    = true
-opt.splitbelow    = true
-opt.listchars     = { tab = '»-', extends = '›', precedes = '‹', nbsp = '·', trail = '·', }
-opt.winblend      = 10
-opt.pumblend      = 5
+o.sidescrolloff = 5
+o.splitright    = true
+o.splitbelow    = true
+o.listchars     = { tab = '»-', extends = '›', precedes = '‹', nbsp = '·', trail = '·', }
+o.winblend      = 0
+o.pumblend      = 5
 opt.diffopt:append { 'iwhiteall', }
-opt.linebreak      = true
+o.linebreak      = true
 
-opt.confirm        = true
-opt.backup         = false
-opt.hidden         = true
-opt.history        = 1000
-opt.termguicolors  = true
-local signcolumn   = 'auto:1-3'
-opt.signcolumn     = signcolumn
-opt.updatetime     = 1000
-opt.winborder      = 'rounded'
-opt.switchbuf      = 'usetab'
+o.confirm        = true
+o.backup         = false
+o.hidden         = true
+o.history        = 1000
+o.termguicolors  = true
+local signcolumn = 'auto:1-3'
+o.signcolumn     = signcolumn
+o.updatetime     = 1000
+o.winborder      = 'rounded'
+o.switchbuf      = 'usetab'
 
 -- Searching
-opt.hlsearch       = true
-opt.ignorecase     = true
-opt.smartcase      = true
+o.hlsearch       = true
+o.ignorecase     = true
+o.smartcase      = true
 
-opt.foldmethod     = 'indent'
-opt.foldlevelstart = 10
-map('n', 'zM', function() opt.foldlevel = (vim.v.count or 2) end)
+o.foldmethod     = 'indent'
+o.foldlevelstart = 10
+map('n', 'zM', function() o.foldlevel = (vim.v.count or 2) end)
 
 
 g.loaded_python3_provider    = false
@@ -297,7 +298,7 @@ g.loaded_node_provider       = false
 g.loaded_perl_provider       = false
 
 -- Syntax hl/colors
-opt.syntax                   = 'on'
+o.syntax                     = 'on'
 
 local lsp_success, lsp_error = pcall(function()
 	require 'lsp'
@@ -318,8 +319,8 @@ if vim.fn.has 'persistent_undo' == 1 then
 	if basepath == '$XDG_DATA_HOME' then basepath = '~/.local/share' end
 
 	local target_path = Util.create_expand_path(basepath .. '/nvim/nvim-persisted-undo/')
-	opt.undodir = target_path
-	opt.undofile = true
+	o.undodir = target_path
+	o.undofile = true
 end
 
 ---- General Mappings ----
