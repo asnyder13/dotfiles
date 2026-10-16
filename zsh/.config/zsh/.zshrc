@@ -183,7 +183,7 @@ _cursor_block() { echo -ne '\e[1 q' }
 precmd_functions+=(_cursor_line)
 
 # Remove mode switching delay.
-KEYTIMEOUT=15
+KEYTIMEOUT=30
 
 # Change cursor shape for different vi modes.
 function zle-keymap-select {
@@ -270,6 +270,15 @@ if [[ ! -z "$HAS_FZF" ]]; then
 	export FZF_CTRL_T_COMMAND="command fd --follow --hidden $ignore_string --min-depth 1 -tf -td -tl . "
 	export FZF_ALT_C_COMMAND="command fd --follow --hidden $ignore_string --min-depth 1 -td . "
 	source $HOME/.fzf.zsh
+
+	fzf_git_loc="$XDG_DATA_HOME/fzf-git.sh"
+	if [[ -r $fzf_git_loc ]]; then
+		source "$fzf_git_loc"
+	fi
+	fzf_sys_loc="$XDG_DATA_HOME/fuzzy-sys.plugin.zsh"
+	if [[ -r $fzf_sys_loc ]]; then
+		source "$fzf_sys_loc"
+	fi
 fi
 
 if [[ -z "$NVM_DIR" ]]; then

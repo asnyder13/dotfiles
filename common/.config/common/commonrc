@@ -58,7 +58,11 @@ man() {
 if [[ -x "$(command -v fortune)" && ! $fortune_run ]]; then
 	echo
 	fortune_run=1
-	fortune
+	if [[ -x "$(command -v cowsay)" ]]; then
+		cowsay "$(fortune -s)"
+	else
+		fortune
+	fi
 	echo
 fi
 

@@ -7,8 +7,10 @@ if ! command -v git >/dev/null 2>&1; then
 	exit 1
 fi
 
-if command -v wget >/dev/null 2>&1;   then fetcher='wget -O'
-elif command -v curl >/dev/null 2>&1; then fetcher='curl -fsSLo'
+if command -v curl >/dev/null 2>&1; then
+	fetcher='curl -fSL -o'
+elif command -v wget >/dev/null 2>&1; then
+	fetcher='wget -O'
 else
 	echo 'FAILURE: wget nor curl are installed.'
 	exit 1
@@ -53,14 +55,16 @@ elif command -v vim >/dev/null 2>&1; then
 	# Clone a plugin
 	# param $1: base dir
 	# param $2: plugin github
-	clone_plugin () {
-		local plugdir=$(echo "$2" | cut -f2 -d/);
-		(cd "$1" || exit 1
+	clone_plugin() {
+		local plugdir=$(echo "$2" | cut -f2 -d/)
+		(
+			cd "$1" || exit 1
 			if [[ ! -d $plugdir ]]; then
 				echo "Cloning:  $2"
 				git clone -q --depth=1 "https://github.com/$2"
 			else
-				(cd "$plugdir" || exit 1
+				(
+					cd "$plugdir" || exit 1
 					echo "Updating: $2"
 					git pull -q
 				)
@@ -73,7 +77,7 @@ elif command -v vim >/dev/null 2>&1; then
 	# Iterate the list of plugins and clone.
 	# $1 config location
 	# $2 plugin list
-	install_plugins () {
+	install_plugins() {
 		config="$1"
 		mkdir -p "$config"
 		shift
@@ -159,6 +163,12 @@ if command -v zsh >/dev/null 2>&1; then
 		# fi
 		#
 		# export ZDOTDIR="$XDG_CONFIG_HOME"/zsh
+	else
+		fzf_git_loc="$XDG_DATA_HOME/fzf-git.sh"
+		if [[ ! -r $fzf_git_loc ]]; then eval "$fetcher $fzf_git_loc https://raw.githubusercontent.com/junegunn/fzf-git.sh/main/fzf-git.sh"; fi
+
+		fzf_sys_loc="$XDG_DATA_HOME/fuzzy-sys.plugin.zsh"
+		if [[ ! -r $fzf_sys_loc ]]; then eval "$fetcher $fzf_sys_loc https://github.com/NullSense/fuzzy-sys/raw/refs/heads/master/fuzzy-sys.plugin.zsh"; fi
 	fi
 else
 	echo 'zsh not installed'
