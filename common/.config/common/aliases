@@ -184,6 +184,10 @@ qrencode-utf() {
 # Use difftastic to view a single ref
 # $1 git ref
 function gdtref() {
+	if [[ -z "$1" ]]; then
+		echo 'No ref given'
+		return 1
+	fi
 	git difftool "$1~1..$1"
 }
 

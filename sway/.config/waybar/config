@@ -10,7 +10,7 @@
         "custom/right-arrow-dark"
     ],
     "modules-center": [
-        "custom/space",
+				"custom/space",
         "custom/left-arrow-dark",
         "clock#1",
         "custom/left-arrow-light",
@@ -22,6 +22,8 @@
         "custom/right-arrow-dark"
     ],
     "modules-right": [
+				"sway/mode",
+				"gamemode",
         "custom/left-arrow-dark",
         "pulseaudio",
         "custom/left-arrow-light",
@@ -150,7 +152,21 @@
     },
     "tray": {
         "icon-size": 20
-    }
+    },
+		"gamemode": {
+			"format": "{glyph}",
+			"format-alt": "{glyph} {count}",
+			"glyph": "󰊴",
+			"hide-not-running": true,
+			"use-icon": true,
+			"icon-name": "input-gaming-symbolic",
+			"icon-spacing": 4,
+			"icon-size": 20,
+			"tooltip": true,
+			"tooltip-format": "Games running: {count}"
+		},
+		"sway/mode": {
+			"format": " {}",
+			"max-length": 50
+		}
 }
-
-// vim: ft=javascript
