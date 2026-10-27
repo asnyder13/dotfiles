@@ -379,7 +379,7 @@ map('n', 'N', 'Nzzzv')
 
 map('n', '<leader>p', 'p`[', { desc = 'paste keep cursor', })
 map('n', '<leader>P', 'P`[', { desc = 'Paste keep curosr', })
-map('n', { '<M-p>', '<leader><M-p>' }, 'i<CR><CR><Esc>kpa<Esc>', { desc = 'Paste paragraph', })
+map('n', { '<M-p>', '<leader><M-p>' }, 'A<CR><CR><Esc>kpa<Esc>', { desc = 'Paste paragraph', })
 
 ---@param value string
 ---@param key string|nil

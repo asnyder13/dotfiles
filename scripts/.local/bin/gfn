@@ -6,7 +6,7 @@
 
 require 'optparse'
 
-FILEPATH = %r{[\w\.\-/]+/?+\.[a-zA-Z_\-]+}
+FILEPATH = %r{[\w\.\-/]+/?+(?<!/)\.[a-zA-Z_\-]+}
 OUTPUT_TYPES = {
 	general_col: %r{(#{FILEPATH}):(\d+):\d+},
 	general:     %r{(#{FILEPATH}):(\d+)},
