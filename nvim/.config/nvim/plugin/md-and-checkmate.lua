@@ -128,3 +128,33 @@ require 'checkmate'.setup {
 		done = { key = '<leader>td', },
 	},
 }
+
+local cms = require('checkmate.snippets')
+local snip_issue_azure = cms.todo {
+	trigger = '%.i(%d+)',
+	desc = 'New ISSUE',
+	metadata = {
+		issue = function(captures)
+			local issue_num = captures[1] or ''
+			return '#' .. issue_num
+		end,
+		url = function(captures)
+			local repo = vim.fn
+					.system('git remote get-url origin')
+					:gsub('\n', '')
+					:gsub('%.git$', '')
+					:gsub('^.*:', '')
+			return string.format('https://dev.azure.com/dnpphoto/%s/_workitems/edit/%s', repo, captures[1])
+		end,
+	},
+	ls_context = {
+		snippetType = 'snippet',
+		regTrig = true,
+	},
+}
+
+local ls = require('luasnip')
+ls.add_snippets('markdown', {
+	ls.s({ trig = ".todo", desc = "Basic Todo" }, { ls.t("- [ ] ") }),
+	snip_issue_azure,
+})
