@@ -169,7 +169,8 @@ function alert() {
 }
 
 rundisown() {
-	"$@" & disown
+	"$@" &
+	disown
 }
 runexit() {
 	rundisown "$@"
@@ -201,11 +202,13 @@ function mtd() {
 }
 
 function todo() {
-	local todo_loc="$HOME/src/todo.md"
-	if [[ -f $todo_loc ]]; then
-		vim "$todo_loc"
+	local default_loc="$HOME/src/todo.md"
+	if git rev-parse --is-inside-work-tree >/dev/null && [[ -f "$(git rev-parse --show-toplevel)"/todo.md ]]; then
+		vim "$(git rev-parse --show-toplevel)"/todo.md
+	elif [[ -f $default_loc ]]; then
+		vim "$default_loc"
 	else
-		echo "No todo file at $todo_loc"
+		echo "No todo file found"
 	fi
 }
 
