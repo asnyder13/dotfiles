@@ -167,8 +167,11 @@ if command -v zsh >/dev/null 2>&1; then
 		fzf_git_loc="$XDG_DATA_HOME/fzf-git.sh"
 		if [[ ! -r $fzf_git_loc ]]; then eval "$fetcher $fzf_git_loc https://raw.githubusercontent.com/junegunn/fzf-git.sh/main/fzf-git.sh"; fi
 
-		fzf_sys_loc="$XDG_DATA_HOME/fuzzy-sys.plugin.zsh"
-		if [[ ! -r $fzf_sys_loc ]]; then eval "$fetcher $fzf_sys_loc https://github.com/NullSense/fuzzy-sys/raw/refs/heads/master/fuzzy-sys.plugin.zsh"; fi
+		sysz_loc="$HOME/.local/bin/sysz"
+		if [[ ! -r $sysz_loc ]]; then
+			eval "$fetcher $sysz_loc https://github.com/joehillen/sysz/releases/latest/download/sysz"
+			chmod a+x "$sysz_loc"
+		fi
 	fi
 else
 	echo 'zsh not installed'

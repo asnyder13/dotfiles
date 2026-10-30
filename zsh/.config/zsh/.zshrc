@@ -275,10 +275,6 @@ if [[ ! -z "$HAS_FZF" ]]; then
 	if [[ -r $fzf_git_loc ]]; then
 		source "$fzf_git_loc"
 	fi
-	fzf_sys_loc="$XDG_DATA_HOME/fuzzy-sys.plugin.zsh"
-	if [[ -r $fzf_sys_loc ]]; then
-		source "$fzf_sys_loc"
-	fi
 fi
 
 if [[ -z "$NVM_DIR" ]]; then
