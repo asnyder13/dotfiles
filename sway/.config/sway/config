@@ -13,7 +13,8 @@ set $left h
 set $down j
 set $up k
 set $right l
-set $term alacritty
+# set $term alacritty
+set $term ghostty
 set $files thunar
 set $DOTFILES_LOC $XDG_CONFIG_HOME/sway
 
