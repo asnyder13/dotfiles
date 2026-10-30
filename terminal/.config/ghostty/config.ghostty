@@ -1,0 +1,127 @@
+# Run `ghostty +show-config --default --docs | bat -lini` to view a list of
+# all available config options and their default values.
+#
+# Additionally, each config option is also explained in detail
+# on Ghostty's website, at https://ghostty.org/docs/config.
+
+font-family = SauceCodePro Nerd Font
+font-size = 16
+
+background = #282923
+foreground = #e2e2e2
+
+clipboard-read = allow
+gtk-single-instance = true
+window-inherit-working-directory = true
+
+theme = Dimmed Monokai
+
+# palette = 0=#121212
+# palette = 1=#fa2934
+# palette = 2=#98e123
+# palette = 3=#fff30a
+# palette = 4=#0443ff
+# palette = 5=#f800f8
+# palette = 6=#01b6ed
+# palette = 7=#ffffff
+# palette = 8=#838383
+# palette = 9=#f6669d
+# palette = 10=#b1e05f
+# palette = 11=#fff26d
+# palette = 12=#0443ff
+# palette = 13=#f200f6
+# palette = 14=#51ceff
+# palette = 15=#ffffff
+# background = #121212
+# foreground = #f9f9f9
+# cursor-color = #fb0007
+# cursor-text = #ff8c95
+# selection-background = #ffffff
+# selection-foreground = #000000
+
+# palette = 0=#272822
+# palette = 1=#f92672
+# palette = 2=#a6e22e
+# palette = 3=#e6db74
+# palette = 4=#66d9ef
+# palette = 5=#ae81ff
+# palette = 6=#fd971f
+# palette = 7=#fdfff1
+# palette = 8=#6e7066
+# palette = 9=#f92672
+# palette = 10=#fd971f
+# palette = 11=#e6db74
+# palette = 12=#a6e22e
+# palette = 13=#ae81ff
+# palette = 14=#66d9ef
+# palette = 15=#fdfff1
+background = #272822
+foreground = #fdfff1
+cursor-color = #c0c1b5
+cursor-text = #8d8e82
+selection-background = #57584f
+selection-foreground = #fdfff1
+
+palette = 0=#1d1f21
+palette = 1=#dd0000
+palette = 2=#00dd00
+palette = 3=#dddd00
+palette = 4=#0099cc
+palette = 5=#dd00dd
+palette = 6=#00eedd
+palette = 7=#dddddd
+palette = 8=#040404
+palette = 9=#ac4242
+palette = 10=#90a959
+palette = 11=#f4bf75
+palette = 12=#6a9fb5
+palette = 13=#aa759f
+palette = 14=#75b5aa
+palette = 15=#d8d8d8
+
+# Vim-mode keybindings for Ghostty.
+#
+# Note: We're missing a number of actions to produce a better vim experience.
+# This is what is possible today! But we plan on adding more actions to make
+# this even better in the future.
+# Entry point
+keybind = alt+v=activate_key_table:vim
+
+# Key table definition
+keybind = vim/
+
+# Line movement
+keybind = vim/j=scroll_page_lines:1
+keybind = vim/k=scroll_page_lines:-1
+
+# Page movement
+keybind = vim/ctrl+d=scroll_page_down
+keybind = vim/ctrl+u=scroll_page_up
+keybind = vim/ctrl+f=scroll_page_down
+keybind = vim/ctrl+b=scroll_page_up
+keybind = vim/shift+j=scroll_page_down
+keybind = vim/shift+k=scroll_page_up
+
+# Jump to top/bottom
+keybind = vim/g>g=scroll_to_top
+keybind = vim/shift+g=scroll_to_bottom
+
+# Search (if you want vim-style search entry)
+keybind = vim/slash=start_search
+keybind = vim/n=navigate_search:next
+
+# Copy mode / selection
+# Note we're missing a lot of actions here to make this more full featured.
+keybind = vim/v=copy_to_clipboard
+keybind = vim/y=copy_to_clipboard
+
+# Command Palette
+keybind = vim/shift+semicolon=toggle_command_palette
+
+# Exit
+keybind = vim/escape=deactivate_key_table
+keybind = vim/q=deactivate_key_table
+keybind = vim/i=deactivate_key_table
+
+# Catch unbound keys
+# keybind = vim/catch_all=ignore resize-overlay-duration = 4s 200ms

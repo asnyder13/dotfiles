@@ -27,7 +27,7 @@ SPACESHIP_RPROMPT_ORDER=(time)
 SPACESHIP_TIME_SHOW=true
 SPACESHIP_TIME_FORMAT='%@'
 SPACESHIP_CHAR_SYMBOL='≫'
-SPACESHIP_CHAR_SUFFIX='  '
+SPACESHIP_CHAR_SUFFIX=' '
 SPACESHIP_GIT_STATUS_STASHED=''
 
 # Set list of themes to pick from when loading at random
@@ -295,5 +295,9 @@ if [[ -n "$NVM_DIR" ]]; then
 fi
 export PNPM_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/pnpm"
 pathmunge "$PNPM_HOME/bin"
+
+if [[ -n $GHOSTTY_RESOURCES_DIR ]]; then
+  source "$GHOSTTY_RESOURCES_DIR"/shell-integration/zsh/ghostty-integration
+fi
 
 # zprof
