@@ -201,6 +201,7 @@ vim.filetype.add {
 	extension = {
 		conf = 'confini',
 		var = 'dosini',
+		container = 'systemd',
 	},
 	filename = {
 		syslog = 'messages',
