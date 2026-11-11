@@ -27,7 +27,7 @@ SPACESHIP_RPROMPT_ORDER=(time)
 SPACESHIP_TIME_SHOW=true
 SPACESHIP_TIME_FORMAT='%@'
 SPACESHIP_CHAR_SYMBOL='≫'
-SPACESHIP_CHAR_SUFFIX='  '
+SPACESHIP_CHAR_SUFFIX=' '
 SPACESHIP_GIT_STATUS_STASHED=''
 
 # Set list of themes to pick from when loading at random
@@ -260,6 +260,7 @@ IGNORED_DIRS=(
 	.steam
 	Steam
 	.docker
+	.git
 )
 ignore_string=''
 for ig in $IGNORED_DIRS; do

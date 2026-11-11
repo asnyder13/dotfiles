@@ -203,7 +203,7 @@ function mtd() {
 
 function todo() {
 	local default_loc="$HOME/src/todo.md"
-	if git rev-parse --is-inside-work-tree >/dev/null && [[ -f "$(git rev-parse --show-toplevel)"/todo.md ]]; then
+	if git rev-parse --is-inside-work-tree >/dev/null 2>&1 && [[ -f "$(git rev-parse --show-toplevel)"/todo.md ]]; then
 		vim "$(git rev-parse --show-toplevel)"/todo.md
 	elif [[ -f $default_loc ]]; then
 		vim "$default_loc"
