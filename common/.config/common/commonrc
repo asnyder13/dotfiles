@@ -59,7 +59,7 @@ if [[ -x "$(command -v fortune)" && ! $fortune_run ]]; then
 	echo
 	fortune_run=1
 	if [[ -x "$(command -v cowsay)" ]]; then
-		cowsay "$(fortune -s)"
+		fortune -s | cowsay -n -f fox
 	else
 		fortune
 	fi

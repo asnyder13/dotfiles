@@ -131,6 +131,7 @@ vim.pack.add {
 	gh 'seblyng/roslyn.nvim',
 	gh 'ray-x/guihua.lua',
 	gh 'ray-x/navigator.lua',
+	gh 'chrisgrieser/nvim-rulebook',
 
 	-- cmp for LSP
 	gh 'hrsh7th/nvim-cmp',

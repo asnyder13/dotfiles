@@ -31,3 +31,14 @@ function load_aliases() {
 	local aliases_local=("$XDG_CONFIG_HOME/common/aliases_local" "$HOME/.aliases_local")
 	source_first_found "${aliases_local[@]}"
 }
+
+function gccd() {
+	local link="$1"
+	if [[ -z "$link" ]]; then
+		echo 'No arg passed'
+		return
+	fi
+
+	git clone "$link"
+	cd "${link##*/}" || return
+}
